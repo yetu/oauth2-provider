@@ -33,9 +33,7 @@ libraryDependencies ++= Seq(
 
   //JSON Web token libs
   "com.plasmaconduit" %% "jws" % "0.12.0",
-  "com.plasmaconduit" %% "jwa" % "0.1.0",
-  "com.plasmaconduit" %% "jwt" % "0.9.0",
-  "com.plasmaconduit" %% "json" % "0.8.0"
+  "com.plasmaconduit" %% "jwt" % "0.9.0"
 )
 
 resolvers += Resolver.sonatypeRepo("snapshots")
