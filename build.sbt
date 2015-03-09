@@ -86,6 +86,8 @@ parallelExecution in Test := false
 
 javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
 
+javaOptions in IntegrationTest += "-Dconfig.file=conf/application-test.conf"
+
 Defaults.itSettings
 
 scalaSource in IntegrationTest <<= baseDirectory(_ / "it")
