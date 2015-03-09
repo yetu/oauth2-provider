@@ -1,0 +1,72 @@
+@(loginForm: Form[(String,String)], errorMsg: Option[String] = None, registering: Boolean, passwordReset: Boolean)(implicit request: RequestHeader, lang: Lang, env:securesocial.core.RuntimeEnvironment[_])
+
+@import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
+@import com.yetu.oauth2provider.controllers.authentication.SignatureAuthenticationProvider.SignatureAuthentication
+
+@main(Messages("securesocial.login.title")) {
+    <div class="page-header">
+      @if(registering){
+        <h1>@Messages("securesocial.signup.title")</h1>
+      } else { @if(passwordReset){
+      <h1>@Messages("securesocial.password.title")</h1>
+      } else{
+        <h1>@Messages("securesocial.login.title")</h1>
+      }}
+    </div>
+
+
+@defining( env.providers.values.filter( provider => provider.id != UsernamePassword && provider.id != SignatureAuthentication) ) { externalProviders =>
+        @if( externalProviders.size > 0 && !(registering||passwordReset)) {
+            <div class="clearfix">
+                <p>@Messages("securesocial.login.instructions")</p>
+                <p>
+                    @for(p <- externalProviders) {
+                        @com.yetu.oauth2provider.views.html.yetuAuthentication.provider(p.id)
+                    }
+                </p>
+            </div>
+        }
+
+        @env.providers.get(UsernamePassword).map { up =>
+            <div class="clearfix">
+                @if(!(registering||passwordReset)){
+                    @if( externalProviders.size > 0) {
+                    <p class="login-instruction">@Messages("securesocial.login.useEmailAndPassword")</p>
+                    } else{
+                    <p class="login-instruction">@Messages("securesocial.login.useEmailAndPasswordOnly")</p>
+                    }
+                }
+
+                @errorMsg.map { msg =>
+                <div class="alert alert-error">
+                  @Messages(msg)
+                </div>
+                }
+
+                @request.flash.get("success").map { msg =>
+                  @if(msg == Messages("securesocial.password.passwordUpdated")){
+                    <div class="alert alert-info second-line">
+                      @msg
+                    </div>
+                  } else{
+                    <div class="alert alert-info">
+                      @msg
+                    </div>
+                  }
+
+                }
+
+                @request.flash.get("error").map { msg =>
+                <div class="alert alert-error">
+                  @msg
+                </div>
+                }
+
+                @if(!(registering||passwordReset)){
+                  @com.yetu.oauth2provider.views.html.yetuAuthentication.provider("userpass", Some(loginForm))
+                }
+
+            </div>
+        }
+    }
+}

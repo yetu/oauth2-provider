@@ -1,0 +1,89 @@
+# see http://www.playframework.com/documentation/2.2.x/ScalaI18N for more info on how to use internationalization.
+
+# Non-securesocial texts
+
+yetu.privacy.signup.checkbox=By creating an account, I accept yetu''s
+yetu.privacy.policy.name=Privacy Policy
+yetu.privacy.policy.link=/assets/privacy/Datenschutzerklaerung_yetu_AG_September_2014_v1.1.pdf
+yetu.imprint.link=http://yetu.com/imprint/
+yetu.imprint.name=Imprint
+
+# App name
+securesocial.appName=yetu Authenticator
+
+# Login page
+securesocial.login.title=Login
+securesocial.login.instructions=Use your existing account on one of the following networks to log in.
+securesocial.login.accessDenied=You denied access to your account. Please grant it to log in.
+securesocial.login.errorLoggingIn=An error occurred while logging you in. Please try again.
+securesocial.login.useEmailAndPassword=Or login using a username and password.
+securesocial.login.useEmailAndPasswordOnly=Login using a username and password.
+securesocial.login.signUp=If you do not have an account, you can sign up
+securesocial.login.here=here
+securesocial.login.invalidCredentials=Wrong E-Mail address or password! Please try again!
+securesocial.login.forgotPassword=Did you forget your password?
+securesocial.login.fullstop=.
+
+# Sign up page
+securesocial.signup.title=Sign Up
+securesocial.signup.username=Username
+securesocial.signup.firstName=First Name
+securesocial.signup.lastName=Last Name
+securesocial.signup.email1=E-Mail
+securesocial.signup.email2=E-Mail confirmation
+securesocial.signup.password1=Password
+securesocial.signup.password2=Password confirmation
+securesocial.signup.createAccount=Create Account
+securesocial.signup.cancel=Cancel
+securesocial.signup.userNameAlreadyTaken=Username already taken.
+securesocial.signup.passwordsDoNotMatch=Passwords do not match.
+securesocial.signup.thankYouCheckEmail=Thank you. Please check your E-Mail for further instructions.
+securesocial.signup.invalidLink=The link you followed is invalid.
+securesocial.signup.signUpDone=Thank you for signing up.  You can log in now.
+securesocial.signup.invalidPassword=Enter at least {0} characters.
+
+
+
+
+# Permission page
+securesocial.permission.title=Request for Permission
+securesocial.permission.accept=Accept
+securesocial.permission.cancel=Cancel
+
+
+# Password reset
+securesocial.password.title=Reset Password
+securesocial.password.passwordUpdated=Your password was updated successfully.
+securesocial.password.reset=Reset Password
+securesocial.password.error=There was a problem changing your password. Please try again.
+
+# Password change
+securesocial.passwordChange.title=Change Password
+securesocial.passwordChange.currentPassword=Current Password
+securesocial.passwordChange.newPassword1=New Password
+securesocial.passwordChange.newPassword2=New Password Confirmation
+securesocial.passwordChange.changeButton=Change
+securesocial.passwordChange.invalidPassword=Invalid password
+securesocial.passwordChange.ok=Your password was changed successfully.
+securesocial.passwordChange.okButton=Ok
+
+# Not authorized page
+securesocial.notAuthorized.title=Not Authorized
+securesocial.notAuthorized.message=You are not authorized to access that page.
+
+#
+securesocial.loginRequired=You need to log in to access that page.
+
+# Mails
+#
+mails.sendAlreadyRegisteredEmail.subject=Sign up instructions
+mails.sendSignUpEmail.subject=Sign up instructions
+mails.welcomeEmail.subject=Welcome
+mails.passwordResetEmail.subject=Password reset instructions
+mails.unknownEmail.subject=Password reset request
+mails.passwordResetOk.subject=Password change confirmation
+
+#Checking for step before
+check.signup=signup
+check.thankyou=Thank you
+check.reset=reset

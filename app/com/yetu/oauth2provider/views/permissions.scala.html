@@ -1,0 +1,41 @@
+@(permissionsForm: Form[com.yetu.oauth2provider.models.Permissions], appName: String,client_id: Option[String], redirect_uri: Option[String], state: Option[String])(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
+@import com.yetu.oauth2provider.services._
+@import com.yetu.oauth2provider._
+@import helper._
+
+@import securesocial.core.IdentityProvider
+@implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
+
+@views.html.yetuAuthentication.main(Messages("securesocial.permission.title")) {
+    <div class="page-header">
+        <h2>@appName</h2>
+        <h3>This app would like to:</h3>
+    </div>
+
+    <div class="requestedPermissions">
+        <ul>
+            <li>View your email address</li>
+            <li>View basic information about your account</li>
+        </ul>
+    </div>
+
+    <div class="termsInfo">
+        @appName and yetu will use this information in accordance with their respective terms of service and privacy policies.
+    </div>
+
+    @helper.form(action = com.yetu.oauth2provider.controllers.routes.OAuth2Auth.permissionsPost) {
+
+
+        <input type="hidden" name="client_id" value="@client_id">
+        <input type="hidden" name="redirect_uri" value="@redirect_uri">
+        <input type="hidden" name="state" value="@state">
+        <div class="form-actions">
+            <button type="submit" class="btn btn-primary">@Messages("securesocial.permission.accept")</button>
+            <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.permission.cancel")</a>
+        </div>
+    }
+}
+
+
+
+

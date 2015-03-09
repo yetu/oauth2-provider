@@ -1,0 +1,12 @@
+@(user: securesocial.core.BasicProfile)(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
+<html>
+<body>
+<p>Welcome @user.firstName,</p>
+
+<p>
+    Thank you for registering a new yetu account!.</p>
+   <p> <a href="@env.routes.loginPageUrl">Log in here</a> to start your discovery of a new world at home with yetu.me.</p>
+   <p>Best regards, your yetu team
+</p> 
+</body>
+</html>
