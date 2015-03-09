@@ -6,7 +6,7 @@ scalaVersion := "2.11.5"
 
 name := "oauth2provider"
 
-organization := "com.yetu.apphome"
+organization := "com.yetu"
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).configs(IntegrationTest)
 
