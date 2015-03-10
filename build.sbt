@@ -42,10 +42,7 @@ resolvers += "Plasma Conduit Repository" at "http://dl.bintray.com/plasmaconduit
 
 resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
 
-resolvers += bintray.Opts.resolver.mavenRepo("yetu")
-
-bintrayResolverSettings
-
+resolvers += Resolver.bintrayRepo("yetu", "maven")
 
 scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.

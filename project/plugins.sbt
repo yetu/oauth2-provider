@@ -6,7 +6,7 @@ resolvers += Classpaths.sbtPluginReleases
 // Comment to get more information during initialization
 logLevel := Level.Warn
 
-// The Typesafe repository 
+// The Typesafe repository
 resolvers += "Typesafe releases" at "http://repo.typesafe.com/typesafe/releases/"
 
 resolvers += "Typesafe repo" at "http://repo.typesafe.com/typesafe/repo/"
@@ -23,12 +23,6 @@ addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.0.1")
 
 addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.13")
 
-resolvers += Resolver.url(
-  "bintray-sbt-plugin-releases",
-  url("http://dl.bintray.com/content/sbt/sbt-plugin-releases"))(
-    Resolver.ivyStylePatterns)
-
-addSbtPlugin("me.lessis" % "bintray-sbt" % "0.1.2")
 
 //TODO: Change the dependency once pull request is merged:
 //https://github.com/sbt/sbt-buildinfo/pull/45
