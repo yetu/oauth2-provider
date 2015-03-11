@@ -27,3 +27,4 @@ dist
 /.settings
 /local
 /conf/application.conf
+/nbproject/private/

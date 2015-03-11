@@ -72,5 +72,12 @@ POST           /authenticate/:provider            @com.yetu.oauth2provider.contr
 
 POST           /api/authenticate/:provider        @com.yetu.oauth2provider.controllers.authentication.LoginApi.authenticate(provider, builder = "token")
 
+#####################
+##    setup      ####
+#####################
+
+
+# Download setup app
+GET            /download                          @com.yetu.oauth2provider.controllers.setup.DownloadPage.download
 
 
