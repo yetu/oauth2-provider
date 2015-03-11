@@ -87,3 +87,21 @@ mails.passwordResetOk.subject=Password change confirmation
 check.signup=signup
 check.thankyou=Thank you
 check.reset=reset
+
+#Setup page
+setup.headline=yetu setup
+setup.subheadline=Setting up the yetu experience only takes some quick and easy steps:
+setup.steps.one=1. Register at yetu
+setup.steps.two=2. Verify your e-mail account
+setup.steps.three=3. Download Gateway Setup App
+setup.footer.copyright=&copy; 2015 yetu AG
+setup.footer.privacy=Privacy Policy
+setup.footer.imprint=Imprint
+setup.footer.terms=Terms &amp; conditions
+
+#setup download page
+setup.download.headline=Download Gateway Setup App
+setup.download.description=Download the Gateway setup app. Your yetu username and password will be asked in the setup process. With this App you will be able to link your yetu account to your gateway and enjoy an extended yetu experience, adding your home devices.
+setup.download.button.mac=download gateway setup app (mac os x, 85 mb)
+setup.download.button.win=download gateway setup app (windows, 85 mb)
+setup.download.faq=FAQ: Problems with installation?
