@@ -23,33 +23,38 @@
 		<div class="content">
 			<div id="leftContainer" class="left">
 				<h2><input class="radio-btn" type="radio" name="registered" value="not" checked="true"/><label class="label-register">@Messages("setup.registration.register")</label></h2>
-				<span class="left__hint">@Messages("setup.registration.hint")</span>
-				<div class="clear"></div>
-				<label class="left__label">@Messages("setup.registration.firstname")</label>
-				<input class="left__input" type="text" name="firstname" placeholder=""/>
-				<div class="clear"></div>
-				<label class="left__label">@Messages("setup.registration.lastname")</label>
-				<input class="left__input" type="text" name="lastname" placeholder=""/>
-				<div class="clear"></div>
-				<label class="left__label">@Messages("setup.registration.email")</label>
-				<input class="left__input" type="text" name="email" placeholder="@Messages("setup.registration.emailplaceholder")"/>
-				<div class="clear"></div>
-				<label class="left__label">@Messages("setup.registration.password")</label>
-				<input class="left__input" type="text" name="password" placeholder="@Messages("setup.registration.passwordplaceholder")"/>
-				<div class="clear"></div>
-				<label class="left__label">@Messages("setup.registration.repeatpassword")</label>
-				<input class="left__input" type="text" name="repeatpassword" placeholder="@Messages("setup.registration.repeatpasswordplaceholder")"/>
-				<div class="clear"></div>
-				<input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"/>
-				<label class="left__terms-label">
-					<span>@Messages("setup.registration.terms")</span>
-					<a href="">@Html(Messages("setup.registration.termslink"))</a>
-				</label>
+				<div class="left__formcontainer">
+                    <span class="left__hint">@Messages("setup.registration.hint")</span>
+                    <div class="clear"></div>
+                    <label class="left__label">@Messages("setup.registration.firstname")</label>
+                    <input class="left__input" type="text" name="firstname" placeholder=""/>
+                    <div class="clear"></div>
+                    <label class="left__label">@Messages("setup.registration.lastname")</label>
+                    <input class="left__input" type="text" name="lastname" placeholder=""/>
+                    <div class="clear"></div>
+                    <label class="left__label">@Messages("setup.registration.email")</label>
+                    <input class="left__input" type="text" name="email" placeholder="@Messages("setup.registration.emailplaceholder")"/>
+                    <div class="clear"></div>
+                    <label class="left__label">@Messages("setup.registration.password")</label>
+                    <input class="left__input" type="text" name="password" placeholder="@Messages("setup.registration.passwordplaceholder")"/>
+                    <div class="clear"></div>
+                    <label class="left__label">@Messages("setup.registration.repeatpassword")</label>
+                    <input class="left__input" type="text" name="repeatpassword" placeholder="@Messages("setup.registration.repeatpasswordplaceholder")"/>
+                    <div class="clear"></div>
+                    <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"/>
+                    <label class="left__terms-label">
+                        <span>@Messages("setup.registration.terms")</span>
+                        <a href="">@Html(Messages("setup.registration.termslink"))</a>
+                    </label>
+                </div>
 			</div>
 			<div id="rightContainer" class="right">
-				<h2><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.registration.already")</label></h2>
+                <h2><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.registration.already")</label></h2>
 				<p>@Messages("setup.registration.ifalreadyregistered")</p>
 			</div>
+            <div class="buttoncontainer clear">
+                <a class="button buttoncontainer__next-button">@Messages("setup.registration.next")</a>
+            </div>
 		</div>
 		<footer>
 			<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">&middot;</span>

@@ -114,7 +114,7 @@ setup.registration.repeatpasswordplaceholder=repeat new password for yetu login
 setup.registration.terms=I accept the
 setup.registration.termslink=terms &amp; conditions
 setup.registration.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly. Just click "next".
-
+setup.registration.next=next
 
 #setup download page
 setup.download.headline=Download Gateway Setup App

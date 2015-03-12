@@ -60,7 +60,7 @@ header{
 }
 
 .step{
-	width: 30.30%;
+	width: 33.15%;
 	height: 48px;
 	float: left;
 	text-align: center;
@@ -109,15 +109,17 @@ header{
     visibility: hidden;
 }
 
+.button{
+    background: blue;
+    text-transform: uppercase;
+    padding: 10px 5%;
+    color: #ffffff;
+}
+
 .left__content-download{
-	display: none;
-	background: blue;
-	text-transform: uppercase;
-	padding: 10px 5%;
+    display: none;
 	width: 45%;
-	color: #ffffff;
 	margin-bottom: 10px;
-	text-align: center;
 }
 
 .left__content-faq{
