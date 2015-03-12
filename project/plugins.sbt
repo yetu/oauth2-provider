@@ -20,6 +20,8 @@ addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.5")
 
 addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.0.4")
 
+addSbtPlugin("org.scoverage" % "sbt-coveralls" % "1.0.0.BETA1")
+
 addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.13")
 
 
