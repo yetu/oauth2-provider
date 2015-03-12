@@ -60,14 +60,19 @@ header{
 }
 
 .step{
-	background: #666666;
-	color: #ffffff;
-	width: 33.33%;
-	height: 50px;
+	width: 30.30%;
+	height: 48px;
 	float: left;
 	text-align: center;
 	line-height: 50px;
 	vertical-align: middle;
+	border: 1px solid #666666;
+	border-left: none;
+}
+
+.step.active {
+	color: #ffffff;
+	background: #666666;
 }
 
 .content{

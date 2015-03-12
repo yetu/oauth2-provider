@@ -99,6 +99,23 @@ setup.footer.privacy=Privacy Policy
 setup.footer.imprint=Imprint
 setup.footer.terms=Terms &amp; conditions
 
+#setup registration page
+setup.registration.register=Register at yetu
+setup.registration.already=Already registered?
+setup.registration.hint=all fields are mandatory
+setup.registration.firstname=First name
+setup.registration.lastname=Last name
+setup.registration.email=E-mail
+setup.registration.emailplaceholder=this email will be your username
+setup.registration.password=Password
+setup.registration.passwordplaceholder=new password for yetu login
+setup.registration.repeatpassword=Repeat password
+setup.registration.repeatpasswordplaceholder=repeat new password for yetu login
+setup.registration.terms=I accept the
+setup.registration.termslink=terms &amp; conditions
+setup.registration.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly. Just click "next".
+
+
 #setup download page
 setup.download.headline=Download Gateway Setup App
 

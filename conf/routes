@@ -77,7 +77,8 @@ POST           /api/authenticate/:provider        @com.yetu.oauth2provider.contr
 #####################
 
 
+# New registration page
+GET						/setup/registration												com.yetu.oauth2provider.controllers.setup.SetupPage.registration
+
 # Download setup app
-GET            /setup/download                          com.yetu.oauth2provider.controllers.setup.DownloadPage.download
-
-
+GET            /setup/download                          com.yetu.oauth2provider.controllers.setup.SetupPage.download
