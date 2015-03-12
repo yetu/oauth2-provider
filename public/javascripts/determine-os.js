@@ -62,7 +62,6 @@ if (/Windows/.test(os)) {
 switch (os) {
   case 'Mac OS X':
     osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
-    osVersion = '10_4_2';
     var splittedOsVersion = osVersion.split('_');
     if(parseInt(splittedOsVersion[0])>=10 && parseInt(splittedOsVersion[1])>=5){
       showRightVersionDownload('mac');
