@@ -6,6 +6,6 @@ import com.yetu.oauth2provider.views
 object DownloadPage extends Controller {
 
   val download = Action {
-    Ok(views.html.download())
+    Ok(views.html.download.render())
   }
 }

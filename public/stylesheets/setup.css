@@ -29,12 +29,16 @@ body, html{
 	margin: 0;
 	padding: 0;
 	top: 0;
-	font-family: source_sans_prolight;
+	font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 	color: #4F4F4F;
 }
 
 h1{
 	font-weight: bold;
+}
+
+h2{
+    margin-top: 0;
 }
 
 header{
@@ -74,15 +78,34 @@ header{
 .left{
 	float: left;
 	width: 50%;
-	padding: 5%;
+	padding: 50px;
 }
 
-.left .description{
+.left__content {
+    display: none;
+}
+
+.left__content-description{
 	margin-bottom: 50px;
 }
+.left__content-description-label{
+    font-weight: bold;
+}
+.smallbuttonmargin{
+    margin-bottom: 20px;
+}
+.notopmargin{
+    margin-top: 0;
+}
+.nobottommargin{
+    margin-bottom: 0;
+}
+#or{
+    visibility: hidden;
+}
 
-.left .download{
-	display: block;
+.left__content-download{
+	display: none;
 	background: blue;
 	text-transform: uppercase;
 	padding: 10px 5%;
@@ -92,21 +115,38 @@ header{
 	text-align: center;
 }
 
-.left .download.mac{
-}
-
-.left .download.win{
-	display:none;
-}
-
-.left .faq{
+.left__content-faq{
 	display: block;
 	width: 50%;
 	text-align: center;
 }
 
+.left__content-info{
+    width: 120%;
+    padding: 15px;
+    border: solid 1px #949494;
+    box-shadow: 2px 3px 2px #949494;
+    margin-top: 60px;
+    z-index: 2;
+}
+
+.left__content-info-icon{
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 10px;
+    display: block;
+}
+.left__content-info-text{
+    width: 90%;
+    margin: 0;
+    height: 50px;
+    line-height: 25px;
+    vertical-align: middle;
+}
+
 .right{
-	padding-top: 8%;
+	padding-top: 50px;
 	width: 40%;
 	margin-left: 60%
 }
