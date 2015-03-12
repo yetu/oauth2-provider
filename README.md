@@ -1,6 +1,6 @@
 # OAuth2 Provider and Authentication system
 
-[![Build Status](https://travis-ci.org/yetu/controlcenter.svg?branch=master)](https://travis-ci.org/yetu/controlcenter)
+[![Build Status](https://travis-ci.org/yetu/oauth2-provider.svg?branch=master)](https://travis-ci.org/yetu/oauth2-provider)
 
 This project is yetu's central authentication and authorization system.
 
