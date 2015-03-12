@@ -16,10 +16,9 @@ resolvers += Resolver.typesafeIvyRepo("releases")
 credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
 
 // Use the Play sbt plugin for Play projects
-addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
+addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.5")
 
-// Plugin for scoverage
-addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.0.1")
+addSbtPlugin("org.scoverage" %% "sbt-scoverage" % "1.0.4")
 
 addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.13")
 
