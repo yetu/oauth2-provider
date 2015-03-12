@@ -87,3 +87,44 @@ mails.passwordResetOk.subject=Password change confirmation
 check.signup=signup
 check.thankyou=Thank you
 check.reset=reset
+
+#Setup page
+setup.headline=yetu setup
+setup.subheadline=Setting up the yetu experience only takes some quick and easy steps:
+setup.steps.one=1. Register at yetu
+setup.steps.two=2. Verify your e-mail address
+setup.steps.three=3. Download Gateway Setup App
+setup.footer.copyright=&copy; 2015 yetu AG
+setup.footer.privacy=Privacy Policy
+setup.footer.imprint=Imprint
+setup.footer.terms=Terms &amp; conditions
+
+#setup download page
+setup.download.headline=Download Gateway Setup App
+
+setup.download.description=Your yetu username and password will be asked in the setup\
+   process. With this App you will be able to link your yetu account to your gateway and enjoy an extended yetu experience, adding your home devices.
+setup.download.button.mac=download gateway setup app (mac os x, 85 mb)
+setup.download.button.win=download gateway setup app (windows, 85 mb)
+setup.download.faq=FAQ: Problems with installation?
+
+setup.download.notavailable.descriptionone=Unfortunately your OS does not support the Setup App:
+setup.download.notavailable.descriptiontwo=The reason is related to...
+setup.download.notavailable.descriptionthree=Please update your OS, and come back to this page to download the Setup \
+  App. You can add it to favourites or save this link:
+setup.download.notavailable.youros=Your OS:
+setup.download.notavailable.reqos=Required OS at least:
+setup.download.notavailable.link=www.home.yetu.me/setup/download
+setup.download.notavailable.or=or
+setup.download.notavailable.infodesc=Until you update your OS, you can enjoy the yetu experience without your gateway\
+  . Just login to
+setup.download.notavailable.homescreen=home.yetu.me
+
+setup.download.ready.heading=Thank you for downloading the yetu Setup App
+setup.download.ready.description=If you had problems with the download,
+setup.download.ready.link= click here to download it again
+setup.download.ready.install= PC INSTALL instructions
+setup.download.ready.run= PC RUN instructions
+
+
+
