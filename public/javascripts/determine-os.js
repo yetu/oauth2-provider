@@ -38,7 +38,8 @@ for (var id in clientStrings) {
 }
 
 var showRightVersionDownload = function(os){
-  document.getElementById('download_'+os ).setAttribute('style','display:block;');
+  document.getElementById('download_'+os+'1' ).setAttribute('style','display:block;');
+  document.getElementById('download_'+os+'2' ).setAttribute('style','display:inline;');
 };
 
 var osVersion = '-';

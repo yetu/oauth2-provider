@@ -151,9 +151,42 @@ header{
 	margin-left: 60%
 }
 
-.right .gateway-img{
+.right__gateway-img{
 	width: 95%;
 	margin: 0 auto;
+}
+
+.full{
+    display: none;
+}
+.full__headline{
+    margin: 50px 50px 20px 50px;
+}
+.full__description{
+    font-size: 1.4em;
+    margin-left: 50px;
+    margin-right: 50px;
+}
+.full__download{
+    display: none;
+}
+.full__instructions{
+    margin: 60px 0 50px 0;
+}
+
+.full__instructions-install{
+    width: 49.5%;
+    margin-right: 1%;
+    height: 200px;
+    float: left;
+}
+.full__instructions-run{
+    width: 49.5%;
+    height: 200px;
+    float: left;
+}
+.clear {
+    clear:both;
 }
 
 footer{
