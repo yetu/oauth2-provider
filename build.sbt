@@ -44,10 +44,6 @@ resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repos
 
 resolvers += Resolver.bintrayRepo("yetu", "maven")
 
-resolvers += bintray.Opts.resolver.mavenRepo("yetu")
-
-bintrayResolverSettings
-
 scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-feature", // Emit warning and location for usages of features that should be imported explicitly.
