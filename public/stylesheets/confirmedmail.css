@@ -17,7 +17,8 @@
     margin-left: 20%;
 }
 .full__button{
-    margin: 10% 40%;
+    margin: 5% 40%;
     width: 5%;
+    display: block;
     clear: both;
 }
