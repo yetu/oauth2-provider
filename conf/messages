@@ -116,6 +116,14 @@ setup.registration.termslink=terms &amp; conditions
 setup.registration.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly. Just click "next".
 setup.registration.next=next
 
+setup.registration.error.firstname=Please use only characters for your first name.
+setup.registration.error.lastname=Please use only characters for your last name.
+setup.registration.error.email=Your E-mail address is not valid. Please add another one.
+setup.registration.error.password=Your password has to have at least 8 characters. Furthermore there must be at least \
+  one upper, one lower case letter, one digit and one special character.
+setup.registration.error.passwordnotsame=Your password and the repeated password are not the same.
+setup.registration.error.terms=Please read the terms &amp; conditions and mark, that you have done this.
+
 #setup download page
 setup.download.headline=Download Gateway Setup App
 
