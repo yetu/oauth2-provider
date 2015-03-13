@@ -4,22 +4,21 @@
 	<head>
 			<title>Download</title>
 			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
-			<link rel="shortcut icon" type="image/png" href="">
 			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	</head>
 	<body>
 		<header>
 			<h1>@Messages("setup.headline")</h1>
-			<h2>@Messages("setup.subheadline")</h2>
+			<div class="logo"></div>
 		</header>
-		<div class="steps">
-			<ul class="steplist">
-				<li class="step active">@Messages("setup.steps.one")</li>
-				<li class="step active">@Messages("setup.steps.two")</li>
-				<li class="step active">@Messages("setup.steps.three")</li>
-			</ul>
-		</div>
 		<div class="content">
+			<div class="steps">
+				<ul class="steplist">
+					<li class="step active">@Messages("setup.steps.one")</li>
+					<li class="step active">@Messages("setup.steps.two")</li>
+					<li class="step active">@Messages("setup.steps.three")</li>
+				</ul>
+			</div>
 			<div id="leftContainer" class="left">
 				<h2>@Messages("setup.download.headline")</h2>
                 <div id="download_available" class="left__content">
@@ -63,7 +62,9 @@
                 </div>
 			</div>
 			<div id="rightContainer" class="right">
-				<img class="right__gateway-img"src="@controllers.routes.Assets.at("images/yetu_gateway.png")"/>
+				<div class="right__gateway-img">
+					<p class="right__gateway-text">@Messages("setup.download.connect")</p>
+				</div>
 			</div>
             <div id="fullContainer" class="full">
                 <h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
