@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+			<title>Confirm Mail</title>
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmmail.css")">
+			<link rel="shortcut icon" type="image/png" href="">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<body>
+		<header>
+			<h1>@Messages("setup.headline")</h1>
+			<h2>@Messages("setup.subheadline")</h2>
+		</header>
+		<div class="steps">
+			<ul class="steplist">
+				<li class="step active">@Messages("setup.steps.one")</li>
+				<li class="step active">@Messages("setup.steps.two")</li>
+				<li class="step">@Messages("setup.steps.three")</li>
+			</ul>
+		</div>
+		<div class="content">
+            <div class="left">
+                <img class="left__img" href="" alt="E-Mail content"/>
+            </div>
+            <div class="right">
+                <h2>@Messages("setup.confirmmail.headline")</h2>
+                <p>@Messages("setup.confirmmail.description")</p>
+            </div>
+            <div class="clear"></div>
+		</div>
+		<footer>
+			<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">&middot;</span>
+			<a href="">@Messages("setup.footer.privacy")</a><span class="dot">&middot;</span>
+			<a href="http://yetu.com/imprint/">@Messages("setup.footer.imprint")</a><span class="dot">&middot;</span>
+			<a href="">@Html(Messages("setup.footer.terms"))</a>
+		</footer>
+	</body>
+</html>

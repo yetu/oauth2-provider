@@ -2,7 +2,7 @@
 
 <html>
 	<head>
-			<title>Download</title>
+			<title>Registration</title>
 			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
 			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/registration.css")">
 			<link rel="shortcut icon" type="image/png" href="">
@@ -50,8 +50,7 @@
                     <label class="left__label" >@Messages("setup.registration.repeatpassword")</label>
                     <input type="password" class="left__input" type="text" name="repeatpassword"
                     placeholder="@Messages("setup.registration.repeatpasswordplaceholder")"/>
-                    <span id="repeatpassword_error" class="left__error">@Messages("setup.registration.error" +
-                            ".passwordnotsame")</span>
+                    <span id="repeatpassword_error" class="left__error">@Messages("setup.registration.error.passwordnotsame")</span>
                     <div class="clear"></div>
                     <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"
                     data-validate="agreement"/>
@@ -69,7 +68,7 @@
 			</div>
             <div class="buttoncontainer clear">
                 <button type="commit" form="registration_form" class="button buttoncontainer__next-button">
-                    @Messages("setup.registration.next")
+                    @Html(Messages("setup.next"))
                 </button>
             </div>
 		</div>

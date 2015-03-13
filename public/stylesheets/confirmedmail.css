@@ -1,0 +1,23 @@
+
+.full{
+    display: block;
+    padding: 10% 0;
+}
+.full__container{
+    margin: 0 25%;
+    width: 50%;
+}
+.full__icon{
+    width: 15%;
+    height: 60px;
+    float:left;
+}
+.full__content{
+    width: 80%;
+    margin-left: 20%;
+}
+.full__button{
+    margin: 10% 40%;
+    width: 5%;
+    clear: both;
+}

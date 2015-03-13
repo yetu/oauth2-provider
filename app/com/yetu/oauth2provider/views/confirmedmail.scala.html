@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+
+<html>
+	<head>
+			<title>Successfully confirmed mail</title>
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmedmail.css")">
+			<link rel="shortcut icon" type="image/png" href="">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<body>
+		<header>
+			<h1>@Messages("setup.headline")</h1>
+			<h2>@Messages("setup.subheadline")</h2>
+		</header>
+		<div class="steps">
+			<ul class="steplist">
+				<li class="step active">@Messages("setup.steps.one")</li>
+				<li class="step">@Messages("setup.steps.two")</li>
+				<li class="step">@Messages("setup.steps.three")</li>
+			</ul>
+		</div>
+		<div class="content">
+            <div class="full">
+                <div class="full__container">
+                    <img class="full__icon"/>
+                    <div class="full__content">
+                        <h2>@Messages("setup.confirmedmail.headline")</h2>
+                        <p>@Messages("setup.confirmedmail.description")</p>
+                    </div>
+                </div>
+                <a href="/setup/download" class="button full__button">
+                    @Html(Messages("setup.next"))
+                </a>
+            </div>
+		</div>
+		<footer>
+			<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">&middot;</span>
+			<a href="">@Messages("setup.footer.privacy")</a><span class="dot">&middot;</span>
+			<a href="http://yetu.com/imprint/">@Messages("setup.footer.imprint")</a><span class="dot">&middot;</span>
+			<a href="">@Html(Messages("setup.footer.terms"))</a>
+		</footer>
+	</body>
+</html>

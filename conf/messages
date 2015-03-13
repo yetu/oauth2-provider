@@ -98,6 +98,7 @@ setup.footer.copyright=&copy; 2015 yetu AG
 setup.footer.privacy=Privacy Policy
 setup.footer.imprint=Imprint
 setup.footer.terms=Terms &amp; conditions
+setup.next=next &gt;
 
 #setup registration page
 setup.registration.register=Register at yetu
@@ -114,7 +115,6 @@ setup.registration.repeatpasswordplaceholder=repeat new password for yetu login
 setup.registration.terms=I accept the
 setup.registration.termslink=terms &amp; conditions
 setup.registration.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly. Just click "next".
-setup.registration.next=next
 
 setup.registration.error.firstname=Please use only characters for your first name.
 setup.registration.error.lastname=Please use only characters for your last name.
@@ -123,6 +123,15 @@ setup.registration.error.password=Your password has to have at least 8 character
   one upper, one lower case letter, one digit and one special character.
 setup.registration.error.passwordnotsame=Your password and the repeated password are not the same.
 setup.registration.error.terms=Please read the terms &amp; conditions and mark, that you have done this.
+
+#setup mail confirm page
+setup.confirmmail.headline=Check yout email inbox and click in the registration link to proceed.
+setup.confirmmail.description=We just sent you an email to the email address you provided. Please check it, and click\
+   in the link provided in the email to verify your email address and allow the creation of your yetu account.
+
+#setup mail confirmed page
+setup.confirmedmail.headline=Your e-mail has been verified and your yetu account is created
+setup.confirmedmail.description=You can proceed to next step now.
 
 #setup download page
 setup.download.headline=Download Gateway Setup App

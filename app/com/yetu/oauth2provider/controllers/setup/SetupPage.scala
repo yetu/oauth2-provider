@@ -12,4 +12,13 @@ object SetupPage extends Controller {
   val registration = Action {
     Ok(views.html.registration.render())
   }
+
+  val confirmmail = Action {
+    Ok(views.html.confirmmail.render())
+  }
+
+  val confirmedmail = Action {
+    Ok(views.html.confirmedmail.render())
+  }
+
 }
