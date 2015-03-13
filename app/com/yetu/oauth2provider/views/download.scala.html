@@ -80,12 +80,14 @@
                     <div class="clear"></div>
                 </div>
             </div>
+			<div class="bumper"></div>
 		</div>
+
 		<footer>
-			<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">&middot;</span>
-			<a href="">@Messages("setup.footer.privacy")</a><span class="dot">&middot;</span>
-			<a href="http://yetu.com/imprint/">@Messages("setup.footer.imprint")</a><span class="dot">&middot;</span>
-			<a href="">@Html(Messages("setup.footer.terms"))</a>
+			<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">-</span>
+			<a href="">@Messages("setup.footer.privacy")</a><span class="dot">-</span>
+			<a href="">@Html(Messages("setup.footer.terms"))</a><span class="dot">-</span>
+			<a href="http://yetu.com/imprint/">@Messages("setup.footer.imprint")</a>
 		</footer>
         <script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/determine-os.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/handler.js")"></script>
