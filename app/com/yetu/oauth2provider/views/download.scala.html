@@ -25,28 +25,20 @@
 			<h2>@Messages("setup.download.headline")</h2>
 			<div id="download_available" class="left__content">
 				<p class="left__content-description">@Messages("setup.download.description")</p>
-				<a id="download_mac1" class="left__content-download" href="https://us-east.manta.joyent.com/yetu/public/downloads/gw-setup-app/mac/yetu-setup.zip" onclick="onClickDownload()">
-                        @Messages("setup.download.button.mac")
-                    </a>
-				<a id="download_win1" class="left__content-download" href="https://us-east.manta.joyent.com/yetu/public/downloads/gw-setup-app/windows/yetu-setup.zip" onclick="onClickDownload()">
-                        @Messages("setup.download.button.win")
-                    </a>
+				<a id="download_mac1" class="left__content-download" href="https://us-east.manta.joyent.com/yetu/public/downloads/gw-setup-app/mac/yetu-setup.zip" onclick="onClickDownload()">@Messages("setup.download.button.mac")</a>
+				<a id="download_win1" class="left__content-download" href="https://us-east.manta.joyent.com/yetu/public/downloads/gw-setup-app/windows/yetu-setup.zip" onclick="onClickDownload()">@Messages("setup.download.button.win")</a>
 				<a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
 			</div>
 			<div id="download_not_available" class="left__content">
 				<p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
 				<p class="left__content-description nobottommargin">
-					<span class="left__content-description-label">
-                            @Messages("setup.download.notavailable.youros")
-                        </span>
+					<span class="left__content-description-label">@Messages("setup.download.notavailable.youros")</span>
 					<span id="youros"></span>
 				</p>
 				<p class="left__content-description smallbuttonmargin notopmargin">
-					<span class="left__content-description-label">
-                            @Messages("setup.download.notavailable.reqos")
-                        </span>
+					<span class="left__content-description-label">@Messages("setup.download.notavailable.reqos")</span>
 					<span id="requiredos1"></span>
-					<span id="or"> @Messages("setup.download.notavailable.or")</span>
+					<span id="or">@Messages("setup.download.notavailable.or")</span>
 					<span id="requiredos2"></span>
 				</p>
 				<p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
@@ -74,14 +66,13 @@
 				<a id="download_win2" class="full__download" href="https://us-east.manta.joyent.com/yetu/public/downloads/gw-setup-app/windows/yetu-setup.zip">@Messages("setup.download.ready.link")</a>
 			</p>
 			<div class="full__instructions">
-				<img class="full__instructions-install" alt="@Messages("setup.download.ready.install")"/>
-				<img class="full__instructions-run" alt="@Messages("setup.download.ready.run")"/>
+				<img class="full__instructions-install" alt="@Messages(" setup.download.ready.install ")"/>
+				<img class="full__instructions-run" alt="@Messages(" setup.download.ready.run ")"/>
 				<div class="clear"></div>
 			</div>
 		</div>
 		<div class="bumper"></div>
 	</div>
-
 	<footer>
 		<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">-</span>
 		<a href="">@Messages("setup.footer.privacy")</a><span class="dot">-</span>
