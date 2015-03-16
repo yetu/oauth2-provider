@@ -84,8 +84,8 @@ switch (os) {
     requiredOS = [requiredOSWin, requiredOSMac];
     break;
 }
-console.info("OS: " + os + ", Version:" + osVersion) ;
-console.log('available', downloadAvailable)
+//console.info("OS: " + os + ", Version:" + osVersion) ;
+//console.log('available', downloadAvailable)
 if(downloadAvailable){
   document.getElementById('download_available').setAttribute('style','display:block;');
 }
