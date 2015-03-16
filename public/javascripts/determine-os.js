@@ -86,12 +86,12 @@ switch (os) {
 
   case 'iOS':
     osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(navigator.appVersion);
-    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] || 0);
     requiredOS = [requiredOSWin, requiredOSMac];
     break;
 }
 console.info("OS: " + os + ", Version:" + osVersion) ;
-console.log('available', downloadAvailable)
+console.log('available', downloadAvailable);
 if(downloadAvailable){
   document.getElementById('download_available').setAttribute('style','display:block;');
 }
