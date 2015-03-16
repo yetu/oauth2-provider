@@ -63,7 +63,13 @@ if (/Windows/.test(os)) {
 switch (os) {
   case 'Mac OS X':
     osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
-    var splittedOsVersion = osVersion.split('_');
+		if(osVersion.indexOf('_') > -1){
+			var splittedOsVersion = osVersion.split('_');
+		}else if (osVersion.indexOf('.') > -1){
+			var splittedOsVersion = osVersion.split('.');
+		} else {
+			var splittedOsVersion = osVersion;
+		}
     if(parseInt(splittedOsVersion[0])>=10 && parseInt(splittedOsVersion[1])>=5){
       showRightVersionDownload('mac');
       downloadAvailable = true;
@@ -80,7 +86,7 @@ switch (os) {
 
   case 'iOS':
     osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(navigator.appVersion);
-    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] | 0);
+    osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] || 0);
     requiredOS = [requiredOSWin, requiredOSMac];
     break;
 }
