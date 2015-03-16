@@ -1,4 +1,5 @@
 @(downloadUrlMac: String,downloadUrlWin: String)
+@import com.yetu.oauth2provider.views
 <!DOCTYPE html>
 
 <html>
@@ -76,12 +77,7 @@
 		</div>
 		<div class="bumper"></div>
 	</div>
-	<footer>
-		<span>@Html(Messages("setup.footer.copyright"))</span><span class="dot">-</span>
-		<a href="">@Messages("setup.footer.privacy")</a><span class="dot">-</span>
-		<a href="">@Html(Messages("setup.footer.terms"))</a><span class="dot">-</span>
-		<a href="http://yetu.com/imprint/">@Messages("setup.footer.imprint")</a>
-	</footer>
+	@views.html.setup.footer()
 	<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/determine-os.js")"></script>
 	<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/handler.js")"></script>
 </body>

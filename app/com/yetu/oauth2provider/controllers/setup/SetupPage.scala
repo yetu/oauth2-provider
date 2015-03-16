@@ -7,19 +7,19 @@ import com.yetu.oauth2provider.views
 object SetupPage extends Controller {
 
   val download = Action {
-    Ok(views.html.download(FrontendConfiguration.setupDownloadUrlMac, FrontendConfiguration.setupDownloadUrlWin))
+    Ok(views.html.setup.download(FrontendConfiguration.setupDownloadUrlMac, FrontendConfiguration.setupDownloadUrlWin))
   }
 
   val registration = Action {
-    Ok(views.html.registration.render())
+    Ok(views.html.setup.registration.render())
   }
 
   val confirmmail = Action {
-    Ok(views.html.confirmmail.render())
+    Ok(views.html.setup.confirmmail.render())
   }
 
   val confirmedmail = Action {
-    Ok(views.html.confirmedmail.render())
+    Ok(views.html.setup.confirmedmail.render())
   }
 
 }
