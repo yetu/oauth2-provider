@@ -15,12 +15,13 @@
         </div>
     }
 
-    <form action="@com.yetu.oauth2provider.controllers.authentication.routes.Registration.handleSignUp(mailToken).absoluteURL(IdentityProvider.sslEnabled)"
+    <form action="@env.routes.handleSignUpUrl(mailToken)"
           class="form-horizontal"
           autocomplete= "off"
           method="POST"
     >
         <fieldset>
+            @CSRF.formField
             @if( UsernamePasswordProvider.withUserNameSupport ) {
                 @helper.inputText(
                     signUpForm("userName"),

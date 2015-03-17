@@ -17,7 +17,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "play" % "1.2.0" % "test, it",
   "org.scalacheck" %% "scalacheck" % "1.12.1" % "test, it",
 
-  "ws.securesocial" %% "securesocial" % "3.0-M1",
+  "ws.securesocial" %% "securesocial" % "master-SNAPSHOT",
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
 
   "net.adamcin.httpsig" % "httpsig-api" % "1.0.6",

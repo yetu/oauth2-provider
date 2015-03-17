@@ -1,11 +1,10 @@
-@(mailToken: String)(implicit request: RequestHeader, lang: Lang)
-@import securesocial.core.IdentityProvider
+@(mailToken: String)(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
 <html>
 <body>
 <p>Welcome to yetu.me!</p>
 <p> You just took the first step to discover a new world at home with yetu.me.</p>
 <p>
-    <a href="@com.yetu.oauth2provider.controllers.authentication.routes.Registration.signUp(mailToken).absoluteURL(IdentityProvider.sslEnabled)">Please follow this link to confirm and complete your registration.</a>
+    <a href="@env.routes.signUpUrl(mailToken)">Please follow this link to confirm and complete your registration.</a>
 </p>
 <p>After activating your account you will be able to start the discovery of a new world at home with yetu.me.
    <p>Best regards, your yetu team

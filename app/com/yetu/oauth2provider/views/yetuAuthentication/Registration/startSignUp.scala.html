@@ -13,11 +13,12 @@
     </div>
     }
 
-    <form action="@env.routes.signUpUrl"
+    <form action="@env.routes.handleStartSignUpUrl"
           class="form-horizontal"
           autocomplete="off" method="post"
     >
         <fieldset>
+            @CSRF.formField
             @helper.inputText(
             startForm("email"),
             '_label -> Messages("securesocial.signup.email1"),
