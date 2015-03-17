@@ -2,40 +2,40 @@
 # This file defines all application routes (Higher priority routes first)
 # ~~~~
 
-GET            /oauth2/authorize                  @com.yetu.oauth2provider.controllers.OAuth2Auth.authorizeUser
-POST           /oauth2/access_token               @com.yetu.oauth2provider.controllers.OAuth2Auth.accessToken
-GET            /oauth2/info                       @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.info
-GET            /oauth2/validate                   @com.yetu.oauth2provider.controllers.OAuth2Validation.validate
-GET            /oauth2/access_token_implicit      @com.yetu.oauth2provider.controllers.OAuth2Auth.accessTokenImplicit
-GET            /oauth2/certs                      com.yetu.oauth2provider.controllers.Certificates.certificates
+GET            /oauth2/authorize                    @com.yetu.oauth2provider.controllers.OAuth2Auth.authorizeUser
+POST           /oauth2/access_token                 @com.yetu.oauth2provider.controllers.OAuth2Auth.accessToken
+GET            /oauth2/info                         @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.info
+GET            /oauth2/validate                     @com.yetu.oauth2provider.controllers.OAuth2Validation.validate
+GET            /oauth2/access_token_implicit        @com.yetu.oauth2provider.controllers.OAuth2Auth.accessTokenImplicit
+GET            /oauth2/certs                        com.yetu.oauth2provider.controllers.Certificates.certificates
 
 
 ## Cors Access-Control-Allow-Headers
-OPTIONS        /*all                              com.yetu.oauth2resource.controllers.CrossOrigin.preflight(all: String)
+OPTIONS        /*all                                com.yetu.oauth2resource.controllers.CrossOrigin.preflight(all: String)
 
-POST           /profile                           @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.updateUserProfile
+POST           /profile                             @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.updateUserProfile
 
-POST           /keys                              @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.updateKey
-GET            /keys                              @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.viewKeys
+POST           /keys                                @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.updateKey
+GET            /keys                                @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.viewKeys
 
 #### permissions ####
-POST           /permissions                       @com.yetu.oauth2provider.controllers.OAuth2Auth.permissionsPost
+POST           /permissions                         @com.yetu.oauth2provider.controllers.OAuth2Auth.permissionsPost
 ####
 
 
 
 # Home page
-GET            /                                  @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.index
+GET            /                                    @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET            /assets/*file                      controllers.Assets.at(path="/public", file)
+GET            /assets/*file                        controllers.Assets.at(path="/public", file)
 
 
 # Health Check
-GET            /health                            com.yetu.oauth2provider.controllers.HealthCheck.check
+GET            /health                              com.yetu.oauth2provider.controllers.HealthCheck.check
 
 
-GET            /trustedEntity/profile             @com.yetu.oauth2provider.controllers.OAuth2TrustedServer.getUserProfile
+GET            /trustedEntity/profile               @com.yetu.oauth2provider.controllers.OAuth2TrustedServer.getUserProfile
 
 
 
@@ -45,39 +45,45 @@ GET            /trustedEntity/profile             @com.yetu.oauth2provider.contr
 
 
 # Login page
-GET            /login                             @com.yetu.oauth2provider.controllers.authentication.LoginPage.login
-GET            /logout                            @com.yetu.oauth2provider.controllers.authentication.LoginPage.logout
+GET            /login                               @com.yetu.oauth2provider.controllers.authentication.LoginPage.login
+GET            /logout                              @com.yetu.oauth2provider.controllers.authentication.LoginPage.logout
 
 # Registration routes
-GET            /signup                            @com.yetu.oauth2provider.controllers.authentication.Registration.startSignUp
-POST           /signup                            @com.yetu.oauth2provider.controllers.authentication.Registration.handleStartSignUp
-GET            /signup/:mailToken                 @com.yetu.oauth2provider.controllers.authentication.Registration.signUp(mailToken)
-POST           /signup/:mailToken                 @com.yetu.oauth2provider.controllers.authentication.Registration.handleSignUp(mailToken)
+GET            /signup                              @com.yetu.oauth2provider.controllers.authentication.Registration.startSignUp
+POST           /signup                              @com.yetu.oauth2provider.controllers.authentication.Registration.handleStartSignUp
+GET            /signup/:mailToken                   @com.yetu.oauth2provider.controllers.authentication.Registration.signUp(mailToken)
+POST           /signup/:mailToken                   @com.yetu.oauth2provider.controllers.authentication.Registration.handleSignUp(mailToken)
 
 # Reset password
-GET            /reset                             @com.yetu.oauth2provider.controllers.authentication.PasswordReset.startResetPassword
-POST           /reset                             @com.yetu.oauth2provider.controllers.authentication.PasswordReset.handleStartResetPassword
-GET            /reset/:mailToken                  @com.yetu.oauth2provider.controllers.authentication.PasswordReset.resetPassword(mailToken)
-POST           /reset/:mailToken                  @com.yetu.oauth2provider.controllers.authentication.PasswordReset.handleResetPassword(mailToken)
+GET            /reset                               @com.yetu.oauth2provider.controllers.authentication.PasswordReset.startResetPassword
+POST           /reset                               @com.yetu.oauth2provider.controllers.authentication.PasswordReset.handleStartResetPassword
+GET            /reset/:mailToken                    @com.yetu.oauth2provider.controllers.authentication.PasswordReset.resetPassword(mailToken)
+POST           /reset/:mailToken                    @com.yetu.oauth2provider.controllers.authentication.PasswordReset.handleResetPassword(mailToken)
 
 # Change Password
-GET            /password                          @com.yetu.oauth2provider.controllers.authentication.PasswordChange.page
-POST           /password                          @com.yetu.oauth2provider.controllers.authentication.PasswordChange.handlePasswordChange
+GET            /password                            @com.yetu.oauth2provider.controllers.authentication.PasswordChange.page
+POST           /password                            @com.yetu.oauth2provider.controllers.authentication.PasswordChange.handlePasswordChange
 
 
 # Authentication entry points for all providers
-GET            /authenticate/:provider            @com.yetu.oauth2provider.controllers.authentication.ProviderController.authenticate(provider, redirectTo: Option[String])
-POST           /authenticate/:provider            @com.yetu.oauth2provider.controllers.authentication.ProviderController.authenticateByPost(provider, redirectTo: Option[String])
+GET            /authenticate/:provider              @com.yetu.oauth2provider.controllers.authentication.ProviderController.authenticate(provider, redirectTo: Option[String])
+POST           /authenticate/:provider              @com.yetu.oauth2provider.controllers.authentication.ProviderController.authenticateByPost(provider, redirectTo: Option[String])
 
 
-POST           /api/authenticate/:provider        @com.yetu.oauth2provider.controllers.authentication.LoginApi.authenticate(provider, builder = "token")
+POST           /api/authenticate/:provider          @com.yetu.oauth2provider.controllers.authentication.LoginApi.authenticate(provider, builder = "token")
 
 #####################
 ##    setup      ####
 #####################
 
+# New registration page
+GET            /setup/registration                  com.yetu.oauth2provider.controllers.setup.SetupPage.registration
+
+# New confirm mail page
+GET            /setup/confirmmail                   com.yetu.oauth2provider.controllers.setup.SetupPage.confirmmail
+
+# New confirm mail page
+GET            /setup/confirmedmail                 com.yetu.oauth2provider.controllers.setup.SetupPage.confirmedmail
 
 # Download setup app
-GET            /setup/download                          com.yetu.oauth2provider.controllers.setup.DownloadPage.download
-
-
+GET            /setup/download                      com.yetu.oauth2provider.controllers.setup.SetupPage.download

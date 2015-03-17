@@ -35,15 +35,24 @@ body, html{
 
 h1{
 	font-weight: bold;
+  line-height: 110px;
+  margin: 0;
 }
 
-h2{
-    margin-top: 0;
+.logo{
+	background-image: url('../images/yetu_logo.svg');
+	width: 80px;
+	height: 80px;
+	top: 15px;
+	right: 15px;
+	position: absolute;
 }
 
 header{
 	margin: 0 auto;
 	width: 80%;
+	height: 110px;
+	display: flex;
 }
 
 .steps{
@@ -55,30 +64,46 @@ header{
 .steplist{
 	list-style-type: none;
 	list-style: none;
-	margin-left: 0;
+	margin: 0;
 	padding-left: 0;
 }
 
 .step{
-	background: #666666;
-	color: #ffffff;
-	width: 33.33%;
-	height: 50px;
+	width: 33.15%;
+	height: 40px;
 	float: left;
 	text-align: center;
-	line-height: 50px;
+	line-height: 40px;
 	vertical-align: middle;
+	border: 1px solid #666666;
+	border-left: none;
+	font-size: 20px;
+}
+
+.step.active {
+	color: #ffffff;
+	background: #666666;
+  text-align: center;
 }
 
 .content{
-	width: 80%;
 	margin: 0 auto;
+	background-image: url('../images/background-04.png');
+	background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.content > .steps{
+	margin: auto;
+	height: auto;
+	padding-top: 70px;
+	padding-bottom: 100px;
 }
 
 .left{
 	float: left;
-	width: 45%;
-	padding: 50px;
+	width: 40%;
+	padding-left: 10%;
 }
 
 .left__content {
@@ -104,21 +129,36 @@ header{
     visibility: hidden;
 }
 
+.button{
+    background: blue;
+    text-transform: uppercase;
+    padding: 10px 5%;
+    color: #ffffff;
+}
+
 .left__content-download{
 	display: none;
-	background: blue;
-	text-transform: uppercase;
-	padding: 10px 5%;
-	width: 45%;
-	color: #ffffff;
-	margin-bottom: 10px;
-	text-align: center;
+  background-color: rgb(0,152,72);
+  text-transform: uppercase;
+  padding: 10px 5%;
+	margin-left: 25%;
+  width: 45%;
+  color: #ffffff;
+  font-size: 18px;
+  text-align: center;
+  text-decoration: none;
+  box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
 }
 
 .left__content-faq{
 	display: block;
-	width: 55%;
-	text-align: center;
+  color: rgb(0,152,72);
+  text-decoration: none;
+  font-size: 20px;
+  width: 55%;
+  margin-top: 50px;
+  margin-left: 25%;
+  text-align: center;
 }
 
 .left__content-info{
@@ -146,18 +186,37 @@ header{
 }
 
 .right{
-	padding-top: 50px;
-	width: 40%;
-	margin-left: 55.01%
+	margin-left: 55%;
 }
 
 .right__gateway-img{
-	width: 95%;
-	margin: 0 auto;
+	width: 400px;
+  height: 340px;
+  margin: 0px;
+  padding: 0px;
+  background-image: url('../images/TV_connection-01.svg');
+  background-color: white;
+  background-repeat: no-repeat;
+  background-size: 300px;
+  background-position: 15px 15px;
+  box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+}
+
+.right__gateway-text{
+	padding-top: 240px;
+  padding-left: 40px;
+  padding-right: 40px;
+  margin: 0;
+}
+
+.bumper{
+	height: 300px;
 }
 
 .full{
-    display: none;
+	display: none;
+	margin: 0 auto;
+  width: 80%;
 }
 .full__headline{
     margin: 50px 50px 20px 50px;
@@ -192,17 +251,21 @@ header{
 footer{
 	width: 100%;
 	height: 50px;
-	background: #949494;
+	background: white;
 	line-height: 50px;
 	vertical-align: middle;
 	text-align: center;
-	color: #ffffff;
-    position: fixed;
-    bottom: 0;
-    clear:both;
+	color: rgb(0,152,72);
+	position: fixed;
+	bottom: 0;
+	clear:both;
 }
 footer .dot{
 	padding: 0 5px;
+}
+footer a{
+	text-decoration: none;
+	color: rgb(0,152,72);
 }
 footer a:hover{
 	color: #006600;

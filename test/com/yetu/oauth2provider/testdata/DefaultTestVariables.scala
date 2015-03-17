@@ -8,6 +8,8 @@ import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import play.api.libs.json.Json
+import play.api.test.FakeRequest
+import play.api.test.Helpers._
 import securesocial.core.{ PasswordInfo, AuthenticationMethod }
 
 import scalaoauth2.provider.{ AccessToken, AuthInfo }
@@ -34,6 +36,10 @@ trait DefaultTestVariables {
 
   val updateUrl = "/profile"
   val healthUrl = "/health"
+  val setupRegistrationUrl = "/setup/registration"
+  val setupConfirmMailUrl = "/setup/confirmmail"
+  val setupConfirmedMailUrl = "/setup/confirmedmail"
+  val setupDownloadUrl = "/setup/download"
 
   val validateUrl = "/oauth2/validate"
   val infoUrl = "/oauth2/info"

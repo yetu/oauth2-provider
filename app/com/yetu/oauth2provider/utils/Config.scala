@@ -100,5 +100,10 @@ object Config {
     lazy val discardingCookie: DiscardingCookie = DiscardingCookie(cookieName, cookiePath, cookieDomain, cookieSecure)
   }
 
+  object FrontendConfiguration {
+    lazy val setupDownloadUrlMac = Play.configuration.getString("frontendConfig.setupDownloadUrlMac").get
+    lazy val setupDownloadUrlWin = Play.configuration.getString("frontendConfig.setupDownloadUrlWin").get
+  }
+
 }
 

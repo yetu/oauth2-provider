@@ -1,0 +1,13 @@
+.left{
+    width: 35%;
+    padding: 5%;
+}
+.left__img{
+    width: 100%;
+    height: 300px;
+}
+.right{
+    padding: 5% 0 5% 5%;
+    margin-left: 40%;
+    width: 55%;
+}

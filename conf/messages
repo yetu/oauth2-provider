@@ -90,7 +90,6 @@ check.reset=reset
 
 #Setup page
 setup.headline=yetu setup
-setup.subheadline=Setting up the yetu experience only takes some quick and easy steps:
 setup.steps.one=1. Register at yetu
 setup.steps.two=2. Verify your e-mail address
 setup.steps.three=3. Download Gateway Setup App
@@ -98,15 +97,50 @@ setup.footer.copyright=&copy; 2015 yetu AG
 setup.footer.privacy=Privacy Policy
 setup.footer.imprint=Imprint
 setup.footer.terms=Terms &amp; conditions
+setup.next=next &gt;
+
+#setup registration page
+setup.registration.register=Register at yetu
+setup.registration.already=Already registered?
+setup.registration.hint=all fields are mandatory
+setup.registration.firstname=First name
+setup.registration.lastname=Last name
+setup.registration.email=E-mail
+setup.registration.emailplaceholder=this email will be your username
+setup.registration.password=Password
+setup.registration.passwordplaceholder=new password for yetu login
+setup.registration.repeatpassword=Repeat password
+setup.registration.repeatpasswordplaceholder=repeat new password for yetu login
+setup.registration.terms=I accept the
+setup.registration.termslink=terms &amp; conditions
+setup.registration.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly. Just click "next".
+
+setup.registration.error.firstname=Please use only characters for your first name.
+setup.registration.error.lastname=Please use only characters for your last name.
+setup.registration.error.email=Your E-mail address is not valid. Please add another one.
+setup.registration.error.password=Your password has to have at least 8 characters. Furthermore there must be at least \
+  one upper, one lower case letter, one digit and one special character.
+setup.registration.error.passwordnotsame=Your password and the repeated password are not the same.
+setup.registration.error.terms=Please read the terms &amp; conditions and mark, that you have done this.
+
+#setup mail confirm page
+setup.confirmmail.headline=Check yout email inbox and click in the registration link to proceed.
+setup.confirmmail.description=We just sent you an email to the email address you provided. Please check it, and click\
+   in the link provided in the email to verify your email address and allow the creation of your yetu account.
+
+#setup mail confirmed page
+setup.confirmedmail.headline=Your e-mail has been verified and your yetu account is created
+setup.confirmedmail.description=You can proceed to next step now.
 
 #setup download page
 setup.download.headline=Download Gateway Setup App
 
 setup.download.description=Your yetu username and password will be asked in the setup\
    process. With this App you will be able to link your yetu account to your gateway and enjoy an extended yetu experience, adding your home devices.
-setup.download.button.mac=download gateway setup app (mac os x, 85 mb)
-setup.download.button.win=download gateway setup app (windows, 85 mb)
+setup.download.button.mac=download gateway setup app (mac os x, 31 mb)
+setup.download.button.win=download gateway setup app (windows, 26 mb)
 setup.download.faq=FAQ: Problems with installation?
+setup.download.connect=If you have a TV, please place your gateway next to it and connect it via the HDMI cable (included),before you start the setup process on your computer.
 
 setup.download.notavailable.descriptionone=Unfortunately your OS does not support the Setup App:
 setup.download.notavailable.descriptiontwo=The reason is related to...

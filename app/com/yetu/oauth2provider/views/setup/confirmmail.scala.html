@@ -1,0 +1,33 @@
+@import com.yetu.oauth2provider.views
+<!DOCTYPE html>
+
+<html>
+	<head>
+			<title>Confirm e-mail</title>
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmmail.css")">
+			<link rel="shortcut icon" type="image/png" href="">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<body>
+		@views.html.setup.header()
+		<div class="steps">
+			<ul class="steplist">
+				<li class="step active">@Messages("setup.steps.one")</li>
+				<li class="step active">@Messages("setup.steps.two")</li>
+				<li class="step">@Messages("setup.steps.three")</li>
+			</ul>
+		</div>
+		<div class="content">
+            <div class="left">
+                <img class="left__img" href="" alt="E-Mail content"/>
+            </div>
+            <div class="right">
+                <h2>@Messages("setup.confirmmail.headline")</h2>
+                <p>@Messages("setup.confirmmail.description")</p>
+            </div>
+            <div class="clear"></div>
+		</div>
+		@views.html.setup.footer()
+	</body>
+</html>
