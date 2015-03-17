@@ -35,6 +35,7 @@ libraryDependencies ++= Seq(
   "com.plasmaconduit" %% "jws" % "0.12.0",
   "com.plasmaconduit" %% "jwt" % "0.9.0"
 )
+libraryDependencies += filters
 
 resolvers += Resolver.sonatypeRepo("snapshots")
 
