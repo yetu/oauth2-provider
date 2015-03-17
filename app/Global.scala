@@ -1,8 +1,10 @@
 import com.softwaremill.macwire.{ Macwire, Wired }
 import com.yetu.oauth2provider.registry.ControllerRegistry
-import com.yetu.oauth2provider.utils.CorsFilter
+import com.yetu.oauth2provider.utils.{ Config, CorsFilter }
 import play.api.GlobalSettings
 import play.api.mvc.EssentialAction
+
+import com.yetu.oauth2provider.registry._
 
 object Global extends GlobalSettings with Macwire {
 
@@ -23,7 +25,17 @@ object Global extends GlobalSettings with Macwire {
   //    instance.getOrElse(super.getControllerInstance(controllerClass))
   //  }
 
-  private val diRegistry: Wired = wiredInModule(ControllerRegistry)
+  private val diRegistry: Wired = {
+    Config.databaseToUse match {
+      case "ldap" => {
+        wiredInModule(LdapControllerRegistry)
+      }
+      case _ => {
+        // clients and people in Memory
+        wiredInModule(MemoryControllerRegistry)
+      }
+    }
+  }
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {
     diRegistry.lookupSingleOrThrow(controllerClass)

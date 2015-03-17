@@ -61,4 +61,5 @@ trait ControllerRegistry extends AuthenticationControllerRegistry with Authoriza
   lazy val oAuth2Auth = wire[OAuth2Auth]
 }
 
-object ControllerRegistry extends ControllerRegistry
+object LdapControllerRegistry extends ControllerRegistry with LdapDataServices
+object MemoryControllerRegistry extends ControllerRegistry with InMemoryDataServices

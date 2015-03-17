@@ -9,6 +9,7 @@ import play.api.Play
 import play.api.mvc.DiscardingCookie
 
 import org.joda.time.DateTimeConstants.MILLIS_PER_SECOND
+
 object Config {
 
   lazy val minimumStateLength = Play.configuration.getInt("authorize.state.minLength").get
@@ -104,6 +105,9 @@ object Config {
     lazy val setupDownloadUrlMac = Play.configuration.getString("frontendConfig.setupDownloadUrlMac").get
     lazy val setupDownloadUrlWin = Play.configuration.getString("frontendConfig.setupDownloadUrlWin").get
   }
+
+  val configWithoutStartedApplication = ConfigFactory.load()
+  lazy val databaseToUse = configWithoutStartedApplication.getString("databaseToUse")
 
 }
 

@@ -4,7 +4,6 @@ import java.io.File
 import java.util.{ TimeZone, GregorianCalendar }
 
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
-import com.yetu.oauth2provider.registry.ServicesRegistry
 import com.yetu.oauth2provider.signature.SignatureHelper._
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.Config._
