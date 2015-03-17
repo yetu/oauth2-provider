@@ -28,11 +28,11 @@ class YetuViewTemplates(env: RuntimeEnvironment[_]) extends ViewTemplates {
     }
   }
 
-  override def getSignUpPage(form: Form[RegistrationInfo], token: String)(implicit request: RequestHeader, lang: Lang): Html = {
-    views.html.yetuAuthentication.Registration.signUp(form, token)(request, lang, env)
+  override def getSignUpPage()(implicit request: RequestHeader, lang: Lang): Html = {
+    views.html.yetuAuthentication.Registration.signUp()(request, lang, env)
   }
 
-  override def getStartSignUpPage(form: Form[String])(implicit request: RequestHeader, lang: Lang): Html = {
+  override def getStartSignUpPage(form: Form[RegistrationInfo])(implicit request: RequestHeader, lang: Lang): Html = {
     views.html.yetuAuthentication.Registration.startSignUp(form)(request, lang, env)
   }
 

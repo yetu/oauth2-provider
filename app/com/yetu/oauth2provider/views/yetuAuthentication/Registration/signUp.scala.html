@@ -1,6 +1,4 @@
-@(signUpForm:Form[securesocial.controllers.RegistrationInfo], mailToken: String)(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
-@import securesocial.core.providers.UsernamePasswordProvider
-@import securesocial.core.IdentityProvider
+@()(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
 
@@ -8,57 +6,4 @@
     <div class="page-header">
         <h1>@Messages("securesocial.signup.title")</h1>
     </div>
-
-    @request.flash.get("error").map { msg =>
-        <div class="alert alert-error">
-            @msg
-        </div>
-    }
-
-    <form action="@env.routes.handleSignUpUrl(mailToken)"
-          class="form-horizontal"
-          autocomplete= "off"
-          method="POST"
-    >
-        <fieldset>
-            @CSRF.formField
-            @if( UsernamePasswordProvider.withUserNameSupport ) {
-                @helper.inputText(
-                    signUpForm("userName"),
-                    '_label -> Messages("securesocial.signup.username"),
-                    'class -> "input-xlarge"
-                )
-            }
-
-            @helper.inputText(
-                signUpForm("firstName"),
-                '_label -> Messages("securesocial.signup.firstName"),
-                'class -> "input-xlarge"
-            )
-
-            @helper.inputText(
-                signUpForm("lastName"),
-                '_label -> Messages("securesocial.signup.lastName"),
-                'class -> "input-xlarge"
-            )
-
-            @helper.inputPassword(
-                signUpForm("password.password1"),
-                '_label -> Messages("securesocial.signup.password1"),
-                'class -> "input-xlarge"
-            )
-
-            @helper.inputPassword(
-                signUpForm("password.password2"),
-                '_label -> Messages("securesocial.signup.password2"),
-                '_error -> signUpForm.error("password"),
-                'class -> "input-xlarge"
-            )
-
-            <div class="form-actions">
-                <button type="submit" class="btn btn-primary">@Messages("securesocial.signup.createAccount")</button>
-                <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.signup.cancel")</a>
-            </div>
-        </fieldset>
-    </form>
 }

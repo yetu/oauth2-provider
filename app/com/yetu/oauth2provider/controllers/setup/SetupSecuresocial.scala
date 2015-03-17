@@ -24,34 +24,4 @@ import scala.concurrent.{ Await, Future }
  */
 class Registration(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser] {
 
-  override def handleStartSignUp = CSRFCheck {
-    Action.async {
-      implicit request =>
-        startForm.bindFromRequest.fold(
-          errors => {
-            Future.successful(BadRequest(env.viewTemplates.getStartSignUpPage(errors)))
-          },
-          e => {
-            val email = e.toLowerCase
-            // check if there is already an account for this email address
-            env.userService.findByEmailAndProvider(email, UsernamePasswordProvider.UsernamePassword).map {
-              maybeUser =>
-                maybeUser match {
-                  case Some(user) =>
-                    // user signed up already, send an email offering to login/recover password
-                    env.mailer.sendAlreadyRegisteredEmail(user)
-                  case None =>
-                    createToken(email, isSignUp = true).flatMap { token =>
-                      env.mailer.sendSignUpEmail(email, token.uuid)
-                      env.userService.saveToken(token)
-                    }
-                  //here you need to save userdata too
-                }
-                handleStartResult().flashing(Success -> Messages("securesocial.signup.thankYouCheckEmail"), Email -> email)
-            }
-          }
-        )
-    }
-  }
-
 }

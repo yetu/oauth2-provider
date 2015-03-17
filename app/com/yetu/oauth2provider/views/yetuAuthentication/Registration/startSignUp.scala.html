@@ -1,4 +1,6 @@
-@(startForm:Form[String])(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
+@(startForm:Form[securesocial.controllers.RegistrationInfo])(implicit request: RequestHeader, lang: Lang, env:
+securesocial.core
+.RuntimeEnvironment[_])
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
 
@@ -25,8 +27,35 @@
             'class -> "input-xlarge"
             )
 
+            @helper.inputText(
+                startForm("firstName"),
+                '_label -> Messages("securesocial.signup.firstName"),
+                'class -> "input-xlarge"
+            )
+
+            @helper.inputText(
+                startForm("lastName"),
+                '_label -> Messages("securesocial.signup.lastName"),
+                'class -> "input-xlarge"
+            )
+
+            @helper.inputPassword(
+                startForm("password.password1"),
+                '_label -> Messages("securesocial.signup.password1"),
+                'class -> "input-xlarge"
+            )
+
+            @helper.inputPassword(
+                startForm("password.password2"),
+                '_label -> Messages("securesocial.signup.password2"),
+                '_error -> startForm.error("password"),
+                'class -> "input-xlarge"
+            )
+
             <div class="form-actions">
-                <button type="submit" class="btn btn-primary">@Messages("securesocial.signup.createAccount")</button>
+                <button id="submitbutton" type="submit" class="btn btn-primary">@Messages("securesocial.signup" +
+                        ".createAccount")
+                </button>
                 <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.signup.cancel")</a>
             </div>
 
