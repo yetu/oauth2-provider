@@ -1,16 +1,17 @@
 package com.yetu.oauth2provider.routes
 
-import com.yetu.oauth2provider.base.BaseRoutesSpec
+import com.yetu.oauth2provider.base.{ AuthRoutesHelper, BaseRoutesSpec }
 import play.api.mvc.Result
 import play.api.test.FakeRequest
 import play.api.test.Helpers._
+import views.html.helper.CSRF
 
 import scala.concurrent.Future
 
 /**
  * Created by elisahilprecht on 16/03/15.
  */
-class SetupSpec extends BaseRoutesSpec {
+class SetupSpec extends BaseRoutesSpec with AuthRoutesHelper {
 
   def requestReturnOk(urlRequest: String): Future[Result] = {
     val Some(result) = route(FakeRequest(GET, urlRequest))
@@ -36,4 +37,33 @@ class SetupSpec extends BaseRoutesSpec {
       contentAsString(result) must include("<title>Download</title>")
     }
   }
+
+  //  "registration controller" must {
+  //
+  //
+  //
+  //    s"POST on $signupUrl" in {
+  //
+  //
+  //      val htmlSignupPage = requestReturnOk(signupUrl)
+  //      val x = contentAsString(htmlSignupPage)
+  //      val y = x.split("<input type=\"hidden\" name=\"csrfToken\" value=\"").toList
+  //      val csrfToken = y.tail.head.split("\"/>").toList.head
+  //      log(csrfToken)
+  //
+  //
+  //      val parameters = Map(
+  //        "csrfToken" -> Seq(csrfToken),
+  //        "firstName" -> Seq("testFirstName"),
+  //        "lastName" -> Seq("testLastName"),
+  //        "email" -> Seq("email@email.email"),
+  //        "password.password1" -> Seq("password"),
+  //        "password.password2" -> Seq("password")
+  //      )
+  //      val result = postRequest(signupUrl, parameters)
+  //      status(result) mustEqual SEE_OTHER
+  //
+  //    }
+  //
+  //  }
 }

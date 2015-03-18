@@ -53,12 +53,9 @@ trait ImplicitGrantFlow extends AccessTokenRetriever with MustMatchers {
     }
 
     val accessToken = extractUrlParam("access_token", redirectUrlWithCode).get
-    println("accessToken in", accessToken)
 
     val expiresIn = extractUrlParam("expires_in", redirectUrlWithCode).get
-    println("Expiers in", expiresIn)
     val state = extractUrlParam("state", redirectUrlWithCode).get
-    println(s"State $state")
 
     expiresIn must not be 'empty
     state mustEqual testStateParameter
