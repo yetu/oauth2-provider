@@ -16,6 +16,7 @@ securesocial.login.fullstop=.
 
 # Sign up page
 securesocial.signup.title=Registrierung
+securesocial.signup.success.title=Registrierung war erfolgreich
 securesocial.signup.username=Benutzername
 securesocial.signup.firstName=Vorname
 securesocial.signup.lastName=Nachname

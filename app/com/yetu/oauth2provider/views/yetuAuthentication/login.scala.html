@@ -6,11 +6,11 @@
 @main(Messages("securesocial.login.title")) {
     <div class="page-header">
       @if(registering){
-        <h1>@Messages("securesocial.signup.title")</h1>
+        <h1 name="confirmmail">@Messages("securesocial.signup.title")</h1>
       } else { @if(passwordReset){
       <h1>@Messages("securesocial.password.title")</h1>
       } else{
-        <h1>@Messages("securesocial.login.title")</h1>
+        <h1 name="login">@Messages("securesocial.login.title")</h1>
       }}
     </div>
 

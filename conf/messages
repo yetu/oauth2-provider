@@ -26,6 +26,7 @@ securesocial.login.fullstop=.
 
 # Sign up page
 securesocial.signup.title=Sign Up
+securesocial.signup.success.title=Sign Up was successful
 securesocial.signup.username=Username
 securesocial.signup.firstName=First Name
 securesocial.signup.lastName=Last Name
@@ -41,7 +42,6 @@ securesocial.signup.thankYouCheckEmail=Thank you. Please check your E-Mail for f
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.  You can log in now.
 securesocial.signup.invalidPassword=Enter at least {0} characters.
-
 
 
 

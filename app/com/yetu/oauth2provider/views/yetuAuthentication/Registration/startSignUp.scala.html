@@ -6,7 +6,7 @@ securesocial.core
 
 @com.yetu.oauth2provider.views.html.yetuAuthentication.main( Messages("securesocial.signup.title") ) {
     <div class="page-header">
-        <h1>@Messages("securesocial.signup.title")</h1>
+        <h1 name="signup">@Messages("securesocial.signup.title")</h1>
     </div>
 
     @request.flash.get("error").map { msg =>
@@ -53,7 +53,7 @@ securesocial.core
             )
 
             <div class="form-actions">
-                <button id="submitbutton" type="submit" class="btn btn-primary">@Messages("securesocial.signup" +
+                <button type="submit" class="btn btn-primary">@Messages("securesocial.signup" +
                         ".createAccount")
                 </button>
                 <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.signup.cancel")</a>
