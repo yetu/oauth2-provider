@@ -1,8 +1,9 @@
 package com.yetu.oauth2provider.browser
 
-import com.yetu.oauth2provider.base.{BaseMethods, TestGlobal}
-import com.yetu.oauth2provider.services.data.MemoryMailTokenService
-import org.scalatestplus.play.{HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec}
+import com.yetu.oauth2provider.base.{ BaseMethods, TestGlobal }
+import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
+import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
 
@@ -14,7 +15,16 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
   implicit override lazy val app: FakeApplication =
     FakeApplication(
       withGlobal = Some(TestGlobal),
-      additionalConfiguration = Map("securesocial.ssl" -> "false"))
+      additionalConfiguration = Map(
+        "securesocial.ssl" -> "false",
+        "smtp.mock" -> "true",
+        "smtp.host" -> "test.gmail.com",
+        "smtp.port" -> "587",
+        "smtp.ssl" -> "false",
+        "smtp.user" -> "test@test.com",
+        "smtp.password" -> "test",
+        "smtp.from" -> "test@yetu.me"
+      ))
 
   lazy val password = "password"
   lazy val email = "test@test.de"
@@ -48,7 +58,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
   }
 
   "Registration page without gateway" must {
-    "open $signupUrl when clicking on confirm button" in {
+    "open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
       clearMailTokensInMemory
 
       //registration
@@ -63,6 +73,12 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       val token = getMailTokenFromMemory
       go to (s"http://localhost:$port$signupUrl/$token")
       find(name("signupsuccess")) must be ('defined)
+
+      log("check if user is added to MemoryPersonService")
+      log(s"${MemoryPersonService.users}")
+      val user: Option[YetuUser] = personService.findYetuUser(email)
+      user must be ('defined)
+
     }
     "still open signup page when passing a wrong token for confirming email" in {
       val wrongToken = "fdjsbr";
@@ -99,9 +115,10 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       pressKeys(password)
       click on password2InputField.value
       pressKeys(password)
-      log(pageSource)
 
       click on find(tagName("button")).value
+
+      log(pageSource)
     }
   }
 }

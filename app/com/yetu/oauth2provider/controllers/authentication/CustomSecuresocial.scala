@@ -8,12 +8,7 @@ import securesocial.core.services.RoutesService
 
 class LoginApi(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginApi[YetuUser]
 
-class Registration(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser] {
-  override def signUp(token: String) = {
-    handleSignUp(token)
-    super.signUp(token)
-  }
-}
+class Registration(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser]
 
 class PasswordReset(implicit override val env: RuntimeEnvironment[YetuUser]) extends BasePasswordReset[YetuUser]
 

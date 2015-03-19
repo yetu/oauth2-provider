@@ -48,6 +48,7 @@ class MemoryPersonService extends IPersonService {
   }
 
   def save(user: BasicProfile, mode: SaveMode): Future[YetuUser] = {
+    logger.info("Saving user starts")
     Future.successful {
       val userToReturn: YetuUser = mode match {
         case SaveMode.SignUp => {
