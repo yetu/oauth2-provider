@@ -1,16 +1,15 @@
-package com.yetu.oauth2provider.integration
+package com.yetu.oauth2provider.browser
 
-import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
+import com.yetu.oauth2provider.base.{BaseMethods, TestGlobal}
 import com.yetu.oauth2provider.services.data.MemoryMailTokenService
-import org.scalatest.selenium.WebBrowser.click
-import org.scalatestplus.play.{ OneServerPerSuite, OneBrowserPerSuite, HtmlUnitFactory, PlaySpec }
+import org.scalatestplus.play.{HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec}
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
 
 /**
  * Created by elisahilprecht on 16/03/15.
  */
-class IntegrationSetupSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory with BaseMethods {
+class BrowserSetupSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory with BaseMethods {
 
   implicit override lazy val app: FakeApplication =
     FakeApplication(
