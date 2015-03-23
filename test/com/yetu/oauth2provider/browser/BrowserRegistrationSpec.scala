@@ -11,9 +11,6 @@ import securesocial.core.providers.MailToken
 import scala.concurrent.{ Await, Future }
 import scala.concurrent.duration._
 
-/**
- * Created by elisahilprecht on 16/03/15.
- */
 class BrowserRegistrationSpec extends BrowserBaseSpec {
 
   def register(password: String, email: String) = {
@@ -59,6 +56,9 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       log("confirming email")
       val token = getMailTokenFromMemory
       go to (s"http://localhost:$port$signupUrl/$token")
+      log("--------TOKEN PAGE:")
+      log(pageSource)
+      log("--------TOKEN PAGE END")
       find(name("signupsuccess")) must be ('defined)
 
       log("check if user is added to MemoryPersonService")
@@ -81,14 +81,6 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       log("create user")
       personService.addNewUser(testUser)
 
-      //      val user: Option[YetuUser] = personService.findYetuUser(email)
-      //      user must be ('defined)
-      //        val user: Future[Option[BasicProfile]] = personService.findByEmailAndProvider(email, "userpass")
-      //
-      //        val userResult: Option[BasicProfile] = Await.result(user,1000 millis)
-      //
-      //        userResult must be ('defined)
-
       //start password reset
       log("request change pw")
       go to (s"http://localhost:$port" + passwordResetUrl)
@@ -101,8 +93,9 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       //password reset
       log("do password change")
       val token = getMailTokenFromMemory
+
       go to (s"http://localhost:$port$passwordResetUrl/$token")
-      log(pageSource)
+
       find(name("pwreset")) must be ('defined)
       val password1InputField = find(name("password.password1"))
       val password2InputField = find(name("password.password2"))
@@ -111,9 +104,12 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       click on password2InputField.value
       pressKeys(browserTestUserPassword)
 
+      log("_________before_________")
+      log(pageSource)
       click on find(tagName("button")).value
-
-//      find(name("login")) must be ('defined)
+      log("_________after:_________")
+      log(pageSource)
+      find(name("login")) must be ('defined)
     }
   }
 }
