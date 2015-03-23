@@ -8,6 +8,8 @@ name := "oauth2provider"
 
 organization := "com.yetu"
 
+resolvers += Resolver.bintrayRepo("yetu", "maven")
+
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).configs(IntegrationTest)
 
 pipelineStages := Seq(digest, gzip)
@@ -17,7 +19,8 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "play" % "1.2.0" % "test, it",
   "org.scalacheck" %% "scalacheck" % "1.12.1" % "test, it",
 
-  "ws.securesocial" %% "securesocial" % "master-SNAPSHOT",
+  "com.yetu" %% "securesocial" % "3.0.2",
+
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
 
   "net.adamcin.httpsig" % "httpsig-api" % "1.0.6",
