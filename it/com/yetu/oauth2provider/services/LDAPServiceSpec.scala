@@ -4,6 +4,7 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ClientPermission, IdentityId, OAuth2Client, YetuUser}
 import com.yetu.oauth2provider.registry.{IntegrationTestRegistry}
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
+import com.yetu.oauth2provider.testdata.DefaultTestVariables
 import com.yetu.oauth2provider.utils.DateUtility._
 import org.joda.time.DateTime
 import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
@@ -24,9 +25,7 @@ import securesocial.core.{AuthenticationMethod, PasswordInfo}
  * }
  *
  */
-class LDAPServiceSpec extends PlaySpec with OneAppPerSuite with IntegrationTestRegistry {
-
-  val testUser = YetuUser(IdentityId("testuser@test.test", "userpass"), "5d64e6dc-aaaa-4e91-b463-d15qweq25daf95", "firstname", "lastname", "firstname lastname as fullname", Some("test@test.test222"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)))
+class LDAPServiceSpec extends PlaySpec with OneAppPerSuite with IntegrationTestRegistry with DefaultTestVariables {
 
   "The LDAP user service" must {
     "store and retrieve a user " in {

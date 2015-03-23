@@ -13,19 +13,18 @@ import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
 class ScopeServiceSpec extends BaseSpec {
 
   "Scope service" must {
-    val testEmail = "test@test.test"
     val testUid = "adhyuah-4564-afdsgf-435"
     val testFirstName = "peter"
     val testLastName = "parker"
     val testRegistrationDate = DateTime.now().toDate
-    val testUser = YetuUser(IdentityId(testEmail, "userpass"), testUid, testFirstName, testLastName, testFirstName + " " + testLastName, Some(testEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)), Some(testRegistrationDate))
+    val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), testUid, testFirstName, testLastName, testFirstName + " " + testLastName, Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)), Some(testRegistrationDate))
 
     "return an id and an email for scope basic" in {
       val result = scopeService.getInfoByScope(testUser, Config.SCOPE_BASIC)
       result match {
         case Some(User(Some(userId), _, _, Some(email), _, _, _, _)) =>
           userId mustEqual testUid
-          email mustEqual testEmail
+          email mustEqual testUserEmail
         case _ => fail()
       }
     }
@@ -37,7 +36,7 @@ class ScopeServiceSpec extends BaseSpec {
           userId mustEqual testUid
           firstName mustEqual testFirstName
           lastName mustEqual testLastName
-          email mustEqual testEmail
+          email mustEqual testUserEmail
           registrationDate mustEqual DateUtility.dateToString(testRegistrationDate)
         case _ => fail()
       }
@@ -67,7 +66,7 @@ class ScopeServiceSpec extends BaseSpec {
           userId mustEqual testUid
           firstName mustEqual testFirstName
           lastName mustEqual testLastName
-          email mustEqual testEmail
+          email mustEqual testUserEmail
           registrationDate mustEqual DateUtility.dateToString(testRegistrationDate)
         case _ => fail()
       }
