@@ -5,7 +5,11 @@ import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
 import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
 import play.api.test.FakeApplication
+import securesocial.core.BasicProfile
 import securesocial.core.providers.MailToken
+
+import scala.concurrent.{ Await, Future }
+import scala.concurrent.duration._
 
 /**
  * Created by elisahilprecht on 16/03/15.
@@ -75,7 +79,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       find(name("signupsuccess")) must be ('defined)
 
       log("check if user is added to MemoryPersonService")
-      log(s"${MemoryPersonService.users}")
+      //log(s"${MemoryPersonService.users}")
       val user: Option[YetuUser] = personService.findYetuUser(email)
       user must be ('defined)
 
@@ -94,6 +98,14 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       log("create user")
       personService.addNewUser(testUser)
 
+      //      val user: Option[YetuUser] = personService.findYetuUser(email)
+      //      user must be ('defined)
+      //        val user: Future[Option[BasicProfile]] = personService.findByEmailAndProvider(email, "userpass")
+      //
+      //        val userResult: Option[BasicProfile] = Await.result(user,1000 millis)
+      //
+      //        userResult must be ('defined)
+
       //start password reset
       log("request change pw")
       go to (s"http://localhost:$port" + passwordResetUrl)
@@ -108,6 +120,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       val token = getMailTokenFromMemory
       val url = s"http://localhost:$port$passwordResetUrl/$token"
       go to (s"http://localhost:$port$passwordResetUrl/$token")
+      log(pageSource)
       find(name("pwreset")) must be ('defined)
       val password1InputField = find(name("password.password1"));
       val password2InputField = find(name("password.password2"));
@@ -118,7 +131,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
 
       click on find(tagName("button")).value
 
-      log(pageSource)
+      //      find(name("login")) must be ('defined)
     }
   }
 }

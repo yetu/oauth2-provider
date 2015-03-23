@@ -4,6 +4,7 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUserHelper, IdentityId, YetuUser }
 import com.yetu.oauth2provider.services.data.iface.{ IPersonService, IPermissionService }
 import com.yetu.oauth2provider.utils.UUIDGenerator
+import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.Results._
@@ -48,7 +49,7 @@ class MemoryPersonService extends IPersonService {
   }
 
   def save(user: BasicProfile, mode: SaveMode): Future[YetuUser] = {
-    logger.info("Saving user starts")
+    logger.debug(s"Save user $user")
     Future.successful {
       val userToReturn: YetuUser = mode match {
         case SaveMode.SignUp => {
@@ -56,6 +57,17 @@ class MemoryPersonService extends IPersonService {
           logger.debug(s"saving user $newUser")
           addNewUser(newUser)
           newUser
+        }
+        case SaveMode.PasswordChange => {
+          //implement password change based on save method on ldap to make test for reset pw working
+          //WIP
+          val newUser = findYetuUser(user.userId).get
+          logger.debug(s"Reset pw of user $newUser")
+          val userFuture = passwordInfoFor(newUser).map(
+            x => users += user.userId -> newUser.copy(passwordInfo = x)
+          )
+          logger.debug(s"New user is result of this $userFuture")
+          findYetuUser(user.userId).get //TODO: change this? Prone to Nullpointer Exceptions
         }
         case _ =>
           logger.warn("not saving as signUp; ignoring request.")
