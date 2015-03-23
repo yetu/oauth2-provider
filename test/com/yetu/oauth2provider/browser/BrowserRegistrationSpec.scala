@@ -93,7 +93,7 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       log("request change pw")
       go to (s"http://localhost:$port" + passwordResetUrl)
       find(name("startpwreset")) must be ('defined)
-      var emailInputField = find(name("email"))
+      val emailInputField = find(name("email"))
       click on emailInputField.value
       pressKeys(testUserEmail)
       click on find(tagName("button")).value
@@ -101,12 +101,11 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       //password reset
       log("do password change")
       val token = getMailTokenFromMemory
-      val url = s"http://localhost:$port$passwordResetUrl/$token"
       go to (s"http://localhost:$port$passwordResetUrl/$token")
       log(pageSource)
       find(name("pwreset")) must be ('defined)
-      val password1InputField = find(name("password.password1"));
-      val password2InputField = find(name("password.password2"));
+      val password1InputField = find(name("password.password1"))
+      val password2InputField = find(name("password.password2"))
       click on password1InputField.value
       pressKeys(browserTestUserPassword)
       click on password2InputField.value

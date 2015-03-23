@@ -14,11 +14,11 @@ class BrowserBaseSpec extends PlaySpec
     FakeApplication(
       withGlobal = Some(TestGlobal),
       additionalConfiguration = Map(
-        "securesocial.ssl" -> "false",
-        "smtp.mock" -> "true",
+        "securesocial.ssl" -> false,
+        "smtp.mock" -> true,
         "smtp.host" -> "test.gmail.com",
-        "smtp.port" -> "587",
-        "smtp.ssl" -> "false",
+        "smtp.port" -> 587,
+        "smtp.ssl" -> false,
         "smtp.user" -> "test@test.com",
         "smtp.password" -> "test",
         "smtp.from" -> "test@yetu.me"
