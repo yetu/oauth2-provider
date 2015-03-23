@@ -14,24 +14,7 @@ import scala.concurrent.duration._
 /**
  * Created by elisahilprecht on 16/03/15.
  */
-class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory with BaseMethods {
-
-  implicit override lazy val app: FakeApplication =
-    FakeApplication(
-      withGlobal = Some(TestGlobal),
-      additionalConfiguration = Map(
-        "securesocial.ssl" -> "false",
-        "smtp.mock" -> "true",
-        "smtp.host" -> "test.gmail.com",
-        "smtp.port" -> "587",
-        "smtp.ssl" -> "false",
-        "smtp.user" -> "test@test.com",
-        "smtp.password" -> "test",
-        "smtp.from" -> "test@yetu.me"
-      ))
-
-  lazy val password = "password"
-  lazy val email = "test@test.de"
+class BrowserRegistrationSpec extends BrowserBaseSpec {
 
   def register(password: String, email: String) = {
     val firstNameInputField = find(name("firstName"))
@@ -52,7 +35,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
     click on find(tagName("button")).value
   }
 
-  def clearMailTokensInMemory = {
+  def clearMailTokensInMemory() = {
     MemoryMailTokenService.mailTokens = Map[String, MailToken]()
   }
 
@@ -62,14 +45,14 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
   }
 
   "Registration page without gateway" must {
-    "open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
+    s"open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
       clearMailTokensInMemory
 
       //registration
       log("confirming email")
       go to (s"http://localhost:$port$signupUrl")
       find(name("signup")) must be ('defined)
-      register(password, email)
+      register(browserTestUserPassword, testUserEmail)
       find(name("confirmmail")) must be ('defined)
 
       //confirming email
@@ -80,7 +63,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
 
       log("check if user is added to MemoryPersonService")
       //log(s"${MemoryPersonService.users}")
-      val user: Option[YetuUser] = personService.findYetuUser(email)
+      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
       user must be ('defined)
 
     }
@@ -112,7 +95,7 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       find(name("startpwreset")) must be ('defined)
       var emailInputField = find(name("email"))
       click on emailInputField.value
-      pressKeys(email)
+      pressKeys(testUserEmail)
       click on find(tagName("button")).value
 
       //password reset
@@ -125,13 +108,13 @@ class BrowserRegistrationSpec extends PlaySpec with OneServerPerSuite with OneBr
       val password1InputField = find(name("password.password1"));
       val password2InputField = find(name("password.password2"));
       click on password1InputField.value
-      pressKeys(password)
+      pressKeys(browserTestUserPassword)
       click on password2InputField.value
-      pressKeys(password)
+      pressKeys(browserTestUserPassword)
 
       click on find(tagName("button")).value
 
-      //      find(name("login")) must be ('defined)
+//      find(name("login")) must be ('defined)
     }
   }
 }
