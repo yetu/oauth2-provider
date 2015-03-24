@@ -42,35 +42,34 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
   }
 
   "Registration page without gateway" must {
-    s"open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
+    "open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
       clearMailTokensInMemory
 
       //registration
-      log("confirming email")
+      log("registration email")
       go to (s"http://localhost:$port$signupUrl")
-      find(name("signup")) must be ('defined)
-      register(browserTestUserPassword, testUserEmail)
-      find(name("confirmmail")) must be ('defined)
+      find(name("signup")) must be('defined)
+      register(password, email)
+      val confirmMailHeader = find(name("confirmmail"))
+      confirmMailHeader must be('defined)
 
       //confirming email
       log("confirming email")
       val token = getMailTokenFromMemory
       go to (s"http://localhost:$port$signupUrl/$token")
-      log("--------TOKEN PAGE:")
-      log(pageSource)
-      log("--------TOKEN PAGE END")
-      find(name("signupsuccess")) must be ('defined)
+
+      val confirmMailSuccessHeader = find(name("signupsuccess"))
+      confirmMailSuccessHeader must be ('defined)
 
       log("check if user is added to MemoryPersonService")
-      //log(s"${MemoryPersonService.users}")
-      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
-      user must be ('defined)
+      val user: Option[YetuUser] = personService.findYetuUser(email)
+      user must be('defined)
 
     }
     "still open signup page when passing a wrong token for confirming email" in {
       val wrongToken = "fdjsbr";
       go to (s"http://localhost:$port$signupUrl/$wrongToken")
-      find(name("signup")) must be ('defined)
+      find(name("signup")) must be('defined)
     }
   }
 
@@ -85,30 +84,26 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       log("request change pw")
       go to (s"http://localhost:$port" + passwordResetUrl)
       find(name("startpwreset")) must be ('defined)
-      val emailInputField = find(name("email"))
+      var emailInputField = find(name("email"))
       click on emailInputField.value
-      pressKeys(testUserEmail)
+      pressKeys(email)
       click on find(tagName("button")).value
 
       //password reset
       log("do password change")
       val token = getMailTokenFromMemory
-
+      val url = s"http://localhost:$port$passwordResetUrl/$token"
       go to (s"http://localhost:$port$passwordResetUrl/$token")
-
       find(name("pwreset")) must be ('defined)
       val password1InputField = find(name("password.password1"))
       val password2InputField = find(name("password.password2"))
       click on password1InputField.value
-      pressKeys(browserTestUserPassword)
+      pressKeys(password)
       click on password2InputField.value
-      pressKeys(browserTestUserPassword)
+      pressKeys(password)
 
-      log("_________before_________")
-      log(pageSource)
       click on find(tagName("button")).value
-      log("_________after:_________")
-      log(pageSource)
+
       find(name("login")) must be ('defined)
     }
   }
