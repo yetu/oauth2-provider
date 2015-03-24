@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.browser
 
 import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.{MemoryPersonService, MemoryMailTokenService}
+import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
 import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
