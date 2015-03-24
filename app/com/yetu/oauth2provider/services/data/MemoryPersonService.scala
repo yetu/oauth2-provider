@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{YetuUser, YetuUserHelper}
+import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.utils.UUIDGenerator
 import play.api.Logger
@@ -9,7 +9,7 @@ import play.api.mvc.Result
 import play.api.mvc.Results._
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.services.SaveMode
-import securesocial.core.{BasicProfile, PasswordInfo}
+import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
