@@ -9,4 +9,12 @@
     <div class="clearfix">
         <p>@Messages("securesocial.signup.signUpDone")</p>
     </div>
+    <div class="clearfix">
+        <p>
+            <a href="@env.routes.loginPageUrl">
+            @Messages("securesocial.signup.loginhere")
+            </a>
+            @Html(Messages("securesocial.signup.welcome"))
+        </p>
+    </div>
 }

@@ -16,16 +16,11 @@ securesocial.core
     }
 
     <form action="@env.routes.handleStartSignUpUrl"
-          class="form-horizontal"
+          class="form-horizontal registrationForm"
           autocomplete="off" method="post"
     >
         <fieldset>
             @CSRF.formField
-            @helper.inputText(
-            startForm("email"),
-            '_label -> Messages("securesocial.signup.email1"),
-            'class -> "input-xlarge"
-            )
 
             @helper.inputText(
                 startForm("firstName"),
@@ -36,6 +31,12 @@ securesocial.core
             @helper.inputText(
                 startForm("lastName"),
                 '_label -> Messages("securesocial.signup.lastName"),
+                'class -> "input-xlarge"
+            )
+
+            @helper.inputText(
+                startForm("email"),
+                '_label -> Messages("securesocial.signup.email1"),
                 'class -> "input-xlarge"
             )
 
