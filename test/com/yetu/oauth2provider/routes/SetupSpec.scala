@@ -7,15 +7,12 @@ import play.api.test.Helpers._
 
 import scala.concurrent.Future
 
-/**
- * Created by elisahilprecht on 16/03/15.
- */
 class SetupSpec extends BaseRoutesSpec {
 
   def requestReturnOk(urlRequest: String): Future[Result] = {
     val Some(result) = route(FakeRequest(GET, urlRequest))
     status(result) mustEqual (OK)
-    return result;
+    return result
   }
 
   "setup controller" must {

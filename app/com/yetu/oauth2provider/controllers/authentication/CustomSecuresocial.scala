@@ -20,11 +20,11 @@ class CustomRoutesService extends RoutesService.Default {
     routes.LoginPage.login().absoluteURL(IdentityProvider.sslEnabled)
   }
 
-  override def signUpUrl(implicit req: RequestHeader): String = {
+  override def startSignUpUrl(implicit req: RequestHeader): String = {
     absoluteUrl(routes.Registration.startSignUp())
   }
 
-  override def resetPasswordUrl(implicit request: RequestHeader): String = {
+  override def startResetPasswordUrl(implicit request: RequestHeader): String = {
     absoluteUrl(routes.PasswordReset.startResetPassword())
   }
 

@@ -1,8 +1,10 @@
 import com.softwaremill.macwire.{ Macwire, Wired }
 import com.yetu.oauth2provider.registry.ControllerRegistry
-import com.yetu.oauth2provider.utils.CorsFilter
+import com.yetu.oauth2provider.utils.{ Config, CorsFilter }
 import play.api.GlobalSettings
 import play.api.mvc.EssentialAction
+
+import com.yetu.oauth2provider.registry._
 
 object Global extends GlobalSettings with Macwire {
 
@@ -23,7 +25,19 @@ object Global extends GlobalSettings with Macwire {
   //    instance.getOrElse(super.getControllerInstance(controllerClass))
   //  }
 
-  private val diRegistry: Wired = wiredInModule(ControllerRegistry)
+  private val diRegistry: Wired = {
+    Config.databaseToUse match {
+      case "ldap" => {
+        wiredInModule(LdapControllerRegistry)
+      }
+      case "inmemory" => {
+        wiredInModule(MemoryControllerRegistry)
+      }
+      case _ => {
+        throw new Exception("Configuration invalid: please specify either 'inmemory' or 'ldap' for the 'databaseToUse' configuration key.")
+      }
+    }
+  }
 
   override def getControllerInstance[A](controllerClass: Class[A]): A = {
     diRegistry.lookupSingleOrThrow(controllerClass)
@@ -32,3 +46,4 @@ object Global extends GlobalSettings with Macwire {
   override def doFilter(action: EssentialAction) = CorsFilter(action)
 
 }
+

@@ -20,7 +20,7 @@ trait MemoryMailTokenService extends IMailTokenService {
 
   def saveToken(token: MailToken): Future[MailToken] = {
     Future.successful {
-      tokenLogger.info(s"New signup link requested. Signup link is /signup/${token.uuid}")
+      tokenLogger.info(s"New signup link or reset password requested. Check /signup/TOKEN or /reset/TOKEN with token=${token.uuid}")
       mailTokens += (token.uuid -> token)
       token
     }

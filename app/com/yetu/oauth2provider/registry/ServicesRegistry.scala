@@ -11,24 +11,27 @@ import com.yetu.oauth2provider.oauth2.services._
 import com.yetu.oauth2provider.services.data._
 import com.yetu.oauth2provider.services.data.iface._
 import com.yetu.oauth2provider.signature.services.SignatureService
-import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
+import com.yetu.oauth2provider.utils.{ Config, JsonWebTokenGenerator }
 import securesocial.core.RuntimeEnvironment
 import securesocial.core.providers.utils.PasswordHasher
 import securesocial.core.providers.utils.PasswordHasher.Default
 import com.yetu.oauth2provider.signature.services.SignatureService
 import securesocial.core.services.UserService
-import services.data.LdapUserService
+import services.data.MemoryUserService
 
 import scalaoauth2.provider.TokenEndpoint
 
-trait ServicesRegistry {
+trait InMemoryDataServices {
+  lazy val clientService: IClientService = wire[MemoryClientService]
+  lazy val permissionService: IPermissionService = wire[MemoryPermissionService]
 
-  lazy val scopeService: ScopeService = wire[ScopeService]
-  lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
-  lazy val validationService: ValidationService = wire[ValidationService]
-  lazy val jsonWebTokenGenerator: JsonWebTokenGenerator = wire[JsonWebTokenGenerator]
+  lazy val publicKeyService: IPublicKeyService = new MemoryPublicKeyService
 
-  // clients and people in ldap
+  lazy val personService: IPersonService = wire[MemoryPersonService]
+  lazy val myUserService: UserService[YetuUser] = new MemoryUserService()
+}
+
+trait LdapDataServices {
   lazy val dao: LdapDAO = wire[LdapDAO]
   lazy val clientService: IClientService = wire[LdapClientService]
   lazy val permissionService: IPermissionService = wire[LdapPermissionService]
@@ -37,6 +40,23 @@ trait ServicesRegistry {
 
   lazy val personService: IPersonService = wire[LdapPersonService]
   lazy val myUserService: UserService[YetuUser] = new LdapUserService(dao)
+}
+
+trait ServicesRegistry {
+
+  def clientService: IClientService
+  def permissionService: IPermissionService
+
+  def publicKeyService: IPublicKeyService
+
+  def personService: IPersonService
+  def myUserService: UserService[YetuUser]
+
+  lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
+
+  lazy val scopeService: ScopeService = wire[ScopeService]
+  lazy val validationService: ValidationService = wire[ValidationService]
+  lazy val jsonWebTokenGenerator: JsonWebTokenGenerator = wire[JsonWebTokenGenerator]
 
   /**
    * TODO: probably we should use salting with bcrypt for the passwords. The default implementation does not use salts.
@@ -76,6 +96,4 @@ trait ServicesRegistry {
   val oAuth2ImplicitController = new OAuth2ImplicitControllerHelper(myCustomTokenEndpoint)
 
 }
-
-object ServicesRegistry extends ServicesRegistry
 

@@ -16,6 +16,7 @@ securesocial.login.fullstop=.
 
 # Sign up page
 securesocial.signup.title=Registrierung
+securesocial.signup.success.title=Registrierung war erfolgreich
 securesocial.signup.username=Benutzername
 securesocial.signup.firstName=Vorname
 securesocial.signup.lastName=Nachname
@@ -29,8 +30,10 @@ securesocial.signup.userNameAlreadyTaken=Benutzername bereits vergeben
 securesocial.signup.passwordsDoNotMatch=Die Passwörter stimmen nicht überein
 securesocial.signup.thankYouCheckEmail=Vielen Dank. Bitte prüfen Sie ihr E-Mail Konto für weitere Schritte.
 securesocial.signup.invalidLink=Der Link ist ungültig
-securesocial.signup.signUpDone=Vielen Dank für Ihre Registrierung. Sie können sich nun anmelden.
+securesocial.signup.signUpDone=Vielen Dank für Ihre Registrierung.
 securesocial.signup.invalidPassword=Geben Sie mindestens {0} Zeichen ein
+securesocial.signup.loginhere=Melden Sie sich hier an
+securesocial.signup.welcome= um ihre neue Welt zu Hause mit yetu.me zu erkunden.
 
 # Password reset
 securesocial.password.title=Passwort zurücksetzen

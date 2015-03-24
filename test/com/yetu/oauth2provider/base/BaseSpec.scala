@@ -11,10 +11,13 @@ import play.api.test.FakeApplication
 /**
  * Class to be extended for all Unit tests
  */
-class BaseSpec extends WordSpec with MustMatchers with GeneratorDrivenPropertyChecks with TestRegistry with BeforeAndAfter with OptionValues with Inside with Inspectors with BaseMethods with DefaultTestVariables {
-  //  implicit override lazy val app: FakeApplication =
-  //    FakeApplication(
-  //      withGlobal = Some(TestGlobal))
-
-}
+class BaseSpec extends WordSpec with MustMatchers
+  with GeneratorDrivenPropertyChecks
+  with TestRegistry
+  with BeforeAndAfter
+  with OptionValues
+  with Inside
+  with Inspectors
+  with BaseMethods
+  with DefaultTestVariables
 

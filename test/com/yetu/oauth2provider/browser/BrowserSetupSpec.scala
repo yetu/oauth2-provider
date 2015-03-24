@@ -1,13 +1,13 @@
-package com.yetu.oauth2provider.integration
+package com.yetu.oauth2provider.browser
 
-import com.yetu.oauth2provider.base.BaseMethods
-import org.scalatestplus.play.{ OneServerPerSuite, OneBrowserPerSuite, HtmlUnitFactory, PlaySpec }
-import play.api.Logger
+import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
+import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
+import play.api.test.FakeApplication
 
 /**
- * Created by elisahilprecht on 16/03/15.
+ * Created by elisahilprecht on 19/03/15.
  */
-class IntegrationSetupSpec extends PlaySpec with OneServerPerSuite with OneBrowserPerSuite with HtmlUnitFactory with BaseMethods {
+class BrowserSetupSpec extends BrowserBaseSpec {
 
   "Download page" must {
     "have title called 'Download'" in {

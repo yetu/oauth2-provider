@@ -20,7 +20,9 @@ trait DefaultTestVariables {
   val integrationTestSecret = "akbahskbskfbdsushvbgeri8374293fhe"
 
   //Password is 1234
-  val testUser = YetuUser(IdentityId("test@test.test", "userpass"), "1231313131", "John", "Smith", "John Smith", Some("test@test.test"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)))
+
+  val testUserEmail = "test@test.test"
+  val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), "1231313131", "John", "Smith", "John Smith", Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)))
   val testUser2 = YetuUser(IdentityId("test2@test2.test2", "userpass"), "1231313222131", "John2", "Smith2", "John Smith2", Some("test2@test2.test2"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)))
   val testUserPassword = "1234"
   val testAuthCode = "FDdrVgoQo2"
@@ -36,10 +38,14 @@ trait DefaultTestVariables {
 
   val updateUrl = "/profile"
   val healthUrl = "/health"
+
   val setupRegistrationUrl = "/setup/registration"
   val setupConfirmMailUrl = "/setup/confirmmail"
   val setupConfirmedMailUrl = "/setup/confirmedmail"
   val setupDownloadUrl = "/setup/download"
+
+  val signupUrl = "/signup"
+  val passwordResetUrl = "/reset"
 
   val validateUrl = "/oauth2/validate"
   val infoUrl = "/oauth2/info"

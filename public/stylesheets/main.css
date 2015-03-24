@@ -183,6 +183,10 @@ fieldset {
   border: 0;
 }
 
+.registrationForm{
+    margin-top: 10px;
+}
+
 
 .notImplemented{
     padding: 0px;
