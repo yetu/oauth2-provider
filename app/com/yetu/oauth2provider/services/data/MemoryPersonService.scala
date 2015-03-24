@@ -1,25 +1,26 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{ YetuUserHelper, IdentityId, YetuUser }
-import com.yetu.oauth2provider.services.data.iface.{ IPersonService, IPermissionService }
+import com.yetu.oauth2provider.oauth2.models.{YetuUser, YetuUserHelper}
+import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.utils.UUIDGenerator
-import scala.concurrent.ExecutionContext.Implicits.global
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.Results._
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.services.SaveMode
-import securesocial.core.{ AuthenticationMethod, BasicProfile, PasswordInfo }
+import securesocial.core.{BasicProfile, PasswordInfo}
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
 /**
  * TODO: implement user service properly!
+ * Method signatures are not consistent and should be refactored.
  */
 class MemoryPersonService extends IPersonService {
 
-  import MemoryPersonService.users
+  import com.yetu.oauth2provider.services.data.MemoryPersonService.users
 
   val logger = Logger("com.yetu.oauth2provider.services.memory.MemoryPersonService")
 
@@ -77,6 +78,7 @@ class MemoryPersonService extends IPersonService {
       userToReturn
     }
   }
+
   def addNewUser(user: YetuUser) = {
     users = users + (user.userId -> user)
     user

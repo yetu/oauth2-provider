@@ -19,10 +19,5 @@ class BaseSpec extends WordSpec with MustMatchers
     with Inside
     with Inspectors
     with BaseMethods
-    with DefaultTestVariables {
-  //  implicit override lazy val app: FakeApplication =
-  //    FakeApplication(
-  //      withGlobal = Some(TestGlobal))
-
-}
+    with DefaultTestVariables
 

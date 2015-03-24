@@ -30,9 +30,11 @@ object Global extends GlobalSettings with Macwire {
       case "ldap" => {
         wiredInModule(LdapControllerRegistry)
       }
-      case _ => {
-        // clients and people in Memory
+      case "inmemory" => {
         wiredInModule(MemoryControllerRegistry)
+      }
+      case _ => {
+        throw new Exception("Configuration invalid: please specify either 'inmemory' or 'ldap' for the 'databaseToUse' configuration key.")
       }
     }
   }
@@ -44,3 +46,4 @@ object Global extends GlobalSettings with Macwire {
   override def doFilter(action: EssentialAction) = CorsFilter(action)
 
 }
+

@@ -11,6 +11,22 @@ This project is yetu's central authentication and authorization system.
 
 This Scala project is built with the Play Framework and uses [Securesocial](http://securesocial.ws) for authentication and [scala-oauth2-provider](https://github.com/nulab/scala-oauth2-provider) as a starting point for the OAuth2 flow.
 
+
+## Set up your own oauth2-provider
+
+Execute the following script to have a working oauth2provider set up with your own pair of RSA keys (The oauth2-provider creates access_tokens based on JSON Web Tokens (JWT) which it signs using RSA keys)
+
+```
+# sets up rsa keys and creates a fresh copy of conf/application.conf for you to adapt if needed
+./setupLocalDev.sh
+```
+
+Have a look at the `conf/application-conf` file and fill in sections for
+ - **LDAP** (if using; defaulting to in-memory), 
+ - **SMTP** (if using; defaulting to a mocked smtp that does not send any emails.)
+
+Run the app with `sbt run`, run tests with `sbt test` and integration tests with `sbt it:test`
+
 ## Functionality status
 
 #### General
@@ -61,34 +77,6 @@ This Scala project is built with the Play Framework and uses [Securesocial](http
 - [ ] make sure auth_codes can only be used once to prevent replay-attacks.
 - [ ] make sure refresh_tokens can only be used once to prevent replay-attacks.
 
-## Set up your own oauth2-provider
-
-The oauth2-provider creates access_tokens based on JSON Web Tokens (JWT) which it signs using RSA keys. In order for you to be able to run this code in development/production mode, you need to generate your own set of keys.
-
-Generate a new key pair with 4096 bits under a local folder named 'local'
-
-    mkdir -p local && cd local
-
-    openssl genrsa -out local_private_key.pem 4096
-
-    # extract the public key:
-    openssl rsa -pubout -in local_private_key.pem -out local_public_key.pem
-
-    # For use in java/scala, convert PEM encoded keys to java-understandable DER (pkcs8) format:
-    openssl pkcs8 -topk8 -inform PEM -outform DER -in local_private_key.pem  -nocrypt > local_private_key.der
-
-    openssl rsa -in local_private_key.pem -pubout -outform DER -out local_public_key.der
-
-
-Then, make sure to adapt the paths to those keys by adding the correct settings to the default `application.conf`
-
-```
-cp conf/application-example.conf conf/application-conf
-```
-
-Have a look at the `conf/application-conf` file and fill in sections for **LDAP** (if using), and **SMTP** (if using)
-
-Run the app with `sbt run`, run tests with `sbt test` and integration tests with `sbt it:test`
 
 ## Contributing
 
