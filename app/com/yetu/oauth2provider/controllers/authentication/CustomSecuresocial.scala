@@ -10,10 +10,7 @@ import securesocial.core.services.RoutesService
 
 class LoginApi(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginApi[YetuUser]
 
-class Registration(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser] {
-  val logger = play.api.Logger("com.yetu.oauth2provider.controllers.authentication.Registration")
-  logger.error(s"Skip login on signup: ${UsernamePasswordProvider.signupSkipLogin}")
-}
+class Registration(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser]
 
 class PasswordReset(implicit override val env: RuntimeEnvironment[YetuUser]) extends BasePasswordReset[YetuUser]
 
