@@ -33,7 +33,7 @@ var validator = new FormValidator('registration_form', [{
   }
   errorNames = [];
   if (errors.length > 0) {
-    event.preventDefault();
+    //event.preventDefault();
     for(var i=0; i<errors.length; i++){
       var error = errors[i];
       error.element.setAttribute('style','border: solid 1px red;')
