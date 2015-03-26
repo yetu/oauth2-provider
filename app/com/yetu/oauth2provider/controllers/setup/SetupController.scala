@@ -5,7 +5,7 @@ import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import play.api.mvc._
 import com.yetu.oauth2provider.views
 import securesocial.controllers.{ BaseRegistration }
-import securesocial.core.{RuntimeEnvironment}
+import securesocial.core.{ RuntimeEnvironment }
 
 class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) extends BaseRegistration[YetuUser] {
 
