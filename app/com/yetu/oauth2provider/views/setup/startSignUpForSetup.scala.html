@@ -1,0 +1,108 @@
+@(startForm:Form[securesocial.controllers.RegistrationInfo])(implicit request: RequestHeader, lang: Lang, env:
+        securesocial.core
+        .RuntimeEnvironment[_])
+@import com.yetu.oauth2provider.views
+@import helper._
+@implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
+
+@com.yetu.oauth2provider.views.html.yetuAuthentication.main( Messages("securesocial.signup.title") ) {
+
+<!DOCTYPE html>
+
+<html>
+	<head>
+			<title>Registration</title>
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
+			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/registration.css")">
+			<link rel="shortcut icon" type="image/png" href="">
+			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+	</head>
+	<body>
+		@views.html.setup.header()
+		<div class="steps">
+			<ul class="steplist">
+				<li class="step active">@Messages("setup.steps.one")</li>
+				<li class="step">@Messages("setup.steps.two")</li>
+				<li class="step">@Messages("setup.steps.three")</li>
+			</ul>
+		</div>
+		<div class="content">
+			<div id="leftContainer" class="left">
+				<h2 name="setupSignup">
+					<input class="radio-btn" type="radio" name="registered" value="not" checked="true"/>
+					<label class="label-register">@Messages("setup.registration.register")</label>
+				</h2>
+                <form action="@env.routes.handleStartSignUpUrl" class="left__formcontaine" id="registration_form" autocomplete="off" method="post">
+                    <fieldset>
+                        @CSRF.formField
+                        @helper.inputText(
+                            startForm("firstName"),
+                            '_label -> Messages("securesocial.signup.firstName"),
+                            'class -> "left__input"
+                        )
+
+                        @helper.inputText(
+                            startForm("lastName"),
+                            '_label -> Messages("securesocial.signup.lastName"),
+                            'class -> "left__input"
+                        )
+
+                        @helper.inputText(
+                            startForm("email"),
+                            '_label -> Messages("securesocial.signup.email1"),
+                            'class -> "left__input"
+                        )
+
+                        @helper.inputPassword(
+                            startForm("password.password1"),
+                            '_label -> Messages("securesocial.signup.password1"),
+                            'class -> "left__input"
+                        )
+
+                        @helper.inputPassword(
+                            startForm("password.password2"),
+                            '_label -> Messages("securesocial.signup.password2"),
+                            '_error -> startForm.error("password"),
+                            'class -> "left__input"
+                        )
+
+                        <!--TODO: add real fields for terms and ... in form and adapt backend for that-->
+
+                        <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"
+                        data-validate="agreement"/>
+                        <label class="left__terms-label">
+                                <span>@Messages("setup.registration.terms")</span>
+                                <a href="">@Html(Messages("setup.registration.termslink"))</a>
+                        </label>
+                        <div class="clear"></div>
+                        <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"
+                        data-validate="agreement"/>
+                        <label class="left__terms-label">
+                            <span>@Messages("setup.registration.terms")</span>
+                            <a href="">@Html(Messages("setup.registration.termslink"))</a>
+                        </label>
+                        @request.flash.get("error").map { msg =>
+                            <div class="alert alert-error">
+                                @Messages(msg)
+                            </div>
+                        }
+                    </fieldset>
+			</form>
+			</div>
+			<div id="rightContainer" class="right">
+				<h2><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.registration.already")</label></h2>
+				<p>@Messages("setup.registration.ifalreadyregistered")</p>
+			</div>
+			<div class="buttoncontainer clear">
+				<button type="submit" form="registration_form" class="button buttoncontainer__next-button">
+						@Html(Messages("setup.next"))
+				</button>
+			</div>
+		</div>
+		@views.html.setup.footer()
+		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/validate.min.js")"></script>
+		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/registration-validation.js")"></script>
+	</body>
+</html>
+
+}

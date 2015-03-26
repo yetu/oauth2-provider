@@ -77,15 +77,15 @@ POST           /api/authenticate/:provider          @com.yetu.oauth2provider.con
 #####################
 
 # New registration page
-GET            /setup/registration                  com.yetu.oauth2provider.controllers.setup.SetupPage.registration
-POST           /setup/registration                  @com.yetu.oauth2provider.controllers.authentication.Registration.handleStartSignUp
+GET            /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.startSignUp
+POST           /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.handleStartSignUp
 
 
 # New confirm mail page
-GET            /setup/confirmmail                   com.yetu.oauth2provider.controllers.setup.SetupPage.confirmmail
+GET            /setup/confirmmail                   @com.yetu.oauth2provider.controllers.setup.SetupController.confirmmail
 
 # New confirm mail page
-GET            /setup/confirmedmail                 com.yetu.oauth2provider.controllers.setup.SetupPage.confirmedmail
+GET            /setup/confirmedmail                 @com.yetu.oauth2provider.controllers.setup.SetupController.confirmedmail
 
 # Download setup app
-GET            /setup/download                      com.yetu.oauth2provider.controllers.setup.SetupPage.download
+GET            /setup/download                      @com.yetu.oauth2provider.controllers.setup.SetupController.download
