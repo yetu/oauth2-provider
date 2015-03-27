@@ -27,7 +27,7 @@ class BrowserBaseSpec extends PlaySpec
         "smtp.from" -> "test@yetu.me"
       ))
 
-  val browserTestUserPassword = "password"
+  val browserTestUserPassword = "pasSw0rd" // bad password, but enough to pass the basic validation.
 
   def clearMailTokensInMemory() = {
     MemoryMailTokenService.mailTokens = Map[String, MailToken]()
