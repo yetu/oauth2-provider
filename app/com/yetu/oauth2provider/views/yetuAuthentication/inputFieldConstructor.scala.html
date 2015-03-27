@@ -4,10 +4,11 @@
     <label class="control-label" for="@elements.id">@elements.label(elements.lang)</label>
     <div class="controls">
         @elements.input
-	@if( elements.hasErrors ) {
-            <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
+        @if( elements.hasErrors ) {
+            <div class="help-inline">@elements.errors(elements.lang).mkString(", ")</div>
         } else {
-            <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
+            <div class="help-block">@elements.infos(elements.lang).mkString(", ")</div>
         }
     </div>
+
 </div>

@@ -513,6 +513,12 @@ a.muted:focus {
     display:none;
 }
 
+.help-inline{
+    width: 55%;
+    display: inline-block;
+    font-size: 14px;
+}
+
 p.login-instruction{
     margin: 10px 0 0 0;
     padding: 0;
