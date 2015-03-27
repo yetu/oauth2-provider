@@ -1,0 +1,40 @@
+@(step: Number)
+<div class="steps">
+    <div class="steplist">
+        @if(step == 1){
+            <div class="step step_one active">
+                <div class="text text__step_one">@Messages("setup.steps.one")</div>
+                <div class="step step_two">
+                    <div class="text text__step_two">@Messages("setup.steps.two")</div>
+                    <div class="step step_three">
+                        <div class="text text__step_three">@Messages("setup.steps.three")</div>
+                    </div>
+                </div>
+            </div>
+        } else {
+            @if(step == 2){
+                <div class="step step_one active">
+                    <div class="text text__step_one">@Messages("setup.steps.one")</div>
+                    <div class="step step_two active">
+                        <div class="text text__step_two">@Messages("setup.steps.two")</div>
+                        <div class="step step_three">
+                            <div class="text text__step_three">@Messages("setup.steps.three")</div>
+                        </div>
+                    </div>
+                </div>
+            } else {
+                @if(step == 3) {
+                    <div class="step step_one active">
+                        <div class="text text__step_one">@Messages("setup.steps.one")</div>
+                        <div class="step step_two active">
+                            <div class="text text__step_two">@Messages("setup.steps.two")</div>
+                            <div class="step step_three active">
+                                <div class="text text__step_three">@Messages("setup.steps.three")</div>
+                            </div>
+                        </div>
+                    </div>
+                }
+            }
+        }
+    </div>
+</div>

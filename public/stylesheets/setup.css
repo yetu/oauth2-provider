@@ -30,13 +30,22 @@ body, html{
 	padding: 0;
 	top: 0;
 	font-family: source_sans_prolight, 'Helvetica Neue', Arial;
-	color: #4F4F4F;
+	color: #666;
+    min-width: 1010px;
 }
 
 h1{
 	font-weight: bold;
-  line-height: 110px;
-  margin: 0;
+    font-size: 33px;
+    margin: 0;
+}
+h2{
+    font-size: 18px;
+    margin: 0;
+}
+.content__headline {
+    font-size: 25px;
+    font-weight: 400;
 }
 
 .logo{
@@ -54,50 +63,23 @@ header{
 	height: 110px;
 	display: flex;
 }
-
-.steps{
-	width: 80%;
-	margin: 0 auto;
-	height: 50px;
+.headline{
+    padding: 18px 0;
 }
-
-.steplist{
-	list-style-type: none;
-	list-style: none;
-	margin: 0;
-	padding-left: 0;
-}
-
-.step{
-	width: 33.15%;
-	height: 40px;
-	float: left;
-	text-align: center;
-	line-height: 40px;
-	vertical-align: middle;
-	border: 1px solid #666666;
-	border-left: none;
-	font-size: 20px;
-}
-
-.step.active {
-	color: #ffffff;
-	background: #666666;
-  text-align: center;
+.headline__simple{
+    line-height: 110px;
 }
 
 .content{
 	margin: 0 auto;
-	background-image: url('../images/background-04.png');
+	background-image: url('../images/background.png');
 	background-repeat: no-repeat;
-  background-size: cover;
+    background-size: cover;
+    padding: 50px 0;
 }
 
 .content > .steps{
-	margin: auto;
-	height: auto;
-	padding-top: 70px;
-	padding-bottom: 100px;
+	margin: 0 auto 50px auto;
 }
 
 .left{
@@ -209,10 +191,6 @@ header{
   margin: 0;
 }
 
-.bumper{
-	height: 300px;
-}
-
 .full{
 	display: none;
 	margin: 0 auto;
@@ -256,7 +234,7 @@ footer{
 	vertical-align: middle;
 	text-align: center;
 	color: rgb(0,152,72);
-	position: fixed;
+	position: relative;
 	bottom: 0;
 	clear:both;
 }

@@ -2,6 +2,7 @@ package com.yetu.oauth2provider.controllers.setup
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
+import com.yetu.oauth2provider.views.html.setup
 import play.api.mvc._
 import com.yetu.oauth2provider.views
 import securesocial.controllers.{ BaseRegistration }
@@ -13,6 +14,10 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     Action {
       implicit request => Ok(views.html.setup.startSignUpForSetup(form))
     }
+  }
+
+  override def handleStartSignUp = {
+    super.handleStartSignUp
   }
 
   val download = Action {

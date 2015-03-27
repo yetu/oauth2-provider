@@ -91,7 +91,8 @@ check.thankyou=Thank you
 check.reset=reset
 
 #Setup page
-setup.headline=yetu setup
+setup.headline=Welcome to the yetu setup!
+setup.subheadline=Setting up the yetu experience takes some quick and easy steps.
 setup.steps.one=1. Register at yetu
 setup.steps.two=2. Verify your e-mail address
 setup.steps.three=3. Download Gateway Setup App

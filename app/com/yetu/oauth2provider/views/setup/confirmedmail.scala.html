@@ -3,22 +3,17 @@
 
 <html>
 	<head>
-			<title>Successfully confirmed mail</title>
-			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
-			<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmedmail.css")">
-			<link rel="shortcut icon" type="image/png" href="">
-			<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+        <title>Successfully confirmed mail</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/steps.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmedmail.css")">
+        <link rel="shortcut icon" type="image/png" href="">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	</head>
 	<body>
-		@views.html.setup.header()
-		<div class="steps">
-			<ul class="steplist">
-				<li class="step active">@Messages("setup.steps.one")</li>
-				<li class="step">@Messages("setup.steps.two")</li>
-				<li class="step">@Messages("setup.steps.three")</li>
-			</ul>
-		</div>
+		@views.html.setup.header(false)
 		<div class="content">
+            @views.html.setup.steps(2)
             <div class="full">
                 <div class="full__container">
                     <img class="full__icon"/>

@@ -29,3 +29,4 @@ dist
 /conf/application.conf
 /conf/application-integrationtest.conf
 artifact_settings.yml
+/00_concept/*

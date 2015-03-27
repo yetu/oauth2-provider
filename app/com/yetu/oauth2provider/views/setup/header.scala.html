@@ -1,4 +1,12 @@
+@(isStartSignUp:Boolean)
 <header>
-	<h1>@Messages("setup.headline")</h1>
-	<div class="logo"></div>
+    @if(isStartSignUp) {
+        <div class="headline">
+            <h1>@Messages("setup.headline")</h1>
+            <h2>@Messages("setup.subheadline")</h2>
+        </div>
+    }else {
+        <h1 class="headline__simple">@Messages("setup.headline")</h1>
+    }
+    <div class="logo"></div>
 </header>

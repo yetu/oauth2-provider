@@ -6,27 +6,34 @@
 	margin-right: 5px;
 }
 .content{
-    margin-top: 40px;
-    width: 90%;
-    background: #F2F2F2;
+    margin-top: 0;
+    width: 100%;
+    padding-bottom: 10px;
 }
-.left, .right{
-    padding-top: 20px;
-    padding-bottom: 20px;
+.content > .steps {
+    padding-bottom: 40px;
+}
+.content__main{
+    width: 80%;
+    box-shadow: 1px 1px 5px #666;
+    margin: 20px auto;
+    background: white;
 }
 .left{
-    width: 45%;
-    padding: 5% 0 5% 5%;
+    width: 40%;
+    padding-right: 5%;
 }
 .right{
-    padding: 5%;
     margin-left: 50%;
     width: 40%;
     height: 100%;
 }
 
-.left__formcontainer{
-    border-right: dashed 1px #949494;
+.left__form{
+    border-right: solid 1px #666;
+}
+.left__fieldset{
+    border: none;
 }
 .left__hint{
 	float:right;

@@ -1,0 +1,69 @@
+
+.steps{
+    width: 80%;
+    margin: 0 auto;
+    height: 50px;
+}
+
+.steplist{
+    list-style-type: none;
+    list-style: none;
+    margin: 0;
+    padding-left: 0;
+}
+
+.step{
+    background-repeat: no-repeat;
+    height: 30px;
+}
+
+.step.step_one{
+    background-image: url("../images/progress_fields-01.svg");
+    width: auto;
+    background-size: 35% 100%;
+}
+
+.step.step_two{
+    background-image: url("../images/progress_fields-02.svg");
+    width: auto;
+    margin-left: 33.2%;
+    background-size: 53% 100%;
+}
+
+.step.step_three{
+    background-image: url("../images/progress_fields-03.svg");
+    width: auto;
+    margin-left: 50.3%;
+    background-size: 104.5% 100%;
+}
+
+.text{
+    text-align: center;
+    line-height: 30px;
+    vertical-align: middle;
+    font-size: 18px;
+    float: left;
+}
+.text__step_one{
+    width: 33.15%;
+}
+.text__step_two{
+    width: 54%;
+}
+.text__step_three{
+    width: 89%;
+}
+.step_one.active .text, .step_two.active .text.text__step_two, .step_three.active .text.text__step_three{
+    color: #FFF;
+}
+.step_two .text.text__step_two, .step_three .text.text__step_three{
+    color: #666;
+}
+
+.step.step_two.active{
+    background-image: url("../images/progress_fields-04.svg");
+}
+
+.step.step_three.active{
+    background-image: url("../images/progress_fields-05.svg");
+}
