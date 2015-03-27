@@ -108,5 +108,9 @@ object Config {
   val configWithoutStartedApplication = ConfigFactory.load()
   val databaseToUse = configWithoutStartedApplication.getString("databaseToUse")
 
+  val minimumPasswordLength = configWithoutStartedApplication.getInt("securesocial.userpass.minimumPasswordLength")
+
+  val InvalidPasswordMessage = "securesocial.signup.invalidPassword"
+
 }
 

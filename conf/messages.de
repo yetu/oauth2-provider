@@ -31,7 +31,7 @@ securesocial.signup.passwordsDoNotMatch=Die Passwörter stimmen nicht überein
 securesocial.signup.thankYouCheckEmail=Vielen Dank. Bitte prüfen Sie ihr E-Mail Konto für weitere Schritte.
 securesocial.signup.invalidLink=Der Link ist ungültig
 securesocial.signup.signUpDone=Vielen Dank für Ihre Registrierung.
-securesocial.signup.invalidPassword=Geben Sie mindestens {0} Zeichen ein
+securesocial.signup.invalidPassword=Das Passwort muss mindestens {0} Zeichen, eine Ziffer und einen Großbuchstaben enthalten.
 securesocial.signup.loginhere=Melden Sie sich hier an
 securesocial.signup.welcome= um ihre neue Welt zu Hause mit yetu.me zu erkunden.
 
