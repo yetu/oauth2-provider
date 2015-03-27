@@ -1,6 +1,6 @@
 
 .steps{
-    width: 80%;
+    width: 999px;
     margin: 0 auto;
     height: 50px;
 }
@@ -15,26 +15,22 @@
 .step{
     background-repeat: no-repeat;
     height: 30px;
+    width: auto;
+    background-size: 333px 31px;
 }
 
 .step.step_one{
     background-image: url("../images/progress_fields-01.svg");
-    width: auto;
-    background-size: 35% 100%;
 }
 
 .step.step_two{
     background-image: url("../images/progress_fields-02.svg");
-    width: auto;
-    margin-left: 33.2%;
-    background-size: 53% 100%;
+    margin-left: 342px;
 }
 
 .step.step_three{
     background-image: url("../images/progress_fields-03.svg");
-    width: auto;
-    margin-left: 50.3%;
-    background-size: 104.5% 100%;
+    margin-left: 342px;
 }
 
 .text{
@@ -43,15 +39,7 @@
     vertical-align: middle;
     font-size: 18px;
     float: left;
-}
-.text__step_one{
-    width: 33.15%;
-}
-.text__step_two{
-    width: 54%;
-}
-.text__step_three{
-    width: 89%;
+    width: 333px;
 }
 .step_one.active .text, .step_two.active .text.text__step_two, .step_three.active .text.text__step_three{
     color: #FFF;

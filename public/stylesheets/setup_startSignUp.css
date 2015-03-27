@@ -11,13 +11,14 @@
     padding-bottom: 10px;
 }
 .content > .steps {
-    padding-bottom: 40px;
+    margin: 0 auto 0 auto;
 }
 .content__main{
-    width: 80%;
     box-shadow: 1px 1px 5px #666;
     margin: 20px auto;
     background: white;
+    width: 999px;
+    height: 510px;
 }
 .left{
     width: 40%;
