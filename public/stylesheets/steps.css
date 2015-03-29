@@ -10,48 +10,90 @@
     list-style: none;
     margin: 0;
     padding-left: 0;
+    position: relative;
 }
 
 .step{
-    background-repeat: no-repeat;
-    height: 30px;
-    width: auto;
-    background-size: 333px 31px;
-}
-
-.step.step_one{
-    background-image: url("../images/progress_fields-01.svg");
-}
-
-.step.step_two{
-    background-image: url("../images/progress_fields-02.svg");
-    margin-left: 342px;
-}
-
-.step.step_three{
-    background-image: url("../images/progress_fields-03.svg");
-    margin-left: 342px;
-}
-
-.text{
-    text-align: center;
-    line-height: 30px;
-    vertical-align: middle;
-    font-size: 18px;
     float: left;
-    width: 333px;
-}
-.step_one.active .text, .step_two.active .text.text__step_two, .step_three.active .text.text__step_three{
-    color: #FFF;
-}
-.step_two .text.text__step_two, .step_three .text.text__step_three{
+    width: 351.5px;
+    background-repeat: no-repeat;
+    background-size: 350.5px 32px;
+    height: 32px;
+    position: relative;
+    text-align: center;
+    line-height: 32px;
     color: #666;
 }
 
-.step.step_two.active{
+.step__one{
+    background-image: url("../images/progress_fields-01.svg");
+    z-index: 3;
+    left: 20px;
+    margin-left: -20px;
+}
+.step__two{
+    background-image: url("../images/progress_fields-02.svg");
+    left: 21.5px;
+    z-index: 2;
+    margin-left: -21px;
+}
+.step__three{
+    background-image: url("../images/progress_fields-03.svg");
+    left: 22px;
+    z-index: 1;
+    margin-left: -20px;
+}
+.step.active{
+    color: #FFF;
+}
+.step__two.active{
     background-image: url("../images/progress_fields-04.svg");
 }
 
-.step.step_three.active{
+.step__three.active{
     background-image: url("../images/progress_fields-05.svg");
 }
+
+/*.step{*/
+    /*background-repeat: no-repeat;*/
+    /*height: 30px;*/
+    /*width: auto;*/
+    /*background-size: 333px 31px;*/
+/*}*/
+
+/*.step.step_one{*/
+    /*background-image: url("../images/progress_fields-01.svg");*/
+/*}*/
+
+/*.step.step_two{*/
+    /*background-image: url("../images/progress_fields-02.svg");*/
+    /*margin-left: 342px;*/
+/*}*/
+
+/*.step.step_three{*/
+    /*background-image: url("../images/progress_fields-03.svg");*/
+    /*margin-left: 342px;*/
+/*}*/
+
+/*.text{*/
+    /*text-align: center;*/
+    /*line-height: 30px;*/
+    /*vertical-align: middle;*/
+    /*font-size: 18px;*/
+    /*float: left;*/
+    /*width: 333px;*/
+/*}*/
+/*.step_one.active .text, .step_two.active .text.text__step_two, .step_three.active .text.text__step_three{*/
+    /*color: #FFF;*/
+/*}*/
+/*.step_two .text.text__step_two, .step_three .text.text__step_three{*/
+    /*color: #666;*/
+/*}*/
+
+/*.step.step_two.active{*/
+    /*background-image: url("../images/progress_fields-04.svg");*/
+/*}*/
+
+/*.step.step_three.active{*/
+    /*background-image: url("../images/progress_fields-05.svg");*/
+/*}*/
