@@ -514,9 +514,14 @@ a.muted:focus {
 }
 
 .help-inline{
-    width: 55%;
+    width: 60%;
     display: inline-block;
     font-size: 14px;
+    vertical-align: super;
+}
+
+.help-inline.more-lines{
+    vertical-align: top;
 }
 
 p.login-instruction{
