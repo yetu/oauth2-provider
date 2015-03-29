@@ -519,8 +519,7 @@ a.muted:focus {
     font-size: 14px;
     vertical-align: super;
 }
-
-.help-inline.more-lines{
+.control-group:nth-child(5) .help-inline{
     vertical-align: top;
 }
 

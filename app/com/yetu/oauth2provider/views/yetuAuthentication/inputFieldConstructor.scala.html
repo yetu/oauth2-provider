@@ -5,13 +5,9 @@
     <div class="controls">
         @elements.input
         @if( elements.hasErrors ) {
-            @if( elements.errors(elements.lang).mkString(", ").contains("Password must contain") ) {
-                <div class="help-inline more-lines">@elements.errors(elements.lang).mkString(", ")</div>
-            }else{
-                <div class="help-inline">@elements.errors(elements.lang).mkString(", ")</div>
-            }
+            <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
         } else {
-            <div class="help-block">@elements.infos(elements.lang).mkString(", ")</div>
+            <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
         }
     </div>
 
