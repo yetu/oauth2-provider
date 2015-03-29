@@ -114,37 +114,34 @@ header{
 }
 
 .button{
-    background: blue;
-    text-transform: uppercase;
-    padding: 10px 5%;
     color: #ffffff;
+    font-size: 18px;
+    text-align: center;
+    text-decoration: none;
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+    background-color: rgb(0,152,72);
+    text-transform: uppercase;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    border: none;
+    text-align: center;
 }
 
 .left__content-download{
-	display: none;
-  background-color: rgb(0,152,72);
-  text-transform: uppercase;
-  padding: 10px 5%;
-	margin-left: 25%;
-  width: 45%;
-  color: #ffffff;
-  font-size: 18px;
-  text-align: center;
-  text-decoration: none;
-  box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+    display: none;
+    width: 270px;
+    margin-left: 40px;
+    height: 45px;
+    padding: 20px 40px;
 }
 
-.left__content-faq{
-	display: block;
-  color: rgb(0,152,72);
-  text-decoration: none;
-  font-size: 20px;
-  width: 55%;
-  margin-top: 50px;
-  margin-left: 25%;
-  text-align: center;
+.left__content-faq {
+    display: block;
+    color: rgb(0, 152, 72);
+    text-decoration: none;
+    font-size: 20px;
+    margin-top: 50px;
+    margin-left: 0px;
 }
-
 .left__content-info{
     width: 120%;
     padding: 15px;

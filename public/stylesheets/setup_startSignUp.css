@@ -1,3 +1,9 @@
+/*MAIN*/
+.signup_headline{
+    font-size: 25px;
+    font-weight: bold;
+}
+
 .radio-btn, .label-register{
 	line-height: 32px;
 	vertical-align: middle;
@@ -5,6 +11,8 @@
 .radio-btn{
 	margin-right: 5px;
 }
+
+/*CONTENT*/
 .content{
     margin-top: 0;
     width: 100%;
@@ -17,31 +25,41 @@
     box-shadow: 1px 1px 5px #666;
     margin: 20px auto;
     background: white;
-    width: 999px;
-    height: 510px;
-}
-.left{
-    width: 40%;
-    padding-right: 5%;
-}
-.right{
-    margin-left: 50%;
-    width: 40%;
-    height: 100%;
+    width: 895px;
+    height: 430px;
+    padding: 40px 50px 0 50px;
 }
 
+/*CONTAINER*/
+.left, .right{
+    width: 432.5px;
+    padding: 0;
+    margin: 0;
+}
+.right{
+    width: 247.5px;
+    padding-left: 110px;
+    margin-left: 447.5px;
+}
+
+/** RIGHT CONTAINER ELEMENTS **/
+.right__text{
+    width: 175px;
+    margin-left: 25px;
+    font-size: 18px;
+}
+
+.right__marked{
+    color: #006600;
+}
+
+/**LEFT CONTAINER ELEMENTS*/
+
 .left__form{
-    border-right: solid 1px #666;
+    border-right: solid 1px #B4B4B4;
 }
 .left__fieldset{
     border: none;
-}
-.left__hint{
-	float:right;
-	margin-right: 10%;
-	font-size: 0.8em;
-	font-style: italic;
-	margin-bottom: 10px;
 }
 .left__terms-input{
 	margin-left: 32%;
@@ -49,41 +67,68 @@
 .left__terms-label{
 	font-size: 0.9em;
 }
-.left__label{
-	float:left;
-	display:block;
-	line-height: 29px;
+.left__input{
+    display: block;
+    height: 15px;
+    padding: 5px;
+    font-size: 13px;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    width: 246px;
+    color: #B4B4B4;
+    border: solid 1px #B4B4B4;
+}
+.left__fieldsmandatory{
+    font-size: 10px;
+    text-align: right;
+    margin-right: 63px;
+    margin-top: 20px;
+}
+/*classes defined by input field template*/
+/*container*/
+.control-group{
+
+}
+/*label for input field*/
+.control-label{
+    float: left;
+    display: block;
+    line-height: 29px;
     vertical-align: middle;
     text-align: right;
+    width: 180px;
+    margin-left: -100px;
+    padding: 0 10px;
+    font-size: 18px;
 }
-.left__input{
-    float: right;
-    margin-right: 10%;
+/*container around input field and help-inline/help-block*/
+.controls{
+    width: 258px;
+    margin-left: 100px;
     margin-bottom: 10px;
-	width: 55%;
-	display:block;
-	height: 15px;
-	padding: 5px;
-    font-size: 1em;
-    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 }
-.left__error{
+/*hints*/
+.help-block{
     display:none;
-    float: right;
+    float:right;
     margin-right: 10%;
-    margin-bottom: 10px;
-    width: 57%;
     font-size: 0.8em;
-    color: red;
+    font-style: italic;
+    margin-bottom: 10px;
+}
+/*errors*/
+.help-inline{
+    display:none;
 }
 
+/* BUTTON CONTAINER */
 .buttoncontainer{
-    padding: 5% 45%;
-    background: #FFFFFF;
+    padding: 10px 390px;
+    margin-top: 40px;
+    border-top: solid 1px #B4B4B4;
+    margin-left: -35px;
+    width: 185px;
 }
 .buttoncontainer__next-button{
-    width: 100%;
-    display: block;
-    text-align: center;
+    width: 150px;
+    height: 50px;
 }
-

@@ -22,12 +22,13 @@
             @views.html.setup.steps(1)
             <div class="content__main">
                 <div id="leftContainer" class="left">
-                    <h2 name="setupSignup">
+                    <h2 class="signup_headline">
                         <input class="radio-btn" type="radio" name="registered" value="not" checked="true"/>
-                        <label class="label-register">@Messages("setup.registration.register")</label>
+                        <label name="setupSignup" class="label-register">@Messages("setup.signup.register")</label>
                     </h2>
+                    <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
                     <form action="@env.routes.handleStartSignUpUrl"
-                    class="left__form" id="registration_form"
+                    class="left__form" id="signup_form"
                     autocomplete="off" method="post">
                         <fieldset class="left__fieldset">
                             @CSRF.formField
@@ -67,15 +68,15 @@
                             <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"
                             data-validate="agreement"/>
                             <label class="left__terms-label">
-                                    <span>@Messages("setup.registration.terms")</span>
-                                    <a href="">@Html(Messages("setup.registration.termslink"))</a>
+                                    <span>@Messages("setup.signup.terms")</span>
+                                    <a href="">@Html(Messages("setup.signup.termslink"))</a>
                             </label>
                             <div class="clear"></div>
                             <input class="left__terms-input" type="checkbox" name="terms" value="termsaccepted"
                             data-validate="agreement"/>
                             <label class="left__terms-label">
-                                <span>@Messages("setup.registration.terms")</span>
-                                <a href="">@Html(Messages("setup.registration.termslink"))</a>
+                                <span>@Messages("setup.signup.terms")</span>
+                                <a href="">@Html(Messages("setup.signup.termslink"))</a>
                             </label>
                             @request.flash.get("error").map { msg =>
                                 <div class="alert alert-error">
@@ -86,11 +87,13 @@
                 </form>
                 </div>
                 <div id="rightContainer" class="right">
-                    <h2><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.registration.already")</label></h2>
-                    <p>@Messages("setup.registration.ifalreadyregistered")</p>
+                    <h2 class="signup_headline"><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.signup.already")</label></h2>
+                    <p class="right__text">@Messages("setup.signup.ifalreadyregistered")</p>
+                    <p class="right__text right__marked">@Messages("setup.signup.clicknext")</p>
                 </div>
-                <div class="buttoncontainer clear">
-                    <button type="submit" form="registration_form" class="button buttoncontainer__next-button">
+                <div class="clear"></div>
+                <div class="buttoncontainer">
+                    <button type="submit" form="signup_form" class="button buttoncontainer__next-button">
                             @Html(Messages("setup.next"))
                     </button>
                 </div>
@@ -98,6 +101,6 @@
 		</div>
 		@views.html.setup.footer()
 		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/validate.min.js")"></script>
-		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/registration-validation.js")"></script>
+		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/signup-validation.js")"></script>
 	</body>
 </html>

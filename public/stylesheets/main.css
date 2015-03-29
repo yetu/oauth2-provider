@@ -512,6 +512,9 @@ a.muted:focus {
 .help-block{
     display:none;
 }
+.controls-required{
+    font-size: 10px;
+}
 
 .help-inline{
     width: 60%;
