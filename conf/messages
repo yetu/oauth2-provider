@@ -100,14 +100,21 @@ setup.footer.copyright=&copy; 2015 yetu AG
 setup.footer.privacy=Privacy Policy
 setup.footer.imprint=Imprint
 setup.footer.terms=Terms &amp; conditions
+setup.footer.cookies=Cookies
 setup.next=next &gt;
 
 #setup registration page
 setup.signup.register=Register at yetu
 setup.signup.already=Already registered?
 setup.signup.allfieldsmandatory=All fields are mandatory
-setup.signup.terms=I accept the
-setup.signup.termslink=terms &amp; conditions
+setup.signup.getinfo=Please inform me about new features occasionally.
+setup.signup.terms1=I have read and accept the
+setup.signup.termslink1=terms &amp; conditions
+setup.signup.terms2=and the
+setup.signup.termslink2=private policy
+setup.signup.terms3=. I consent to the use and processing of my data in accordance with the statement of the
+setup.signup.termslink3=privacy policy
+setup.signup.terms4=&#42;
 setup.signup.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly.
 setup.signup.clicknext=Just click "next".
 

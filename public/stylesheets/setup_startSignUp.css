@@ -65,11 +65,20 @@
 .left__fieldset{
     border: none;
 }
-.left__terms-input{
-	margin-left: 32%;
+.left__agreement{
+    padding-top: 1px
 }
-.left__terms-label{
-	font-size: 0.9em;
+.left__agreement-input{
+    margin-left: 100px;
+    display: block;
+    float: left;
+}
+.left__agreement-label{
+    font-size: 10px;
+    width: 250px;
+    display: block;
+    margin-left: 120px;
+    margin-top: 3px;
 }
 .left__input{
     display: block;
@@ -127,7 +136,7 @@
 /* BUTTON CONTAINER */
 .buttoncontainer{
     padding: 10px 390px;
-    margin-top: 40px;
+    margin-top: 30px;
     border-top: solid 1px #B4B4B4;
     margin-left: -35px;
     width: 185px;

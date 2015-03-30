@@ -64,10 +64,10 @@ header{
 	display: flex;
 }
 .headline{
-    padding: 10px 0;
+    padding: 15px 0;
 }
 .headline__simple{
-    line-height: 110px;
+    line-height: 100px;
 }
 
 .content{
