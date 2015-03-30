@@ -1,14 +1,18 @@
-/*MAIN*/
+/*MAIN STUFF*/
 .signup_headline{
     font-size: 25px;
     font-weight: bold;
+    font-family: source_sans_proregular;
 }
 
-.radio-btn, .label-register{
+.signup_radiobutton, .signup_headline_label{
 	line-height: 32px;
 	vertical-align: middle;
 }
-.radio-btn{
+.signup_headline_label.right{
+    margin-left: 5px;
+}
+.signup_radiobutton{
 	margin-right: 5px;
 }
 

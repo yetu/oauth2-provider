@@ -23,8 +23,8 @@
             <div class="content__main">
                 <div id="leftContainer" class="left">
                     <h2 class="signup_headline">
-                        <input class="radio-btn" type="radio" name="registered" value="not" checked="true"/>
-                        <label name="setupSignup" class="label-register">@Messages("setup.signup.register")</label>
+                        <input class="signup_radiobutton" type="radio" name="registered" value="not" checked="true"/>
+                        <label name="setupSignup" class="signup_headline_label">@Messages("setup.signup.register")</label>
                     </h2>
                     <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
                     <form action="@env.routes.handleStartSignUpUrl"
@@ -87,7 +87,10 @@
                 </form>
                 </div>
                 <div id="rightContainer" class="right">
-                    <h2 class="signup_headline"><input class="radio-btn"  type="radio" name="registered" value="already"/><label class="label-register">@Messages("setup.signup.already")</label></h2>
+                    <h2 class="signup_headline">
+                        <input class="signup_radiobutton"  type="radio" name="registered" value="already"/>
+                        <label class="signup_headline_label">@Messages("setup.signup.already")</label>
+                    </h2>
                     <p class="right__text">@Messages("setup.signup.ifalreadyregistered")</p>
                     <p class="right__text right__marked">@Messages("setup.signup.clicknext")</p>
                 </div>
