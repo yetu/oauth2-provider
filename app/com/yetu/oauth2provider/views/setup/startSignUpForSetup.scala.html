@@ -62,10 +62,18 @@
                             )
 
                             @helper.inputCheckboxGroup(
+                                startForm("getinfo"),
+                                options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
+                                '_label -> "getinfo"
+                            )
+
+                            @helper.inputCheckboxGroup(
                                 startForm("agreement"),
-                                options = Seq("getInfo" -> Messages("setup.signup.getinfo"), "agreement" -> "agreement"),
+                                options = Seq("agreement" -> "agreement"),
                                 '_label -> "agreements",
-                                '_error -> startForm("agreement").error.map(_.withMessage("Please read the agreement.")))
+                                '_error -> startForm("agreement").error.map(_.withMessage("Please read the agreement."))
+                            )
+
 
                             @request.flash.get("error").map { msg =>
                                 <div class="alert alert-error">
@@ -94,7 +102,7 @@
 		@views.html.setup.footer()
         <script>
             document.body.onload = function(){
-                document.getElementById("agreement" ).childNodes[7 ].innerHTML =
+                document.getElementById("agreement" ).childNodes[3].innerHTML =
                 '<span>'+'@Messages("setup.signup.terms1")'+'</span>'
                     +'<a href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
                     +'<span>'+' @Messages("setup.signup.terms2")'+'</span>'
