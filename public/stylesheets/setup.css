@@ -31,7 +31,7 @@ body, html{
 	top: 0;
 	font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 	color: #666;
-    min-width: 1010px;
+    min-width: 995px;
 }
 
 h1{
@@ -59,7 +59,7 @@ h2{
 
 header{
 	margin: 0 auto;
-	width: 80%;
+	width: 995px;
 	height: 100px;
 	display: flex;
 }
