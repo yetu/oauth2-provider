@@ -1,6 +1,4 @@
-@(startForm:Form[securesocial.controllers.RegistrationInfo])(implicit request: RequestHeader, lang: Lang, env:
-        securesocial.core
-        .RuntimeEnvironment[_])
+@(startForm:Form[securesocial.controllers.RegistrationInfo])(implicit request: RequestHeader)
 @import com.yetu.oauth2provider.views
 @import helper._
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
@@ -27,7 +25,7 @@
                         <label name="setupSignup" class="signup_headline_label">@Messages("setup.signup.register")</label>
                     </h2>
                     <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
-                    <form action="@env.routes.handleStartSignUpUrl"
+                    <form action="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.handleStartSignUp"
                     class="left__form" id="signup_form"
                     autocomplete="off" method="post">
                         <fieldset class="left__fieldset">
@@ -63,22 +61,11 @@
                                 'class -> "left__input"
                             )
 
-                            <!--TODO: add real fields for terms and ... in form and adapt backend for that-->
-                            <div class="left__agreement clear">
-                                <input class="left__agreement-input" type="checkbox" name="getinfo"/>
-                                <label class="left__agreement-label"> @Messages("setup.signup.getinfo")</label>
-                                <div class="clear"></div>
-                                <input class="left__agreement-input" type="checkbox" name="agreement"/>
-                                <label class="left__agreement-label">
-                                    <span>@Messages("setup.signup.terms1")</span>
-                                    <a href="">@Html(Messages("setup.signup.termslink1"))</a>
-                                    <span>@Messages("setup.signup.terms2")</span>
-                                    <a href="">@Html(Messages("setup.signup.termslink2"))</a>
-                                    <span>@Messages("setup.signup.terms3")</span>
-                                    <a href="">@Html(Messages("setup.signup.termslink3"))</a>
-                                    <span>@Messages("setup.signup.terms4")</span>
-                                </label>
-                            </div>
+                            @helper.inputCheckboxGroup(
+                                startForm("agreement"),
+                                options = Seq("getInfo" -> Messages("setup.signup.getinfo"), "agreement" -> "agreement"),
+                                '_label -> "agreements",
+                                '_error -> startForm("agreement").error.map(_.withMessage("Please read the agreement.")))
 
                             @request.flash.get("error").map { msg =>
                                 <div class="alert alert-error">
@@ -105,7 +92,18 @@
             </div>
 		</div>
 		@views.html.setup.footer()
-		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/validate.min.js")"></script>
-		<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/signup-validation.js")"></script>
+        <script>
+            document.body.onload = function(){
+                document.getElementById("agreement" ).childNodes[7 ].innerHTML =
+                '<span>'+'@Messages("setup.signup.terms1")'+'</span>'
+                    +'<a href="">'+'@Html(Messages("setup.signup.termslink1"))'+'</a>'
+                    +'<span>'+'@Messages("setup.signup.terms2")'+'</span>'
+                    +'<a href="">'+'@Html(Messages("setup.signup.termslink2"))'+'</a>'
+                    +'<span>'+'@Messages("setup.signup.terms3")'+'</span>'
+                    +'<a href="">'+'@Html(Messages("setup.signup.termslink3"))'+'</a>'
+                    +'<span>'+'@Html(Messages("setup.signup.terms4"))'+'</span>'
+                ;
+            }
+        </script>
 	</body>
 </html>

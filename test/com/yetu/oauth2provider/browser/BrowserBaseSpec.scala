@@ -29,6 +29,25 @@ class BrowserBaseSpec extends PlaySpec
 
   val browserTestUserPassword = "pasSw0rd" // bad password, but enough to pass the basic validation.
 
+  def register(password: String, email: String) = {
+    val firstNameInputField = find(name("firstName"))
+    click on firstNameInputField.value
+    pressKeys("testFirstName")
+    val lastNameInputField = find(name("lastName"))
+    click on lastNameInputField.value
+    pressKeys("testLastName")
+    val emailInputField = find(name("email"))
+    click on emailInputField.value
+    pressKeys(email)
+    val password1InputField = find(name("password.password1"))
+    click on password1InputField.value
+    pressKeys(password)
+    val password2InputField = find(name("password.password2"))
+    click on password2InputField.value
+    pressKeys(password)
+    click on find(tagName("button")).value
+  }
+
   def clearMailTokensInMemory() = {
     MemoryMailTokenService.mailTokens = Map[String, MailToken]()
   }
