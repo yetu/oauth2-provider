@@ -20,11 +20,7 @@
 		<div class="content">
             @views.html.setup.steps(1)
             <div class="content__main">
-                <div id="leftContainer" class="left">
-                    <h2 class="signup_headline">
-                        <input class="signup_radiobutton" type="radio" name="registered" value="not" checked="true"/>
-                        <label name="setupSignup" class="signup_headline_label">@Messages("setup.signup.register")</label>
-                    </h2>
+                <div name="setupSignup" id="leftContainer" class="left">
                     <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
                     <form action="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.handleStartSignUp"
                     class="left__form" id="signup_form"
@@ -92,10 +88,6 @@
                 </form>
                 </div>
                 <div id="rightContainer" class="right">
-                    <h2 class="signup_headline">
-                        <input class="signup_radiobutton"  type="radio" name="registered" value="already"/>
-                        <label class="signup_headline_label">@Messages("setup.signup.already")</label>
-                    </h2>
                     <p class="right__text">@Messages("setup.signup.ifalreadyregistered")</p>
                     <p class="right__text">@Html(Messages("setup.signup.clicknext"))</p>
                 </div>
@@ -123,11 +115,11 @@
             document.body.onload = function(){
                 document.getElementById("agreement" ).childNodes[3].innerHTML =
                 '<span>'+'@Messages("setup.signup.terms1")'+'</span>'
-                    +'<a href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
+                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
                     +'<span>'+' @Messages("setup.signup.terms2")'+'</span>'
-                    +'<a href="">'+' @Html(Messages("setup.signup.termslink2"))'+'</a>'
+                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink2"))'+'</a>'
                     +'<span>'+' @Messages("setup.signup.terms3")'+'</span>'
-                    +'<a href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
+                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
                     +'<span>'+' @Html(Messages("setup.signup.terms4"))'+'</span>';
 
                 var inputFields = document.getElementsByClassName("left__input");

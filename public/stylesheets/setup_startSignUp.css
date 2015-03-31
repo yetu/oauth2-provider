@@ -39,11 +39,13 @@
     width: 432.5px;
     padding: 0;
     margin: 0;
+    margin-top: 30px;
 }
 .right{
     width: 247.5px;
     padding-left: 110px;
     margin-left: 447.5px;
+    margin-top: 60px;
 }
 
 /** RIGHT CONTAINER ELEMENTS **/
@@ -59,6 +61,9 @@
 .left__form{
     border-right: solid 1px #B4B4B4;
     height: 280px;
+}
+.left__link{
+    color: #009900;
 }
 .left__fieldset{
     border: none;
@@ -148,6 +153,36 @@
     float:left;
     display:block;
     clear:both;
+}
+#UserRegistrationStatus_field .controls{
+    position: absolute;
+    top: 245px;
+    margin-left: -15px;
+    width: 875px;
+    font-size: 25px;
+}
+#UserRegistrationStatus_field label:nth-child(1){
+    display: none;
+}
+#UserRegistrationStatus_field label,
+#UserRegistrationStatus_field input{
+    line-height: 34px;
+    vertical-align: middle;
+}
+#UserRegistrationStatus_UserAlreadyRegistered{
+    margin-left: 371px;
+}
+#UserRegistrationStatus_field .help-icon{
+    display:none;
+}
+#password_password2_field .help-icon{
+    display:none;
+}
+#agreement_field .help-icon{
+    display:none;
+}
+#getinfo_field .help-icon{
+    display:none;
 }
 /*only until we are sure about law stuff with it*/
 #getinfo_field{
