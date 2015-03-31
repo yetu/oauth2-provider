@@ -32,7 +32,7 @@
                         <fieldset class="left__fieldset">
                             @CSRF.formField
                             @helper.inputRadioGroup(
-                                newUserForm(UserRegistrationStatus),
+                                filledNewUserForm(UserRegistrationStatus),
                                 options = Seq(
                                     UserNotRegistered -> Messages("setup.signup.register"),
                                     UserAlreadyRegistered -> Messages("setup.signup.already")

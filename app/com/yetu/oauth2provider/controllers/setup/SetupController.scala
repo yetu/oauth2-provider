@@ -2,7 +2,6 @@ package com.yetu.oauth2provider.controllers.setup
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
-import com.yetu.oauth2provider.views.html.setup
 import play.api.Logger
 import play.api.data.Form
 import play.api.mvc._
@@ -95,5 +94,7 @@ object SetupController {
       UserRegistrationStatus -> nonEmptyText
     )
   )
+
+  val filledNewUserForm = newUserForm.fill(UserNotRegistered)
 }
 
