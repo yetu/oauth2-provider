@@ -6,9 +6,10 @@
         @elements.input
         @if( elements.hasErrors ) {
             <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
+            <span class="help-icon" onmouseover="hoverHelp(this)" onmouseout="blurHelp(this)">?</span>
         } else {
-            <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
-            <span class="help-icon"></span>
+            <span class="help-block display-none">@elements.infos(elements.lang).mkString(", ")</span>
+            <span class="help-icon" onmouseover="hoverHelp(this)" onmouseout="blurHelp(this)">?</span>
         }
     </div>
 

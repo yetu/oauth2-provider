@@ -29,7 +29,7 @@ body, html{
 	margin: 0;
 	padding: 0;
 	top: 0;
-	font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+	font-family: source_sans_proregular, 'Helvetica Neue', Arial;
 	color: #666;
     min-width: 995px;
 }
@@ -43,6 +43,7 @@ h2{
     font-size: 18px;
     margin: 0;
 }
+
 .content__headline {
     font-size: 25px;
     font-weight: 400;
@@ -52,7 +53,7 @@ h2{
 	background-image: url('../images/yetu_logo.svg');
 	width: 80px;
 	height: 80px;
-	top: 15px;
+	top: 10px;
 	right: 15px;
 	position: absolute;
 }
@@ -65,6 +66,7 @@ header{
 }
 .headline{
     padding: 15px 0;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 }
 .headline__simple{
     line-height: 100px;
