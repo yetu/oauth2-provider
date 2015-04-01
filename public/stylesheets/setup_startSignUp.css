@@ -68,7 +68,7 @@
 .left__fieldset{
     border: none;
 }
-.left__input{
+.left__input, #password_password2_field input{
     display: block;
     height: 15px;
     padding: 5px;
@@ -121,19 +121,6 @@
     margin-bottom: 10px;
     position: relative;
 }
-/*hints*/
-.help-block{
-    display:none;
-    float:right;
-    margin-right: 10%;
-    font-size: 0.8em;
-    font-style: italic;
-    margin-bottom: 10px;
-}
-/*errors*/
-.help-inline{
-    display:none;
-}
 
 /*checkbox agreement*/
 #agreement_field label, #getinfo_field label{
@@ -178,6 +165,9 @@
 #password_password2_field .help-icon{
     display:none;
 }
+#password_password2_field .help-block{
+    display:none;
+}
 #agreement_field .help-icon{
     display:none;
 }
@@ -188,7 +178,7 @@
 #getinfo_field{
     display:none;
 }
-
+/*info*/
 .help-block{
     display: block;
     margin-top: -32px;
@@ -200,8 +190,10 @@
     box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
     margin-right: -15px;
     z-index: 10;
-    position: relative;
+    position: absolute;
+    right: 0;
 }
+/*erros*/
 .help-inline{
     display: block;
     position: absolute;

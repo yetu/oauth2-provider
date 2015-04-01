@@ -37,32 +37,35 @@
                             @helper.inputText(
                                 startForm("firstName"),
                                 '_label -> Messages("securesocial.signup.firstName"),
-                                'class -> "left__input"
+                                'class -> "left__input",
+                                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
                             )
 
                             @helper.inputText(
                                 startForm("lastName"),
                                 '_label -> Messages("securesocial.signup.lastName"),
-                                'class -> "left__input"
+                                'class -> "left__input",
+                                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
                             )
 
                             @helper.inputText(
                                 startForm("email"),
                                 '_label -> Messages("securesocial.signup.email1"),
-                                'class -> "left__input"
+                                'class -> "left__input",
+                                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
                             )
 
                             @helper.inputPassword(
                                 startForm("password.password1"),
                                 '_label -> Messages("securesocial.signup.password1"),
-                                'class -> "left__input"
+                                'class -> "left__input",
+                                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.password")))
                             )
 
                             @helper.inputPassword(
                                 startForm("password.password2"),
                                 '_label -> Messages("securesocial.signup.password2"),
-                                '_error -> startForm.error("password"),
-                                'class -> "left__input"
+                                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
                             )
 
                             @helper.inputCheckboxGroup(
@@ -102,13 +105,13 @@
 		@views.html.setup.footer()
         <script>
             var hoverHelp = function(element){
-                if( element.previousSibling && element.previousSibling.previousSibling){
-                    element.previousSibling.previousSibling.setAttribute('class', 'help-block');
+                if( element.nextSibling && element.nextSibling.nextSibling){
+                    element.nextSibling.nextSibling.setAttribute('class', 'help-block');
                 }
             };
             var blurHelp = function(element){
-                if( element.previousSibling && element.previousSibling.previousSibling){
-                    element.previousSibling.previousSibling.setAttribute('class', 'help-block display-none');
+                if( element.nextSibling && element.nextSibling.nextSibling){
+                    element.nextSibling.nextSibling.setAttribute('class', 'help-block display-none');
                 }
             };
 
@@ -122,21 +125,25 @@
                     +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
                     +'<span>'+' @Html(Messages("setup.signup.terms4"))'+'</span>';
 
-                var inputFields = document.getElementsByClassName("left__input");
                 var helpInlines = document.getElementsByClassName("help-inline");
+                window.setTimeout(function(){
+                    helpInlines = document.getElementsByClassName("help-inline");
+                    for(var k= 0; k<helpInlines.length; k++){
+                        helpInlines[k].onclick = function(){
+                            var next = this
+                            next.setAttribute('class', 'help-inline display-none');
+                            var inputField = next.previousSibling.previousSibling;
+                            inputField.focus();
+                        }
+                    };
+                }, 1000);
+
+                var inputFields = document.getElementsByClassName("left__input");
                 var helpBlocks = document.getElementsByClassName("help-block");
                 for(var i= 0, l=inputFields.length; i<l; i++){
                     if(helpBlocks[i]){
-                        helpInlines[i] = helpBlocks[i];
-                        helpBlocks[i].setAttribute('class', 'help-inline display-none');
-                    }
-                    if(helpInlines[i]){
-                        helpInlines[i].onclick = function(){
-                            var next = this
-                            next.setAttribute('class', 'help-inline display-none');
-                            inputFields[i ].focus();
-
-                        };
+                        helpBlocks[i].setAttribute('class', 'help-block display-none');
+                        helpBlocks[i] = null;
                     }
                     if(inputFields[i].value!==""){
                         helpInlines[i].setAttribute('class', 'help-inline help-inline__bottom')

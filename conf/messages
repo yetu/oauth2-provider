@@ -37,7 +37,7 @@ securesocial.signup.password2=Repeat Password
 securesocial.signup.createAccount=Create Account
 securesocial.signup.cancel=Cancel
 securesocial.signup.userNameAlreadyTaken=Username already taken.
-securesocial.signup.passwordsDoNotMatch=Passwords do not match.
+securesocial.signup.passwordsDoNotMatch=The passwords do not match.
 securesocial.signup.thankYouCheckEmail=Thank you. Please check your E-Mail for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
@@ -65,7 +65,7 @@ securesocial.passwordChange.currentPassword=Current Password
 securesocial.passwordChange.newPassword1=New Password
 securesocial.passwordChange.newPassword2=New Password Confirmation
 securesocial.passwordChange.changeButton=Change
-securesocial.passwordChange.invalidPassword=Invalid password
+securesocial.passwordChange.invalidPassword=The password was invalid.
 securesocial.passwordChange.ok=Your password was changed successfully.
 securesocial.passwordChange.okButton=Ok
 
@@ -117,7 +117,8 @@ setup.signup.termslink3=privacy policy
 setup.signup.terms4=&#42;
 setup.signup.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly.
 setup.signup.clicknext=Just click "next".
-
+setup.signup.error.required=This field is required.
+setup.signup.error.password=This field is required. Enter at least 8 characters.
 #setup mail confirm page
 setup.confirmmail.headline=Check yout email inbox and click in the registration link to proceed.
 setup.confirmmail.description=We just sent you an email to the email address you provided. Please check it, and click\
