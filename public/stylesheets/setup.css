@@ -70,6 +70,7 @@ header{
 }
 .headline__simple{
     line-height: 100px;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 }
 
 .content{

@@ -1,13 +1,22 @@
 .left{
-    width: 35%;
-    padding: 5%;
+    width: 400px;
+    padding: 90px 20px;
 }
 .left__img{
-    width: 100%;
-    height: 300px;
+    width: 420px;
+    margin-left: 20px;
 }
 .right{
-    padding: 5% 0 5% 5%;
-    margin-left: 40%;
-    width: 55%;
+    padding: 90px 80px;
+    margin-left: 490px;
+    width: 355px;
+}
+.right__heading{
+    font-size: 25px;
+}
+.content__main{
+    width: 995px;
+}
+.content{
+    height: 520px;
 }
