@@ -78,7 +78,7 @@ header{
 	background-repeat: no-repeat;
     background-size: cover;
     padding: 50px 0;
-    height: 700px;
+    height: 480px;
 }
 
 .content > .steps{
@@ -86,10 +86,15 @@ header{
 	margin: 0 auto 50px auto;
 }
 
+.content__main{
+    width: 995px;
+    margin: auto;
+}
+
 .left{
 	float: left;
-	width: 40%;
-	padding-left: 10%;
+	width: 440px;
+    margin-left: 20px;
 }
 
 .left__content {
@@ -97,7 +102,8 @@ header{
 }
 
 .left__content-description{
-	margin-bottom: 50px;
+    margin-top: 30px;
+	margin-bottom: 60px;
 }
 .left__content-description-label{
     font-weight: bold;
@@ -140,8 +146,8 @@ header{
     display: block;
     color: rgb(0, 152, 72);
     text-decoration: none;
-    font-size: 20px;
-    margin-top: 50px;
+    font-size: 18px;
+    margin-top: 70px;
     margin-left: 0px;
 }
 .left__content-info{
@@ -169,27 +175,41 @@ header{
 }
 
 .right{
-	margin-left: 55%;
+	margin-left: 535px;
+    width: 400px
 }
 
 .right__gateway-img{
-	width: 400px;
-  height: 340px;
-  margin: 0px;
-  padding: 0px;
-  background-image: url('../images/TV_connection-01.svg');
-  background-color: white;
-  background-repeat: no-repeat;
-  background-size: 300px;
-  background-position: 15px 15px;
-  box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+    width: 410px;
+    height: 290px;
+    margin: 0px;
+    padding: 0px;
+    background-image: url('../images/TV_connection-01.png');
+    background-color: white;
+    background-repeat: no-repeat;
+    background-size: 230px;
+    background-position: 15px 15px;
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+    position: relative;
 }
 
 .right__gateway-text{
-	padding-top: 240px;
-  padding-left: 40px;
-  padding-right: 40px;
-  margin: 0;
+    padding-top: 200px;
+    padding-left: 30px;
+    padding-right: 20px;
+    margin: 0;
+    font-size: 16px;
+}
+
+.right__gateway-icon{
+    background-image: url('../images/hdmi-01.svg');
+    background-repeat: no-repeat;
+    background-size: 100%;
+    width: 30px;
+    height: 20px;
+    position: absolute;
+    top: 227px;
+    left: 207px;
 }
 
 .full{

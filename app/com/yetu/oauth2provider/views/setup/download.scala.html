@@ -15,41 +15,48 @@
         @views.html.setup.header(false)
         <div class="content">
             @views.html.setup.steps(3)
-            <div id="leftContainer" class="left">
-                <h2 class="content__headline">@Messages("setup.download.headline")</h2>
-                <div id="download_available" class="left__content">
-                    <p class="left__content-description">@Messages("setup.download.description")</p>
-                    <a id="download_mac1" class="left__content-download button" href="@Html(downloadUrlMac)" onclick="onClickDownload()">@Messages("setup.download.button.mac")</a>
-                    <a id="download_win1" class="left__content-download button" href="@Html(downloadUrlWin)" onclick="onClickDownload()">@Messages("setup.download.button.win")</a>
-                    <a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
-                </div>
-                <div id="download_not_available" class="left__content">
-                    <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
-                    <p class="left__content-description nobottommargin">
-                        <span class="left__content-description-label">@Messages("setup.download.notavailable.youros")</span>
-                        <span id="youros"></span>
-                    </p>
-                    <p class="left__content-description smallbuttonmargin notopmargin">
-                        <span class="left__content-description-label">@Messages("setup.download.notavailable.reqos")</span>
-                        <span id="requiredos1"></span>
-                        <span id="or">@Messages("setup.download.notavailable.or")</span>
-                        <span id="requiredos2"></span>
-                    </p>
-                    <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
-                    <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionthree")</p>
-                    <a class="left__content-link" href="">@Messages("setup.download.notavailable.link")</a>
-                    <div class="left__content-info">
-                        <img class="left__content-info-icon" href="" />
-                        <p class="left__content-info-text">
-                            <span>@Messages("setup.download.notavailable.infodesc")</span>
-                            <a href="">@Messages("setup.download.notavailable.homescreen")</a>
+            <div class="content__main">
+                <div id="leftContainer" class="left">
+                    <h2 class="content__headline">@Messages("setup.download.headline")</h2>
+                    <div id="download_available" class="left__content">
+                        <p class="left__content-description">@Messages("setup.download.description")</p>
+                        <a id="download_mac1" class="left__content-download button" href="@Html(downloadUrlMac)" onclick="onClickDownload()">@Messages("setup.download.button.mac")</a>
+                        <a id="download_win1" class="left__content-download button" href="@Html(downloadUrlWin)" onclick="onClickDownload()">@Messages("setup.download.button.win")</a>
+                        <a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
+                    </div>
+                    <div id="download_not_available" class="left__content">
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
+                        <p class="left__content-description nobottommargin">
+                            <span class="left__content-description-label">@Messages("setup.download.notavailable.youros")</span>
+                            <span id="youros"></span>
                         </p>
+                        <p class="left__content-description smallbuttonmargin notopmargin">
+                            <span class="left__content-description-label">@Messages("setup.download.notavailable.reqos")</span>
+                            <span id="requiredos1"></span>
+                            <span id="or">@Messages("setup.download.notavailable.or")</span>
+                            <span id="requiredos2"></span>
+                        </p>
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionthree")</p>
+                        <a class="left__content-link" href="">@Messages("setup.download.notavailable.link")</a>
+                        <div class="left__content-info">
+                            <img class="left__content-info-icon" href="" />
+                            <p class="left__content-info-text">
+                                <span>@Messages("setup.download.notavailable.infodesc")</span>
+                                <a href="">@Messages("setup.download.notavailable.homescreen")</a>
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div id="rightContainer" class="right">
-                <div class="right__gateway-img">
-                    <p class="right__gateway-text">@Messages("setup.download.connect")</p>
+                <div id="rightContainer" class="right">
+                    <div class="right__gateway-img">
+                        <p class="right__gateway-text">
+                            <span>@Html(Messages("setup.download.connect1"))</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <span class="right__gateway-icon"></span>
+                            <span>@Html(Messages("setup.download.connect2"))</span>
+                        </p>
+                    </div>
                 </div>
             </div>
             <div id="fullContainer" class="full">

@@ -135,8 +135,9 @@ setup.download.description=Your yetu username and password will be asked in the 
    process. With this App you will be able to link your yetu account to your gateway and enjoy an extended yetu experience, adding your home devices.
 setup.download.button.mac=download gateway setup app (mac os x, 31 mb)
 setup.download.button.win=download gateway setup app (windows, 26 mb)
-setup.download.faq=FAQ: Problems with installation?
-setup.download.connect=If you have a TV, please place your gateway next to it and connect it via the HDMI cable (included),before you start the setup process on your computer.
+setup.download.faq=Problems with installation?
+setup.download.connect1=If you have a TV, please place your gateway next </br> to it and connect it via the
+setup.download.connect2=cable (included), </br> before you start the setup process on your computer.
 
 setup.download.notavailable.descriptionone=Unfortunately your OS does not support the Setup App:
 setup.download.notavailable.descriptiontwo=The reason is related to...
