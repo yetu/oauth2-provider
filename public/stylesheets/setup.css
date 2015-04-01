@@ -216,33 +216,29 @@ header{
 .full{
 	display: none;
 	margin: 0 auto;
-  width: 80%;
+    width: 995px;
+    text-align: center;
 }
 .full__headline{
-    margin: 50px 50px 20px 50px;
+    margin: 50px 50px 5px 50px;
+    font-size: 25px;
 }
 .full__description{
-    font-size: 1.4em;
-    margin-left: 50px;
-    margin-right: 50px;
+    font-size: 25px;
+    margin: 0 50px 10px 50px;
+    line-height: 40px;
 }
 .full__download{
+    color: #009900;
     display: none;
 }
 .full__instructions{
-    margin: 60px 0 50px 0;
-}
-
-.full__instructions-install{
-    width: 49.5%;
-    margin-right: 1%;
+    margin: 60px auto;
+    background-image: url('../images/placeholder_image_instructions-01.png');
+    background-repeat: no-repeat;
+    background-size: cover;
+    width: 600px;
     height: 200px;
-    float: left;
-}
-.full__instructions-run{
-    width: 49.5%;
-    height: 200px;
-    float: left;
 }
 .clear {
     clear:both;
