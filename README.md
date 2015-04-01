@@ -12,6 +12,10 @@ This project is yetu's central authentication and authorization system.
 This Scala project is built with the Play Framework and uses [Securesocial](http://securesocial.ws) for authentication and [scala-oauth2-provider](https://github.com/nulab/scala-oauth2-provider) as a starting point for the OAuth2 flow.
 
 
+## API documentation
+
+See [API.md](API.md) for more information.
+
 ## Set up your own oauth2-provider
 
 Execute the following script to have a working oauth2provider set up with your own pair of RSA keys (The oauth2-provider creates access_tokens based on JSON Web Tokens (JWT) which it signs using RSA keys)
