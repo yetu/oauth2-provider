@@ -49,29 +49,33 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
     s"register at $setupRegistrationUrl with filling out fields" in {
       log("NOT IMPLEMENTED YET")
+
+      clearMailTokensInMemory()
+      clearUsersFromMemory()
+
+      //registration
+      log("registration email")
+      go to (s"http://localhost:$port$setupRegistrationUrl")
+      find(name("setupSignup")) must be('defined)
+
+      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserNotRegistered
+      register(browserTestUserPassword, testUserEmail)
+
+      find(name("login")) must be('defined)
+      //replace by that
+      //find(name("confirmmailSetup")) must be('defined)
+
+      //confirming email
+      //        log("confirming email")
+      //        val token = getMailTokenFromMemory
+      //        go to (s"http://localhost:$port$signupUrl/$token")
       //
-      //      clearMailTokensInMemory()
-      //      clearUsersFromMemory()
+      //        val confirmMailSuccessHeader = find(name("signupsuccess"))
+      //        confirmMailSuccessHeader must be('defined)
       //
-      //      //registration
-      //      log("registration email")
-      //      go to (s"http://localhost:$port$signupUrl")
-      //      find(name("signup")) must be('defined)
-      //      register(browserTestUserPassword, testUserEmail)
-      //      val confirmMailHeader = find(name("confirmmail"))
-      //      confirmMailHeader must be('defined)
-      //
-      //      //confirming email
-      //      log("confirming email")
-      //      val token = getMailTokenFromMemory
-      //      go to (s"http://localhost:$port$signupUrl/$token")
-      //
-      //      val confirmMailSuccessHeader = find(name("signupsuccess"))
-      //      confirmMailSuccessHeader must be('defined)
-      //
-      //      log("check if user is added to MemoryPersonService")
-      //      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
-      //      user must be('defined)
+      //        log("check if user is added to MemoryPersonService")
+      //        val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
+      //        user must be('defined)
 
     }
   }
