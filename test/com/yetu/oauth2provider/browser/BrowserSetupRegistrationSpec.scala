@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.browser
 
 import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
+import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
 import play.api.test.FakeApplication
@@ -11,9 +12,43 @@ import play.api.test.FakeApplication
 class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
   "Registration page without gateway" must {
+
     s"open $setupRegistrationUrl" in {
       go to (s"http://localhost:$port$setupRegistrationUrl")
       find(name("setupSignup")) must be('defined)
+    }
+
+    "go to download page when selecting already registered" in {
+      go to (s"http://localhost:$port$setupRegistrationUrl")
+      find(name("setupSignup")) must be('defined)
+
+      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserAlreadyRegistered
+
+      submit()
+      find(name("setupDownload")) must be('defined)
+    }
+
+    "not register without filling out forms and should give error messages on fields" in {
+      go to (s"http://localhost:$port$setupRegistrationUrl")
+      find(name("setupSignup")) must be('defined)
+
+      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserNotRegistered
+
+      submit()
+
+      val helpInlines = findAll(className("help-inline"));
+      var counter = 0
+      for (helpInline <- helpInlines) {
+        if (counter > 0 && counter < 6) {
+          helpInline must be ('displayed)
+        }
+        counter = counter + 1
+      }
+      find(name("setupSignup")) must be('defined)
+    }
+
+    s"register at $setupRegistrationUrl with filling out fields" in {
+      log("NOT IMPLEMENTED YET")
       //
       //      clearMailTokensInMemory()
       //      clearUsersFromMemory()

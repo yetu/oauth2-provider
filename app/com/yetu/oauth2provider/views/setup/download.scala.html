@@ -17,7 +17,7 @@
             @views.html.setup.steps(3)
             <div class="content__main">
                 <div id="leftContainer" class="left">
-                    <h2 class="content__headline">@Messages("setup.download.headline")</h2>
+                    <h2 name="setupDownload" class="content__headline">@Messages("setup.download.headline")</h2>
                     <div id="download_available" class="left__content">
                         <p class="left__content-description">@Messages("setup.download.description")</p>
                         <a id="download_mac1" class="left__content-download button" href="@Html(downloadUrlMac)" onclick="onClickDownload()">@Messages("setup.download.button.mac")</a>
