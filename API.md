@@ -30,9 +30,9 @@ If you're using Scala and the Play framework, you can use our [yetu-play-authent
 
 In any case, you will need to provide the following settings:
 
-```
-authorizationURL = https://auth.yetu.me/oauth2/authorize"
-accessTokenURL = https://auth.yetu.me/oauth2/access_token"
+```python
+authorizationURL = "https://auth.yetu.me/oauth2/authorize"
+accessTokenURL = "https://auth.yetu.me/oauth2/access_token"
 profileURL = "https://auth.yetu.me/oauth2/info"
 
 scope = "" # space separated, as registered with yetu
@@ -41,6 +41,16 @@ clientSecret = "" # as registered with yetu
 redirectURL = "" # full URL including protocol, port, and url path as registered with yetu
 
 ```
+
+## 3. Send the access token to a resource-server API to retrieve information or make requests
+
+For example you can retrieve profile information: (usually your OAuth2 library already does this however)
+
+```
+https://auth.yetu.me/oauth2/info?access_token=YOUR_PREVIOUSLY_RETRIEVED_ACCESS_TOKEN
+```
+
+Please see the respective API documentation you wish to make use of. Some may accept query parameters, others require the access token to be specified in the http headers.
 
 
 ## Authorization Code flow
@@ -90,7 +100,7 @@ Example Request:
 ## Implicit Grant Flow
 For implicit grant flow to work, user must be logged in ouath2provider server.
 
-The client initiates the flow by directing the resource owner’s user-agent to the authorization endpoint(/oauth2/access_token_implicit). The client includes its:
+The client initiates the flow by directing the resource owner’s user-agent to the authorization endpoint(`/oauth2/access_token_implicit`). parameters required:
 
     - `redirect_uri`
     - `client_id`
@@ -122,7 +132,6 @@ Example request:
 
 * cURL syntax:
     - `curl -s -i -d "username=${username}" -d "password=${password}" -d "client_id=${client_id}" -d "client_secret=${client_secret}" -d "grant_type=password" "https://auth.${domain}/oauth2/access_token"`
-* [full example request](API_authorization_resource_owner.md)
 
 
 
