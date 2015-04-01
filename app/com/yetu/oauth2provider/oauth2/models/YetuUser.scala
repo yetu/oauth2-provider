@@ -4,6 +4,7 @@ package models
 
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2resource.model.ContactInfo
+import securesocial.controllers.UserAgreement
 import securesocial.core._
 import _root_.java.util.Date
 
@@ -23,15 +24,16 @@ case class YetuUser(identityId: IdentityId, uid: String, firstName: String, last
     registrationDate: Option[Date] = None,
     contactInfo: Option[ContactInfo] = None,
     imageUrl: Option[String] = None,
-    publicKey: Option[YetuPublicKey] = None) {
+    publicKey: Option[YetuPublicKey] = None,
+    userAgreement: Option[UserAgreement] = None) {
 
   //TODO: clean this up.
   val userId = identityId.userId
   val providerId = identityId.providerId
-  val main: BasicProfile = BasicProfile(providerId, userId, Some(firstName), Some(lastName), Some(fullName), email, avatarUrl, authMethod, oAuth1Info, oAuth2Info, passwordInfo)
+  val main: BasicProfile = BasicProfile(providerId, userId, Some(firstName), Some(lastName), Some(fullName), email, avatarUrl, authMethod, oAuth1Info, oAuth2Info, passwordInfo, userAgreement)
   val identities: List[BasicProfile] = List(main)
 
-  def toBasicProfile = BasicProfile(providerId, userId, Some(firstName), Some(lastName), Some(fullName), email, avatarUrl, authMethod, oAuth1Info, oAuth2Info, passwordInfo)
+  def toBasicProfile = BasicProfile(providerId, userId, Some(firstName), Some(lastName), Some(fullName), email, avatarUrl, authMethod, oAuth1Info, oAuth2Info, passwordInfo, userAgreement)
 
 }
 
@@ -50,7 +52,9 @@ object YetuUserHelper {
       profile.passwordInfo,
       None,
       None,
-      None
+      None,
+      None,
+      profile.userAgreement
     )
   }
 }

@@ -33,18 +33,22 @@ class LDAPServiceSpec extends LDAPBaseSpec {
     personService.deleteUser(testUser.identityId.userId)
   }
 
+  override def afterEach {
+    personService.deleteUser(testUser.identityId.userId)
+  }
+
   "The LDAP user service" must {
     "store and retrieve a user " in {
-      personService.deleteUser(testUser.identityId.userId)
+      // TODO: find a way to share code between test and it folders.
+
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-      val retrieved = personService.findYetuUser(testUser.userId)
+      val Some(yetuUser) = personService.findYetuUser(testUser.userId)
 
-      retrieved.isDefined mustBe true
+      yetuUser.email mustEqual testUser.email
+      yetuUser.firstName mustEqual testUser.firstName
+      yetuUser.passwordInfo mustEqual testUser.passwordInfo
+      yetuUser.userAgreement mustEqual testUser.userAgreement
 
-      retrieved.get.email mustEqual testUser.email
-      retrieved.get.firstName mustEqual testUser.firstName
-      retrieved.get.passwordInfo mustEqual testUser.passwordInfo
-      personService.deleteUser(testUser.identityId.userId)
     }
 
     "store and retrieve a user with registration date " in {
