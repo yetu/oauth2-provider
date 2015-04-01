@@ -19,7 +19,7 @@ libraryDependencies ++= Seq(
   "org.scalatestplus" %% "play" % "1.2.0" % "test, it",
   "org.scalacheck" %% "scalacheck" % "1.12.1" % "test, it",
 
-  "com.yetu" %% "securesocial" % "3.0.6",
+  "com.yetu" %% "securesocial" % "3.0.7",
 
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
 
@@ -82,6 +82,8 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;com.yetu.oauth2provider.views.html.*"
 
 parallelExecution in Test := false
+
+parallelExecution in IntegrationTest := false
 
 javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
 
