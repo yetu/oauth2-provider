@@ -1,9 +1,9 @@
-package com.yetu.oauth2provider.services
+package com.yetu.oauth2provider.ldap
 
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import securesocial.core.services.SaveMode
 
-class LDAPKeyService extends LDAPBaseSpec{
+class LDAPKeyServiceITSpec extends LDAPBaseSpecITSpec {
   "The LDAP public key service" must {
     val testKey = YetuPublicKey("rsa-ssh ASDFDGHEGWEAFS...")
 

@@ -1,18 +1,9 @@
-package com.yetu.oauth2provider.services
+package com.yetu.oauth2provider.ldap
 
-import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{ClientPermission, IdentityId, OAuth2Client, YetuUser}
-import com.yetu.oauth2provider.registry.{IntegrationTestRegistry}
-import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.DateUtility._
 import org.joda.time.DateTime
-import org.scalatestplus.play.{OneAppPerSuite, PlaySpec}
-import play.api.libs.json.Json
+import securesocial.core.PasswordInfo
 import securesocial.core.services.SaveMode
-import securesocial.core.{AuthenticationMethod, PasswordInfo}
-
-
-
 
 /**
  * These tests extend the IntegrationTestRegistry and use the real configured LDAP
@@ -27,7 +18,7 @@ import securesocial.core.{AuthenticationMethod, PasswordInfo}
  * }
  *
  */
-class LDAPServiceSpec extends LDAPBaseSpec {
+class LDAPServiceSpec extends LDAPBaseSpecITSpec {
 
   override def beforeEach {
     personService.deleteUser(testUser.identityId.userId)
@@ -64,11 +55,6 @@ class LDAPServiceSpec extends LDAPBaseSpec {
       dateToString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
     }
 
-
-
-
-
-
     "change password of user " in {
 
       personService.deleteUser(testUser.userId)
@@ -86,7 +72,5 @@ class LDAPServiceSpec extends LDAPBaseSpec {
     }
 
   }
-
-
 
 }

@@ -1,10 +1,8 @@
-package com.yetu.oauth2provider.services
+package com.yetu.oauth2provider.ldap
 
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
-import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import securesocial.core.services.SaveMode
 
-class LDAPClientService extends LDAPBaseSpec{
+class LDAPClientServiceITSpec extends LDAPBaseSpecITSpec {
   "The LDAP client service" must {
 
     "delete, store and retrieve a client with one of each redirects, scope and grantType " in {
