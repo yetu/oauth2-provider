@@ -20,6 +20,7 @@ abstract class UserServiceBase extends DataBaseSpec {
   }
 
   "The LDAP user service" must {
+
     "store and retrieve a user " in {
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
       val Some(yetuUser) = personService.findYetuUser(testUser.userId)
@@ -68,10 +69,10 @@ abstract class UserServiceBase extends DataBaseSpec {
  * requires a connection to LDAP with valid credentials:
  *
  * ldap {
- *   username="cn=..."
- *   password="..."
- *   hostname="..."
- *   port=1389
+ * username="cn=..."
+ * password="..."
+ * hostname="..."
+ * port=1389
  * }
  *
  * set this in your conf/application-integrationtest.conf

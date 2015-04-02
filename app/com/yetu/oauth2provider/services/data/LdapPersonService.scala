@@ -2,6 +2,8 @@ package com.yetu.oauth2provider
 package services
 package data
 
+import java.util.Date
+
 import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.{ People, ClientPermission => LdapClientPermission }
@@ -121,7 +123,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
           val registrationDateLDAPFormat = searchResult.getAttribute("createTimestamp").getValue
 
           //Converting date to human readable formant
-          val registrationDate = DateUtility.dateConvert(registrationDateLDAPFormat)
+          val registrationDate = DateUtility.LDAPStringToDate(registrationDateLDAPFormat)
 
           //TODO temporary solution to avoid issues, THIS SHOULD BE FIXED
           var userPassword = searchResult.getAttribute(People.USER_PASSWORD).getValue
@@ -131,8 +133,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
 
           val agreementOption: Option[UserAgreement] = for {
             agreement: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT)
-            agreementDate: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT_DATE)
-          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), new DateTime(agreementDate.toLong))
+            agreementDateString: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT_DATE)
+            agreementDate: Date = DateUtility.LDAPStringToDate(agreementDateString)
+          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), new DateTime(agreementDate))
 
           val user = YetuUser(IdentityId(userId, "userpass"),
             searchResult.getAttribute(People.MEMBER_UID).getValue,
@@ -203,8 +206,14 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
     entry.addAttribute(new Attribute(People.USER_PASSWORD, user.passwordInfo.get.password))
     entry.addAttribute(new Attribute(People.MEMBER_UID, user.uid))
     user.userAgreement.map { agreement =>
-      entry.addAttribute(new Attribute(People.USER_AGREEMENT, agreement.acceptTermsAndConditions.toString()))
-      entry.addAttribute(new Attribute(People.USER_AGREEMENT_DATE, agreement.acceptTermsAndConditionsDate.getMillis().toString()))
+      entry.addAttribute(new Attribute(
+        People.USER_AGREEMENT,
+        agreement.acceptTermsAndConditions.toString()
+      ))
+      entry.addAttribute(new Attribute(
+        People.USER_AGREEMENT_DATE,
+        DateUtility.DateToLDAPString(agreement.acceptTermsAndConditionsDate.toDate)
+      ))
     }
 
     dao.persist(entry)

@@ -7,6 +7,7 @@ import net.adamcin.httpsig.api.RequestContent
 import org.joda.time.DateTime
 
 import org.joda.time.DateTimeConstants.MILLIS_PER_SECOND
+import org.joda.time.format.{ ISODateTimeFormat, DateTimeFormatter }
 
 /**
  * Created by Farshad on 01/07/2014.
@@ -27,14 +28,19 @@ object DateUtility {
     dateFormat.parse(str)
   }
 
+  private lazy val ldapDateFormat: SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss")
+
   /**
    * for converting LDAP createTimeStamp to human readable date
-   * @param value
-   * @return
    */
-  def dateConvert(value: String): Date = {
-    val sdf: SimpleDateFormat = new SimpleDateFormat("yyyyMMddHHmmss")
-    sdf.parse(value)
+  def LDAPStringToDate(value: String): Date = {
+    ldapDateFormat.parse(value)
+  }
+  /**
+   * for converting LDAP createTimeStamp to human readable date
+   */
+  def DateToLDAPString(date: Date): String = {
+    ldapDateFormat.format(date)
   }
 
   def dateToString(date: Date): String = {
