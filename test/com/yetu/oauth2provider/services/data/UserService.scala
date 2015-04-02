@@ -28,9 +28,8 @@ abstract class UserServiceBase extends DataBaseSpec {
       yetuUser.email mustEqual testUser.email
       yetuUser.firstName mustEqual testUser.firstName
       yetuUser.passwordInfo mustEqual testUser.passwordInfo
-      yetuUser.userAgreement mustEqual testUser.userAgreement
+      dateToString(yetuUser.userAgreement.get.acceptTermsAndConditionsDate.toDate) mustEqual dateToString(DateTime.now().toDate)
       yetuUser.userAgreement.get.acceptTermsAndConditions mustEqual true
-
     }
 
     "store and retrieve a user with registration date " in {
