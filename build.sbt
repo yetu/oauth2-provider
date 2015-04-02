@@ -92,24 +92,15 @@ ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;
 
 parallelExecution in Test := false
 
-//parallelExecution in IntegrationTest := false
-
 javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
 
-//javaOptions in IntegrationTest += "-Dconfig.file=conf/application-test.conf"
+javaOptions in CustomIntegrationTest += "-Dconfig.file=conf/application-integrationtest.conf"
 
-//Defaults.itSettings
-
-//scalaSource in IntegrationTest <<= baseDirectory(_ / "it")
 
 def integrationFilter(name: String): Boolean = name endsWith "ITSpec"
 
 def unitFilter(name: String): Boolean = ((name endsWith "Test") || (name endsWith "Spec")) && !integrationFilter(name)
 
-lazy val CustomIntegrationTest = config("ldap") extend(Test)
+lazy val CustomIntegrationTest = config("it") extend(Test)
 
 parallelExecution in CustomIntegrationTest := false
-
-//testOptions in Test := Seq(Tests.Filter(unitFilter))
-//
-//testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter))

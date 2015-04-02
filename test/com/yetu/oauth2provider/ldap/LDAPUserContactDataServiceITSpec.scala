@@ -4,7 +4,7 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import play.api.libs.json.Json
 import securesocial.core.services.SaveMode
 
-class LDAPUserContactDataService extends LDAPBaseSpecITSpec {
+class LDAPUserContactDataServiceITSpec extends LDAPBaseSpecITSpec {
   "The LDAP contact service" must {
 
     "update the user contact with full data " in {

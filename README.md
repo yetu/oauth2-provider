@@ -33,7 +33,8 @@ Then proceed with:
 
 * Run the app with `sbt run`
 * Run tests with `sbt test`
-* Run LDAP-integration tests with `sbt ldap:test`
+* Run integration tests with `sbt it:test`
+    * you need to have correct ldap settings in a file called `conf/application-integrationtest.conf` for this to work.
 
 ## Functionality status
 

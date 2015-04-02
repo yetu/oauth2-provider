@@ -18,7 +18,7 @@ import securesocial.core.services.SaveMode
  * }
  *
  */
-class LDAPServiceSpec extends LDAPBaseSpecITSpec {
+class LDAPUserServiceITSpec extends LDAPBaseSpecITSpec {
 
   override def beforeEach {
     personService.deleteUser(testUser.identityId.userId)

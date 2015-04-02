@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.ldap
 
 //TODO: implement permissions correctly and make sure this test leaves no traces behind.
-class LDAPPermissionsService extends LDAPBaseSpecITSpec {
+class LDAPPermissionsServiceITSpec extends LDAPBaseSpecITSpec {
   //  "The LDAP permission service" must {
   //    val clientPermission = ClientPermission("123456", Some(List("scope1")))
   //    "delete, store and retrieve a permissions " in {
