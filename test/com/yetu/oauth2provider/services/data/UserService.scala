@@ -1,24 +1,15 @@
-package com.yetu.oauth2provider.ldap
+package com.yetu.oauth2provider.services.data
 
+import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
+import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.utils.DateUtility._
 import org.joda.time.DateTime
 import securesocial.core.PasswordInfo
 import securesocial.core.services.SaveMode
 
-/**
- * These tests extend the IntegrationTestRegistry and use the real configured LDAP
- *
- * requires a connection to LDAP with valid credentials:
- *
- * ldap {
- *   username="cn=..."
- *   password="..."
- *   hostname="..."
- *   port=1389
- * }
- *
- */
-class LDAPUserServiceITSpec extends LDAPBaseSpecITSpec {
+abstract class UserServiceBase extends DataBaseSpec {
+
+  def personService: IPersonService
 
   override def beforeEach {
     personService.deleteUser(testUser.identityId.userId)
@@ -30,8 +21,6 @@ class LDAPUserServiceITSpec extends LDAPBaseSpecITSpec {
 
   "The LDAP user service" must {
     "store and retrieve a user " in {
-      // TODO: find a way to share code between test and it folders.
-
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
       val Some(yetuUser) = personService.findYetuUser(testUser.userId)
 
@@ -39,13 +28,13 @@ class LDAPUserServiceITSpec extends LDAPBaseSpecITSpec {
       yetuUser.firstName mustEqual testUser.firstName
       yetuUser.passwordInfo mustEqual testUser.passwordInfo
       yetuUser.userAgreement mustEqual testUser.userAgreement
+      yetuUser.userAgreement.get.acceptTermsAndConditions mustEqual true
 
     }
 
     "store and retrieve a user with registration date " in {
       //registration date is automatically generated in LDAP
 
-      personService.deleteUser(testUser.identityId.userId)
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
       val retrieved = personService.findYetuUser(testUser.userId)
 
@@ -62,15 +51,32 @@ class LDAPUserServiceITSpec extends LDAPBaseSpecITSpec {
       val newUserPassObject = testUser.copy(passwordInfo = Some(PasswordInfo("bcrypt", "$2a$10$huRtPOgtcSMvaYiznS3IG.8elJVBvSCDXUD11EXK6FLZqw5nL7iiO", None)))
       personService.save(newUserPassObject.toBasicProfile, SaveMode.PasswordChange)
 
-      val retrieved = personService.findYetuUser(newUserPassObject.userId)
+      val Some(retrieved) = personService.findYetuUser(newUserPassObject.userId)
 
-      retrieved.get.passwordInfo mustEqual newUserPassObject.passwordInfo
-      retrieved.get.passwordInfo must not be testUser.passwordInfo
-
-      personService.deleteUser(testUser.identityId.userId)
+      retrieved.passwordInfo mustEqual newUserPassObject.passwordInfo
+      retrieved.passwordInfo must not be testUser.passwordInfo
 
     }
 
   }
 
 }
+
+/**
+ * These tests extend the IntegrationTestRegistry and use the real configured LDAP
+ *
+ * requires a connection to LDAP with valid credentials:
+ *
+ * ldap {
+ *   username="cn=..."
+ *   password="..."
+ *   hostname="..."
+ *   port=1389
+ * }
+ *
+ * set this in your conf/application-integrationtest.conf
+ *
+ */
+class LDAPUserServiceITSpec extends UserServiceBase with IntegrationTestRegistry
+
+class MemoryUserServiceSpec extends UserServiceBase with TestRegistry

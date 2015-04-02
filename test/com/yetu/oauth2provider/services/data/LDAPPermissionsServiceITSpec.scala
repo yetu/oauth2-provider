@@ -1,4 +1,4 @@
-package com.yetu.oauth2provider.ldap
+package com.yetu.oauth2provider.services.data
 
 //TODO: implement permissions correctly and make sure this test leaves no traces behind.
 class LDAPPermissionsServiceITSpec extends LDAPBaseSpecITSpec {

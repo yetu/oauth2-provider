@@ -28,6 +28,8 @@ object People extends LdapObject {
   val POSTAL_CODE = "postalCode"
   val STREET = "street"
   val PHOTO = "info"
+  val USER_AGREEMENT = "userAgreement"
+  val USER_AGREEMENT_DATE = "userAgreementDate"
 
   val PUBLIC_KEY = "sshPublicKey"
 }

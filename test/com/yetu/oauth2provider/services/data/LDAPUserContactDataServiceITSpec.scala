@@ -1,4 +1,4 @@
-package com.yetu.oauth2provider.ldap
+package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import play.api.libs.json.Json

@@ -11,13 +11,16 @@ import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.{ DateUtility, LDAPUtils, StringUtils, UUIDGenerator }
 import com.yetu.oauth2resource.model.ContactInfo
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.Results._
+import securesocial.controllers.UserAgreement
 import securesocial.core.{ PasswordInfo, _ }
 import securesocial.core.services.SaveMode
 
 import scala.concurrent.Future
+import scala.util.Try
 
 class LdapPersonService(dao: LdapDAO) extends IPersonService {
 
@@ -106,6 +109,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
       People.STREET,
       People.PHOTO,
       People.PUBLIC_KEY,
+      People.USER_AGREEMENT,
+      People.USER_AGREEMENT_DATE,
       "+")
 
     searchResult match {
@@ -124,6 +129,11 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
 
           val contactInfo = createContactInfoObject(searchResult)
 
+          val agreementOption: Option[UserAgreement] = for {
+            agreement: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT)
+            agreementDate: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT_DATE)
+          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), new DateTime(agreementDate.toLong))
+
           val user = YetuUser(IdentityId(userId, "userpass"),
             searchResult.getAttribute(People.MEMBER_UID).getValue,
             searchResult.getAttribute(People.FIRST_NAME).getValue,
@@ -133,7 +143,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
             None, AuthenticationMethod("userPassword"), None, None,
             Some(PasswordInfo("bcrypt", userPassword, None)), Some(registrationDate), Some(contactInfo),
             LDAPUtils.getAttribute(searchResult, People.PHOTO),
-            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key))
+            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key)),
+            agreementOption
           )
 
           Some(user)
@@ -191,6 +202,10 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
     entry.addAttribute(new Attribute(People.EMAIL, user.email.getOrElse("")))
     entry.addAttribute(new Attribute(People.USER_PASSWORD, user.passwordInfo.get.password))
     entry.addAttribute(new Attribute(People.MEMBER_UID, user.uid))
+    user.userAgreement.map { agreement =>
+      entry.addAttribute(new Attribute(People.USER_AGREEMENT, agreement.acceptTermsAndConditions.toString()))
+      entry.addAttribute(new Attribute(People.USER_AGREEMENT_DATE, agreement.acceptTermsAndConditionsDate.getMillis().toString()))
+    }
 
     dao.persist(entry)
     // the extra step of retrieving the user again from LDAP after storing it is necessary to
