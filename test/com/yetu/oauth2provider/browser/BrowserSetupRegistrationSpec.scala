@@ -66,16 +66,17 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
       //find(name("confirmmailSetup")) must be('defined)
 
       //confirming email
-      //        log("confirming email")
-      //        val token = getMailTokenFromMemory
-      //        go to (s"http://localhost:$port$signupUrl/$token")
-      //
-      //        val confirmMailSuccessHeader = find(name("signupsuccess"))
-      //        confirmMailSuccessHeader must be('defined)
-      //
-      //        log("check if user is added to MemoryPersonService")
-      //        val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
-      //        user must be('defined)
+      log("confirming email")
+      val token = getMailTokenFromMemory
+      go to (s"http://localhost:$port$setupConfirmMailUrl/$token")
+
+      val confirmMailSuccessHeader = find(name("setupConfirmmail"))
+      confirmMailSuccessHeader must be('defined)
+
+      //add when it is implemented
+      //      log("check if user is added to MemoryPersonService")
+      //      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
+      //      user must be('defined)
 
     }
   }

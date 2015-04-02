@@ -22,7 +22,7 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
       val token = getMailTokenFromMemory
       go to (s"http://localhost:$port$signupUrl/$token")
 
-      val confirmMailSuccessHeader = find(name("signupsuccess"))
+      val confirmMailSuccessHeader = find(name("setupConfirmmail"))
       confirmMailSuccessHeader must be('defined)
 
       log("check if user is added to MemoryPersonService")
