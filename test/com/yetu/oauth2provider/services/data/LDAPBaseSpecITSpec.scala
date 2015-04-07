@@ -14,17 +14,11 @@ class LDAPBaseSpecITSpec extends PlaySpec
     with DefaultTestVariables
     with BeforeAndAfterEach {
 
-  override val testUserEmail = "test987654@test.test"
-  override val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), "1231313131", "John", "Smith", "John Smith", Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
-
 }
 
 class DataBaseSpec extends PlaySpec
     with OneAppPerSuite
     with DefaultTestVariables
     with BeforeAndAfterEach {
-
-  override val testUserEmail = "test987654@test.test"
-  override val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), "1231313131", "John", "Smith", "John Smith", Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
 
 }

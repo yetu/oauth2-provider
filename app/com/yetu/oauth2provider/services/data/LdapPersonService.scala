@@ -11,7 +11,7 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
 import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import com.yetu.oauth2provider.utils.{ DateUtility, LDAPUtils, StringUtils, UUIDGenerator }
+import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
 import org.joda.time.DateTime
 import play.api.Logger
@@ -134,8 +134,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
           val agreementOption: Option[UserAgreement] = for {
             agreement: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT)
             agreementDateString: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT_DATE)
-            agreementDate: Date = DateUtility.LDAPStringToDate(agreementDateString)
-          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), new DateTime(agreementDate))
+            agreementDate = DateUtility.DateTimeFromString(agreementDateString)
+          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), agreementDate)
 
           val user = YetuUser(IdentityId(userId, "userpass"),
             searchResult.getAttribute(People.MEMBER_UID).getValue,
@@ -212,7 +212,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
       ))
       entry.addAttribute(new Attribute(
         People.USER_AGREEMENT_DATE,
-        DateUtility.DateToLDAPString(agreement.acceptTermsAndConditionsDate.toDate)
+        DateUtility.DateTimeToString(agreement.acceptTermsAndConditionsDate)
       ))
     }
 
