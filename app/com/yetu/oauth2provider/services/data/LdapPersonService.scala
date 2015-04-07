@@ -24,7 +24,9 @@ import securesocial.core.services.SaveMode
 import scala.concurrent.Future
 import scala.util.Try
 
-class LdapPersonService(dao: LdapDAO) extends IPersonService {
+class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
+
+
 
   /**
    * * //This function updates user basic information and contact information in LDAP
@@ -154,7 +156,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
 
         } catch {
           case e: NullPointerException => {
-            Logger.logger.error(s"Nullpointer exception while calling find($userId): ${e.getMessage} \n ${e.getStackTrace}")
+            logger.error(s"Nullpointer exception while calling find($userId): ${e.getMessage} \n ${e.getStackTrace}")
             // if we return None here, the user sees no error but has a broken system and cannot use his credentials nor register again
             // (as the save() method does not override if there is an existing entry.)
             // throw the error again so user is aware something is broken?
@@ -224,9 +226,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
   }
 
   private def modifyUserPassword(profile: BasicProfile) = {
-    Logger.warn("modify password for user:" + People.getDN(profile.userId))
+    logger.debug(s"Modify password for user ${profile.userId}")
     val passwordMod = new Modification(ModificationType.REPLACE,
-      People.USER_PASSWORD, profile.passwordInfo.get.password);
+      People.USER_PASSWORD, profile.passwordInfo.get.password)
     dao.modify(People.getDN(profile.userId), passwordMod)
   }
 
@@ -271,7 +273,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
    * @param to the profile that needs to be linked to
    */
   override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
-    Logger.warn("called the LdapPersonService.link() method, which is NOT IMPLEMENTED.")
+    logger.warn("called the LdapPersonService.link() method, which is NOT IMPLEMENTED.")
     Future.successful(current)
   }
 
