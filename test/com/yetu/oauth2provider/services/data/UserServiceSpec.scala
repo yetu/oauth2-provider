@@ -10,7 +10,7 @@ import securesocial.core.services.SaveMode
 /*
  * This test class is extended below to run the same tests against the in-memory and the LDAP implementations.
  */
-abstract class UserServiceBase extends DataBaseSpec {
+abstract class UserServiceBase extends DataServiceBaseSpec {
 
   override def beforeEach {
     personService.deleteUser(testUser.identityId.userId)

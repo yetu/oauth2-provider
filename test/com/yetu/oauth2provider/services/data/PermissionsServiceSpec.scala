@@ -1,8 +1,10 @@
 package com.yetu.oauth2provider.services.data
 
+import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
+
 //TODO: implement permissions correctly and make sure this test leaves no traces behind.
-class LDAPPermissionsServiceITSpec extends LDAPBaseSpecITSpec {
-  //  "The LDAP permission service" must {
+abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
+  //  s"The [$databaseImplementationName] Permission Service" must {
   //    val clientPermission = ClientPermission("123456", Some(List("scope1")))
   //    "delete, store and retrieve a permissions " in {
   //      personService.deleteUser(testUser.userId)
@@ -16,3 +18,7 @@ class LDAPPermissionsServiceITSpec extends LDAPBaseSpecITSpec {
   //    }
   //  }
 }
+
+class LDAPPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry
+
+class MemoryPermissionsServiceSpec extends BasePermissionsServiceSpec with TestRegistry

@@ -1,9 +1,11 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
+import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
 
-class LDAPClientServiceITSpec extends LDAPBaseSpecITSpec {
-  "The LDAP client service" must {
+abstract class BaseClientServiceSpec extends DataServiceBaseSpec {
+
+  s"The [$databaseImplementationName] client service" must {
 
     "delete, store and retrieve a client with one of each redirects, scope and grantType " in {
       val client = OAuth2Client("2223", "secret", List("http://a"), Some(List("code")), Some(List("scope1")), "clientName", coreYetuClient = true)
@@ -65,3 +67,7 @@ class LDAPClientServiceITSpec extends LDAPBaseSpecITSpec {
 
   }
 }
+
+class LDAPClientServiceITSpec extends BaseClientServiceSpec with IntegrationTestRegistry
+
+class MemoryClientServiceSpec extends BaseClientServiceSpec with TestRegistry

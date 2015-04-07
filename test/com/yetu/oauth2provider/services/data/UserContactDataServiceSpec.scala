@@ -9,7 +9,7 @@ import securesocial.core.services.SaveMode
 /*
  * This test class is extended below to run the same tests against the in-memory and the LDAP implementations.
  */
-abstract class BaseUserContactDataServiceSpec extends DataBaseSpec {
+abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec {
 
   s"The [$databaseImplementationName] Contact Service" must {
 
