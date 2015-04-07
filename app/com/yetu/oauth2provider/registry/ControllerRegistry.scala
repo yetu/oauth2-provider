@@ -8,6 +8,7 @@ import com.yetu.oauth2provider.services.data.LdapUserService
 import securesocial.core.RuntimeEnvironment
 import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
 import securesocial.core.providers.UsernamePasswordProvider
+import securesocial.core.providers.utils.PasswordValidator
 import securesocial.core.services.{ AuthenticatorService, UserService }
 
 import scala.collection.immutable.ListMap
@@ -39,6 +40,7 @@ trait AuthenticationControllerRegistry extends ServicesRegistry {
     override lazy val viewTemplates = yetuViewTemplates
     override lazy val userService: UserService[YetuUser] = myUserService
     override lazy val passwordHashers = yetuPasswordHashers
+    override lazy val passwordValidator: PasswordValidator = new YetuPasswordValidator()
     override lazy val providers = ListMap(
       include(new UsernamePasswordProvider[YetuUser](userService, avatarService, viewTemplates, passwordHashers)),
       include(signatureAuthenticationProvider)
