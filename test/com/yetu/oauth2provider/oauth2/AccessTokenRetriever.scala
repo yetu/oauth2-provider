@@ -1,10 +1,9 @@
 package com.yetu.oauth2provider.oauth2
 
-import com.yetu.oauth2provider.base.AuthRoutesHelper
+import com.yetu.oauth2provider.base.{ DefaultTestVariables, AuthRoutesHelper }
 import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
 import com.yetu.oauth2provider.registry.TestRegistry
-import com.yetu.oauth2provider.testdata.DefaultTestVariables
-import com.yetu.oauth2provider.testdata.DefaultTestVariables._
+import DefaultTestVariables._
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.utils.RoutesHelper

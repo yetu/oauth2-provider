@@ -1,8 +1,8 @@
 package com.yetu.oauth2provider.base
 
+import com.yetu.oauth2provider.base.DefaultTestVariables
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 import com.yetu.oauth2provider.registry.TestRegistry
-import com.yetu.oauth2provider.testdata.DefaultTestVariables
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.utils.RoutesHelper
 import org.scalatestplus.play._

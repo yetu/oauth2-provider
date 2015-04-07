@@ -4,7 +4,7 @@ import com.yetu.oauth2provider.oauth2.ResourceOwnerFlow
 
 import play.api.test.Helpers._
 
-class IntegrationResourceOwnerFlow extends IntegrationBaseSpec with ResourceOwnerFlow {
+class IntegrationResourceOwnerFlowSpec extends IntegrationBaseSpec with ResourceOwnerFlow {
 
   "ResourceOwnerFlow" must {
 

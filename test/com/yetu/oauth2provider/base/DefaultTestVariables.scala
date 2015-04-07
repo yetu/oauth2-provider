@@ -1,19 +1,17 @@
-package com.yetu.oauth2provider.testdata
+package com.yetu.oauth2provider.base
 
 import java.util.Date
+
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
-import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import play.api.libs.json.Json
-import play.api.test.FakeRequest
-import play.api.test.Helpers._
 import securesocial.controllers.UserAgreement
-import securesocial.core.{ PasswordInfo, AuthenticationMethod }
+import securesocial.core.{ AuthenticationMethod, PasswordInfo }
 
-import scalaoauth2.provider.{ AccessToken, AuthInfo }
+import scalaoauth2.provider.AccessToken
 
 trait DefaultTestVariables {
 

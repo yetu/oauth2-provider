@@ -1,7 +1,7 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.base
 
+import com.yetu.oauth2provider.base.DefaultTestVariables
 import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPersonService, IPublicKeyService }
-import com.yetu.oauth2provider.testdata.DefaultTestVariables
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.{ OneAppPerSuite, PlaySpec }
 
