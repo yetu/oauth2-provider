@@ -25,7 +25,7 @@ Execute the following script to have a working oauth2provider set up with your o
 ./setupLocalDev.sh
 ```
 
-Have a look at the `conf/application-conf` file and fill in sections for
+Have a look at the `conf/application.conf` file and fill in sections for
  - **LDAP** (if using; defaulting to in-memory), 
  - **SMTP** (if using; defaulting to a mocked smtp that does not send any emails.)
 
@@ -39,7 +39,7 @@ Run the app with `sbt run`, run tests with `sbt test` and integration tests with
     - benefit: user will no longer lose their active login session when updates are deployed or the server is restarted
 - [ ] persistence of auth_codes and access_tokens
     - benefit: apps will no longer lose their ability to talk to APIs when updates are deployed or the server is restarted
-- [x] JSON web token extension
+- [x] JWT (JSON Web Token) extension
     - benefit: reduces amount of validation requests to auth server
 - [ ] OpenID Connect extension
     - benefit: improves security and ensures the authorization_code flow cannot be tampered with by a malicious app
