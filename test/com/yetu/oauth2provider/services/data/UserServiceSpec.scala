@@ -12,12 +12,6 @@ import securesocial.core.services.SaveMode
  */
 abstract class UserServiceBase extends DataBaseSpec {
 
-  // override me!
-  def personService: IPersonService
-
-  // override me!
-  def implementationName: String
-
   override def beforeEach {
     personService.deleteUser(testUser.identityId.userId)
   }
@@ -26,7 +20,7 @@ abstract class UserServiceBase extends DataBaseSpec {
     personService.deleteUser(testUser.identityId.userId)
   }
 
-  s"The $implementationName" must {
+  s"The [$databaseImplementationName] User Service" must {
 
     "store and retrieve a user " in {
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
@@ -96,10 +90,7 @@ abstract class UserServiceBase extends DataBaseSpec {
  * set this in your conf/application-integrationtest.conf
  *
  */
-class LDAPUserServiceITSpec extends UserServiceBase with IntegrationTestRegistry {
-  def implementationName = "LDAP User Service"
-}
+class LDAPUserServiceITSpec extends UserServiceBase with IntegrationTestRegistry
 
-class MemoryUserServiceSpec extends UserServiceBase with TestRegistry {
-  def implementationName = "Memory User Service"
-}
+class MemoryUserServiceSpec extends UserServiceBase with TestRegistry
+

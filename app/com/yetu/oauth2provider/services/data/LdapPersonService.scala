@@ -26,8 +26,6 @@ import scala.util.Try
 
 class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
 
-
-
   /**
    * * //This function updates user basic information and contact information in LDAP
    * @param yetuUser

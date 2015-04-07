@@ -1,11 +1,17 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
+import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
+import com.yetu.oauth2provider.services.data.iface.IPersonService
 import play.api.libs.json.Json
 import securesocial.core.services.SaveMode
 
-class LDAPUserContactDataServiceITSpec extends LDAPBaseSpecITSpec {
-  "The LDAP contact service" must {
+/*
+ * This test class is extended below to run the same tests against the in-memory and the LDAP implementations.
+ */
+abstract class BaseUserContactDataServiceSpec extends DataBaseSpec {
+
+  s"The [$databaseImplementationName] Contact Service" must {
 
     "update the user contact with full data " in {
 
@@ -120,3 +126,8 @@ class LDAPUserContactDataServiceITSpec extends LDAPBaseSpecITSpec {
 
   }
 }
+
+class LDAPUserContactDataServiceITSpec extends BaseUserContactDataServiceSpec with IntegrationTestRegistry
+
+//TODO: implement the same functionality in-memory
+//class MemoryUserContactDataServiceSpec extends BaseUserContactDataServiceSpec with TestRegistry
