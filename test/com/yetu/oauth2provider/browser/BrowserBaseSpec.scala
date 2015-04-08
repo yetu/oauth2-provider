@@ -3,6 +3,7 @@ package com.yetu.oauth2provider.browser
 import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
+import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
@@ -10,6 +11,7 @@ import securesocial.core.providers.MailToken
 class BrowserBaseSpec extends PlaySpec
     with OneServerPerSuite
     with OneBrowserPerSuite
+    with BeforeAndAfterEach
     with HtmlUnitFactory
     with BaseMethods {
 
@@ -60,6 +62,11 @@ class BrowserBaseSpec extends PlaySpec
     val tokens = MemoryMailTokenService.mailTokens
     log(s"TOKENS: $tokens")
     tokens.head._1
+  }
+
+  override def beforeEach = {
+    clearMailTokensInMemory()
+    clearUsersFromMemory()
   }
 
 }

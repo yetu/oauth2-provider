@@ -1,85 +1,109 @@
 package com.yetu.oauth2provider.browser
 
-import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
-import com.yetu.oauth2provider.controllers.setup.SetupController
-import com.yetu.oauth2provider.oauth2.models.YetuUser
-import org.scalatestplus.play.{ HtmlUnitFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
-import play.api.test.FakeApplication
+import com.yetu.oauth2provider.controllers.setup.SetupController._
 
-/**
- * Created by elisahilprecht on 19/03/15.
- */
 class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
-  "Registration page without gateway" must {
+  val fullSetupRegistrationUrl = s"http://localhost:$port$setupRegistrationUrl"
+  val fullSetupConfirmMailUrl = s"http://localhost:$port$setupConfirmMailUrl"
+  val fullSetupConfirmedMailUrl = s"http://localhost:$port$setupConfirmedMailUrl"
+  val fullSetupDownloadUrl = s"http://localhost:$port$setupDownloadUrl"
+
+  def fullMailTokenUrl(token: String) = {
+    s"http://localhost:$port$signupUrl/$token"
+  }
+
+  s"(Gateway-) Registration flow page at $setupRegistrationUrl" must {
 
     s"open $setupRegistrationUrl" in {
-      go to (s"http://localhost:$port$setupRegistrationUrl")
+      go to fullSetupRegistrationUrl
+      currentUrl mustEqual fullSetupRegistrationUrl
       find(name("setupSignup")) must be('defined)
     }
 
+    s"open $setupRegistrationUrl and have '$UserNotRegistered' as the default radio button selection" in {
+      go to fullSetupRegistrationUrl
+
+      radioButtonGroup(UserRegistrationStatus).value mustEqual UserNotRegistered
+    }
+
+    s"open $setupRegistrationUrl and have 'agreement[]' checkbox unselected" in {
+      go to fullSetupRegistrationUrl
+
+      checkbox("agreement[]").isSelected must be(false)
+    }
+
     "go to download page when selecting already registered" in {
-      go to (s"http://localhost:$port$setupRegistrationUrl")
+      go to fullSetupRegistrationUrl
       find(name("setupSignup")) must be('defined)
 
-      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserAlreadyRegistered
+      radioButtonGroup(UserRegistrationStatus).value = UserAlreadyRegistered
 
       submit()
+      currentUrl mustEqual fullSetupDownloadUrl
       find(name("setupDownload")) must be('defined)
     }
 
     "not register without filling out forms and should give error messages on fields" in {
-      go to (s"http://localhost:$port$setupRegistrationUrl")
+      go to fullSetupRegistrationUrl
       find(name("setupSignup")) must be('defined)
 
-      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserNotRegistered
+      radioButtonGroup(UserRegistrationStatus).value = UserNotRegistered
 
       submit()
 
-      val helpInlines = findAll(className("help-inline"));
+      currentUrl mustEqual fullSetupRegistrationUrl
+
+      val helpInlines = findAll(className("help-inline"))
       var counter = 0
       for (helpInline <- helpInlines) {
         if (counter > 0 && counter < 6) {
-          helpInline must be ('displayed)
+          helpInline must be('displayed)
         }
         counter = counter + 1
       }
       find(name("setupSignup")) must be('defined)
     }
 
-    s"register at $setupRegistrationUrl with filling out fields" in {
-      log("NOT IMPLEMENTED YET")
-
-      clearMailTokensInMemory()
-      clearUsersFromMemory()
-
-      //registration
-      log("registration email")
-      go to (s"http://localhost:$port$setupRegistrationUrl")
-      find(name("setupSignup")) must be('defined)
-
-      radioButtonGroup(SetupController.UserRegistrationStatus).value = SetupController.UserNotRegistered
+    def createNewUserThroughGatewaySetupProcess() = {
+      go to fullSetupRegistrationUrl
+      checkbox("agreement[]").select()
       register(browserTestUserPassword, testUserEmail)
+    }
 
-      find(name("login")) must be('defined)
-      //replace by that
-      //find(name("confirmmailSetup")) must be('defined)
+    s"go to confirm mail page if registration is correct" in {
+      createNewUserThroughGatewaySetupProcess()
 
-      //confirming email
-      log("confirming email")
-      val token = getMailTokenFromMemory
-      go to (s"http://localhost:$port$setupConfirmMailUrl/$token")
+      currentUrl mustEqual fullSetupConfirmMailUrl
+    }
 
-      val confirmMailSuccessHeader = find(name("setupConfirmmail"))
-      confirmMailSuccessHeader must be('defined)
+    s"go to confirmed mail page when clicking the link in the email" in {
+      createNewUserThroughGatewaySetupProcess()
 
-      //add when it is implemented
-      //      log("check if user is added to MemoryPersonService")
-      //      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
-      //      user must be('defined)
+      go to fullMailTokenUrl(getMailTokenFromMemory)
+
+      currentUrl mustEqual fullSetupConfirmedMailUrl
 
     }
+
   }
+
+  //  find(name("login")) must be('defined)
+  //  //replace by that
+  //  //find(name("confirmmailSetup")) must be('defined)
+  //
+  //  //confirming email
+  //  log("confirming email")
+  //  val token = getMailTokenFromMemory
+  //  go to (s"http://localhost:$port$setupConfirmMailUrl/$token")
+  //
+  //  val confirmMailSuccessHeader = find(name("setupConfirmmail"))
+  //  confirmMailSuccessHeader must be('defined)
+
+  //add when it is implemented
+  //      log("check if user is added to MemoryPersonService")
+  //      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
+  //      user must be('defined)
 
   //    "still open signup page when passing a wrong token for confirming testUserEmail" in {
   //      val wrongToken = "fdjsbr";
