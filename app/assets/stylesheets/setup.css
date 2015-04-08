@@ -45,7 +45,6 @@ h2{
 }
 
 .logo{
-	background-image: url('../images/yetu_logo.svg');
 	width: 80px;
 	height: 80px;
 	top: 10px;
@@ -176,21 +175,22 @@ header{
 }
 
 .right__gateway-img{
+    width: 220px;
+    height: 155px;
+    padding: 20px 30px;
+}
+
+.right__gateway-container{
     width: 410px;
     height: 290px;
     margin: 0px;
     padding: 0px;
-    background-image: url('../images/TV_connection-01.png');
     background-color: white;
-    background-repeat: no-repeat;
-    background-size: 230px;
-    background-position: 15px 15px;
     box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
     position: relative;
 }
 
 .right__gateway-text{
-    padding-top: 200px;
     padding-left: 30px;
     padding-right: 20px;
     margin: 0;
@@ -198,13 +198,10 @@ header{
 }
 
 .right__gateway-icon{
-    background-image: url('../images/hdmi-01.svg');
-    background-repeat: no-repeat;
-    background-size: 100%;
     width: 30px;
     height: 20px;
     position: absolute;
-    top: 227px;
+    top: 223px;
     left: 207px;
 }
 
@@ -229,9 +226,6 @@ header{
 }
 .full__instructions{
     margin: 60px auto;
-    background-image: url('../images/placeholder_image_instructions-01.png');
-    background-repeat: no-repeat;
-    background-size: cover;
     width: 600px;
     height: 200px;
 }

@@ -49,11 +49,12 @@
                     </div>
                 </div>
                 <div id="rightContainer" class="right">
-                    <div class="right__gateway-img">
+                    <div class="right__gateway-container">
+                        <img class="right__gateway-img" src="@controllers.routes.Assets.versioned("images/TV_connection-01.png")">
                         <p class="right__gateway-text">
                             <span>@Html(Messages("setup.download.connect1"))</span>
                             <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
-                            <span class="right__gateway-icon"></span>
+                            <img src="@controllers.routes.Assets.versioned("images/hdmi-01.svg")" class="right__gateway-icon"/>
                             <span>@Html(Messages("setup.download.connect2"))</span>
                         </p>
                     </div>
@@ -66,8 +67,7 @@
                     <a id="download_mac2" class="full__download" href="@Html(downloadUrlMac)">@Messages("setup.download.ready.link")</a>
                     <a id="download_win2" class="full__download" href="@Html(downloadUrlWin)">@Messages("setup.download.ready.link")</a>
                 </p>
-                <div class="full__instructions">
-                </div>
+                <img class="full__instructions" src="@controllers.routes.Assets.versioned("images/placeholder_image_instructions-01.png")"/>
             </div>
             <div class="clear"></div>
         </div>
