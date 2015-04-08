@@ -39,8 +39,8 @@
   }
 
   var showRightVersionDownload = function (os) {
-    document.getElementById('download_' + os + '1').setAttribute('style', 'display:block;');
-    document.getElementById('download_' + os + '2').setAttribute('style', 'display:block;');
+    document.getElementById('download_' + os + '1').setAttribute('class', 'left__content-download button show');
+    document.getElementById('download_' + os + '2').setAttribute('class', 'full__download show');
   };
 
   var osVersion = '-';
@@ -90,22 +90,26 @@
       osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] || 0);
       requiredOS = [requiredOSWin, requiredOSMac];
       break;
+
+    default :
+      requiredOS = [requiredOSWin, requiredOSMac];
+      break;
   }
   if (downloadAvailable) {
-    document.getElementById('download_available').setAttribute('style', 'display:block;');
+    document.getElementById('download_available').setAttribute('class', 'left__content show');
   }
   else {
     var yourOS = os + ' ' + osVersion.replace(/_/g, '.');
     document.getElementById('youros').innerHTML = yourOS;
     if (Object.prototype.toString.call(requiredOS) === '[object Array]') {
       document.getElementById('requiredos1').innerHTML = requiredOS[0];
-      document.getElementById('or').setAttribute('style', 'visibility:visible;');
+      document.getElementById('or').setAttribute('class', 'visible');
       document.getElementById('requiredos2').innerHTML = requiredOS[1];
     }
     else {
       document.getElementById('requiredos1').innerHTML = requiredOS;
     }
-    document.getElementById('download_not_available').setAttribute('style', 'display:block;');
+    document.getElementById('download_not_available').setAttribute('class', 'left__content show');
   }
 
 })();

@@ -44,11 +44,6 @@ h2{
     margin: 0;
 }
 
-.content__headline {
-    font-size: 25px;
-    font-weight: 400;
-}
-
 .logo{
 	background-image: url('../images/yetu_logo.svg');
 	width: 80px;
@@ -268,5 +263,20 @@ footer a:hover{
 }
 footer a:visited {
 	color: #dddddd;
+}
+
+.show{
+    display:block;
+}
+.hide{
+    display:none;
+}
+#or.visible{
+    visibility:visible;
+}
+
+.content__headline {
+    font-size: 25px;
+    font-weight: 400;
 }
 
