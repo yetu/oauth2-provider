@@ -4,9 +4,9 @@
 <html>
 	<head>
         <title>Confirm e-mail</title>
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/steps.css")">
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/confirmmail.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/confirmmail.css")">
         <link rel="shortcut icon" type="image/png" href="">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
 	</head>
@@ -16,7 +16,7 @@
             @views.html.setup.steps(2)
             <div class="content__main">
                 <div class="left">
-                    <img class="left__img" src="@controllers.routes.Assets.at("images/check-inbox-01.png")" alt="E-Mail content"/>
+                    <img class="left__img" src="@controllers.routes.Assets.versioned("images/check-inbox-01.png")" alt="E-Mail content"/>
                 </div>
                 <div class="right">
                     <h2 class="right__heading" name="setupConfirmmail">@Messages("setup.confirmmail.headline")</h2>

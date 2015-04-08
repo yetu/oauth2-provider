@@ -6,8 +6,8 @@
 
     <head>
         <title>Download</title>
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/steps.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     </head>
 
@@ -74,8 +74,8 @@
             <div class="clear"></div>
         </div>
         @views.html.setup.footer()
-        <script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/determine-os.js")"></script>
-        <script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/handler.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/determine-os.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/handler.js")"></script>
     </body>
 
 </html>
