@@ -62,6 +62,18 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
       find(name("setupSignup")) must be('defined)
     }
 
+    "not register without accepting terms and conditions and stay on the same page" in {
+      go to fullSetupRegistrationUrl
+
+      checkbox("agreement[]").clear()
+      register(browserTestUserPassword, testUserEmail)
+
+      currentUrl mustEqual fullSetupRegistrationUrl
+
+      //TODO: check for an error message to be displayed.
+
+    }
+
     def createNewUserThroughGatewaySetupProcess() = {
       go to fullSetupRegistrationUrl
       checkbox("agreement[]").select()
