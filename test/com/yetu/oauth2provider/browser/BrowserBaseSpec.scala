@@ -59,6 +59,7 @@ class BrowserBaseSpec extends PlaySpec
   }
 
   def getMailTokenFromMemory: String = {
+    Thread.sleep(50L) // wait for async mailer to put a token in the store
     val tokens = MemoryMailTokenService.mailTokens
     log(s"TOKENS: $tokens")
     tokens.head._1
