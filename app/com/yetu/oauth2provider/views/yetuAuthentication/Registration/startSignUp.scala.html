@@ -26,47 +26,49 @@ securesocial.core
                 startForm("firstName"),
                 '_label -> Messages("securesocial.signup.firstName"),
                 'class -> "input-xlarge",
-                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
+                '_error -> startForm.error("firstName")
             )
 
             @helper.inputText(
                 startForm("lastName"),
                 '_label -> Messages("securesocial.signup.lastName"),
                 'class -> "input-xlarge",
-                '_error -> startForm("lastName").error.map(_.withMessage(Messages("setup.signup.error.required")))
+                '_error -> startForm.error("lastName")
             )
 
             @helper.inputText(
                 startForm("email"),
                 '_label -> Messages("securesocial.signup.email1"),
                 'class -> "input-xlarge",
-                '_error -> startForm("email").error.map(_.withMessage(Messages("setup.signup.error.required")))
+                '_error -> startForm.error("email")
             )
 
             @helper.inputPassword(
                 startForm("password.password1"),
                 '_label -> Messages("securesocial.signup.password1"),
                 'class -> "input-xlarge",
-                '_error -> startForm("password.password1").error.map(_.withMessage(Messages("setup.signup.error.password")))
+                '_error -> startForm.error("password.password1")
             )
 
             @helper.inputPassword(
                 startForm("password.password2"),
                 '_label -> Messages("securesocial.signup.password2"),
-                '_error -> startForm("password.password2").error.map(_.withMessage(Messages("setup.signup.error.required")))
+                '_error -> startForm.error("password.password2")
             )
 
             @helper.inputCheckboxGroup(
                 startForm("getinfo"),
                 options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
-                '_label -> "getinfo"
+                '_label -> "getinfo",
+                '_error -> startForm.error("getinfo")
             )
+
 
             @helper.inputCheckboxGroup(
                 startForm("agreement"),
                 options = Seq("agreement" -> "agreement"),
                 '_label -> "agreements",
-                '_error -> startForm("agreement").error.map(_.withMessage(Messages("securesocial.signup.error.invalidTermsAndConditions")))
+                '_error -> startForm.error("agreement")
             )
 
 
