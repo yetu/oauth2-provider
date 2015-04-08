@@ -29,6 +29,8 @@ trait InMemoryDataServices {
 
   lazy val personService: IPersonService = wire[MemoryPersonService]
   lazy val myUserService: UserService[YetuUser] = new MemoryUserService()
+
+  lazy val databaseImplementationName: String = "In-Memory database"
 }
 
 trait LdapDataServices {
@@ -40,6 +42,8 @@ trait LdapDataServices {
 
   lazy val personService: IPersonService = wire[LdapPersonService]
   lazy val myUserService: UserService[YetuUser] = new LdapUserService(dao)
+
+  lazy val databaseImplementationName: String = "LDAP database"
 }
 
 trait ServicesRegistry {

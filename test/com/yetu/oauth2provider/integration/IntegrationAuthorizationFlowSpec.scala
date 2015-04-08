@@ -8,7 +8,7 @@ import com.yetu.oauth2provider.utils.Config._
 import play.api.test.Helpers._
 import com.plasmaconduit.jwt.JSONWebToken
 
-class IntegrationAuthorizationFlow extends IntegrationBaseSpec with AuthorizationCodeFlow {
+class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with AuthorizationCodeFlow {
 
   "IntegrationAuthorizationFlow" must {
 

@@ -1,3 +1,4 @@
+import sbt.Keys._
 import scoverage.ScoverageSbtPlugin
 import com.typesafe.sbt.SbtScalariform._
 import scalariform.formatter.preferences._
@@ -10,16 +11,24 @@ organization := "com.yetu"
 
 resolvers += Resolver.bintrayRepo("yetu", "maven")
 
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb).configs(IntegrationTest)
+lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
+  .configs(CustomIntegrationTest)
+  .settings( inConfig(CustomIntegrationTest)(Defaults.testTasks) : _*)
+  .settings(
+    testOptions in Test := Seq(Tests.Filter(unitFilter)),
+    testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter))
+  )
+
+
 
 pipelineStages := Seq(digest, gzip)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test, it",
-  "org.scalatestplus" %% "play" % "1.2.0" % "test, it",
-  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test, it",
+  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scalatestplus" %% "play" % "1.2.0" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test",
 
-  "com.yetu" %% "securesocial" % "3.0.6",
+  "com.yetu" %% "securesocial" % "3.0.7",
 
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
 
@@ -85,8 +94,13 @@ parallelExecution in Test := false
 
 javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
 
-javaOptions in IntegrationTest += "-Dconfig.file=conf/application-test.conf"
+javaOptions in CustomIntegrationTest += "-Dconfig.file=conf/application-integrationtest.conf"
 
-Defaults.itSettings
 
-scalaSource in IntegrationTest <<= baseDirectory(_ / "it")
+def integrationFilter(name: String): Boolean = name endsWith "ITSpec"
+
+def unitFilter(name: String): Boolean = ((name endsWith "Test") || (name endsWith "Spec")) && !integrationFilter(name)
+
+lazy val CustomIntegrationTest = config("it") extend(Test)
+
+parallelExecution in CustomIntegrationTest := false

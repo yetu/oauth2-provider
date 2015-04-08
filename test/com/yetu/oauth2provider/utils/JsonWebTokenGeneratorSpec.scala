@@ -6,9 +6,8 @@ import java.nio.file.{ Paths, Files }
 import com.plasmaconduit.json
 import com.plasmaconduit.jws.JSONWebSignature
 import com.plasmaconduit.jwt.JSONWebToken
-import com.yetu.oauth2provider.base.BaseSpec
+import com.yetu.oauth2provider.base.{ DefaultTestVariables, BaseSpec, BaseRoutesSpec }
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.testdata.DefaultTestVariables
 import com.yetu.oauth2resource.model.ValidationResponse
 import play.api.libs.json._
 
@@ -17,7 +16,6 @@ import scala.util.Try
 import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.utils.JsonUtility._
 import scala.util.{ Failure, Success }
-import com.yetu.oauth2provider.base.BaseRoutesSpec
 import play.api.test.Helpers._
 
 class JsonWebTokenGeneratorSpec extends BaseRoutesSpec with DefaultTestVariables {

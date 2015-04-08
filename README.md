@@ -29,7 +29,12 @@ Have a look at the `conf/application.conf` file and fill in sections for
  - **LDAP** (if using; defaulting to in-memory), 
  - **SMTP** (if using; defaulting to a mocked smtp that does not send any emails.)
 
-Run the app with `sbt run`, run tests with `sbt test` and integration tests with `sbt it:test`
+Then proceed with:
+
+* Run the app with `sbt run`
+* Run tests with `sbt test`
+* Run integration tests with `sbt it:test`
+    * you need to have correct ldap settings in a file called `conf/application-integrationtest.conf` for this to work.
 
 ## Functionality status
 

@@ -2,6 +2,8 @@ package com.yetu.oauth2provider
 package services
 package data
 
+import java.util.Date
+
 import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.{ People, ClientPermission => LdapClientPermission }
@@ -9,17 +11,20 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
 import com.yetu.oauth2provider.services.data.iface.IPersonService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import com.yetu.oauth2provider.utils.{ DateUtility, LDAPUtils, StringUtils, UUIDGenerator }
+import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.Results._
+import securesocial.controllers.UserAgreement
 import securesocial.core.{ PasswordInfo, _ }
 import securesocial.core.services.SaveMode
 
 import scala.concurrent.Future
+import scala.util.Try
 
-class LdapPersonService(dao: LdapDAO) extends IPersonService {
+class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
 
   /**
    * * //This function updates user basic information and contact information in LDAP
@@ -106,6 +111,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
       People.STREET,
       People.PHOTO,
       People.PUBLIC_KEY,
+      People.USER_AGREEMENT,
+      People.USER_AGREEMENT_DATE,
       "+")
 
     searchResult match {
@@ -116,13 +123,19 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
           val registrationDateLDAPFormat = searchResult.getAttribute("createTimestamp").getValue
 
           //Converting date to human readable formant
-          val registrationDate = DateUtility.dateConvert(registrationDateLDAPFormat)
+          val registrationDate = DateUtility.LDAPStringToDate(registrationDateLDAPFormat)
 
           //TODO temporary solution to avoid issues, THIS SHOULD BE FIXED
           var userPassword = searchResult.getAttribute(People.USER_PASSWORD).getValue
           userPassword = userPassword.replace("{CLEAR}", "")
 
           val contactInfo = createContactInfoObject(searchResult)
+
+          val agreementOption: Option[UserAgreement] = for {
+            agreement: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT)
+            agreementDateString: String <- LDAPUtils.getAttribute(searchResult, People.USER_AGREEMENT_DATE)
+            agreementDate = DateUtility.DateTimeFromString(agreementDateString)
+          } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), agreementDate)
 
           val user = YetuUser(IdentityId(userId, "userpass"),
             searchResult.getAttribute(People.MEMBER_UID).getValue,
@@ -133,14 +146,15 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
             None, AuthenticationMethod("userPassword"), None, None,
             Some(PasswordInfo("bcrypt", userPassword, None)), Some(registrationDate), Some(contactInfo),
             LDAPUtils.getAttribute(searchResult, People.PHOTO),
-            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key))
+            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key)),
+            agreementOption
           )
 
           Some(user)
 
         } catch {
           case e: NullPointerException => {
-            Logger.logger.error(s"Nullpointer exception while calling find($userId): ${e.getMessage} \n ${e.getStackTrace}")
+            logger.error(s"Nullpointer exception while calling find($userId): ${e.getMessage} \n ${e.getStackTrace}")
             // if we return None here, the user sees no error but has a broken system and cannot use his credentials nor register again
             // (as the save() method does not override if there is an existing entry.)
             // throw the error again so user is aware something is broken?
@@ -191,6 +205,16 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
     entry.addAttribute(new Attribute(People.EMAIL, user.email.getOrElse("")))
     entry.addAttribute(new Attribute(People.USER_PASSWORD, user.passwordInfo.get.password))
     entry.addAttribute(new Attribute(People.MEMBER_UID, user.uid))
+    user.userAgreement.map { agreement =>
+      entry.addAttribute(new Attribute(
+        People.USER_AGREEMENT,
+        agreement.acceptTermsAndConditions.toString()
+      ))
+      entry.addAttribute(new Attribute(
+        People.USER_AGREEMENT_DATE,
+        DateUtility.DateTimeToString(agreement.acceptTermsAndConditionsDate)
+      ))
+    }
 
     dao.persist(entry)
     // the extra step of retrieving the user again from LDAP after storing it is necessary to
@@ -200,9 +224,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
   }
 
   private def modifyUserPassword(profile: BasicProfile) = {
-    Logger.warn("modify password for user:" + People.getDN(profile.userId))
+    logger.debug(s"Modify password for user ${profile.userId}")
     val passwordMod = new Modification(ModificationType.REPLACE,
-      People.USER_PASSWORD, profile.passwordInfo.get.password);
+      People.USER_PASSWORD, profile.passwordInfo.get.password)
     dao.modify(People.getDN(profile.userId), passwordMod)
   }
 
@@ -247,7 +271,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService {
    * @param to the profile that needs to be linked to
    */
   override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
-    Logger.warn("called the LdapPersonService.link() method, which is NOT IMPLEMENTED.")
+    logger.warn("called the LdapPersonService.link() method, which is NOT IMPLEMENTED.")
     Future.successful(current)
   }
 

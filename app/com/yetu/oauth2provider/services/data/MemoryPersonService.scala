@@ -1,5 +1,7 @@
 package com.yetu.oauth2provider.services.data
 
+import java.util.Date
+
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.iface.IPersonService
@@ -60,15 +62,10 @@ class MemoryPersonService extends IPersonService {
           newUser
         }
         case SaveMode.PasswordChange => {
-          //implement password change based on save method on ldap to make test for reset pw working
-          //WIP
-          val newUser = findYetuUser(user.userId).get
-          logger.debug(s"Reset pw of user $newUser")
-          val userFuture = passwordInfoFor(newUser).map(
-            x => users += user.userId -> newUser.copy(passwordInfo = x)
-          )
-          logger.debug(s"New user is result of this $userFuture")
-          findYetuUser(user.userId).get //TODO: change this? Prone to Nullpointer Exceptions
+          val oldUser = findYetuUser(user.userId).get
+          val newUser = oldUser.copy(passwordInfo = user.passwordInfo)
+          users += user.userId -> newUser
+          findYetuUser(user.userId).get
         }
         case _ =>
           logger.warn("not saving as signUp; ignoring request.")
@@ -80,7 +77,8 @@ class MemoryPersonService extends IPersonService {
   }
 
   def addNewUser(user: YetuUser) = {
-    users = users + (user.userId -> user)
+    val userWithRegistrationDate = user.copy(registrationDate = Some(new Date()))
+    users = users + (user.userId -> userWithRegistrationDate)
     user
   }
 
