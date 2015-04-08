@@ -66,7 +66,7 @@ securesocial.core
                 startForm("agreement"),
                 options = Seq("agreement" -> "agreement"),
                 '_label -> "agreements",
-                '_error -> startForm("agreement").error.map(_.withMessage("Please read the agreement."))
+                '_error -> startForm("agreement").error.map(_.withMessage(Messages("securesocial.signup.error.invalidTermsAndConditions")))
             )
 
 
