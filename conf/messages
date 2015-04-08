@@ -153,8 +153,5 @@ setup.download.notavailable.homescreen=home.yetu.me
 setup.download.ready.heading=Thank you for downloading the yetu Setup App
 setup.download.ready.description=If you had problems with the download,
 setup.download.ready.link= click here to download it again
-setup.download.ready.install= PC INSTALL instructions
-setup.download.ready.run= PC RUN instructions
-
 
 
