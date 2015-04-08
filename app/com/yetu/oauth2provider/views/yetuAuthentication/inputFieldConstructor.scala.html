@@ -6,21 +6,9 @@
         @elements.input
         @if( elements.hasErrors ) {
             <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
-            <span class="help-icon" onmouseover="hoverHelp(this)" onmouseout="blurHelp(this)">?</span>
-        } else {
-            <span class="help-inline display-none">@elements.infos(elements.lang).mkString(", ")</span>
-            <span class="help-icon" onmouseover="hoverHelp(this)" onmouseout="blurHelp(this)">?</span>
         }
-        @if(elements.id=="firstName" || elements.id=="lastName" || elements.id=="email" ){
-            <span class="help-block">
-                This information help you to make your yetu experience more personalized.
-            </span>
-        }else {@if(elements.id=="password_password1"){
-            <span class="help-block">
-                The password has to have at least 8 characters containing minimum one uppercase and lowercase character and a number.
-            </span>
-            }
-        }
+        <span class="help-inline display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
+        <span class="help-icon" onmouseover="hoverHelp(@{s"${elements.id}HelpText"})" onmouseout="blurHelp(@{s"${elements.id}HelpText"})">?</span>
     </div>
 
 </div>

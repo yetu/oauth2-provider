@@ -117,8 +117,11 @@ setup.signup.termslink3=privacy policy
 setup.signup.terms4=&#42;
 setup.signup.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly.
 setup.signup.clicknext=Just click "next".
-setup.signup.error.required=This field is required.
-setup.signup.error.password=This field is required. Enter at least 8 characters.
+
+setup.signup.help.firstName=This information helps us to provide you a more personalized yetu experience
+setup.signup.help.lastName=This information helps us to provide you a more personalized yetu experience
+setup.signup.help.email=This information helps us to provide you a more personalized yetu experience
+
 #setup mail confirm page
 setup.confirmmail.headline=Check your email inbox and click the registration link to proceed.
 setup.confirmmail.description=We just sent you an email to the email address you provided. Please check your inbox, and click\

@@ -38,6 +38,8 @@
                                 startForm("firstName"),
                                 '_label -> Messages("securesocial.signup.firstName"),
                                 'class -> "left__input",
+                                'id -> "firstNameID",
+                                '_help -> Messages("setup.signup.help.firstName"),
                                 '_error -> startForm.error("firstName")
                             )
 
@@ -45,6 +47,8 @@
                                 startForm("lastName"),
                                 '_label -> Messages("securesocial.signup.lastName"),
                                 'class -> "left__input",
+                                'id -> "lastNameID",
+                                '_help -> Messages("setup.signup.help.lastName"),
                                 '_error -> startForm.error("lastName")
                             )
 
@@ -52,6 +56,8 @@
                                 startForm("email"),
                                 '_label -> Messages("securesocial.signup.email1"),
                                 'class -> "left__input",
+                                '_id -> "emailID",
+                                '_help -> Messages("setup.signup.help.email"),
                                 '_error -> startForm.error("email")
                             )
 
@@ -59,12 +65,16 @@
                                 startForm("password.password1"),
                                 '_label -> Messages("securesocial.signup.password1"),
                                 'class -> "left__input",
+                                'id -> "password1ID",
+                                '_help -> Messages("securesocial.signup.invalidPassword"),
                                 '_error -> startForm.error("password.password1")
                             )
 
                             @helper.inputPassword(
                                 startForm("password.password2"),
                                 '_label -> Messages("securesocial.signup.password2"),
+                                'id -> "password2ID",
+                                '_help -> Messages("securesocial.signup.invalidPassword"),
                                 '_error -> startForm.error("password.password2")
                             )
 
@@ -72,6 +82,7 @@
                                 startForm("getinfo"),
                                 options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
                                 '_label -> "getinfo",
+                                'id -> "getinfoID",
                                 '_error -> startForm.error("getinfo")
                             )
 
@@ -79,6 +90,7 @@
                                 startForm("agreement"),
                                 options = Seq("agreement" -> "agreement"),
                                 '_label -> "agreements",
+                                '_id -> "agreementCheckBoxID",
                                 '_error -> startForm.error("agreement")
                             )
 
@@ -106,14 +118,10 @@
 		@views.html.setup.footer()
         <script>
             var hoverHelp = function(element){
-                if( element.nextSibling && element.nextSibling.nextSibling){
-                    element.nextSibling.nextSibling.setAttribute('class', 'help-block');
-                }
+                document.getElementById(element).setAttribute('class', 'help-block');
             };
             var blurHelp = function(element){
-                if( element.nextSibling && element.nextSibling.nextSibling){
-                    element.nextSibling.nextSibling.setAttribute('class', 'help-block display-none');
-                }
+                document.getElementById(element).setAttribute('class', 'help-block display-none');
             };
 
             document.body.onload = function(){

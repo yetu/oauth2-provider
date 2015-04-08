@@ -51,6 +51,9 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
       currentUrl mustEqual fullSetupRegistrationUrl
 
+      //TODO: this code is not understandable,
+      //TODO: what is this magic number 6 ? And why is it 6? What does it mean?
+      //TODO: can we write this code in another way?
       val helpInlines = findAll(className("help-inline"))
       var counter = 0
       for (helpInline <- helpInlines) {
