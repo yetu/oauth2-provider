@@ -1,15 +1,16 @@
 package com.yetu.oauth2provider.controllers.setup
 
+import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
+import com.yetu.oauth2provider.views
 import play.api.Logger
 import play.api.data.Form
+import play.api.libs.json.Json
 import play.api.mvc._
-import com.yetu.oauth2provider.views
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
-import securesocial.controllers.{ RegistrationInfo, BaseRegistration }
-import securesocial.core.{ RuntimeEnvironment }
-import SetupController._
+import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
+import securesocial.core.RuntimeEnvironment
 
 import scala.concurrent.Future
 
@@ -35,7 +36,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
       implicit request =>
         newUserForm.bindFromRequest.fold(
           formWithErrors => {
-            Future.successful(BadRequest("TODO: Pre-fill. One radio button must be selected."))
+            Future.successful(BadRequest("You need to choose whether you wish to newly register or whether you have already registered."))
           }, userRegistration => {
             userRegistration match {
               case UserNotRegistered => {
@@ -58,9 +59,13 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   def handleNewRegistration(implicit request: Request[AnyContent]): Future[Result] = {
     form.bindFromRequest.fold(
       (errors: Form[RegistrationInfo]) => {
+        logger.warn(s"""user (email=${errors.data.get("email")}) started sign-up process
+          but failed to fill fields correctly: ${Json.prettyPrint(errors.errorsAsJson)})
+           """.stripMargin)
         Future.successful(BadRequest(com.yetu.oauth2provider.views.html.setup.startSignUpForSetup(errors)))
       },
       (registrationInfo: RegistrationInfo) => {
+        logger.info(s"New user started sign-up process with email: ${registrationInfo.email}")
         handleStartSignUpSuccess(registrationInfo)
       }
     )
@@ -82,8 +87,8 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
 
 object SetupController {
 
-  import play.api.data._
   import play.api.data.Forms._
+  import play.api.data._
 
   val UserRegistrationStatus = "UserRegistrationStatus"
   val UserNotRegistered = "UserNotRegistered"
