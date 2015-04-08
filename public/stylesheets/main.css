@@ -515,13 +515,35 @@ a.muted:focus {
 .controls-required{
     font-size: 10px;
 }
-
 .help-inline{
-    width: 60%;
     display: inline-block;
+    width: 60%;
     font-size: 14px;
     vertical-align: super;
 }
+.help-icon{
+    display: none;
+}
+.display-none{
+    display: none;
+}
+
+#getinfo_field .control-label, #agreement_field .control-label, #getinfo{
+    display:none;
+}
+#agreement_field{
+    font-size: 14px;
+    margin: 5px 0;
+}
+#agreement input {
+    float:left;
+    display:block;
+}
+#agreement label {
+    display: block;
+    margin-left: 20px;
+}
+
 .control-group:nth-child(5) .help-inline{
     vertical-align: top;
 }

@@ -25,33 +25,50 @@ securesocial.core
             @helper.inputText(
                 startForm("firstName"),
                 '_label -> Messages("securesocial.signup.firstName"),
-                'class -> "input-xlarge"
+                'class -> "input-xlarge",
+                '_error -> startForm("firstName").error.map(_.withMessage(Messages("setup.signup.error.required")))
             )
 
             @helper.inputText(
                 startForm("lastName"),
                 '_label -> Messages("securesocial.signup.lastName"),
-                'class -> "input-xlarge"
+                'class -> "input-xlarge",
+                '_error -> startForm("lastName").error.map(_.withMessage(Messages("setup.signup.error.required")))
             )
 
             @helper.inputText(
                 startForm("email"),
                 '_label -> Messages("securesocial.signup.email1"),
-                'class -> "input-xlarge"
+                'class -> "input-xlarge",
+                '_error -> startForm("email").error.map(_.withMessage(Messages("setup.signup.error.required")))
             )
 
             @helper.inputPassword(
                 startForm("password.password1"),
                 '_label -> Messages("securesocial.signup.password1"),
-                'class -> "input-xlarge"
+                'class -> "input-xlarge",
+                '_error -> startForm("password.password1").error.map(_.withMessage(Messages("setup.signup.error.password")))
             )
 
             @helper.inputPassword(
                 startForm("password.password2"),
                 '_label -> Messages("securesocial.signup.password2"),
-                '_error -> startForm.error("password"),
-                'class -> "input-xlarge"
+                '_error -> startForm("password.password2").error.map(_.withMessage(Messages("setup.signup.error.required")))
             )
+
+            @helper.inputCheckboxGroup(
+                startForm("getinfo"),
+                options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
+                '_label -> "getinfo"
+            )
+
+            @helper.inputCheckboxGroup(
+                startForm("agreement"),
+                options = Seq("agreement" -> "agreement"),
+                '_label -> "agreements",
+                '_error -> startForm("agreement").error.map(_.withMessage("Please read the agreement."))
+            )
+
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">@Messages("securesocial.signup" +
@@ -59,6 +76,19 @@ securesocial.core
                 </button>
                 <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.signup.cancel")</a>
             </div>
+
+            <script>
+            document.body.onload = function(){
+                document.getElementById("agreement" ).childNodes[3].innerHTML =
+                '<span>'+'@Messages("setup.signup.terms1")'+'</span>'
+                +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
+                +'<span>'+' @Messages("setup.signup.terms2")'+'</span>'
+                +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink2"))'+'</a>'
+                +'<span>'+' @Messages("setup.signup.terms3")'+'</span>'
+                +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
+                +'<span>'+' @Html(Messages("setup.signup.terms4"))'+'</span>';
+            }
+            </script>
 
         </fieldset>
     </form>
