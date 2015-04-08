@@ -119,11 +119,11 @@
             document.body.onload = function(){
                 document.getElementById("agreement" ).childNodes[3].innerHTML =
                 '<span>'+'@Messages("setup.signup.terms1")'+'</span>'
-                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
+                    +'<a target="_blank" class="left__link" href="">'+' @Html(Messages("setup.signup.termslink1"))'+'</a>'
                     +'<span>'+' @Messages("setup.signup.terms2")'+'</span>'
-                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink2"))'+'</a>'
+                    +'<a target="_blank" class="left__link" href="">'+' @Html(Messages("setup.signup.termslink2"))'+'</a>'
                     +'<span>'+' @Messages("setup.signup.terms3")'+'</span>'
-                    +'<a class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
+                    +'<a target="_blank" class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
                     +'<span>'+' @Html(Messages("setup.signup.terms4"))'+'</span>';
                 window.FormMessageGenerator.load();
             }
