@@ -125,7 +125,7 @@ setup.confirmmail.description=We just sent you an email to the email address you
    the link provided in the email to verify your email address and allow the creation of your yetu account.
 
 #setup mail confirmed page
-setup.confirmedmail.headline=Your e-mail has been verified, and your yetu account is created.
+setup.confirmedmail.headline=Your e-mail address has been verified and your yetu account has been created.
 
 #setup download page
 setup.download.headline=Download Gateway Setup App
