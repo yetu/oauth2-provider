@@ -24,20 +24,15 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     }
   }
 
-  //TODO: change post url (check)
   //TODO: redirecting url on success
-  //TODO: redirecting url on failure (check)
   //TODO: save check fields for newsletter and agreement in database
-  //TODO: add radio buttons on template form
-  //TODO: decide on redirecting depending on radio button value and pass to secure social
   //
   override def handleStartSignUp = CSRFCheck {
     Action.async {
       implicit request =>
         newUserForm.bindFromRequest.fold(
-          formWithErrors => {
-            Future.successful(BadRequest("You need to choose whether you wish to newly register or whether you have already registered."))
-          }, userRegistration => {
+          formWithErrors => {invalidRadioButtonChoice(Some(Json.prettyPrint(formWithErrors.errorsAsJson)))},
+          userRegistration => {
             userRegistration match {
               case UserNotRegistered => {
                 handleNewRegistration
@@ -45,10 +40,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
               case UserAlreadyRegistered => {
                 Future.successful(Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.download))
               }
-              case _ =>
-                Future.successful(BadRequest(
-                  s"Form field $UserRegistrationStatus must be " +
-                    s"one of ($UserNotRegistered, $UserAlreadyRegistered)"))
+              case _ => invalidRadioButtonChoice()
             }
           }
         )
@@ -81,6 +73,13 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
 
   def confirmedmail = Action {
     Ok(views.html.setup.confirmedmail.render())
+  }
+
+  private def invalidRadioButtonChoice(error: Option[String] = None) = {
+    Future.successful(BadRequest(
+      s"Form field $UserRegistrationStatus must be " +
+        s"one of ($UserNotRegistered, $UserAlreadyRegistered)"
+    + s"AdditionalInformation: ${error}"))
   }
 
 }
