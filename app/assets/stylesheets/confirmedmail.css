@@ -6,17 +6,13 @@
 .full__container{
     width: 995px;
     text-align: center;
-
+    padding-left: 300px;
 }
 .full__icon{
     padding: 10px;
     width: 40px;
     height: 40px;
     float:left;
-    background-image: url('../images/verified-01.svg');
-    background-repeat: no-repeat;
-    background-size: 40px;
-    background-position: 50% 50%;
     border:none;
 }
 .full__content{
