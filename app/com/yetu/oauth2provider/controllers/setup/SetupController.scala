@@ -31,7 +31,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     Action.async {
       implicit request =>
         newUserForm.bindFromRequest.fold(
-          formWithErrors => {invalidRadioButtonChoice(Some(Json.prettyPrint(formWithErrors.errorsAsJson)))},
+          formWithErrors => { invalidRadioButtonChoice(Some(Json.prettyPrint(formWithErrors.errorsAsJson))) },
           userRegistration => {
             userRegistration match {
               case UserNotRegistered => {
@@ -79,7 +79,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     Future.successful(BadRequest(
       s"Form field $UserRegistrationStatus must be " +
         s"one of ($UserNotRegistered, $UserAlreadyRegistered)"
-    + s"AdditionalInformation: ${error}"))
+        + s"AdditionalInformation: ${error}"))
   }
 
 }
