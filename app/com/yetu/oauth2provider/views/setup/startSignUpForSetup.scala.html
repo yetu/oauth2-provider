@@ -104,7 +104,6 @@
             </div>
 		</div>
 		@views.html.setup.footer()
-        <script src="@controllers.routes.Assets.versioned("javascripts/formMessageGenerator.js")"></script>
         <script>
             var hoverHelp = function(element){
                 if( element.nextSibling && element.nextSibling.nextSibling){
@@ -126,7 +125,6 @@
                     +'<span>'+' @Messages("setup.signup.terms3")'+'</span>'
                     +'<a target="_blank" class="left__link" href="">'+' @Html(Messages("setup.signup.termslink3"))'+'</a>'
                     +'<span>'+' @Html(Messages("setup.signup.terms4"))'+'</span>';
-                window.FormMessageGenerator.load();
             }
         </script>
 	</body>
