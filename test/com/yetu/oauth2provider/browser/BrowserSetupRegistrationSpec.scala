@@ -35,21 +35,18 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
     "go to download page when selecting already registered" in {
       go to fullSetupRegistrationUrl
-      find(name("setupSignup")) must be('defined)
 
       radioButtonGroup(UserRegistrationStatus).value = UserAlreadyRegistered
-
       submit()
+
       currentUrl mustEqual fullSetupDownloadUrl
       find(name("setupDownload")) must be('defined)
     }
 
     "not register without filling out forms and should give error messages on fields" in {
       go to fullSetupRegistrationUrl
-      find(name("setupSignup")) must be('defined)
 
       radioButtonGroup(UserRegistrationStatus).value = UserNotRegistered
-
       submit()
 
       currentUrl mustEqual fullSetupRegistrationUrl
