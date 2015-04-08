@@ -1,6 +1,5 @@
 package com.yetu.oauth2provider.base
 
-import com.yetu.oauth2provider.base.DefaultTestVariables
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config
