@@ -120,9 +120,9 @@ setup.signup.clicknext=Just click "next".
 setup.signup.error.required=This field is required.
 setup.signup.error.password=This field is required. Enter at least 8 characters.
 #setup mail confirm page
-setup.confirmmail.headline=Check yout email inbox and click in the registration link to proceed.
-setup.confirmmail.description=We just sent you an email to the email address you provided. Please check it, and click\
-   in the link provided in the email to verify your email address and allow the creation of your yetu account.
+setup.confirmmail.headline=Check your email inbox and click the registration link to proceed.
+setup.confirmmail.description=We just sent you an email to the email address you provided. Please check your inbox, and click\
+   the link provided in the email to verify your email address and allow the creation of your yetu account.
 
 #setup mail confirmed page
 setup.confirmedmail.headline=Your e-mail has been verified, and your yetu account is created.
