@@ -87,10 +87,9 @@
                                 '_error -> startForm.error("getinfo")
                             )
 
-                            @helper.inputCheckboxGroup(
+                            @helper.checkbox(
                                 startForm("agreement"),
-                                options = Seq("agreement" -> "agreement"),
-                                '_label -> "agreements",
+                                '_label -> "agreementLabel",
                                 '_id -> "agreementCheckBoxID",
                                 '_error -> startForm.error("agreement")
                             )

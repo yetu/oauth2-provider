@@ -51,17 +51,11 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
       currentUrl mustEqual fullSetupRegistrationUrl
 
-      //TODO: this code is not understandable,
-      //TODO: what is this magic number 6 ? And why is it 6? What does it mean?
-      //TODO: can we write this code in another way?
-      val helpInlines = findAll(className("help-inline"))
-      var counter = 0
-      for (helpInline <- helpInlines) {
-        if (counter > 0 && counter < 6) {
-          helpInline must be('displayed)
-        }
-        counter = counter + 1
-      }
+      find(id("agreementErrorText")) must be ('defined)
+      find(id("firstNameIDErrorText")) must be ('defined)
+      find(id("lastNameIDErrorText")) must be ('defined)
+      find(id("emailErrorText")) must be ('defined)
+      find(id("password1IDErrorText")) must be ('defined)
       find(name("setupSignup")) must be('defined)
     }
 
@@ -70,17 +64,25 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
       checkbox("agreement[]").clear()
       register(browserTestUserPassword, testUserEmail)
+      submit()
 
       currentUrl mustEqual fullSetupRegistrationUrl
 
-      //TODO: check for an error message to be displayed.
+      find(id("agreementErrorText")) must be ('defined)
 
     }
 
     def createNewUserThroughGatewaySetupProcess() = {
       go to fullSetupRegistrationUrl
       checkbox("agreement[]").select()
+      checkbox("agreement[]").isSelected must be(true)
       register(browserTestUserPassword, testUserEmail)
+
+      checkbox("agreement[]").isSelected must be(true)
+
+      println(s"checkbox: ${checkbox("agreement[]")}")
+
+      submit()
     }
 
     s"go to confirm mail page if registration is correct" in {

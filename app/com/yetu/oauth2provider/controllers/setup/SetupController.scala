@@ -6,11 +6,14 @@ import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
 import play.api.Logger
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.libs.json.Json
 import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
+import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
 import securesocial.core.RuntimeEnvironment
+import securesocial.core.providers.UsernamePasswordProvider
 
 import scala.concurrent.Future
 
@@ -48,7 +51,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     }
   }
 
-  def handleNewRegistration(implicit request: Request[AnyContent]): Future[Result] = {
+  private def handleNewRegistration(implicit request: Request[AnyContent]): Future[Result] = {
     form.bindFromRequest.fold(
       (errors: Form[RegistrationInfo]) => {
         logger.warn(s"""user (email=${errors.data.get("email")}) started sign-up process
@@ -61,6 +64,26 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
         handleStartSignUpSuccess(registrationInfo)
       }
     )
+  }
+
+  override def handleStartSignUpSuccess(registrationInfo: RegistrationInfo)(implicit request: Request[AnyContent]) = {
+    val email = registrationInfo.email.toLowerCase
+    // check if there is already an account for this email address
+    env.userService.findByEmailAndProvider(email, UsernamePasswordProvider.UsernamePassword).map {
+      maybeUser =>
+        maybeUser match {
+          case Some(user) =>
+            // user signed up already, send an email offering to login/recover password
+            env.mailer.sendAlreadyRegisteredEmail(user)
+          case None =>
+            createToken(registrationInfo, isSignUp = true).flatMap { token =>
+              val savedToken = env.userService.saveToken(token)
+              env.mailer.sendSignUpEmail(email, token.uuid)
+              savedToken
+            }
+        }
+        Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.confirmmail())
+    }
   }
 
   def download = Action {

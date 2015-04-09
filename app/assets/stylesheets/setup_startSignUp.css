@@ -143,9 +143,7 @@
     display: block;
     margin-left: 20px;
 }
-#agreementCheckBoxID label:nth-child(1){
-    display:none;
-}
+
 #getinfoID_field label:nth-child(1){
     display:none;
 }

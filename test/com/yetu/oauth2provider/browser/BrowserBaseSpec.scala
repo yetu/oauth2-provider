@@ -47,7 +47,6 @@ class BrowserBaseSpec extends PlaySpec
     val password2InputField = find(name("password.password2"))
     click on password2InputField.value
     pressKeys(password)
-    submit()
   }
 
   def clearMailTokensInMemory() = {
