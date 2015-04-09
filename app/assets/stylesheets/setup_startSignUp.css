@@ -105,6 +105,11 @@
     margin-right: 63px;
     margin-top: 20px;
 }
+
+#agreementErrorText{
+    margin-top: 60px;
+    font-size: 10px;
+}
 /*classes defined by input field template*/
 /*container*/
 .control-group{
