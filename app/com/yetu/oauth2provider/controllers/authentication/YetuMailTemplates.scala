@@ -9,8 +9,8 @@ import securesocial.core.{ BasicProfile, RuntimeEnvironment }
 
 class YetuMailTemplates(env: RuntimeEnvironment[_]) extends MailTemplates {
   implicit val implicitEnv = env
-  def getSignUpEmail(token: String)(implicit request: RequestHeader, lang: Lang): (Option[Txt], Option[Html]) = {
-    (None, Some(views.html.yetuAuthentication.mails.signUpEmail(token)))
+  def getSignUpEmail(token: String, confirmationUrl: Option[String])(implicit request: RequestHeader, lang: Lang): (Option[Txt], Option[Html]) = {
+    (None, Some(views.html.yetuAuthentication.mails.signUpEmail(token, confirmationUrl)))
   }
 
   def getAlreadyRegisteredEmail(user: BasicProfile)(implicit request: RequestHeader, lang: Lang): (Option[Txt], Option[Html]) = {

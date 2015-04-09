@@ -12,7 +12,7 @@ import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
 import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
-import securesocial.core.RuntimeEnvironment
+import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
 import securesocial.core.providers.UsernamePasswordProvider
 
 import scala.concurrent.Future
@@ -78,12 +78,17 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
           case None =>
             createToken(registrationInfo, isSignUp = true).flatMap { token =>
               val savedToken = env.userService.saveToken(token)
-              env.mailer.sendSignUpEmail(email, token.uuid)
+              val url = s"${routes.SetupController.confirmedmail().absoluteURL(IdentityProvider.sslEnabled)}/${token.uuid}"
+              env.mailer.sendSignUpEmail(email, token.uuid, Some(url))
               savedToken
             }
         }
         Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.confirmmail())
     }
+  }
+
+  override def handleSignUpSuccess(eventSession: Session)(implicit request: Request[AnyContent]): Future[Result] = {
+    Future.successful(Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.confirmedmail()))
   }
 
   def download = Action {

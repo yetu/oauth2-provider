@@ -10,7 +10,7 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
   val fullSetupDownloadUrl = s"http://localhost:$port$setupDownloadUrl"
 
   def fullMailTokenUrl(token: String) = {
-    s"http://localhost:$port$signupUrl/$token"
+    s"http://localhost:$port$setupConfirmedMailUrl/$token"
   }
 
   s"(Gateway-) Registration flow page at $setupRegistrationUrl" must {
