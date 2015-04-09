@@ -6,7 +6,7 @@
 .full__container{
     width: 995px;
     text-align: center;
-    padding-left: 300px;
+    padding-left: 270px;
 }
 .full__icon{
     padding: 10px;
@@ -17,14 +17,13 @@
 }
 .full__content{
     width: 450px;
-    margin-left: 20px;
 }
 .full__headline{
     font-size: 25px;
 }
 .full__button{
     width: 100px;
-    margin: 40px auto;
+    margin: 40px 155px;
     padding: 10px 20px;
     display: block;
     clear: both;
