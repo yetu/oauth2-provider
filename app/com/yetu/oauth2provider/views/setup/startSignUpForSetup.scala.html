@@ -2,6 +2,7 @@
 @import com.yetu.oauth2provider.views
 @import helper._
 @import com.yetu.oauth2provider.controllers.setup.SetupController._
+@import com.yetu.oauth2provider.utils.Config.minimumPasswordLength
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
 
 <!DOCTYPE html>
@@ -66,7 +67,7 @@
                                 '_label -> Messages("securesocial.signup.password1"),
                                 'class -> "left__input",
                                 'id -> "password1ID",
-                                '_help -> Messages("securesocial.signup.invalidPassword"),
+                                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
                                 '_error -> startForm.error("password.password1")
                             )
 
@@ -74,7 +75,7 @@
                                 startForm("password.password2"),
                                 '_label -> Messages("securesocial.signup.password2"),
                                 'id -> "password2ID",
-                                '_help -> Messages("securesocial.signup.invalidPassword"),
+                                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
                                 '_error -> startForm.error("password.password2")
                             )
 
