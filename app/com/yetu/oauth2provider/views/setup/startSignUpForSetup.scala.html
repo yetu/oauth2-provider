@@ -116,12 +116,13 @@
             </div>
 		</div>
 		@views.html.setup.footer()
+        <script src="@controllers.routes.Assets.versioned("javascripts/FormMessageController.js")"></script>
         <script>
             var hoverHelp = function(element){
-                document.getElementById(element).setAttribute('class', 'help-block');
+                element.setAttribute('class', 'help-block');
             };
             var blurHelp = function(element){
-                document.getElementById(element).setAttribute('class', 'help-block display-none');
+                element.setAttribute('class', 'help-block display-none');
             };
 
             document.body.onload = function(){

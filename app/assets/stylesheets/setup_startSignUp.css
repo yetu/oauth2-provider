@@ -69,7 +69,7 @@
 .left__fieldset{
     border: none;
 }
-.left__input, #password_password2_field input{
+.left__input, #password2ID{
     display: block;
     height: 15px;
     padding: 5px;
@@ -89,7 +89,14 @@
     background:#ffffff;
     color: black;
 }
+#password2ID:hover,:focus{
+    background:#ffffff;
+    color: black;
+}
 .left__input:focus{
+    outline: -webkit-focus-ring-color auto 1px;
+}
+#password2ID:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
 .left__fieldsmandatory{
@@ -124,20 +131,20 @@
 }
 
 /*checkbox agreement*/
-#agreement_field label, #getinfo_field label{
+#agreementCheckBoxID label, #getinfoID_field label{
     font-size: 10px;
     width: 234px;
     padding-top: 4px;
     display: block;
     margin-left: 20px;
 }
-#agreement_field label:nth-child(1){
+#agreementCheckBoxID label:nth-child(1){
     display:none;
 }
-#getinfo_field label:nth-child(1){
+#getinfoID_field label:nth-child(1){
     display:none;
 }
-#agreement_field input, #getinfo_field input{
+#agreementCheckBoxID input, #getinfo_field input{
     float:left;
     display:block;
     clear:both;
@@ -163,20 +170,20 @@
 #UserRegistrationStatus_field .help-icon{
     display:none;
 }
-#password_password2_field .help-icon{
+#password2ID_field .help-icon{
     display:none;
 }
-#password_password2_field .help-block{
+#password2ID_field .help-block{
     display:none;
 }
-#agreement_field .help-icon{
+#agreementCheckBoxID .help-icon{
     display:none;
 }
-#getinfo_field .help-icon{
+#getinfoID_field .help-icon{
     display:none;
 }
 /*only until we are sure about law stuff with it*/
-#getinfo_field{
+#getinfoID_field{
     display:none;
 }
 /*info*/

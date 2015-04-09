@@ -5,7 +5,7 @@
     <div class="controls">
         @elements.input
         @if( elements.hasErrors ) {
-            <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
+            <span id="@{elements.id}ErrorText" class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
         }
         <span class="help-inline display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
         <span class="help-icon" onmouseover="hoverHelp(@{s"${elements.id}HelpText"})" onmouseout="blurHelp(@{s"${elements.id}HelpText"})">?</span>
