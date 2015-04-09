@@ -529,18 +529,19 @@ a.muted:focus {
     display: none;
 }
 
-#getinfo_field .control-label, #agreement_field .control-label, #getinfo{
+#getinfoID_field{
     display:none;
 }
-#agreement_field{
+#agreementCheckBoxID{
     font-size: 14px;
     margin: 5px 0;
 }
-#agreement input {
+#agreementCheckBoxID input {
     float:left;
+    margin-top: -55.5px;
     display:block;
 }
-#agreement label {
+#agreementCheckBoxID label {
     display: block;
     margin-left: 20px;
 }
