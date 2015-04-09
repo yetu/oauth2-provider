@@ -110,6 +110,10 @@
     margin-top: 60px;
     font-size: 10px;
 }
+
+#agreement{
+    margin-top: -55.5px;
+}
 /*classes defined by input field template*/
 /*container*/
 .control-group{
@@ -139,9 +143,11 @@
 #agreementCheckBoxID label, #getinfoID_field label{
     font-size: 10px;
     width: 234px;
-    padding-top: 4px;
     display: block;
-    margin-left: 20px;
+    line-height: 14px;
+    text-align: left;
+    margin-left: 110px;
+    margin-top: -50px;
 }
 
 #getinfoID_field label:nth-child(1){
