@@ -2,6 +2,7 @@
 securesocial.core
 .RuntimeEnvironment[_])
 @import helper._
+@import com.yetu.oauth2provider.utils.Config.minimumPasswordLength
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
 
 @com.yetu.oauth2provider.views.html.yetuAuthentication.main( Messages("securesocial.signup.title") ) {
@@ -26,6 +27,8 @@ securesocial.core
                 startForm("firstName"),
                 '_label -> Messages("securesocial.signup.firstName"),
                 'class -> "input-xlarge",
+                'id -> "firstNameID",
+                '_help -> Messages("setup.signup.help.firstName"),
                 '_error -> startForm.error("firstName")
             )
 
@@ -33,6 +36,8 @@ securesocial.core
                 startForm("lastName"),
                 '_label -> Messages("securesocial.signup.lastName"),
                 'class -> "input-xlarge",
+                'id -> "lastNameID",
+                '_help -> Messages("setup.signup.help.lastName"),
                 '_error -> startForm.error("lastName")
             )
 
@@ -40,6 +45,8 @@ securesocial.core
                 startForm("email"),
                 '_label -> Messages("securesocial.signup.email1"),
                 'class -> "input-xlarge",
+                '_id -> "emailID",
+                '_help -> Messages("setup.signup.help.email"),
                 '_error -> startForm.error("email")
             )
 
@@ -47,30 +54,32 @@ securesocial.core
                 startForm("password.password1"),
                 '_label -> Messages("securesocial.signup.password1"),
                 'class -> "input-xlarge",
+                'id -> "password1ID",
+                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
                 '_error -> startForm.error("password.password1")
             )
 
             @helper.inputPassword(
                 startForm("password.password2"),
                 '_label -> Messages("securesocial.signup.password2"),
+                'id -> "password2ID",
+                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
                 '_error -> startForm.error("password.password2")
             )
 
-            @helper.inputCheckboxGroup(
+            @helper.checkbox(
                 startForm("getinfo"),
-                options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
                 '_label -> "getinfo",
+                'id -> "getinfoID",
                 '_error -> startForm.error("getinfo")
             )
 
-
-            @helper.inputCheckboxGroup(
+            @helper.checkbox(
                 startForm("agreement"),
-                options = Seq("agreement" -> "agreement"),
-                '_label -> "agreements",
+                '_label -> "agreementLabel",
+                '_id -> "agreementCheckBoxID",
                 '_error -> startForm.error("agreement")
             )
-
 
             <div class="form-actions">
                 <button type="submit" class="btn btn-primary">@Messages("securesocial.signup" +

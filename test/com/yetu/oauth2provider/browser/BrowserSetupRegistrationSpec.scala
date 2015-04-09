@@ -94,40 +94,4 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
     }
 
   }
-
-  //  find(name("login")) must be('defined)
-  //  //replace by that
-  //  //find(name("confirmmailSetup")) must be('defined)
-  //
-  //  //confirming email
-  //  log("confirming email")
-  //  val token = getMailTokenFromMemory
-  //  go to (s"http://localhost:$port$setupConfirmMailUrl/$token")
-  //
-  //  val confirmMailSuccessHeader = find(name("setupConfirmmail"))
-  //  confirmMailSuccessHeader must be('defined)
-
-  //add when it is implemented
-  //      log("check if user is added to MemoryPersonService")
-  //      val user: Option[YetuUser] = personService.findYetuUser(testUserEmail)
-  //      user must be('defined)
-
-  //    "still open signup page when passing a wrong token for confirming testUserEmail" in {
-  //      val wrongToken = "fdjsbr";
-  //      go to (s"http://localhost:$port$signupUrl/$wrongToken")
-  //      find(name("signup")) must be('defined)
-  //    }
-  //  }
-  //
-  //  "Confirmed mail page" must {
-  //    "have title called 'Successfully confirmed mail'" in {
-  //      go to (s"http://localhost:$port" + setupConfirmedMailUrl)
-  //      pageTitle mustBe "Successfully confirmed mail"
-  //    }
-  //    "show download page when clicking on next button" in {
-  //      val nextButton = find(id("next_button"))
-  //      nextButton must be ('defined)
-  //      click on nextButton.value
-  //      pageTitle mustBe "Download"
-  //    }
 }

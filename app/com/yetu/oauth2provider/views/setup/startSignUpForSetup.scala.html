@@ -79,9 +79,8 @@
                                 '_error -> startForm.error("password.password2")
                             )
 
-                            @helper.inputCheckboxGroup(
+                            @helper.checkbox(
                                 startForm("getinfo"),
-                                options = Seq("getInfo" -> Messages("setup.signup.getinfo")),
                                 '_label -> "getinfo",
                                 'id -> "getinfoID",
                                 '_error -> startForm.error("getinfo")
