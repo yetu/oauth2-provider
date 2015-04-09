@@ -107,7 +107,6 @@
 }
 
 #agreementErrorText{
-    margin-top: 60px;
     font-size: 10px;
 }
 
@@ -147,7 +146,6 @@
     line-height: 14px;
     text-align: left;
     margin-left: 110px;
-    margin-top: -50px;
 }
 
 #getinfoID_field label:nth-child(1){
