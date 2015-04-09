@@ -3,6 +3,16 @@
  */
 window.FormMessageController = {};
 (function(FormMessageController){
+
+  var getElementsByClassName = function(node, classname) {
+    var a = [];
+    var re = new RegExp('(^| )'+classname+'( |$)');
+    var els = node.getElementsByTagName("*");
+    for(var i=0,j=els.length; i<j; i++)
+      if(re.test(els[i].className))a.push(els[i]);
+    return a;
+  }
+
   FormMessageController.clickOnErrorMessage = function(ele) {
     if(ele.id.indexOf('agreement')===-1){
       ele.setAttribute('class','help-inline display-none');
@@ -17,7 +27,7 @@ window.FormMessageController = {};
     document.getElementById(e.toElement.id+'ErrorText').setAttribute('class','help-inline display-none');
   };
 
-  var helpInlines = document.getElementsByClassName('help-inline');
+  var helpInlines = getElementsByClassName(document.getElementById('signup_form'), 'help-inline');
   for(var i=0; i<helpInlines.length; i++){
     var ele = helpInlines[i];
     if(ele.getAttribute('class')==='help-inline'){
