@@ -16,6 +16,11 @@
     var ele = helpInlines[i];
     if(ele.getAttribute('class')==='help-inline'){
       ele.onclick = clickOnErrorMessage;
+      var inputId = ele.id.replace('ErrorText', '');
+      var inputValue = document.getElementById(inputId).value;
+      if(inputValue!==undefined && inputValue!==''){
+        ele.setAttribute('class', 'help-inline help-inline__bottom' )
+      }
     }
   }
   var inputFields = document.getElementsByTagName('input');
