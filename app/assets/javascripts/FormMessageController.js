@@ -1,13 +1,19 @@
 /**
  * Created by elisahilprecht on 09/04/15.
  */
-(function(){
-  var clickOnErrorMessage = function(e) {
-    e.toElement.setAttribute('class','help-inline display-none');
-    document.getElementById(e.toElement.id.replace('ErrorText','')).focus();
+window.FormMessageController = {};
+(function(FormMessageController){
+  FormMessageController.clickOnErrorMessage = function(ele) {
+    if(ele.id.indexOf('agreement')===-1){
+      ele.setAttribute('class','help-inline display-none');
+      document.getElementById(ele.id.replace('ErrorText','')).focus();
+    }
   };
 
-  var clickOnInputField = function(e){
+  FormMessageController.clickOnInputField = function(e){
+    if(e.toElement.id.indexOf('agreement')>-1){
+      e.toElement.id = 'agreement';
+    }
     document.getElementById(e.toElement.id+'ErrorText').setAttribute('class','help-inline display-none');
   };
 
@@ -15,7 +21,6 @@
   for(var i=0; i<helpInlines.length; i++){
     var ele = helpInlines[i];
     if(ele.getAttribute('class')==='help-inline'){
-      ele.onclick = clickOnErrorMessage;
       var inputId = ele.id.replace('ErrorText', '');
       var inputValue = document.getElementById(inputId).value;
       if(inputValue!==undefined && inputValue!==''){
@@ -25,6 +30,6 @@
   }
   var inputFields = document.getElementsByTagName('input');
   for(var j=0; j<inputFields.length; j++){
-    ele.onclick = clickOnInputField;
+    inputFields[j].onclick = FormMessageController.clickOnInputField;
   }
-})();
+})(window.FormMessageController);
