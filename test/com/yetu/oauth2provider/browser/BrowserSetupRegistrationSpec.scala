@@ -30,7 +30,7 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
     s"open $setupRegistrationUrl and have 'agreement[]' checkbox unselected" in {
       go to fullSetupRegistrationUrl
 
-      checkbox("agreement[]").isSelected must be(false)
+      checkbox("agreement").isSelected must be(false)
     }
 
     "go to download page when selecting already registered" in {
@@ -62,9 +62,8 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
     "not register without accepting terms and conditions and stay on the same page" in {
       go to fullSetupRegistrationUrl
 
-      checkbox("agreement[]").clear()
+      checkbox("agreement").clear()
       register(browserTestUserPassword, testUserEmail)
-      submit()
 
       currentUrl mustEqual fullSetupRegistrationUrl
 
@@ -74,15 +73,9 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
 
     def createNewUserThroughGatewaySetupProcess() = {
       go to fullSetupRegistrationUrl
-      checkbox("agreement[]").select()
-      checkbox("agreement[]").isSelected must be(true)
+      checkbox("agreement").select()
+      checkbox("agreement").isSelected must be(true)
       register(browserTestUserPassword, testUserEmail)
-
-      checkbox("agreement[]").isSelected must be(true)
-
-      println(s"checkbox: ${checkbox("agreement[]")}")
-
-      submit()
     }
 
     s"go to confirm mail page if registration is correct" in {
