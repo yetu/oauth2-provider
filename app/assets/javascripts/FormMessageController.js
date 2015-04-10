@@ -11,7 +11,7 @@ window.FormMessageController = {};
     for(var i=0,j=els.length; i<j; i++)
       if(re.test(els[i].className))a.push(els[i]);
     return a;
-  }
+  };
 
   FormMessageController.clickOnErrorMessage = function(ele) {
     if(ele.id.indexOf('agreement')===-1){
@@ -21,10 +21,12 @@ window.FormMessageController = {};
   };
 
   FormMessageController.clickOnInputField = function(e){
-    if(e.toElement.id.indexOf('agreement')>-1){
-      e.toElement.id = 'agreement';
+    var element = e.srcElement ? e.srcElement : e.toElement
+    element = element ? element : e.target;
+    if(element.id.indexOf('agreement')>-1){
+      element.id = 'agreement';
     }
-    var errorText = document.getElementById(e.toElement.id+'ErrorText');
+    var errorText = document.getElementById(element.id+'ErrorText');
     if(errorText){
       errorText.setAttribute('class','help-inline display-none');
     }
@@ -44,5 +46,6 @@ window.FormMessageController = {};
   var inputFields = document.getElementsByTagName('input');
   for(var j=0; j<inputFields.length; j++){
     inputFields[j].onclick = FormMessageController.clickOnInputField;
+    inputFields[j].onfocus = FormMessageController.clickOnInputField;
   }
 })(window.FormMessageController);
