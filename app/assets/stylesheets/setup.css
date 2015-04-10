@@ -69,10 +69,8 @@ header{
 
 .content{
 	margin: 0 auto;
-	background-image: url('../images/background.png');
-	background-repeat: no-repeat;
-    background-size: cover;
-    padding: 50px 0;
+	background: #ededed;
+    padding: 35px 0;
     height: 480px;
 }
 
@@ -134,7 +132,7 @@ header{
     width: 270px;
     margin-left: 40px;
     height: 45px;
-    padding: 20px 40px;
+    padding: 15px 40px;
 }
 
 .left__content-faq {
@@ -252,11 +250,8 @@ footer a{
 	text-decoration: none;
 	color: rgb(0,152,72);
 }
-footer a:hover{
-	color: #006600;
-}
-footer a:visited {
-	color: #dddddd;
+footer a:hover, :visited {
+	color: #009900;
 }
 
 .show{
