@@ -21,11 +21,13 @@ window.FormMessageController = {};
   };
 
   FormMessageController.clickOnInputField = function(e){
-    var element = e.srcElement ? e.srcElement : e.toElement;
-    element = element ? element : e.target;
-    var errorText = document.getElementById(element.id.replace('_agreement', '')+'ErrorText');
-    if(errorText){
-      errorText.setAttribute('class','help-inline display-none');
+    if(e){
+      var element = e.srcElement ? e.srcElement : e.toElement;
+      element = element ? element : e.target;
+      var errorText = document.getElementById(element.id.replace('_agreement', '')+'ErrorText');
+      if(errorText){
+        errorText.setAttribute('class','help-inline display-none');
+      }
     }
   };
 
