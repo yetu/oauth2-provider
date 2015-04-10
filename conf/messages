@@ -42,6 +42,7 @@ securesocial.signup.thankYouCheckEmail=Thank you. Please check your E-Mail for f
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
 securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit and one uppercase letter.
+securesocial.signup.invalidPasswordError=Not a valid password. See information for details.
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
 

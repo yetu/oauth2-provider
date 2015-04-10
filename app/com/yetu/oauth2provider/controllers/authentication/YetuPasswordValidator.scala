@@ -38,5 +38,5 @@ class YetuPasswordValidator extends PasswordValidator {
 }
 
 object YetuPasswordValidator {
-  val InvalidPasswordMessage = "securesocial.signup.invalidPassword"
+  val InvalidPasswordMessage = "securesocial.signup.invalidPasswordError"
 }
