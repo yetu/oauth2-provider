@@ -59,6 +59,20 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
       find(name("setupSignup")) must be('defined)
     }
 
+    "not register without having passwords, that match" in {
+      go to fullSetupRegistrationUrl
+
+      checkbox("agreement").select()
+
+      register(browserTestUserPassword, testUserEmail, Some(s"$browserTestUserPassword other"))
+
+      currentUrl mustEqual fullSetupRegistrationUrl
+      log(pageSource)
+
+      find(id("password2IDErrorText")) must be ('defined)
+
+    }
+
     "not register without accepting terms and conditions and stay on the same page" in {
       go to fullSetupRegistrationUrl
 

@@ -31,7 +31,7 @@ class BrowserBaseSpec extends PlaySpec
 
   val browserTestUserPassword = "pasSw0rd" // bad password, but enough to pass the basic validation.
 
-  def register(password: String, email: String) = {
+  def register(password: String, email: String, password2: Option[String] = None) = {
     val firstNameInputField = find(name("firstName"))
     click on firstNameInputField.value
     pressKeys("testFirstName")
@@ -46,7 +46,8 @@ class BrowserBaseSpec extends PlaySpec
     pressKeys(password)
     val password2InputField = find(name("password.password2"))
     click on password2InputField.value
-    pressKeys(password)
+    val passwordTwo = password2.getOrElse(password)
+    pressKeys(passwordTwo)
     submit()
   }
 

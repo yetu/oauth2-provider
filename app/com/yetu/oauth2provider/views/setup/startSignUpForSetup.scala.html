@@ -68,7 +68,7 @@
                                 'class -> "left__input",
                                 'id -> "password1ID",
                                 '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
-                                '_error -> startForm.error("password.password1")
+                                '_error -> startForm.error("password")
                             )
 
                             @helper.inputPassword(
@@ -76,7 +76,7 @@
                                 '_label -> Messages("securesocial.signup.password2"),
                                 'id -> "password2ID",
                                 '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
-                                '_error -> startForm.error("password.password2")
+                                '_error -> startForm.error("password")
                             )
 
                             @helper.checkbox(
