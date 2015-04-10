@@ -21,12 +21,9 @@ window.FormMessageController = {};
   };
 
   FormMessageController.clickOnInputField = function(e){
-    var element = e.srcElement ? e.srcElement : e.toElement
+    var element = e.srcElement ? e.srcElement : e.toElement;
     element = element ? element : e.target;
-    if(element.id.indexOf('agreement')>-1){
-      element.id = 'agreement';
-    }
-    var errorText = document.getElementById(element.id+'ErrorText');
+    var errorText = document.getElementById(element.id.replace('_agreement', '')+'ErrorText');
     if(errorText){
       errorText.setAttribute('class','help-inline display-none');
     }
