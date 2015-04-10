@@ -24,7 +24,10 @@ window.FormMessageController = {};
     if(e.toElement.id.indexOf('agreement')>-1){
       e.toElement.id = 'agreement';
     }
-    document.getElementById(e.toElement.id+'ErrorText').setAttribute('class','help-inline display-none');
+    var errorText = document.getElementById(e.toElement.id+'ErrorText');
+    if(errorText){
+      errorText.setAttribute('class','help-inline display-none');
+    }
   };
 
   var helpInlines = getElementsByClassName(document.getElementById('signup_form'), 'help-inline');
