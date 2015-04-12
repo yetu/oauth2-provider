@@ -1,0 +1,108 @@
+/*LEFT CONTENT*/
+.left__content-download{
+    display: none;
+    width: 270px;
+    margin-left: 40px;
+    height: 45px;
+    padding: 15px 40px;
+}
+
+.left__content-faq {
+    display: block;
+    color: rgb(0, 152, 72);
+    text-decoration: none;
+    font-size: 18px;
+    margin-top: 62.5px;
+    margin-left: 0px;
+}
+
+.left__content-info{
+    width: 120%;
+    padding: 15px;
+    border: solid 1px #949494;
+    box-shadow: 2px 3px 2px #949494;
+    margin-top: 60px;
+    z-index: 2;
+}
+
+.left__content-description{
+    margin-top: 30px;
+    margin-bottom: 67.5px;
+}
+
+.left__content-description-label{
+    font-weight: bold;
+}
+
+.left__content-info-icon{
+    width: 50px;
+    height: 50px;
+    float: left;
+    margin-right: 10px;
+    display: block;
+}
+.left__content-info-text{
+    width: 90%;
+    margin: 0;
+    height: 50px;
+    line-height: 25px;
+    vertical-align: middle;
+}
+/*RIGHT CONTENT*/
+.right__gateway-img{
+    width: 220px;
+    height: 155px;
+    padding: 20px 30px;
+}
+.right__gateway-container{
+    width: 410px;
+    height: 290px;
+    margin: 0px;
+    padding: 0px;
+    background-color: white;
+    box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
+    position: relative;
+}
+
+.right__gateway-text{
+    padding-left: 30px;
+    padding-right: 20px;
+    margin: 0;
+    font-size: 16px;
+}
+
+.right__gateway-icon{
+    width: 30px;
+    height: 20px;
+    position: absolute;
+    top: 223px;
+    left: 207px;
+}
+/*FULL CONTENT*/
+.full__download{
+    color: #009900;
+    display: none;
+}
+
+.full__instructions{
+    margin: 45px auto;
+    width: 600px;
+    height: 200px;
+}
+
+/*MAIN STUFF*/
+.smallbuttonmargin{
+    margin-bottom: 20px;
+}
+
+.notopmargin{
+    margin-top: 0;
+}
+
+.nobottommargin{
+    margin-bottom: 0;
+}
+
+#or{
+    visibility: hidden;
+}

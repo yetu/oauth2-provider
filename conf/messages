@@ -95,7 +95,7 @@ check.reset=reset
 setup.headline=Welcome to the yetu setup!
 setup.subheadline=Setting up the yetu experience takes some quick and easy steps.
 setup.steps.one=1. Register at yetu
-setup.steps.two=2. Verify your e-mail address
+setup.steps.two=2. Verify your email address
 setup.steps.three=3. Download Gateway Setup App
 setup.footer.copyright=&copy; 2015 yetu AG
 setup.footer.privacy=Privacy Policy
@@ -116,7 +116,7 @@ setup.signup.termslink2=privacy policy
 setup.signup.terms3=. I consent to the use and processing of my data in accordance with the statement of the
 setup.signup.termslink3=privacy policy
 setup.signup.terms4=&#42;
-setup.signup.ifalreadyregistered=If you already have your e-mail and password registered at yetu, you can go to step 3 directly.
+setup.signup.ifalreadyregistered=If you already have your email and password registered at yetu, you can go to step 3 directly.
 setup.signup.clicknext=Just click "next".
 
 setup.signup.help.firstName=This information helps us to provide you a more personalized yetu experience
@@ -129,7 +129,7 @@ setup.confirmmail.description=We just sent you an email to the email address you
    the link provided in the email to verify your email address and allow the creation of your yetu account.
 
 #setup mail confirmed page
-setup.confirmedmail.headline=Your e-mail address has been verified and your yetu account has been created.
+setup.confirmedmail.headline=Your email has been verified and your yetu account has been created.
 
 #setup download page
 setup.download.headline=Download Gateway Setup App

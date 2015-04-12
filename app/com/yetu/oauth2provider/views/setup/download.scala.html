@@ -6,6 +6,8 @@
 
     <head>
         <title>Download</title>
+
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_download.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
@@ -59,15 +61,15 @@
                         </p>
                     </div>
                 </div>
-            </div>
-            <div id="fullContainer" class="full">
-                <h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
-                <p class="full__description">
-                    <span>@Messages("setup.download.ready.description")</span>
-                    <a id="download_mac2" class="full__download" href="@Html(downloadUrlMac)">@Messages("setup.download.ready.link")</a>
-                    <a id="download_win2" class="full__download" href="@Html(downloadUrlWin)">@Messages("setup.download.ready.link")</a>
-                </p>
-                <img class="full__instructions" src="@controllers.routes.Assets.versioned("images/placeholder_image_instructions-01.png")"/>
+                <div id="fullContainer" class="full">
+                    <h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
+                    <p class="full__description">
+                        <span>@Messages("setup.download.ready.description")</span>
+                        <a id="download_mac2" class="full__download" href="@Html(downloadUrlMac)">@Messages("setup.download.ready.link")</a>
+                        <a id="download_win2" class="full__download" href="@Html(downloadUrlWin)">@Messages("setup.download.ready.link")</a>
+                    </p>
+                    <img class="full__instructions" src="@controllers.routes.Assets.versioned("images/placeholder_image_instructions-01.png")"/>
+                </div>
             </div>
             <div class="clear"></div>
         </div>
