@@ -4,79 +4,78 @@
 
 <html>
 
-<head>
-	<title>Download</title>
-	<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.at("stylesheets/setup.css")">
-	<meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-</head>
+    <head>
+        <title>Download</title>
 
-<body>
-	@views.html.setup.header()
-	<div class="content">
-		<div class="steps">
-			<ul class="steplist">
-				<li class="step active">@Messages("setup.steps.one")</li>
-				<li class="step active">@Messages("setup.steps.two")</li>
-				<li class="step active">@Messages("setup.steps.three")</li>
-			</ul>
-		</div>
-		<div id="leftContainer" class="left">
-			<h2>@Messages("setup.download.headline")</h2>
-			<div id="download_available" class="left__content">
-				<p class="left__content-description">@Messages("setup.download.description")</p>
-				<a id="download_mac1" class="left__content-download" href="@Html(downloadUrlMac)" onclick="onClickDownload()">@Messages("setup.download.button.mac")</a>
-				<a id="download_win1" class="left__content-download" href="@Html(downloadUrlWin)" onclick="onClickDownload()">@Messages("setup.download.button.win")</a>
-				<a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
-			</div>
-			<div id="download_not_available" class="left__content">
-				<p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
-				<p class="left__content-description nobottommargin">
-					<span class="left__content-description-label">@Messages("setup.download.notavailable.youros")</span>
-					<span id="youros"></span>
-				</p>
-				<p class="left__content-description smallbuttonmargin notopmargin">
-					<span class="left__content-description-label">@Messages("setup.download.notavailable.reqos")</span>
-					<span id="requiredos1"></span>
-					<span id="or">@Messages("setup.download.notavailable.or")</span>
-					<span id="requiredos2"></span>
-				</p>
-				<p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
-				<p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionthree")</p>
-				<a class="left__content-link" href="">@Messages("setup.download.notavailable.link")</a>
-				<div class="left__content-info">
-					<img class="left__content-info-icon" href="" />
-					<p class="left__content-info-text">
-						<span>@Messages("setup.download.notavailable.infodesc")</span>
-						<a href="">@Messages("setup.download.notavailable.homescreen")</a>
-					</p>
-				</div>
-			</div>
-		</div>
-		<div id="rightContainer" class="right">
-			<div class="right__gateway-img">
-				<p class="right__gateway-text">@Messages("setup.download.connect")</p>
-			</div>
-		</div>
-		<div id="fullContainer" class="full">
-			<h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
-			<p class="full__description">
-				<span>@Messages("setup.download.ready.description")</span>
-				<a id="download_mac2" class="full__download" href="@Html(downloadUrlMac)">@Messages("setup.download" +
-                        ".ready.link")</a>
-				<a id="download_win2" class="full__download" href="@Html(downloadUrlWin)">@Messages("setup.download" +
-                        ".ready.link")</a>
-			</p>
-			<div class="full__instructions">
-				<img class="full__instructions-install" alt="@Messages(" setup.download.ready.install ")"/>
-				<img class="full__instructions-run" alt="@Messages(" setup.download.ready.run ")"/>
-				<div class="clear"></div>
-			</div>
-		</div>
-		<div class="bumper"></div>
-	</div>
-	@views.html.setup.footer()
-	<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/determine-os.js")"></script>
-	<script type="text/javascript" src="@controllers.routes.Assets.at("javascripts/handler.js")"></script>
-</body>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_download.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    </head>
+
+    <body>
+        @views.html.setup.header(false)
+        <div class="content">
+            @views.html.setup.steps(3)
+            <div class="content__main">
+                <div id="leftContainer" class="left">
+                    <h2 name="setupDownload" class="content__headline">@Messages("setup.download.headline")</h2>
+                    <div id="download_available" class="left__content">
+                        <p class="left__content-description">@Messages("setup.download.description")</p>
+                        <a id="download_mac1" class="left__content-download button" href="@Html(downloadUrlMac)" onclick="window.DownloadHandler.onClickDownload()">@Messages("setup.download.button.mac")</a>
+                        <a id="download_win1" class="left__content-download button" href="@Html(downloadUrlWin)" onclick="window.DownloadHandler.onClickDownload()">@Messages("setup.download.button.win")</a>
+                        <a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
+                    </div>
+                    <div id="download_not_available" class="left__content">
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
+                        <p class="left__content-description nobottommargin">
+                            <span class="left__content-description-label">@Messages("setup.download.notavailable.youros")</span>
+                            <span id="youros"></span>
+                        </p>
+                        <p class="left__content-description smallbuttonmargin notopmargin">
+                            <span class="left__content-description-label">@Messages("setup.download.notavailable.reqos")</span>
+                            <span id="requiredos1"></span>
+                            <span id="or">@Messages("setup.download.notavailable.or")</span>
+                            <span id="requiredos2"></span>
+                        </p>
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
+                        <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionthree")</p>
+                        <a class="left__content-link" href="">@Messages("setup.download.notavailable.link")</a>
+                        <div class="left__content-info">
+                            <img class="left__content-info-icon" href="" />
+                            <p class="left__content-info-text">
+                                <span>@Messages("setup.download.notavailable.infodesc")</span>
+                                <a href="">@Messages("setup.download.notavailable.homescreen")</a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+                <div id="rightContainer" class="right">
+                    <div class="right__gateway-container">
+                        <img class="right__gateway-img" src="@controllers.routes.Assets.versioned("images/TV_connection-01.png")">
+                        <p class="right__gateway-text">
+                            <span>@Html(Messages("setup.download.connect1"))</span>
+                            <span>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;</span>
+                            <img src="@controllers.routes.Assets.versioned("images/hdmi-01.svg")" class="right__gateway-icon"/>
+                            <span>@Html(Messages("setup.download.connect2"))</span>
+                        </p>
+                    </div>
+                </div>
+                <div id="fullContainer" class="full">
+                    <h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
+                    <p class="full__description">
+                        <span>@Messages("setup.download.ready.description")</span>
+                        <a id="download_mac2" class="full__download" href="@Html(downloadUrlMac)">@Messages("setup.download.ready.link")</a>
+                        <a id="download_win2" class="full__download" href="@Html(downloadUrlWin)">@Messages("setup.download.ready.link")</a>
+                    </p>
+                    <img class="full__instructions" src="@controllers.routes.Assets.versioned("images/placeholder_image_instructions-01.png")"/>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        @views.html.setup.footer()
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/determine-os.js")"></script>
+        <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/downloadHandler.js")"></script>
+    </body>
 
 </html>

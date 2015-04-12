@@ -1,14 +1,29 @@
 @(elements: views.html.helper.FieldElements)
 
 <div class="control-group @elements.args.get('_class) @if(elements.hasErrors) {error}" id="@elements.args.get('_id).getOrElse(elements.id + "_field")">
-    <label class="control-label" for="@elements.id">@elements.label(elements.lang)</label>
+    <label class="control-label" for="@elements.id">
+        @if(elements.id=="agreement" ){
+            <span>@Messages("setup.signup.terms1")</span>
+            <a target="_blank" class="left__link" href=""> @Html(Messages("setup.signup.termslink1"))</a>
+            <span> @Messages("setup.signup.terms2")</span>
+            <a target="_blank" class="left__link" href=""> @Html(Messages("setup.signup.termslink2"))</a>
+            <span> @Messages("setup.signup.terms3")</span>
+            <a target="_blank" class="left__link" href=""> @Html(Messages("setup.signup.termslink3"))</a>
+            <span> @Html(Messages("setup.signup.terms4"))</span>
+        } else {
+            @elements.label(elements.lang)
+        }
+    </label>
     <div class="controls">
         @elements.input
         @if( elements.hasErrors ) {
-            <span class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
-        } else {
-            <span class="help-block">@elements.infos(elements.lang).mkString(", ")</span>
+            <span id="@{elements.id}ErrorText" class="help-inline" onclick="window.formMessageController.clickOnErrorMessage(this)">@elements.errors(elements.lang).mkString(", ")</span>
         }
+        <span class="help-inline display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
+        <span class="help-icon" onmouseover="hoverHelp(@{s"${elements.id}HelpText"})" onmouseout="blurHelp(@{s"${elements.id}HelpText"})">?</span>
     </div>
+
+
+
 
 </div>

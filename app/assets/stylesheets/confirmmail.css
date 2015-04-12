@@ -1,0 +1,23 @@
+.left{
+    width: 400px;
+    padding: 90px 20px;
+}
+.left__img{
+    width: 420px;
+    margin-left: 20px;
+}
+.right{
+    padding: 90px 80px;
+    margin-left: 490px;
+    width: 355px;
+}
+.right__heading{
+    font-size: 25px;
+    font-weight: 400;
+}
+.content__main{
+    width: 995px;
+}
+.content{
+    height: 520px;
+}

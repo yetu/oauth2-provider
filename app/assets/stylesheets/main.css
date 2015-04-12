@@ -49,17 +49,18 @@ body, html{
     margin-right: auto;
 }
 
-.logo{
-    padding-left:0px;
-    padding-right:100px;
+.footer{
     padding-top: 5px;
     font-size: 14px;
-    background-repeat: no-repeat;
-    background-position: right top;
-    background-image: url('../images/yetulogo.svg');
     background-size: 40px;
-
+    width: 600px;
+    margin: auto;
     height: 60px;
+}
+.logo{
+    float: right;
+    width: 40px;
+    padding: 0;
 }
 
 /* CONTAINER */
@@ -512,13 +513,39 @@ a.muted:focus {
 .help-block{
     display:none;
 }
-
+.controls-required{
+    font-size: 10px;
+}
 .help-inline{
-    width: 60%;
     display: inline-block;
+    width: 60%;
     font-size: 14px;
     vertical-align: super;
 }
+.help-icon{
+    display: none;
+}
+.display-none{
+    display: none;
+}
+
+#getinfoID_field{
+    display:none;
+}
+#agreementCheckBoxID{
+    font-size: 14px;
+    margin: 5px 0;
+}
+#agreementCheckBoxID input {
+    float:left;
+    margin-top: -55.5px;
+    display:block;
+}
+#agreementCheckBoxID label {
+    display: block;
+    margin-left: 20px;
+}
+
 .control-group:nth-child(5) .help-inline{
     vertical-align: top;
 }

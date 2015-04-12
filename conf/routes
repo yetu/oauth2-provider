@@ -28,7 +28,7 @@ POST           /permissions                         @com.yetu.oauth2provider.con
 GET            /                                    @com.yetu.oauth2provider.controllers.OAuth2ResourceServer.index
 
 # Map static resources from the /public folder to the /assets URL path
-GET            /assets/*file                        controllers.Assets.at(path="/public", file)
+GET           /assets/*file                         controllers.Assets.versioned(path="/public", file: Asset)
 
 
 # Health Check
@@ -77,15 +77,17 @@ POST           /api/authenticate/:provider          @com.yetu.oauth2provider.con
 #####################
 
 # New registration page
-GET            /setup/registration                  com.yetu.oauth2provider.controllers.setup.SetupPage.registration
-POST           /setup/registration                  @com.yetu.oauth2provider.controllers.authentication.Registration.handleStartSignUp
+GET            /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.startSignUp
+POST           /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.handleStartSignUp
 
 
 # New confirm mail page
-GET            /setup/confirmmail                   com.yetu.oauth2provider.controllers.setup.SetupPage.confirmmail
+GET            /setup/confirmmail                   @com.yetu.oauth2provider.controllers.setup.SetupController.confirmmail
 
 # New confirm mail page
-GET            /setup/confirmedmail                 com.yetu.oauth2provider.controllers.setup.SetupPage.confirmedmail
+GET            /setup/confirmedmail                 @com.yetu.oauth2provider.controllers.setup.SetupController.confirmedmail
+GET            /setup/confirmedmail/:mailToken      @com.yetu.oauth2provider.controllers.setup.SetupController.handleSignUp(mailToken)
 
 # Download setup app
-GET            /setup/download                      com.yetu.oauth2provider.controllers.setup.SetupPage.download
+GET            /setup/download                      @com.yetu.oauth2provider.controllers.setup.SetupController.download
+

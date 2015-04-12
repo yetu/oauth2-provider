@@ -14,7 +14,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
   /**
    * implement me!
    */
-  def getAccessToken: String
+  def getAccessToken(): String
 
   def implementationId: String = this.getClass.getCanonicalName
 

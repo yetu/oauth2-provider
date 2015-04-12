@@ -1,0 +1,261 @@
+/*MAIN STUFF*/
+.signup_headline{
+    font-size: 25px;
+    font-weight: bold;
+    font-family: source_sans_proregular;
+}
+
+.signup_radiobutton, .signup_headline_label{
+	line-height: 32px;
+	vertical-align: middle;
+}
+.signup_headline_label.right{
+    margin-left: 5px;
+}
+.signup_radiobutton{
+	margin-right: 5px;
+}
+
+/*CONTENT*/
+.content{
+    margin-top: 0;
+    width: 100%;
+    padding-bottom: 25px;
+    height: 555px;
+}
+.content > .steps {
+    margin: 0 auto 0 auto;
+}
+.content__main{
+    box-shadow: 1px 1px 5px #666;
+    margin: 20px auto;
+    background: #F6F6F6;
+    width: 895px;
+    height: 445px;
+    padding: 40px 50px 0 50px;
+}
+
+/*CONTAINER*/
+.left, .right{
+    width: 432.5px;
+    padding: 0;
+    margin: 0;
+    margin-top: 30px;
+}
+.right{
+    width: 247.5px;
+    padding-left: 110px;
+    margin-left: 447.5px;
+    margin-top: 50px;
+}
+
+/** RIGHT CONTAINER ELEMENTS **/
+.right__text{
+    width: 185px;
+    margin-left: 25px;
+    font-size: 18px;
+}
+
+/**LEFT CONTAINER ELEMENTS*/
+
+.left__form{
+    border-right: solid 1px #B4B4B4;
+    height: 280px;
+}
+.left__link{
+    color: #009900;
+}
+.left__fieldset{
+    border: none;
+}
+.left__input, #password2ID{
+    display: block;
+    height: 15px;
+    padding: 5px;
+    font-size: 13px;
+    font-family: source_sans_proregular, 'Helvetica Neue', Arial;
+    width: 246px;
+    border: solid 1px #B4B4B4;
+    background: #F6F6F6;
+}
+.left__input.black-color{
+    color: #666;
+}
+.left__input.grey-color{
+    color: #B4B4B4;
+}
+.left__input:hover,.left__input:focus{
+    background:#ffffff;
+    color: black;
+}
+#password2ID:hover,#password2ID:focus{
+    background:#ffffff;
+    color: black;
+}
+.left__input:focus{
+    outline: -webkit-focus-ring-color auto 1px;
+}
+#password2ID:focus{
+    outline: -webkit-focus-ring-color auto 1px;
+}
+.left__fieldsmandatory{
+    font-size: 10px;
+    text-align: right;
+    margin-right: 63px;
+    margin-top: 10px;
+}
+
+#agreementErrorText{
+    font-size: 10px;
+}
+
+#agreement{
+    margin-top: -55.5px;
+}
+/*classes defined by input field template*/
+/*container*/
+.control-group{
+
+}
+/*label for input field*/
+.control-label{
+    float: left;
+    display: block;
+    line-height: 29px;
+    vertical-align: middle;
+    text-align: right;
+    width: 180px;
+    margin-left: -100px;
+    padding: 0 10px;
+    font-size: 18px;
+}
+/*container around input field and help-inline/help-block*/
+.controls{
+    width: 258px;
+    margin-left: 100px;
+    margin-bottom: 10px;
+    position: relative;
+}
+
+/*checkbox agreement*/
+#agreementCheckBoxID label, #getinfoID_field label{
+    font-size: 10px;
+    width: 234px;
+    display: block;
+    line-height: 14px;
+    text-align: left;
+    margin-left: 110px;
+}
+
+#getinfoID_field label:nth-child(1){
+    display:none;
+}
+#agreementCheckBoxID input, #getinfo_field input{
+    float:left;
+    display:block;
+    clear:both;
+}
+#UserRegistrationStatus_field .controls{
+    position: absolute;
+    top: 220px;
+    margin-left: -15px;
+    width: 875px;
+    font-size: 25px;
+}
+#UserRegistrationStatus_field label:nth-child(1){
+    display: none;
+}
+#UserRegistrationStatus_field label,
+#UserRegistrationStatus_field input{
+    line-height: 34px;
+    vertical-align: middle;
+}
+#UserRegistrationStatus_UserAlreadyRegistered{
+    margin-left: 371px;
+}
+#UserRegistrationStatus_field .help-icon{
+    display:none;
+}
+#password2ID_field .help-icon{
+    display:none;
+}
+#password2ID_field .help-block{
+    display:none;
+}
+#agreementCheckBoxID .help-icon{
+    display:none;
+}
+#getinfoID_field .help-icon{
+    display:none;
+}
+/*only until we are sure about law stuff with it*/
+#getinfoID_field{
+    display:none;
+}
+/*info*/
+.help-block{
+    display: block;
+    margin-top: -32px;
+    background: white;
+    padding: 5px;
+    font-size: 10px;
+    font-style: italic;
+    width: 110px;
+    box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
+    margin-right: -15px;
+    z-index: 10;
+    position: absolute;
+    right: 0;
+}
+/*erros*/
+.help-inline{
+    display: block;
+    position: absolute;
+    top: 7.5px;
+    color: #FF0000;
+    font-size: 12px;
+    left: 5px;
+    z-index: 5;
+}
+
+.help-inline__bottom{
+    position: relative;
+    margin-top: -3px;
+    margin-bottom: 13px;
+}
+
+.help-inline.display-none, .help-block.display-none{
+    display: none;
+}
+.help-icon{
+    height: 6px;
+    width: 5px;
+    display: block;
+    position: absolute;
+    top: 0px;
+    right: -38px;
+    border: solid 1px #B4B4B4;
+    padding: 4px;
+    font-size: 10px;
+    line-height: 7px;
+    vertical-align: middle;
+    background: #ffffff;
+}
+
+
+    /* BUTTON CONTAINER */
+.buttoncontainer{
+    padding: 10px 390px;
+    margin-top: 40px;
+    border-top: solid 1px #B4B4B4;
+    margin-left: -35px;
+    width: 185px;
+}
+.buttoncontainer__next-button{
+    width: 150px;
+    height: 50px;
+}
+.buttoncontainer__next-button:active,.buttoncontainer__next-button:focus {
+    background: #009900;
+    color: white;
+}

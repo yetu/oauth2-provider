@@ -4,40 +4,40 @@ import com.yetu.oauth2provider.oauth2.models.YetuUser
 
 class BrowserRegistrationSpec extends BrowserBaseSpec {
 
-  def register(password: String, email: String) = {
-    val firstNameInputField = find(name("firstName"))
-    click on firstNameInputField.value
-    pressKeys("testFirstName")
-    val lastNameInputField = find(name("lastName"))
-    click on lastNameInputField.value
-    pressKeys("testLastName")
-    val emailInputField = find(name("email"))
-    click on emailInputField.value
-    pressKeys(email)
-    val password1InputField = find(name("password.password1"))
-    click on password1InputField.value
-    pressKeys(password)
-    val password2InputField = find(name("password.password2"))
-    click on password2InputField.value
-    pressKeys(password)
-    click on find(tagName("button")).value
-  }
-
-  "Registration page without gateway" must {
-    s"open $signupUrl when clicking on confirm button and add user when confirming with link in email" in {
-      clearMailTokensInMemory()
-      clearUsersFromMemory()
-
-      //registration
-      log("registration email")
+  s"Registration flow page at $signupUrl" must {
+    s"open page at $signupUrl " in {
       go to (s"http://localhost:$port$signupUrl")
+
       find(name("signup")) must be('defined)
+    }
+    s"come back to $signupUrl when error on input fields" in {
+      go to (s"http://localhost:$port$signupUrl")
+
+      checkbox("agreement").clear()
       register(browserTestUserPassword, testUserEmail)
+
+      find(name("signup")) must be('defined)
+    }
+
+    def sendRegistration = {
+      checkbox("agreement").select()
+      checkbox("agreement").isSelected must be(true)
+      register(browserTestUserPassword, testUserEmail)
+    }
+    s"redirect to $loginUrlWithSignedHttp when user input is correct" in {
+      go to (s"http://localhost:$port$signupUrl")
+
+      sendRegistration
+
       val confirmMailHeader = find(name("confirmmail"))
       confirmMailHeader must be('defined)
+    }
 
-      //confirming email
-      log("confirming email")
+    s"open $confirmedSignUpUrl when user go to confirmation link and create user" in {
+      go to (s"http://localhost:$port$signupUrl")
+
+      sendRegistration
+
       val token = getMailTokenFromMemory
       go to (s"http://localhost:$port$signupUrl/$token")
 

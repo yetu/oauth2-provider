@@ -42,3 +42,8 @@ addSbtPlugin("no.arktekk.sbt" % "aether-deploy" % "0.13")
 
 // Use the Scalariform plugin to reformat the code
 addSbtPlugin("com.typesafe.sbt" % "sbt-scalariform" % "1.3.0")
+
+// Web plugins for using Assets.at() to prevent cache
+addSbtPlugin("com.typesafe.sbt" % "sbt-digest" % "1.1.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-gzip" % "1.0.0")
+addSbtPlugin("com.typesafe.sbt" % "sbt-web" % "1.1.1")

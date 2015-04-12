@@ -1,0 +1,114 @@
+(function() {
+  var nAgt = navigator.userAgent;
+  var os = '-';
+  var clientStrings = [
+    {s: 'Windows 3.11', r: /Win16/},
+    {s: 'Windows 95', r: /(Windows 95|Win95|Windows_95)/},
+    {s: 'Windows ME', r: /(Win 9x 4.90|Windows ME)/},
+    {s: 'Windows 98', r: /(Windows 98|Win98)/},
+    {s: 'Windows CE', r: /Windows CE/},
+    {s: 'Windows 2000', r: /(Windows NT 5.0|Windows 2000)/},
+    {s: 'Windows XP', r: /(Windows NT 5.1|Windows XP)/},
+    {s: 'Windows Server 2003', r: /Windows NT 5.2/},
+    {s: 'Windows Vista', r: /Windows NT 6.0/},
+    {s: 'Windows 7', r: /(Windows 7|Windows NT 6.1)/},
+    {s: 'Windows 8.1', r: /(Windows 8.1|Windows NT 6.3)/},
+    {s: 'Windows 8', r: /(Windows 8|Windows NT 6.2)/},
+    {s: 'Windows NT 4.0', r: /(Windows NT 4.0|WinNT4.0|WinNT|Windows NT)/},
+    {s: 'Windows ME', r: /Windows ME/},
+    {s: 'Android', r: /Android/},
+    {s: 'Open BSD', r: /OpenBSD/},
+    {s: 'Sun OS', r: /SunOS/},
+    {s: 'Linux', r: /(Linux|X11)/},
+    {s: 'iOS', r: /(iPhone|iPad|iPod)/},
+    {s: 'Mac OS X', r: /Mac OS X/},
+    {s: 'Mac OS', r: /(MacPPC|MacIntel|Mac_PowerPC|Macintosh)/},
+    {s: 'QNX', r: /QNX/},
+    {s: 'UNIX', r: /UNIX/},
+    {s: 'BeOS', r: /BeOS/},
+    {s: 'OS/2', r: /OS\/2/},
+    {s: 'Search Bot', r: /(nuhk|Googlebot|Yammybot|Openbot|Slurp|MSNBot|Ask Jeeves\/Teoma|ia_archiver)/}
+  ];
+  for (var id in clientStrings) {
+    var cs = clientStrings[id];
+    if (cs.r.test(nAgt)) {
+      os = cs.s;
+      break;
+    }
+  }
+
+  var showRightVersionDownload = function (os) {
+    document.getElementById('download_' + os + '1').setAttribute('class', 'left__content-download button show');
+    document.getElementById('download_' + os + '2').setAttribute('class', 'full__download show');
+  };
+
+  var osVersion = '-';
+  var downloadAvailable = false;
+  var requiredOSWin = 'Windows Vista';
+  var requiredOSMac = 'Mac OS X 10.5';
+  var requiredOS;
+
+  if (/Windows/.test(os)) {
+    osVersion = /Windows (.*)/.exec(os)[1];
+    os = 'Windows';
+    if (parseInt(osVersion) >= 7 || osVersion === 'Vista') {
+      showRightVersionDownload('win');
+      downloadAvailable = true;
+    }
+    else {
+      requiredOS = requiredOSWin;
+    }
+  }
+
+  switch (os) {
+    case 'Mac OS X':
+      osVersion = /Mac OS X (10[\.\_\d]+)/.exec(nAgt)[1];
+      if (osVersion.indexOf('_') > -1) {
+        var splittedOsVersion = osVersion.split('_');
+      } else if (osVersion.indexOf('.') > -1) {
+        var splittedOsVersion = osVersion.split('.');
+      } else {
+        var splittedOsVersion = osVersion;
+      }
+      if (parseInt(splittedOsVersion[0]) >= 10 && parseInt(splittedOsVersion[1]) >= 5) {
+        showRightVersionDownload('mac');
+        downloadAvailable = true;
+      }
+      else {
+        requiredOS = requiredOSMac;
+      }
+      break;
+
+    case 'Android':
+      osVersion = /Android ([\.\_\d]+)/.exec(nAgt)[1];
+      requiredOS = [requiredOSWin, requiredOSMac];
+      break;
+
+    case 'iOS':
+      osVersion = /OS (\d+)_(\d+)_?(\d+)?/.exec(navigator.appVersion);
+      osVersion = osVersion[1] + '.' + osVersion[2] + '.' + (osVersion[3] || 0);
+      requiredOS = [requiredOSWin, requiredOSMac];
+      break;
+
+    default :
+      requiredOS = [requiredOSWin, requiredOSMac];
+      break;
+  }
+  if (downloadAvailable) {
+    document.getElementById('download_available').setAttribute('class', 'left__content show');
+  }
+  else {
+    var yourOS = os + ' ' + osVersion.replace(/_/g, '.');
+    document.getElementById('youros').innerHTML = yourOS;
+    if (Object.prototype.toString.call(requiredOS) === '[object Array]') {
+      document.getElementById('requiredos1').innerHTML = requiredOS[0];
+      document.getElementById('or').setAttribute('class', 'visible');
+      document.getElementById('requiredos2').innerHTML = requiredOS[1];
+    }
+    else {
+      document.getElementById('requiredos1').innerHTML = requiredOS;
+    }
+    document.getElementById('download_not_available').setAttribute('class', 'left__content show');
+  }
+
+})();

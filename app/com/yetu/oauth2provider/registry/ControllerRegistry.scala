@@ -3,6 +3,7 @@ package com.yetu.oauth2provider.registry
 import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers._
 import com.yetu.oauth2provider.controllers.authentication._
+import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.LdapUserService
 import securesocial.core.RuntimeEnvironment
@@ -30,10 +31,11 @@ trait AuthenticationControllerRegistry extends ServicesRegistry {
   lazy val passwordReset = wire[PasswordReset]
   lazy val providerController = wire[ProviderController]
   lazy val registration = wire[Registration]
-
   lazy val signatureAuthenticationProvider = new SignatureAuthenticationProvider[YetuUser](signatureService)
 
   lazy implicit val env: RuntimeEnvironment[YetuUser] = MyRuntimeEnvironment
+
+  lazy val setupController = wire[SetupController]
 
   object MyRuntimeEnvironment extends RuntimeEnvironment.Default[YetuUser] {
     override lazy val mailTemplates = yetuMailTemplates
