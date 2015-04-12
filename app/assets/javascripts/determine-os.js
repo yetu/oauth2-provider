@@ -1,4 +1,3 @@
-// system
 (function() {
   var nAgt = navigator.userAgent;
   var os = '-';

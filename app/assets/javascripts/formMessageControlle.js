@@ -1,7 +1,7 @@
 /**
  * Created by elisahilprecht on 09/04/15.
  */
-window.FormMessageController = {};
+window.formMessageController = {};
 (function(FormMessageController){
 
   var getElementsByClassName = function(node, classname) {
@@ -47,4 +47,4 @@ window.FormMessageController = {};
     inputFields[j].onclick = FormMessageController.clickOnInputField;
     inputFields[j].onfocus = FormMessageController.clickOnInputField;
   }
-})(window.FormMessageController);
+})(window.formMessageController);
