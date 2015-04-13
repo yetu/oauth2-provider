@@ -1,6 +1,6 @@
 /*LEFT CONTENT*/
 .left{
-    margin-top: 37.5px;
+    margin-top: 15px;
 }
 .left__content-download{
     display: none;
@@ -54,15 +54,15 @@
 /*RIGHT CONTENT*/
 .right__gateway-img{
     width: 450px;
-    height: 365px;
+    height: 339px;
     top: 0;
     left: 0;
     position: absolute;
 }
 .right__gateway-container{
     width: 450px;
-    height: 365px;
-    margin-top: -37.5px;
+    height: 339px;
+    margin-top:15px;
     padding: 0px;
     position: relative;
 }
