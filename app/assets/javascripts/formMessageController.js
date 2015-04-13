@@ -31,6 +31,14 @@ window.formMessageController = {};
     }
   };
 
+  FormMessageController.hoverHelp = function(element){
+    element.setAttribute('class', 'help-block');
+  };
+  FormMessageController.blurHelp = function(element){
+    element.setAttribute('class', 'help-block display-none');
+  };
+
+
   var helpInlines = getElementsByClassName(document.getElementById('signup_form'), 'help-inline');
   for(var i=0; i<helpInlines.length; i++){
     var ele = helpInlines[i];
@@ -49,7 +57,6 @@ window.formMessageController = {};
     inputField.onfocus = FormMessageController.clickOnInputField;
     var errorElement = document.getElementById(inputField.id+'ErrorText');
     if(errorElement!=undefined){
-      errorElement.innerHTML = errorElement.innerHTML.split(',')[0];
       inputField.placeholder = '';
     }
 

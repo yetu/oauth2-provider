@@ -546,10 +546,6 @@ a.muted:focus {
     margin-left: 20px;
 }
 
-.control-group:nth-child(5) .help-inline{
-    vertical-align: top;
-}
-
 p.login-instruction{
     margin: 10px 0 0 0;
     padding: 0;

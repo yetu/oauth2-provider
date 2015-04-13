@@ -61,7 +61,7 @@
                                 'class -> "left__input",
                                 '_id -> "emailID",
                                 '_help -> Messages("setup.signup.email"),
-                                'placeholder -> Messages("setup.signup.emailPlaceholder"),
+                                'placeholder -> Messages("setup.signup.email"),
                                 '_error -> startForm.error("email")
 
                             )
@@ -114,7 +114,7 @@
                 </div>
                 <div class="clear"></div>
                 <div class="buttoncontainer">
-                    <button type="submit" form="signup_form" class="button buttoncontainer__next-button">
+                    <button id="submitButton" type="submit" form="signup_form" class="button buttoncontainer__next-button">
                             @Html(Messages("setup.next"))
                     </button>
                 </div>
@@ -122,13 +122,7 @@
 		</div>
 		@views.html.setup.footer()
         <script src="@controllers.routes.Assets.versioned("javascripts/formMessageController.js")"></script>
-        <script>
-            var hoverHelp = function(element){
-                element.setAttribute('class', 'help-block');
-            };
-            var blurHelp = function(element){
-                element.setAttribute('class', 'help-block display-none');
-            };
-        </script>
+        <script src="@controllers.routes.Assets.versioned("javascripts/trimEmail.js")"></script>
+        <script src="@controllers.routes.Assets.versioned("javascripts/oneErrorMessageForPassword.js")"></script>
 	</body>
 </html>

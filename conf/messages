@@ -105,7 +105,7 @@ setup.next=next &gt;
 #setup registration page
 setup.signup.firstNamePlaceholder=Your first name
 setup.signup.lastNamePlaceholder=Your last name
-setup.signup.emailPlaceholder=This email will be your yetu username
+setup.signup.email=This email will be your yetu username
 setup.signup.password1Placeholder=New password for yetu login
 setup.signup.password2Placeholder=Repeat password for yetu login
 setup.signup.register=Register at yetu
