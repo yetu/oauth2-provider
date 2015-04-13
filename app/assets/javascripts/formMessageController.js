@@ -47,4 +47,30 @@ window.formMessageController = {};
     inputFields[j].onclick = FormMessageController.clickOnInputField;
     inputFields[j].onfocus = FormMessageController.clickOnInputField;
   }
+
+  //Set custom radio buttons as span and manage interaction for them
+  var radioButtonSet = document.getElementById('UserRegistrationStatus');
+  var radioButtonNotRegistered =  document.getElementById('UserRegistrationStatus_UserNotRegistered');
+  var radioButtonRegistered =  document.getElementById('UserRegistrationStatus_UserAlreadyRegistered');
+
+  var customRadioButtonNotRegistered = document.createElement('span')
+  customRadioButtonNotRegistered.setAttribute('class','radio radio__checked');
+  var customRadioButtonRegistered = document.createElement('span')
+  customRadioButtonRegistered.setAttribute('class','radio radio__registered');
+
+  radioButtonSet.insertBefore(customRadioButtonNotRegistered, radioButtonNotRegistered);
+  radioButtonSet.insertBefore(customRadioButtonRegistered, radioButtonRegistered);
+
+  customRadioButtonNotRegistered.onclick = function(){
+    radioButtonNotRegistered.checked = true;
+    customRadioButtonRegistered.setAttribute('class', 'radio radio__registered');
+    customRadioButtonNotRegistered.setAttribute('class','radio radio__checked');
+  };
+
+  customRadioButtonRegistered.onclick = function(){
+    radioButtonRegistered.checked = true;
+    customRadioButtonNotRegistered.setAttribute('class', 'radio');
+    customRadioButtonRegistered.setAttribute('class','radio radio__registered radio__checked');
+  };
+
 })(window.formMessageController);

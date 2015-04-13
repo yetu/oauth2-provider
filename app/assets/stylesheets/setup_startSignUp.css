@@ -158,21 +158,39 @@
 #UserRegistrationStatus_field .controls{
     position: absolute;
     top: 220px;
-    margin-left: -15px;
+    margin-left: -25px;
     width: 875px;
     font-size: 25px;
 }
 #UserRegistrationStatus_field label:nth-child(1){
     display: none;
 }
-#UserRegistrationStatus_field label,
-#UserRegistrationStatus_field input{
+#UserRegistrationStatus_field label{
     line-height: 34px;
     vertical-align: middle;
+    margin-left: 10px;
 }
-#UserRegistrationStatus_UserAlreadyRegistered{
-    margin-left: 371px;
+#UserRegistrationStatus_field input {
+    display: none;
 }
+#UserRegistrationStatus_field .radio{
+    background: url("../images/button_not_selected.svg") no-repeat;
+    width: 19px;
+    height: 22px;
+    display: inline-block;
+    line-height: 25px;
+    vertical-align: middle;
+}
+#UserRegistrationStatus_field .radio:hover{
+    cursor: pointer;
+}
+#UserRegistrationStatus_field .radio__checked{
+    background: url("../images/button_selected.svg") no-repeat;
+}
+.radio__registered{
+    margin-left: 359px;
+}
+
 #UserRegistrationStatus_field .help-icon{
     display:none;
 }
