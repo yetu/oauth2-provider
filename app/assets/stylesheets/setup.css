@@ -108,8 +108,8 @@ header{
 }
 
 .right{
-	margin-left: 535px;
-    width: 400px
+	margin-left: 515px;
+    width: 400px;
 }
 
 .full{
@@ -165,7 +165,6 @@ footer a:hover, footer a:visited {
 #or.visible{
     visibility:visible;
 }
-
 .content__headline {
     font-size: 25px;
     font-weight: 400;

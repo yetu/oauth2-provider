@@ -1,4 +1,7 @@
 /*LEFT CONTENT*/
+.left{
+    margin-top: 37.5px;
+}
 .left__content-download{
     display: none;
     width: 270px;
@@ -50,25 +53,27 @@
 }
 /*RIGHT CONTENT*/
 .right__gateway-img{
-    width: 220px;
-    height: 155px;
-    padding: 20px 30px;
+    width: 450px;
+    height: 365px;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
 .right__gateway-container{
-    width: 410px;
-    height: 290px;
-    margin: 0px;
+    width: 450px;
+    height: 365px;
+    margin-top: -37.5px;
     padding: 0px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
     position: relative;
 }
 
 .right__gateway-text{
-    padding-left: 30px;
-    padding-right: 20px;
-    margin: 0;
+    padding-left: 50px;
+    padding-right: 40px;
     font-size: 16px;
+    margin:0;
+    position: absolute;
+    top: 230px;
 }
 
 .right__gateway-icon{
