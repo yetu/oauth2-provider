@@ -21,7 +21,7 @@
     margin-top: 0;
     width: 100%;
     padding-bottom: 25px;
-    height: 555px;
+    height: 575px;
 }
 .content > .steps {
     margin: 0 auto 0 auto;
@@ -46,7 +46,7 @@
     width: 247.5px;
     padding-left: 110px;
     margin-left: 447.5px;
-    margin-top: 50px;
+    margin-top: 60px;
 }
 
 /** RIGHT CONTAINER ELEMENTS **/
@@ -102,7 +102,7 @@
     font-size: 10px;
     text-align: right;
     margin-right: 63px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 #agreementErrorText{
@@ -113,10 +113,6 @@
     margin-top: -55.5px;
 }
 /*classes defined by input field template*/
-/*container*/
-.control-group{
-
-}
 /*label for input field*/
 .control-label{
     float: left;
@@ -264,8 +260,7 @@
     /* BUTTON CONTAINER */
 .buttoncontainer{
     padding: 10px 390px;
-    margin-top: 40px;
-    border-top: solid 1px #B4B4B4;
+    margin-top: 10px;
     margin-left: -35px;
     width: 185px;
 }
