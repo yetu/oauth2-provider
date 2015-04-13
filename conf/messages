@@ -20,7 +20,7 @@ securesocial.login.useEmailAndPassword=Or login using a username and password.
 securesocial.login.useEmailAndPasswordOnly=Login using a username and password.
 securesocial.login.signUp=If you do not have an account, you can sign up
 securesocial.login.here=here
-securesocial.login.invalidCredentials=Wrong E-Mail address or password! Please try again!
+securesocial.login.invalidCredentials=Wrong email address or password! Please try again!
 securesocial.login.forgotPassword=Did you forget your password?
 securesocial.login.fullstop=.
 
@@ -30,23 +30,21 @@ securesocial.signup.success.title=Sign Up was successful
 securesocial.signup.username=Username
 securesocial.signup.firstName=First Name
 securesocial.signup.lastName=Last Name
-securesocial.signup.email1=E-Mail
-securesocial.signup.email2=E-Mail confirmation
+securesocial.signup.email1=Email
+securesocial.signup.email2=Email confirmation
 securesocial.signup.password1=Password
 securesocial.signup.password2=Repeat Password
 securesocial.signup.createAccount=Create Account
 securesocial.signup.cancel=Cancel
 securesocial.signup.userNameAlreadyTaken=Username already taken.
 securesocial.signup.passwordsDoNotMatch=The passwords do not match.
-securesocial.signup.thankYouCheckEmail=Thank you. Please check your E-Mail for further instructions.
+securesocial.signup.thankYouCheckEmail=Thank you. Please check your Email for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
 securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit and one uppercase letter.
 securesocial.signup.invalidPasswordError=Not a valid password. See information for details.
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
-
-
 
 # Permission page
 securesocial.permission.title=Request for Permission
@@ -105,6 +103,11 @@ setup.footer.cookies=Cookies
 setup.next=next &gt;
 
 #setup registration page
+setup.signup.firstNamePlaceholder=Your first name
+setup.signup.lastNamePlaceholder=Your last name
+setup.signup.emailPlaceholder=This email will be your yetu username
+setup.signup.password1Placeholder=New password for yetu login
+setup.signup.password2Placeholder=Repeat password for yetu login
 setup.signup.register=Register at yetu
 setup.signup.already=Already registered?
 setup.signup.allfieldsmandatory=All fields are mandatory

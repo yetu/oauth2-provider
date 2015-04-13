@@ -44,8 +44,15 @@ window.formMessageController = {};
   }
   var inputFields = document.getElementsByTagName('input');
   for(var j=0; j<inputFields.length; j++){
-    inputFields[j].onclick = FormMessageController.clickOnInputField;
-    inputFields[j].onfocus = FormMessageController.clickOnInputField;
+    var inputField = inputFields[j];
+    inputField.onclick = FormMessageController.clickOnInputField;
+    inputField.onfocus = FormMessageController.clickOnInputField;
+    var errorElement = document.getElementById(inputField.id+'ErrorText');
+    if(errorElement!=undefined){
+      errorElement.innerHTML = errorElement.innerHTML.split(',')[0];
+      inputField.placeholder = '';
+    }
+
   }
 
   //Set custom radio buttons as span and manage interaction for them
@@ -53,9 +60,9 @@ window.formMessageController = {};
   var radioButtonNotRegistered =  document.getElementById('UserRegistrationStatus_UserNotRegistered');
   var radioButtonRegistered =  document.getElementById('UserRegistrationStatus_UserAlreadyRegistered');
 
-  var customRadioButtonNotRegistered = document.createElement('span')
+  var customRadioButtonNotRegistered = document.createElement('span');
   customRadioButtonNotRegistered.setAttribute('class','radio radio__checked');
-  var customRadioButtonRegistered = document.createElement('span')
+  var customRadioButtonRegistered = document.createElement('span');
   customRadioButtonRegistered.setAttribute('class','radio radio__registered');
 
   radioButtonSet.insertBefore(customRadioButtonNotRegistered, radioButtonNotRegistered);

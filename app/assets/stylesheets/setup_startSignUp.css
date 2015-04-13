@@ -71,27 +71,22 @@
 .left__input, #password2ID{
     display: block;
     height: 15px;
-    padding: 5px;
+    padding: 5px 10px;
     font-size: 13px;
     font-family: source_sans_proregular, 'Helvetica Neue', Arial;
-    width: 246px;
+    width: 236px;
     border: solid 1px #B4B4B4;
-    background: #F6F6F6;
-}
-.left__input.black-color{
-    color: #666;
-}
-.left__input.grey-color{
-    color: #B4B4B4;
-}
-.left__input:hover,.left__input:focus{
     background:#ffffff;
     color: black;
 }
-#password2ID:hover,#password2ID:focus{
-    background:#ffffff;
-    color: black;
+
+input::-webkit-input-placeholder,
+input:-moz-placeholder,
+input::-moz-placeholder,
+input:-ms-input-placeholder {
+    color: #B4B4B4
 }
+
 .left__input:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }

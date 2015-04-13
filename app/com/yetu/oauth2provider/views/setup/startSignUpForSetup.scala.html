@@ -41,6 +41,7 @@
                                 'class -> "left__input",
                                 'id -> "firstNameID",
                                 '_help -> Messages("setup.signup.help.firstName"),
+                                'placeholder -> Messages("setup.signup.firstNamePlaceholder"),
                                 '_error -> startForm.error("firstName")
                             )
 
@@ -50,6 +51,7 @@
                                 'class -> "left__input",
                                 'id -> "lastNameID",
                                 '_help -> Messages("setup.signup.help.lastName"),
+                                'placeholder -> Messages("setup.signup.lastNamePlaceholder"),
                                 '_error -> startForm.error("lastName")
                             )
 
@@ -58,8 +60,10 @@
                                 '_label -> Messages("securesocial.signup.email1"),
                                 'class -> "left__input",
                                 '_id -> "emailID",
-                                '_help -> Messages("setup.signup.help.email"),
+                                '_help -> Messages("setup.signup.email"),
+                                'placeholder -> Messages("setup.signup.emailPlaceholder"),
                                 '_error -> startForm.error("email")
+
                             )
 
                             @helper.inputPassword(
@@ -68,6 +72,7 @@
                                 'class -> "left__input",
                                 'id -> "password1ID",
                                 '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
+                                'placeholder -> Messages("setup.signup.password1Placeholder"),
                                 '_error -> startForm.error("password")
                             )
 
@@ -76,6 +81,7 @@
                                 '_label -> Messages("securesocial.signup.password2"),
                                 'id -> "password2ID",
                                 '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
+                                'placeholder -> Messages("setup.signup.password2Placeholder"),
                                 '_error -> startForm.error("password")
                             )
 
