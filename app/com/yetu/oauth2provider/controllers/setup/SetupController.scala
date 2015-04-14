@@ -9,6 +9,7 @@ import play.api.Logger
 import play.api.data.Form
 import play.api.i18n.Messages
 import play.api.libs.json.Json
+import play.api.mvc.Results._
 import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
 import securesocial.controllers.BaseRegistration._
@@ -28,11 +29,8 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     }
   }
 
-  //TODO: redirecting url on success
-  //TODO: save check fields for newsletter and agreement in database
-  //
   override def handleStartSignUp = CSRFCheck {
-    Action.async {
+    Action.async(parse.urlFormEncoded) {
       implicit request =>
         newUserForm.bindFromRequest.fold(
           formWithErrors => { invalidRadioButtonChoice(Some(Json.prettyPrint(formWithErrors.errorsAsJson))) },
@@ -52,8 +50,10 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     }
   }
 
-  private def handleNewRegistration(implicit request: Request[AnyContent]): Future[Result] = {
-    form.bindFromRequest.fold(
+  private def handleNewRegistration(implicit request: Request[Map[String, Seq[String]]]): Future[Result] = {
+    val incomingData = request.body
+    val cleanData = trimWhitespaceFromEmail(incomingData)
+    form.bindFromRequest(cleanData).fold(
       (errors: Form[RegistrationInfo]) => {
         logger.warn(s"""user (email=${errors.data.get("email")}) started sign-up process
           but failed to fill fields correctly: ${Json.prettyPrint(errors.errorsAsJson)})
@@ -67,7 +67,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     )
   }
 
-  override def handleStartSignUpSuccess(registrationInfo: RegistrationInfo)(implicit request: Request[AnyContent]) = {
+  override def handleStartSignUpSuccess(registrationInfo: RegistrationInfo)(implicit request: Request[Map[String, Seq[String]]]) = {
     val email = registrationInfo.email.toLowerCase
     // check if there is already an account for this email address
     env.userService.findByEmailAndProvider(email, UsernamePasswordProvider.UsernamePassword).map {
