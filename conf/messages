@@ -146,14 +146,12 @@ setup.download.connect=If you have a TV, please place your gateway next </br> to
 
 setup.download.notavailable.descriptionone=Unfortunately your OS does not support the Setup App:
 setup.download.notavailable.descriptiontwo=The reason is related to...
-setup.download.notavailable.descriptionthree=Please update your OS, and come back to this page to download the Setup \
-  App. You can add it to favourites or save this link:
+setup.download.notavailable.descriptionthree=Please update your OS, and come back to this page to download the Setup App. You can add it to favourites or save this link:
 setup.download.notavailable.youros=Your OS:
 setup.download.notavailable.reqos=Required OS at least:
-setup.download.notavailable.link=www.home.yetu.me/setup/download
+setup.download.notavailable.link=home.yetu.me/setup/download
 setup.download.notavailable.or=or
-setup.download.notavailable.infodesc=Until you update your OS, you can enjoy the yetu experience without your gateway\
-  . Just login to
+setup.download.notavailable.infodesc=Until you update your OS, you can enjoy the yetu experience without your gateway. Just login to
 setup.download.notavailable.homescreen=home.yetu.me
 
 setup.download.ready.heading=Thank you for downloading the yetu Setup App

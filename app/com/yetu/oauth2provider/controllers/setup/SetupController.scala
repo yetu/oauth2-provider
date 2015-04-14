@@ -2,6 +2,7 @@ package com.yetu.oauth2provider.controllers.setup
 
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
 import play.api.Logger
@@ -92,7 +93,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   }
 
   def download = Action {
-    Ok(views.html.setup.download(FrontendConfiguration.setupDownloadUrlMac, FrontendConfiguration.setupDownloadUrlWin))
+    Ok(views.html.setup.download(FrontendConfiguration.setupDownloadUrlMac, FrontendConfiguration.setupDownloadUrlWin, Config.redirectAfterLogin))
   }
 
   def confirmmail = Action {
