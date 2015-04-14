@@ -62,7 +62,7 @@
 .right__gateway-container{
     width: 450px;
     height: 339px;
-    margin-top:15px;
+    margin-top: -15px;
     padding: 0px;
     position: relative;
 }
