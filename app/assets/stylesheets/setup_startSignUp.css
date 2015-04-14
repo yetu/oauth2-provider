@@ -162,7 +162,10 @@ input:-ms-input-placeholder {
     margin-left: 10px;
 }
 #UserRegistrationStatus_field input {
-    display: none;
+    position: absolute;
+    top: 7px;
+    left: 0;
+    z-index: -1;
 }
 #UserRegistrationStatus_field .radio{
     background: url("../images/button_not_selected.svg") no-repeat;
