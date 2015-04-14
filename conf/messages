@@ -41,6 +41,7 @@ securesocial.signup.passwordsDoNotMatch=The passwords do not match.
 securesocial.signup.thankYouCheckEmail=Thank you. Please check your Email for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
+securesocial.signup.fieldRequired=This field is required
 securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit and one uppercase letter.
 securesocial.signup.invalidPasswordError=Not a valid password. See information for details.
 securesocial.signup.loginhere=Log in here

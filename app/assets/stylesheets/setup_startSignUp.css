@@ -71,10 +71,10 @@
 .left__input, #password2ID{
     display: block;
     height: 15px;
-    padding: 5px 10px;
+    padding: 5px 7.5px;
     font-size: 13px;
     font-family: source_sans_proregular, 'Helvetica Neue', Arial;
-    width: 236px;
+    width: 241px;
     border: solid 1px #B4B4B4;
     background:#ffffff;
     color: black;
@@ -226,7 +226,7 @@ input:-ms-input-placeholder {
     top: 7.5px;
     color: #FF0000;
     font-size: 12px;
-    left: 5px;
+    left: 7.5px;
     z-index: 5;
 }
 
