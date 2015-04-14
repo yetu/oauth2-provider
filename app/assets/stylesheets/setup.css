@@ -74,6 +74,10 @@ header{
     height: 480px;
 }
 
+.content__download_not_available{
+    height: 590px;
+}
+
 .content > .steps{
     height: 30px;
 	margin: 0 auto 50px auto;
@@ -108,8 +112,8 @@ header{
 }
 
 .right{
-	margin-left: 535px;
-    width: 400px
+	margin-left: 515px;
+    width: 400px;
 }
 
 .full{
@@ -141,7 +145,6 @@ footer{
 	line-height: 50px;
 	vertical-align: middle;
 	text-align: center;
-	color: rgb(0,152,72);
 	position: relative;
 	bottom: 0;
 	clear:both;
@@ -151,7 +154,7 @@ footer .dot{
 }
 footer a{
 	text-decoration: none;
-	color: rgb(0,152,72);
+    color: #009900;
 }
 footer a:hover, footer a:visited {
 	color: #009900;
@@ -166,7 +169,6 @@ footer a:hover, footer a:visited {
 #or.visible{
     visibility:visible;
 }
-
 .content__headline {
     font-size: 25px;
     font-weight: 400;

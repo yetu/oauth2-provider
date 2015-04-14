@@ -21,7 +21,7 @@
     margin-top: 0;
     width: 100%;
     padding-bottom: 25px;
-    height: 555px;
+    height: 575px;
 }
 .content > .steps {
     margin: 0 auto 0 auto;
@@ -46,7 +46,7 @@
     width: 247.5px;
     padding-left: 110px;
     margin-left: 447.5px;
-    margin-top: 50px;
+    margin-top: 60px;
 }
 
 /** RIGHT CONTAINER ELEMENTS **/
@@ -71,27 +71,22 @@
 .left__input, #password2ID{
     display: block;
     height: 15px;
-    padding: 5px;
+    padding: 5px 7.5px;
     font-size: 13px;
     font-family: source_sans_proregular, 'Helvetica Neue', Arial;
-    width: 246px;
+    width: 241px;
     border: solid 1px #B4B4B4;
-    background: #F6F6F6;
-}
-.left__input.black-color{
-    color: #666;
-}
-.left__input.grey-color{
-    color: #B4B4B4;
-}
-.left__input:hover,.left__input:focus{
     background:#ffffff;
     color: black;
 }
-#password2ID:hover,#password2ID:focus{
-    background:#ffffff;
-    color: black;
+
+input::-webkit-input-placeholder,
+input:-moz-placeholder,
+input::-moz-placeholder,
+input:-ms-input-placeholder {
+    color: #B4B4B4
 }
+
 .left__input:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
@@ -102,7 +97,7 @@
     font-size: 10px;
     text-align: right;
     margin-right: 63px;
-    margin-top: 10px;
+    margin-top: 25px;
 }
 
 #agreementErrorText{
@@ -113,10 +108,6 @@
     margin-top: -55.5px;
 }
 /*classes defined by input field template*/
-/*container*/
-.control-group{
-
-}
 /*label for input field*/
 .control-label{
     float: left;
@@ -158,21 +149,42 @@
 #UserRegistrationStatus_field .controls{
     position: absolute;
     top: 220px;
-    margin-left: -15px;
+    margin-left: -25px;
     width: 875px;
     font-size: 25px;
 }
 #UserRegistrationStatus_field label:nth-child(1){
     display: none;
 }
-#UserRegistrationStatus_field label,
-#UserRegistrationStatus_field input{
+#UserRegistrationStatus_field label{
     line-height: 34px;
     vertical-align: middle;
+    margin-left: 10px;
 }
-#UserRegistrationStatus_UserAlreadyRegistered{
-    margin-left: 371px;
+#UserRegistrationStatus_field input {
+    position: absolute;
+    top: 7px;
+    left: 0;
+    z-index: -1;
 }
+#UserRegistrationStatus_field .radio{
+    background: url("../images/button_not_selected.svg") no-repeat;
+    width: 19px;
+    height: 22px;
+    display: inline-block;
+    line-height: 25px;
+    vertical-align: middle;
+}
+#UserRegistrationStatus_field .radio:hover{
+    cursor: pointer;
+}
+#UserRegistrationStatus_field .radio__checked{
+    background: url("../images/button_selected.svg") no-repeat;
+}
+.radio__registered{
+    margin-left: 359px;
+}
+
 #UserRegistrationStatus_field .help-icon{
     display:none;
 }
@@ -214,7 +226,7 @@
     top: 7.5px;
     color: #FF0000;
     font-size: 12px;
-    left: 5px;
+    left: 7.5px;
     z-index: 5;
 }
 
@@ -246,8 +258,7 @@
     /* BUTTON CONTAINER */
 .buttoncontainer{
     padding: 10px 390px;
-    margin-top: 40px;
-    border-top: solid 1px #B4B4B4;
+    margin-top: 10px;
     margin-left: -35px;
     width: 185px;
 }

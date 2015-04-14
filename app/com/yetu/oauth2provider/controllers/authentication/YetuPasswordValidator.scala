@@ -25,13 +25,15 @@ class YetuPasswordValidator extends PasswordValidator {
     """.*[0-9]+.*""".r matches password
   }
 
-  override def validate(password: String): Either[(String, Seq[Any]), Unit] = {
+  override def validate(password: String): Either[(String), Unit] = {
     implicit val implicitPassword = password
 
-    if (hasValidLength && containsDigit && containsUppercase && containsLowercase) {
+    if (password.isEmpty) {
+      Left(YetuPasswordValidator.PasswordRequiredMessage)
+    } else if (hasValidLength && containsDigit && containsUppercase && containsLowercase) {
       Right(())
     } else {
-      Left((YetuPasswordValidator.InvalidPasswordMessage, Seq(Config.minimumPasswordLength)))
+      Left(YetuPasswordValidator.InvalidPasswordMessage)
     }
   }
 
@@ -39,4 +41,5 @@ class YetuPasswordValidator extends PasswordValidator {
 
 object YetuPasswordValidator {
   val InvalidPasswordMessage = "securesocial.signup.invalidPasswordError"
+  val PasswordRequiredMessage = "securesocial.signup.fieldRequired"
 }

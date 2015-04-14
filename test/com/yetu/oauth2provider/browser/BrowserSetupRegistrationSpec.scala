@@ -67,7 +67,6 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
       register(browserTestUserPassword, testUserEmail, Some(s"$browserTestUserPassword other"))
 
       currentUrl mustEqual fullSetupRegistrationUrl
-      log(pageSource)
 
       find(id("password2IDErrorText")) must be ('defined)
 

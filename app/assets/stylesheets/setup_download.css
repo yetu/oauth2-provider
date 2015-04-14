@@ -1,4 +1,7 @@
 /*LEFT CONTENT*/
+.left{
+    margin-top: 15px;
+}
 .left__content-download{
     display: none;
     width: 270px;
@@ -17,12 +20,21 @@
 }
 
 .left__content-info{
-    width: 120%;
+    width: 345px;
+    height: 60px;
     padding: 15px;
     border: solid 1px #949494;
     box-shadow: 2px 3px 2px #949494;
-    margin-top: 60px;
+    margin-top: 40px;
     z-index: 2;
+    font-size: 16px;
+    background: white;
+}
+
+.left__content-link{
+    font-size: 25px;
+    margin-top: 40px;
+    display: block;
 }
 
 .left__content-description{
@@ -30,45 +42,59 @@
     margin-bottom: 67.5px;
 }
 
-.left__content-description-label{
+.left__OS{
     font-weight: bold;
 }
 
 .left__content-info-icon{
-    width: 50px;
-    height: 50px;
+    width: 40px;
+    height: 60px;
     float: left;
     margin-right: 10px;
     display: block;
-}
-.left__content-info-text{
-    width: 90%;
-    margin: 0;
-    height: 50px;
-    line-height: 25px;
     vertical-align: middle;
 }
+.left__content-info-text{
+    margin: 0;
+    height: 50px;
+    line-height: 20px;
+    vertical-align: middle;
+    margin-left: 55px;
+}
+#left__download_not_available{
+    width: 500px;
+}
+#left__download_not_available a{
+    text-decoration: none;
+    color: #009900;
+}
+#left__download_not_available a:hover, #left__download_not_available a:visited {
+    color: #009900;
+}
 /*RIGHT CONTENT*/
-.right__gateway-img{
-    width: 220px;
-    height: 155px;
-    padding: 20px 30px;
+.right__connect-img{
+    width: 450px;
+    height: 339px;
+    top: 0;
+    left: 0;
+    position: absolute;
 }
 .right__gateway-container{
-    width: 410px;
-    height: 290px;
-    margin: 0px;
+    width: 450px;
+    height: 339px;
+    margin-top: -15px;
     padding: 0px;
-    background-color: white;
-    box-shadow: rgba(0, 0, 0, 0.27) 0px 6px 12px 0px;
     position: relative;
+    display:none;
 }
 
 .right__gateway-text{
-    padding-left: 30px;
-    padding-right: 20px;
-    margin: 0;
+    padding-left: 50px;
+    padding-right: 40px;
     font-size: 16px;
+    margin:0;
+    position: absolute;
+    top: 230px;
 }
 
 .right__gateway-icon{
@@ -78,6 +104,20 @@
     top: 223px;
     left: 207px;
 }
+
+
+#right__download_not_available{
+    width: 480px;
+    height: 339px;
+    padding-top: 15px;
+}
+.right__gateway-img{
+    width: 200px;
+    height: 300px;
+    position: relative;
+    float:right;
+}
+
 /*FULL CONTENT*/
 .full__download{
     color: #009900;
