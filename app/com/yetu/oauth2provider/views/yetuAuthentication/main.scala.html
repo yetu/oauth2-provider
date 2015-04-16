@@ -1,8 +1,6 @@
 @(title: String)(content: Html)(implicit lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
-@import com.yetu.oauth2provider.utils.Config
-
+@import com.yetu.oauth2provider.views
 <!DOCTYPE html>
-
 <html>
 <head>
     <title>@title</title>
@@ -14,24 +12,10 @@
     @env.routes.customCssPath.map { customPath =>
     <link rel="stylesheet" media="screen" href="@customPath">
     }
-
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
-    @if(Config.googleAnalytics.enabled) {
-    <script>
-                (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
-                (i[r].q=i[r].q||[]).push(arguments)},i[r].l=1*new Date();a=s.createElement(o),
-                m=s.getElementsByTagName(o)[0];a.async=1;a.src=g;m.parentNode.insertBefore(a,m)
-                })(window,document,'script','//www.google-analytics.com/analytics.js','ga');
-
-                ga('create', '@(Config.googleAnalytics.trackingId)', 'auto');
-                ga('set', 'anonymizeIp', true);
-                ga('send', 'pageview');
-            </script>
-    }
+    @views.html.googleanalytics()
 </head>
 <body>
-
-
 <div class="container" style="padding-top:30px">
     @content
 </div>
