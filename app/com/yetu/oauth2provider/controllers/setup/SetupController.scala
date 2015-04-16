@@ -92,12 +92,20 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
     Future.successful(Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.confirmedmail()))
   }
 
+  override def handleSignUpError(isSignUp: Boolean)(implicit request: RequestHeader) = {
+    Future.successful(Redirect(com.yetu.oauth2provider.controllers.setup.routes.SetupController.confirmedmailerror()))
+  }
+
   def download = Action {
     Ok(views.html.setup.download(FrontendConfiguration.setupDownloadUrlMac, FrontendConfiguration.setupDownloadUrlWin, Config.redirectAfterLogin))
   }
 
   def confirmmail = Action {
     Ok(views.html.setup.confirmmail.render())
+  }
+
+  def confirmedmailerror = Action {
+    Ok(views.html.setup.confirmedmailerror.render())
   }
 
   def confirmedmail = Action {
