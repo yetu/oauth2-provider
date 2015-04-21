@@ -40,7 +40,8 @@
                         </p>
                         <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptiontwo")</p>
                         <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionthree")</p>
-                        <a class="left__content-link" href="/setup/download">@homeScreenUrl.replace("http://","")/setup/download</a>
+                        <a class="left__content-link" href="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.download">
+                            @homeScreenUrl.replace("http://","")@com.yetu.oauth2provider.controllers.setup.routes.SetupController.download</a>
                         <div class="left__content-info">
                             <img class="left__content-info-icon" src="@controllers.routes.Assets.versioned("images/tip_icon.svg")"/>
                             <p class="left__content-info-text">
