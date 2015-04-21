@@ -4,9 +4,10 @@ import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers._
 import com.yetu.oauth2provider.controllers.authentication._
 import com.yetu.oauth2provider.controllers.setup.SetupController
+import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.LdapUserService
-import securesocial.core.RuntimeEnvironment
+import securesocial.core.{ EventListener, RuntimeEnvironment }
 import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.providers.utils.PasswordValidator
@@ -33,6 +34,9 @@ trait AuthenticationControllerRegistry extends ServicesRegistry {
   lazy val registration = wire[Registration]
   lazy val signatureAuthenticationProvider = new SignatureAuthenticationProvider[YetuUser](signatureService)
 
+  lazy val application = play.api.Play.current
+  lazy val logoutEventListener = wire[LogoutEventListener]
+
   lazy implicit val env: RuntimeEnvironment[YetuUser] = MyRuntimeEnvironment
 
   lazy val setupController = wire[SetupController]
@@ -43,6 +47,7 @@ trait AuthenticationControllerRegistry extends ServicesRegistry {
     override lazy val userService: UserService[YetuUser] = myUserService
     override lazy val passwordHashers = yetuPasswordHashers
     override lazy val passwordValidator: PasswordValidator = new YetuPasswordValidator()
+    override lazy val eventListeners: List[EventListener[YetuUser]] = List(logoutEventListener)
     override lazy val providers = ListMap(
       include(new UsernamePasswordProvider[YetuUser](userService, avatarService, viewTemplates, passwordHashers)),
       include(signatureAuthenticationProvider)

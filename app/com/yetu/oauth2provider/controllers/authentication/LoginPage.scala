@@ -1,5 +1,6 @@
 package com.yetu.oauth2provider.controllers.authentication
 
+import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import securesocial.controllers.BaseLoginPage
@@ -12,10 +13,6 @@ class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit ov
     super.login
   }
 
-  override def logout = DeleteRelevantAccessTokens(authAccessTokenService) {
-    //TODO: implement deleting access tokens!
-    super.logout
-  }
 }
 
 import play.api.mvc._
