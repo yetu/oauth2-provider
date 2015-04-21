@@ -14,6 +14,9 @@ openssl rsa -pubout -in local/local_private_key.pem -out local/local_public_key.
 openssl pkcs8 -topk8 -inform PEM -outform DER -in local/local_private_key.pem  -nocrypt > local/local_private_key.der
 openssl rsa -in local/local_private_key.pem -pubout -outform DER -out local/local_public_key.der
 
+mv local/local_public_key.der public/keys/local_public_key.der
+mv local/local_public_key.pem public/keys/local_public_key.pem
+
 # copy the default application-example to application.conf
 cp conf/application-example.conf conf/application.conf
 echo "Initialised conf/application.conf"
