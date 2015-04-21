@@ -14,7 +14,7 @@
         <div name="confirmedmailSetupError" class="content">
             <h2 class="confirmedmailerror__headline">@Messages("setup.confirmedmailerror.headline")</h2>
             <p class="confirmedmailerror__desc">@Messages("setup.confirmedmailerror.description")</p>
-            <a href="/setup/register" class="button confirmedmailerror__button">
+            <a href="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.startSignUp" class="button confirmedmailerror__button">
                 @Html(Messages("setup.register"))
             </a>
         </div>
