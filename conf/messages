@@ -92,10 +92,11 @@ check.reset=reset
 
 #Setup page
 setup.headline=Welcome to the yetu setup!
+setup.headlinesimple=yetu setup
 setup.subheadline=Setting up the yetu experience takes some quick and easy steps.
 setup.steps.one=1. Register at yetu
 setup.steps.two=2. Verify your email address
-setup.steps.three=3. Download Gateway Setup App
+setup.steps.three=3. Download Gateway setup app
 setup.footer.copyright=&copy; 2015 yetu AG
 setup.footer.privacy=Privacy Policy
 setup.footer.imprint=Imprint
@@ -125,7 +126,6 @@ setup.signup.clicknext=Just click "next".
 
 setup.signup.help.firstName=This information helps us to provide you a more personalized yetu experience
 setup.signup.help.lastName=This information helps us to provide you a more personalized yetu experience
-setup.signup.help.email=This information helps us to provide you a more personalized yetu experience
 
 #setup mail confirm page
 setup.confirmmail.headline=Check your email inbox and click the registration link to proceed.
@@ -136,7 +136,7 @@ setup.confirmmail.description=We just sent you an email to the email address you
 setup.confirmedmail.headline=Your email has been verified and your yetu account has been created.
 
 #setup download page
-setup.download.headline=Download Gateway Setup App
+setup.download.headline=Download Gateway setup app
 
 setup.download.description=Your yetu username and password will be asked in the setup\
    process. With this App you will be able to link your yetu account to your gateway and enjoy an extended yetu experience, adding your home devices.
@@ -145,16 +145,23 @@ setup.download.button.win=download gateway setup app (windows, 26 mb)
 setup.download.faq=Problems with installation?
 setup.download.connect=If you have a TV, please place your gateway next </br> to it and connect it via the HDMI cable (included), </br> before you start the setup process on your computer.
 
-setup.download.notavailable.descriptionone=Unfortunately your OS does not support the Setup App:
+setup.download.notavailable.descriptionone=Unfortunately your OS does not support the setup app:
 setup.download.notavailable.descriptiontwo=The reason is related to...
-setup.download.notavailable.descriptionthree=Please update your OS, and come back to this page to download the Setup App. You can add it to favourites or save this link:
+setup.download.notavailable.descriptionthree=Please update your OS, and come back to this page to download the setup app. You can add it to favourites or save this link:
 setup.download.notavailable.youros=Your OS:
 setup.download.notavailable.reqos=Required OS at least:
 setup.download.notavailable.or=or
 setup.download.notavailable.infodesc=Until you update your OS, you can enjoy the yetu experience without your gateway. Just login to
 
-setup.download.ready.heading=Thank you for downloading the yetu Setup App
-setup.download.ready.description=If you had problems with the download,
-setup.download.ready.link= click here to download it again
-
+setup.download.ready.heading=Thank you for downloading the yetu setup app.
+setup.download.ready.description=If there were problems with the download,
+setup.download.ready.link= click here to start the download again
+setup.download.ready.instruction.step1=Step 1
+setup.download.ready.instruction.step2=Step 2
+setup.download.ready.instruction.step3=Step 3
+setup.download.ready.instruction.step1desc=Save the yetu setup app to your computer.
+setup.download.ready.instructionmac.step2desc=Double click the download file. Then drag the yetu setup app icon to your applications folder.
+setup.download.ready.instructionmac.step3desc =Execute the yetu setup app from your applications folder and follow the steps on the screen.
+setup.download.ready.instructionwin.step2desc=Search and double click the download file. Follow the steps to complete the installation.
+setup.download.ready.instructionwin.step3desc =Execute the yetu setup app and follow the steps on the screen.
 
