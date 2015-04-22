@@ -104,5 +104,3 @@ Please note that all datetime values (e.g. `exp`, `iat`) are in seconds since 19
 ## License
 
 MIT. See [LICENSE](LICENSE) for details.
-
-
