@@ -1,0 +1,24 @@
+@import com.yetu.oauth2provider.views
+<!DOCTYPE html>
+
+<html>
+    <head>
+        <title>Confirm email error</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_confirmedmail_error.css")">
+        <link rel="shortcut icon" type="image/png" href="">
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+    </head>
+    <body>
+        @views.html.setup.header(false)
+        <div name="confirmedmailSetupError" class="content">
+            <h2 class="confirmedmailerror__headline">@Messages("setup.confirmedmailerror.headline")</h2>
+            <p class="confirmedmailerror__desc">@Messages("setup.confirmedmailerror.description")</p>
+            <a href="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.startSignUp" class="button confirmedmailerror__button">
+                @Html(Messages("setup.register"))
+            </a>
+        </div>
+        <div class="clear"></div>
+        @views.html.setup.footer()
+    </body>
+</html>

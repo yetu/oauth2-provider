@@ -102,6 +102,7 @@ setup.footer.imprint=Imprint
 setup.footer.terms=Terms &amp; conditions
 setup.footer.cookies=Cookies
 setup.next=next &gt;
+setup.register=register &gt;
 
 #setup registration page
 setup.signup.firstNamePlaceholder=Your first name
@@ -131,6 +132,8 @@ setup.signup.help.email=This information helps us to provide you a more personal
 setup.confirmmail.headline=Check your email inbox and click the registration link to proceed.
 setup.confirmmail.description=We just sent you an email to the email address you provided. Please check your inbox, and click\
    the link provided in the email to verify your email address and allow the creation of your yetu account.
+setup.confirmedmailerror.headline=The link you followed is not valid anymore.
+setup.confirmedmailerror.description=Please register again.
 
 #setup mail confirmed page
 setup.confirmedmail.headline=Your email has been verified and your yetu account has been created.
