@@ -1,4 +1,5 @@
-(function() {
+window.DeterminedOS = {};
+(function(determinedOS) {
   var nAgt = navigator.userAgent;
   var os = '-';
   var clientStrings = [
@@ -38,8 +39,8 @@
   }
 
   var showRightVersionDownload = function (os) {
-    document.getElementById('download_' + os + '1').setAttribute('class', 'left__content-download button show');
-    document.getElementById('download_' + os + '2').setAttribute('class', 'full__download show');
+    determinedOS.name = os;
+    document.getElementById('download_' + os).setAttribute('class', 'left__content-download button show');
   };
 
   var osVersion = '-';
@@ -114,4 +115,4 @@
     document.getElementById('content').setAttribute('class', 'content content__download_not_available');
   }
 
-})();
+})(window.DeterminedOS);

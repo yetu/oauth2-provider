@@ -1,8 +1,9 @@
 window.DownloadHandler = {};
 (function(DownloadHandler){
   DownloadHandler.onClickDownload = function(){
-    document.getElementById('fullContainer').setAttribute('style', 'display:block;');
-    document.getElementById('leftContainer').setAttribute('style', 'display:none;');
-    document.getElementById('rightContainer').setAttribute('style', 'display:none;');
+    document.getElementById('fullContainer_'+window.DeterminedOS.name).setAttribute('class', 'full show');
+    document.getElementById('content').setAttribute('class', 'content content__full');
+    document.getElementById('leftContainer').setAttribute('class', 'left hide');
+    document.getElementById('rightContainer').setAttribute('class', 'right hide');
   };
 })(window.DownloadHandler);
