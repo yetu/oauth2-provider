@@ -1,5 +1,6 @@
 package com.yetu.oauth2provider.controllers.setup
 
+import com.yetu.oauth2provider.controllers.authentication.YetuPasswordValidator
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.utils.Config
@@ -14,6 +15,7 @@ import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
 import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
+import securesocial.core.providers.utils.PasswordValidator
 import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
 import securesocial.core.providers.UsernamePasswordProvider
 
@@ -117,6 +119,20 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
       s"Form field $UserRegistrationStatus must be " +
         s"one of ($UserNotRegistered, $UserAlreadyRegistered)"
         + s"AdditionalInformation: ${error}"))
+  }
+
+  def checkPassword = Action {
+    implicit request =>
+      {
+        val password = request.body.asFormUrlEncoded.get("password").head
+        val validator = new YetuPasswordValidator()
+        val passwordValid = validator.validate(password)
+        if (passwordValid.isRight) {
+          Ok("")
+        } else {
+          BadRequest("")
+        }
+      }
   }
 
 }

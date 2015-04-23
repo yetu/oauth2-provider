@@ -107,6 +107,7 @@ input:-ms-input-placeholder {
 #agreement{
     margin-top: -55.5px;
 }
+
 /*classes defined by input field template*/
 /*label for input field*/
 .control-label{
@@ -269,4 +270,9 @@ input:-ms-input-placeholder {
 .buttoncontainer__next-button:active,.buttoncontainer__next-button:focus {
     background: #009900;
     color: white;
+}
+
+.failure-password{
+    border: solid 1px #FF0000;
+    color: #FF0000;
 }
