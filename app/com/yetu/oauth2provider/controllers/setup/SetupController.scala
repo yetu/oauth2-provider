@@ -8,14 +8,10 @@ import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
 import play.api.Logger
 import play.api.data.Form
-import play.api.i18n.Messages
 import play.api.libs.json.Json
-import play.api.mvc.Results._
 import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
-import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
-import securesocial.core.providers.utils.PasswordValidator
 import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
 import securesocial.core.providers.UsernamePasswordProvider
 
