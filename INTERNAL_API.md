@@ -94,6 +94,6 @@ It is up to the requesting service to check whether the scope in the json matche
 Example Request:
 
 * HTTPie syntax:
-    - `http "https://auth.yetudev.com/oauth2/validate?access_token=nDFPRcNPCHhdk3APVp85JR4yh6lYtxeV"`
+    - `http "https://auth.yetu.me/oauth2/validate?access_token=nDFPRcNPCHhdk3APVp85JR4yh6lYtxeV"`
 
 
