@@ -31,9 +31,9 @@ If you're using Scala and the Play framework, you can use our [yetu-play-authent
 In any case, you will need to provide the following settings:
 
 ```python
-authorizationURL = "https://auth-prod.yetu.me/oauth2/authorize"
-accessTokenURL = "https://auth-prod.yetu.me/oauth2/access_token"
-profileURL = "https://auth-prod.yetu.me/oauth2/info"
+authorizationURL = "https://auth.yetu.me/oauth2/authorize"
+accessTokenURL = "https://auth.yetu.me/oauth2/access_token"
+profileURL = "https://auth.yetu.me/oauth2/info"
 
 scope = "" # space separated, as registered with yetu
 clientId = "" # as registered with yetu
@@ -47,7 +47,7 @@ redirectURL = "" # full URL including protocol, port, and url path as registered
 For example you can retrieve profile information: (usually your OAuth2 library already does this however)
 
 ```
-https://auth-prod.yetu.me/oauth2/info?access_token=YOUR_PREVIOUSLY_RETRIEVED_ACCESS_TOKEN
+https://auth.yetu.me/oauth2/info?access_token=YOUR_PREVIOUSLY_RETRIEVED_ACCESS_TOKEN
 ```
 
 Please see the respective API documentation you wish to make use of. Some may accept query parameters, others require the access token to be specified in the http headers.
