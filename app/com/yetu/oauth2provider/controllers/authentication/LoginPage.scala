@@ -25,8 +25,8 @@ case class KillOldDomainCookies[A](action: Action[A]) extends Action[A] {
   import securesocial.core.authenticator.CookieAuthenticator._
 
   //TODO: in a few weeks, remove this cookie busting code.
-  val discardingCookie1 = DiscardingCookie(cookieName, cookiePath, Some("auth.yetudev.com"), cookieSecure)
-  val discardingCookie2 = DiscardingCookie(cookieName, cookiePath, Some("auth.yetu.me"), cookieSecure)
+  val discardingCookie1 = DiscardingCookie(cookieName, cookiePath, Some("auth-dev.yetu.me"), cookieSecure)
+  val discardingCookie2 = DiscardingCookie(cookieName, cookiePath, Some("auth-prod.yetu.me"), cookieSecure)
   val discardingCookie3 = DiscardingCookie(cookieName, cookiePath, None, cookieSecure)
 
   def apply(request: Request[A]): Future[Result] = {
