@@ -82,14 +82,8 @@ object Config {
 
     lazy val cookieName = Play.application.configuration.getString("session.statusCookie.name").getOrElse("status-cookie")
     lazy val cookiePath = Play.application.configuration.getString("session.statusCookie.path").getOrElse(CookieAuthenticator.cookiePath)
-    lazy val cookieDomain: Option[String] = {
-      val domain = Play.application.configuration.getString("session.statusCookie.domain")
-      if (domain.isDefined) {
-        domain
-      } else {
-        CookieAuthenticator.cookieDomain
-      }
-    }
+    lazy val cookieDomain = CookieAuthenticator.cookieDomain
+
     lazy val cookieHttpOnly: Boolean = Play.application.configuration.getBoolean("session.statusCookie.httpOnly").getOrElse(false)
     lazy val idleTimeoutInMinutes = CookieAuthenticator.idleTimeout
     lazy val absoluteTimeoutInSeconds = CookieAuthenticator.absoluteTimeoutInSeconds
