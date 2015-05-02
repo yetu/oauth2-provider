@@ -41,8 +41,3 @@ var PasswordController = function(){
     passwordFeedbackIsShown: passwordFeedbackIsShown,
   }
 };
-
-(function(){
-  var passwordController = new PasswordController();
-  var formMessageController = new FormMessageController(passwordController.passwordFeedbackIsShown)
-}());

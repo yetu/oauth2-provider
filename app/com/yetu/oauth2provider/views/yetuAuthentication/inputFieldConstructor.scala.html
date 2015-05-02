@@ -17,7 +17,7 @@
     <div class="controls">
         @elements.input
         @if( elements.hasErrors ) {
-            <span id="@{elements.id}ErrorText" class="help-inline" onclick="window.formMessageController.clickOnErrorMessage(this)">@elements.errors(elements.lang).mkString(", ")</span>
+            <span id="@{elements.id}ErrorText" class="help-inline">@elements.errors(elements.lang).mkString(", ")</span>
         }
         <span class="help-block display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
         <span class="help-icon" id="@{elements.id}HelpIcon">?</span>
