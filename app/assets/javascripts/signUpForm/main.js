@@ -3,6 +3,6 @@
  */
 (function(){
   var passwordController = new PasswordController();
-  var formController = new FormController(passwordController.passwordFeedbackIsShown)
+  var formController = new FormController(passwordController.passwordFeedbackIsShown);
   formController.init();
 }());
