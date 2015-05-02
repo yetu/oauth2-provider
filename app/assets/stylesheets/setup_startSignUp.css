@@ -94,18 +94,18 @@ input:-ms-input-placeholder {
     outline: -webkit-focus-ring-color auto 1px;
 }
 .left__fieldsmandatory{
-    font-size: 10px;
+    font-size: 11px;
     text-align: right;
     margin-right: 63px;
     margin-top: 25px;
 }
 
 #agreementErrorText{
-    font-size: 10px;
+    font-size: 11px;
 }
 
 #agreement{
-    margin-top: -55.5px;
+    margin-top: -89px;
 }
 
 /*classes defined by input field template*/
@@ -131,10 +131,10 @@ input:-ms-input-placeholder {
 
 /*checkbox agreement*/
 #agreementCheckBoxID label, #getinfoID_field label{
-    font-size: 10px;
+    font-size: 13px;
     width: 234px;
     display: block;
-    line-height: 14px;
+    line-height: 18px;
     text-align: left;
     margin-left: 110px;
 }
@@ -207,15 +207,14 @@ input:-ms-input-placeholder {
 }
 /*info*/
 .help-block{
-    display: block;
-    margin-top: -32px;
+    margin-top: -26.5px;
     background: white;
-    padding: 5px;
-    font-size: 10px;
+    padding: 5px 5px;
+    font-size: 13px;
     font-style: italic;
-    width: 110px;
+    width: 210px;
     box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
-    margin-right: -15px;
+    margin-right: -265px;
     z-index: 10;
     position: absolute;
     right: 0;
@@ -249,7 +248,7 @@ input:-ms-input-placeholder {
     right: -38px;
     border: solid 1px #B4B4B4;
     padding: 4px;
-    font-size: 10px;
+    font-size: 13px;
     line-height: 7px;
     vertical-align: middle;
     background: #ffffff;

@@ -1,8 +1,12 @@
 /**
  * Created by elisahilprecht on 09/04/15.
  */
-window.formMessageController = {};
-(function(FormMessageController){
+var FormMessageController = function(passwordFeedbackIsShown){
+  console.log(passwordFeedbackIsShown);
+  var helpIconLabel = 'HelpIcon';
+  var helpTextLabel = 'HelpText';
+  var errorTextLabel = 'ErrorText';
+  var passwordId = 'password1ID';
 
   var getElementsByClassName = function(node, classname) {
     var a = [];
@@ -20,22 +24,53 @@ window.formMessageController = {};
     }
   };
 
-  FormMessageController.clickOnInputField = function(e){
+  var enterInputField = function(e){
     if(e){
-      var element = e.srcElement ? e.srcElement : e.toElement;
-      element = element ? element : e.target;
+      var element = getElementFromEvent(e);
+      //remove error text, if some is there
       var errorText = document.getElementById(element.id.replace('_agreement', '')+'ErrorText');
       if(errorText){
         errorText.setAttribute('class','help-inline display-none');
       }
+
+      //show the help text
+      document.getElementById(element.id.replace('_agreement', '')+'HelpText')
+        .setAttribute("class", "help-block display");
+    }
+  };
+  var leaveInputField = function(e){
+    if(e) {
+      var inputField = getElementFromEvent(e);
+      //hide help text
+      if(!(inputField.id.indexOf(passwordId)>-1&&passwordFeedbackIsShown)) {
+        document.getElementById(inputField.id.replace('_agreement', '') + 'HelpText')
+          .setAttribute('class', 'help-block display-none');
+      }
     }
   };
 
-  FormMessageController.hoverHelp = function(element){
-    element.setAttribute('class', 'help-block');
+  var getElementFromEvent = function(e){
+    var element = e.srcElement ? e.srcElement : e.toElement;
+    element = element ? element : e.target;
+    return element;
   };
-  FormMessageController.blurHelp = function(element){
-    element.setAttribute('class', 'help-block display-none');
+
+  var hoverHelp = function(e){
+    if(e) {
+      var helpIcon = getElementFromEvent(e);
+      var helpText = document.getElementById(helpIcon.id.replace(helpIconLabel,helpTextLabel));
+      helpText.setAttribute('class', 'help-block');
+    }
+  };
+
+  var blurHelp = function(e){
+    if(e) {
+      var helpIcon = getElementFromEvent(e);
+      if(!(helpIcon.id.indexOf(passwordId)>-1&&passwordFeedbackIsShown)){
+        var helpText = document.getElementById(helpIcon.id.replace(helpIconLabel,helpTextLabel));
+        helpText.setAttribute('class', 'help-block display-none');
+      }
+    }
   };
 
 
@@ -50,11 +85,21 @@ window.formMessageController = {};
       }
     }
   }
+
+  var helpIcons = getElementsByClassName(document.getElementById('signup_form'), 'help-icon');
+  for(var l=0; l<helpIcons.length; l++){
+    var helpIcon = helpIcons[l];
+    helpIcon.onmouseover=hoverHelp;
+    helpIcon.onmouseout=blurHelp;
+  }
+
   var inputFields = document.getElementsByTagName('input');
   for(var j=0; j<inputFields.length; j++){
     var inputField = inputFields[j];
-    inputField.onclick = FormMessageController.clickOnInputField;
-    inputField.onfocus = FormMessageController.clickOnInputField;
+    inputField.onclick = enterInputField;
+    inputField.onfocus = enterInputField;
+    inputField.onblur = leaveInputField;
+
     var errorElement = document.getElementById(inputField.id+'ErrorText');
     if(errorElement!=undefined){
       inputField.placeholder = '';
@@ -86,4 +131,5 @@ window.formMessageController = {};
     customRadioButtonNotRegistered.setAttribute('class', 'radio');
     customRadioButtonRegistered.setAttribute('class','radio radio__registered radio__checked');
   };
-})(window.formMessageController);
+
+};

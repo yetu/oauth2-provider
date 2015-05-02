@@ -19,9 +19,8 @@
         @if( elements.hasErrors ) {
             <span id="@{elements.id}ErrorText" class="help-inline" onclick="window.formMessageController.clickOnErrorMessage(this)">@elements.errors(elements.lang).mkString(", ")</span>
         }
-        <span class="help-inline display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
-        <span class="help-icon" id="@{elements.id}HelpIcon" onmouseover="window.formMessageController.hoverHelp(@{s"${elements.id}HelpText"})"
-            onmouseout="window.formMessageController.blurHelp(@{s"${elements.id}HelpText"})">?</span>
+        <span class="help-block display-none" id="@{elements.id}HelpText">@elements.infos(elements.lang).mkString(", ")</span>
+        <span class="help-icon" id="@{elements.id}HelpIcon">?</span>
     </div>
 
 

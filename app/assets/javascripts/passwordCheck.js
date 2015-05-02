@@ -1,52 +1,48 @@
 /**
  * Created by elisahilprecht on 23/04/15.
  */
-(function(){
-  var createXMLHttpRequest = function(){
-    var xmlhttp;
-    if (window.XMLHttpRequest)
-    {// code for IE7+, Firefox, Chrome, Opera, Safari
-      xmlhttp=new XMLHttpRequest();
-    }
-    else
-    {// code for IE6, IE5
-      xmlhttp=new ActiveXObject("Microsoft.XMLHTTP");
-    }
-    return xmlhttp
+var PasswordController = function(){
+  var passwordFeedbackIsShown = true;
+  var passwordInput = document.getElementById('password1ID');
+  var helpIconPassword = document.getElementById('password1IDHelpIcon');
+
+  var upperCase= new RegExp('[A-Z]');
+  var lowerCase= new RegExp('[a-z]');
+  var numbers = new RegExp('[0-9]');
+  //if we want to have a stronger password later:
+  //var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
+
+  var getPasswordStrength = function(value){
+    if (value.length > 8) { characters = 1; } else { characters = 0; };
+    if (value.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
+    if (value.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
+    if (value.match(numbers)) { number = 1}  else { number = 0; };
+
+    var total = characters + capitalletters + loweletters + number;
+    return total;
   };
 
-  var passwordInput = document.getElementById("password1ID");
-  var setErrorState = function(){
-    document.getElementById("password1IDHelpIcon").setAttribute("class", "help-icon failure-password");
-    passwordInput.setAttribute("class", "left__input failure-password");
+  var updateFeedbackForUser = function(passwordStrength){
+    console.log(passwordStrength);
   };
-  var setNormalState = function(){
-    document.getElementById("password1IDHelpIcon").setAttribute("class", "help-icon");
-    passwordInput.setAttribute("class", "left__input");
-  };
-  var sendCheckRequest = function(password){
-    var xmlhttp = createXMLHttpRequest();
-    xmlhttp.open("POST","/setup/checkPassword",true);
-    xmlhttp.onreadystatechange=function()
-    {
-      if (xmlhttp.readyState==4 && xmlhttp.status==200)
-      {
-        setNormalState();
-      }
-      else if(xmlhttp.readyState==4 && xmlhttp.status==400){
-        setErrorState();
-      }
-    };
-    xmlhttp.setRequestHeader("Content-type","application/x-www-form-urlencoded");
-    xmlhttp.send("password="+password);
-  };
+
   passwordInput.onkeyup = function(){
     var password = passwordInput.value;
-    if(password===""){
-      setNormalState();
+    var passwordStrength = getPasswordStrength(password);
+    if(passwordStrength===4 && password===""){
+      passwordFeedbackIsShown = false;
     }
     else{
-      sendCheckRequest(password);
+      passwordFeedbackIsShown = true;
     }
+    updateFeedbackForUser(passwordStrength)
+  };
+  return {
+    passwordFeedbackIsShown: passwordFeedbackIsShown,
   }
+};
+
+(function(){
+  var passwordController = new PasswordController();
+  var formMessageController = new FormMessageController(passwordController.passwordFeedbackIsShown)
 }());

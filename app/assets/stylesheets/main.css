@@ -514,7 +514,7 @@ a.muted:focus {
     display:none;
 }
 .controls-required{
-    font-size: 10px;
+    font-size: 13px;
 }
 .help-inline{
     display: inline-block;
