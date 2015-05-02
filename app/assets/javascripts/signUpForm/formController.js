@@ -1,7 +1,6 @@
 /**
  * Created by elisahilprecht on 09/04/15.
  */
-//TODO: when in an input field and going with mouse out of quesion mark, the help box has to stay
 //TODO: when text empty on password field hide help when leaving field
 //TODO: passwordMatch error message
 //TODO: stages for password strength on password help Text feedback
@@ -77,7 +76,10 @@ var FormController = function(passwordFeedbackIsShown){
   var blurHelp = function(e){
     if(e) {
       var helpIcon = getElementFromEvent(e);
-      if(!(helpIcon.id.indexOf(passwordId)>-1&&passwordFeedbackIsShown)){
+      var inputField = document.getElementById(helpIcon.id.replace(helpIconLabel,''));
+      var activeElement = document.activeElement;
+      if(!(helpIcon.id.indexOf(passwordId)>-1 && passwordFeedbackIsShown)
+          && !(inputField.id === activeElement.id)){
         var helpText = document.getElementById(helpIcon.id.replace(helpIconLabel,helpTextLabel));
         helpText.setAttribute('class', 'help-block display-none');
       }
