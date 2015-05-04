@@ -1,6 +1,3 @@
-/**
- * Created by elisahilprecht on 23/04/15.
- */
 var PasswordController = function(){
   var passwordFeedbackIsShown = true;
   var passwordInput = document.getElementById('password1ID');
@@ -18,26 +15,21 @@ var PasswordController = function(){
     if (value.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
     if (value.match(numbers)) { number = 1}  else { number = 0; };
 
-    var total = characters + capitalletters + loweletters + number;
-    return total;
-  };
-
-  var updateFeedbackForUser = function(passwordStrength){
-    console.log(passwordStrength);
+    return characters + capitalletters + loweletters + number;
   };
 
   passwordInput.onkeyup = function(){
     var password = passwordInput.value;
     var passwordStrength = getPasswordStrength(password);
-    if(passwordStrength===4 && password===""){
-      passwordFeedbackIsShown = false;
-    }
-    else{
-      passwordFeedbackIsShown = true;
-    }
-    updateFeedbackForUser(passwordStrength)
+    passwordFeedbackIsShown = !(passwordStrength === 4 && password === "");
+    updatePasswordStrength(passwordStrength)
   };
+
+  var updatePasswordStrength = function(passwordStrength){
+    document.getElementById("passwordStrength").setAttribute("class", "strength-" + passwordStrength);
+  };
+
   return {
-    passwordFeedbackIsShown: passwordFeedbackIsShown,
+    passwordFeedbackIsShown: passwordFeedbackIsShown
   }
 };

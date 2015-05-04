@@ -38,6 +38,7 @@ securesocial.signup.createAccount=Create Account
 securesocial.signup.cancel=Cancel
 securesocial.signup.userNameAlreadyTaken=Username already taken.
 securesocial.signup.passwordsDoNotMatch=The passwords do not match.
+securesocial.signup.passwordStrength=Password strength
 securesocial.signup.thankYouCheckEmail=Thank you. Please check your Email for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.

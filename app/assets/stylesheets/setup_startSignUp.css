@@ -275,3 +275,33 @@ input:-ms-input-placeholder {
     border: solid 1px #FF0000;
     color: #FF0000;
 }
+
+#passwordStrength {
+    height:10px;
+    margin-bottom:10px;
+}
+
+#passwordStrength.strength-0 {
+    width:10%;
+    background:darkred;
+}
+
+#passwordStrength.strength-1 {
+    width:20%;
+    background:orangered;
+}
+
+#passwordStrength.strength-2 {
+    width:40%;
+    background:orange;
+}
+
+#passwordStrength.strength-3 {
+    width:60%;
+    background:gold;
+}
+
+#passwordStrength.strength-4 {
+    width:100%;
+    background:forestgreen;
+}
