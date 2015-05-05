@@ -1,7 +1,5 @@
 var PasswordController = function(){
-  var passwordFeedbackIsShown = true;
   var passwordInput = document.getElementById('password1ID');
-  var helpIconPassword = document.getElementById('password1IDHelpIcon');
 
   var upperCase= new RegExp('[A-Z]');
   var lowerCase= new RegExp('[a-z]');
@@ -19,17 +17,9 @@ var PasswordController = function(){
   };
 
   passwordInput.onkeyup = function(){
-    var password = passwordInput.value;
-    var passwordStrength = getPasswordStrength(password);
-    passwordFeedbackIsShown = !(passwordStrength === 4 && password === "");
-    updatePasswordStrength(passwordStrength)
-  };
-
-  var updatePasswordStrength = function(passwordStrength){
+    var passwordStrength = getPasswordStrength(passwordInput.value);
     document.getElementById("passwordStrength").setAttribute("class", "strength-" + passwordStrength);
   };
 
-  return {
-    passwordFeedbackIsShown: passwordFeedbackIsShown
-  }
+  return { }
 };

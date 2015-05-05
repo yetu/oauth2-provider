@@ -1,8 +1,5 @@
-/**
- * Created by elisahilprecht on 02/05/15.
- */
 (function(){
   var passwordController = new PasswordController();
-  var formController = new FormController(passwordController.passwordFeedbackIsShown);
+  var formController = new FormController();
   formController.init();
 }());

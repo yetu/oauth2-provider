@@ -1,16 +1,12 @@
-/**
- * Created by elisahilprecht on 09/04/15.
- */
 //TODO: when text empty on password field hide help when leaving field
 //TODO: passwordMatch error message
 //TODO: stages for password strength on password help Text feedback
 //TODO: JS code refactoring
 
-var FormController = function(passwordFeedbackIsShown){
+var FormController = function(){
   var helpIconLabel = 'HelpIcon';
   var helpTextLabel = 'HelpText';
   var errorTextLabel = 'ErrorText';
-  var passwordId = 'password1ID';
   var agreementId = 'agreement';
   var signUpFormId = 'signup_form';
 
@@ -52,10 +48,8 @@ var FormController = function(passwordFeedbackIsShown){
     if(e) {
       var inputField = getElementFromEvent(e);
       //hide help text
-      if(!(inputField.id.indexOf(passwordId)>-1&&passwordFeedbackIsShown)) {
-        var helpText = document.getElementById(inputField.id + helpTextLabel);
-        helpText.setAttribute('class', 'help-block display-none');
-      }
+      var helpText = document.getElementById(inputField.id + helpTextLabel);
+      helpText.setAttribute('class', 'help-block display-none');
     }
   };
 
@@ -78,8 +72,7 @@ var FormController = function(passwordFeedbackIsShown){
       var helpIcon = getElementFromEvent(e);
       var inputField = document.getElementById(helpIcon.id.replace(helpIconLabel,''));
       var activeElement = document.activeElement;
-      if(!(helpIcon.id.indexOf(passwordId)>-1 && passwordFeedbackIsShown)
-          && !(inputField.id === activeElement.id)){
+      if(inputField.id !== activeElement.id){
         var helpText = document.getElementById(helpIcon.id.replace(helpIconLabel,helpTextLabel));
         helpText.setAttribute('class', 'help-block display-none');
       }
