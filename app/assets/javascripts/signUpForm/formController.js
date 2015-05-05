@@ -3,7 +3,7 @@
 //TODO: stages for password strength on password help Text feedback
 //TODO: JS code refactoring
 
-var FormController = function(){
+var FormController = function(validators){
   var helpIconLabel = 'HelpIcon';
   var helpTextLabel = 'HelpText';
   var errorTextLabel = 'ErrorText';
@@ -50,6 +50,20 @@ var FormController = function(){
       //hide help text
       var helpText = document.getElementById(inputField.id + helpTextLabel);
       helpText.setAttribute('class', 'help-block display-none');
+    }
+  };
+
+  var onChangeInputField = function(e) {
+    if(e) {
+      validateInputField(getElementFromEvent(e));
+    }
+  };
+
+  var validateInputField = function(inputField){
+    if (validators(inputField.id)) {
+      inputField.classList.add('valid');
+    } else {
+      inputField.classList.remove('valid');
     }
   };
 
@@ -122,6 +136,7 @@ var FormController = function(){
     inputField.onclick = enterInputField;
     inputField.onfocus = enterInputField;
     inputField.onblur = leaveInputField;
+    inputField.onchange = onChangeInputField;
   };
 
   var removePlaceholderOnError = function(inputField){
@@ -137,7 +152,8 @@ var FormController = function(){
     for(var j=0; j<inputFields.length; j++){
       var inputField = inputFields[j];
       setEventHandlerForInputField(inputField);
-      removePlaceholderOnError(inputField)
+      removePlaceholderOnError(inputField);
+      validateInputField(inputField);
     }
   };
 
