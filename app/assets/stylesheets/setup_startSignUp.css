@@ -176,21 +176,10 @@ input:-ms-input-placeholder {
     margin-left: 359px;
 }
 
-#UserRegistrationStatus_field .help-icon{
-    display:none;
-}
-#password2ID_field .help-icon{
-    display:none;
-}
-#password2ID_field .help-block{
-    display:none;
-}
 #agreementCheckBoxID .help-icon{
     display:none;
 }
-#getinfoID_field .help-icon{
-    display:none;
-}
+
 /*only until we are sure about law stuff with it*/
 #getinfoID_field{
     display:none;
@@ -211,12 +200,11 @@ input:-ms-input-placeholder {
 }
 /*erros*/
 .help-inline{
-    display: block;
     position: absolute;
-    top: 7.5px;
+    top: 8px;
+    left: 8px;
     color: #FF0000;
     font-size: 12px;
-    left: 7.5px;
     z-index: 5;
 }
 
@@ -229,9 +217,8 @@ input:-ms-input-placeholder {
 .help-icon{
     height: 6px;
     width: 5px;
-    display: block;
     position: absolute;
-    top: 0px;
+    top: 0;
     right: -38px;
     border: solid 1px #B4B4B4;
     padding: 4px;
@@ -239,6 +226,7 @@ input:-ms-input-placeholder {
     line-height: 7px;
     vertical-align: middle;
     background: #ffffff;
+    cursor: default;
 }
 
 

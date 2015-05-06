@@ -124,8 +124,14 @@
             </div>
 		</div>
 		@views.html.footer(isSetup = true)
+    <script src="@controllers.routes.Assets.versioned("javascripts/form-validator.js")"></script>
+    <script>
+        var formValidator = new FormValidator();
+    </script>
+      <!--
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/formController.js")"></script>
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/passwordController.js")"></script>
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/main.js")"></script>
+      -->
 	</body>
 </html>
