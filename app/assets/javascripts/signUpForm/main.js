@@ -12,7 +12,7 @@
       return password.length > 7;
     };
     var passwordMatchValidator = function(password2) {
-      var password1 = document.getElementById("password2ID").value;
+      var password1 = document.getElementById("password1ID").value;
       return passwordValidator(password1) && (password1 === password2);
     };
 
