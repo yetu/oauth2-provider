@@ -11,11 +11,12 @@
     @views.html.googleanalytics()
 </head>
 <body>
+    <script src="@controllers.routes.Assets.versioned("javascripts/form-validator.js")"></script>
     <div class="content">
         <div class="box">
             <img class="logo" src="@controllers.routes.Assets.versioned("images/yetulogo.svg")"/>
             @content
-            @views.html.footer(false)
+            @views.html.footer(isSetup = false)
         </div>
     </div>
 </body>

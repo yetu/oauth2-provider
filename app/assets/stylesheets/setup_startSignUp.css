@@ -226,9 +226,6 @@ input:-ms-input-placeholder {
     margin-bottom: 13px;
 }
 
-.help-inline.display-none, .help-block.display-none{
-    display: none;
-}
 .help-icon{
     height: 6px;
     width: 5px;

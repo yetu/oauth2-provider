@@ -21,10 +21,10 @@ h1{
 }
 
 .help-inline{
-    display: block;
+    position: absolute;
+    top: 14px;
+    left: 12px;
     color: #FF0000;
-    margin-top: 5px;
-    text-align: right;
 }
 
 /*classes defined by input field template*/
@@ -93,4 +93,8 @@ footer .dot{
     height: 50px;
     top: 30px;
     right: 40px;
+}
+
+.controls {
+    position: relative;
 }
