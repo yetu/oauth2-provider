@@ -21,7 +21,7 @@ securesocial.login.useEmailAndPasswordOnly=Login using a username and password.
 securesocial.login.signUp=If you do not have an account, you can sign up
 securesocial.login.here=here
 securesocial.login.invalidCredentials=Wrong email address or password! Please try again!
-securesocial.login.forgotPassword=Did you forget your password?
+securesocial.login.forgotPassword=Forgot your password?
 securesocial.login.fullstop=.
 
 # Sign up page
@@ -39,7 +39,7 @@ securesocial.signup.cancel=Cancel
 securesocial.signup.userNameAlreadyTaken=Username already taken.
 securesocial.signup.passwordsDoNotMatch=The passwords do not match.
 securesocial.signup.passwordStrength=Password strength
-securesocial.signup.thankYouCheckEmail=Thank you. Please check your Email for further instructions.
+securesocial.signup.thankYouCheckEmail=Thank you. Please check your emails for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
 securesocial.signup.fieldRequired=This field is required
@@ -62,6 +62,8 @@ securesocial.password.error=There was a problem changing your password. Please t
 
 # Password change
 securesocial.passwordChange.title=Change Password
+securesocial.passwordChange.subtitle=Type and confirm \
+   your new password
 securesocial.passwordChange.currentPassword=Current Password
 securesocial.passwordChange.newPassword1=New Password
 securesocial.passwordChange.newPassword2=New Password Confirmation
@@ -98,11 +100,6 @@ setup.subheadline=Setting up the yetu experience takes some quick and easy steps
 setup.steps.one=1. Register at yetu
 setup.steps.two=2. Verify your email address
 setup.steps.three=3. Download Gateway setup app
-setup.footer.copyright=&copy; 2015 yetu AG
-setup.footer.privacy=Privacy Policy
-setup.footer.imprint=Imprint
-setup.footer.terms=Terms &amp; conditions
-setup.footer.cookies=Cookies
 setup.next=next &gt;
 setup.register=register &gt;
 
@@ -169,3 +166,10 @@ setup.download.ready.instructionmac.step3desc =Execute the yetu setup app from y
 setup.download.ready.instructionwin.step2desc=Search and double click the download file. Follow the steps to complete the installation.
 setup.download.ready.instructionwin.step3desc =Execute the yetu setup app and follow the steps on the screen.
 
+#footer
+footer.copyright=&copy; 2015 yetu AG
+footer.privacy=Privacy Policy
+footer.imprint=Imprint
+footer.terms=Terms &amp; conditions
+footer.cookies=Cookies
+footer.version=Version 1.0

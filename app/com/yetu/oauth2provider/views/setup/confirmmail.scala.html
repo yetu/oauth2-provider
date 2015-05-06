@@ -4,6 +4,7 @@
 <html>
 	<head>
         <title>Confirm e-mail</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/confirmmail.css")">
@@ -26,6 +27,6 @@
             </div>
 		</div>
         <div class="clear"></div>
-		@views.html.setup.footer()
+		@views.html.footer(true)
 	</body>
 </html>

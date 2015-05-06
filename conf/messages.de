@@ -11,7 +11,7 @@ securesocial.login.useEmailAndPasswordOnly=Anmeldung mit Benutzername und Passwo
 securesocial.login.signUp=Sollten Sie noch kein Benutzerkonto haben, registrieren Sie ein neues
 securesocial.login.here=hier
 securesocial.login.invalidCredentials=Falsches Passwort oder falsche E-Mail-Adresse. Bitte versuchen Sie es erneut!
-securesocial.login.forgotPassword=Haben Sie ihr Passwort vergessen?
+securesocial.login.forgotPassword=Passwort vergessen?
 securesocial.login.fullstop=.
 
 # Sign up page

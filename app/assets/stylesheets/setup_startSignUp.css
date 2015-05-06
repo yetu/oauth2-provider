@@ -27,9 +27,7 @@
     margin: 0 auto 0 auto;
 }
 .content__main{
-    box-shadow: 1px 1px 5px #666;
     margin: 20px auto;
-    background: #F6F6F6;
     width: 895px;
     height: 445px;
     padding: 40px 50px 0 50px;
@@ -65,19 +63,11 @@
 .left__link{
     color: #009900;
 }
-.left__fieldset{
-    border: none;
-}
 .left__input{
     display: block;
+    width: 241px;
     height: 15px;
     padding: 5px 7.5px;
-    font-size: 13px;
-    font-family: source_sans_proregular, 'Helvetica Neue', Arial;
-    width: 241px;
-    border: solid 1px #B4B4B4;
-    background:#ffffff;
-    color: black;
 }
 
 input::-webkit-input-placeholder,
@@ -115,11 +105,11 @@ input:-ms-input-placeholder {
     display: block;
     line-height: 29px;
     vertical-align: middle;
-    text-align: right;
+    font-size: 18px;
     width: 180px;
     margin-left: -100px;
+    text-align: right;
     padding: 0 10px;
-    font-size: 18px;
 }
 /*container around input field and help-inline/help-block*/
 .controls{
@@ -265,10 +255,6 @@ input:-ms-input-placeholder {
 .buttoncontainer__next-button{
     width: 150px;
     height: 50px;
-}
-.buttoncontainer__next-button:active,.buttoncontainer__next-button:focus {
-    background: #009900;
-    color: white;
 }
 
 .failure-password{

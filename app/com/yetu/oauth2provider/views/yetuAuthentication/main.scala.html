@@ -4,26 +4,20 @@
 <html>
 <head>
     <title>@title</title>
-    <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/main.css")">
+    <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
+    <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/normal.css")">
+    @*<link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/main.css")">*@
     <link rel="shortcut icon" type="image/png" href="@env.routes.faviconPath">
-    <!-- we don't need jquery, do we?
-    <script src="@env.routes.jqueryPath" type="text/javascript"></script>
-    -->
-    @env.routes.customCssPath.map { customPath =>
-    <link rel="stylesheet" media="screen" href="@customPath">
-    }
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     @views.html.googleanalytics()
 </head>
 <body>
-<div class="container" style="padding-top:30px">
-    @content
-</div>
-<div class="footer">
-    <a href="@Messages("yetu.privacy.policy.link")" target="_blank" >@Messages("yetu.privacy.policy.name")</a> &nbsp;&nbsp;&nbsp;
-    <a href="@Messages("yetu.imprint.link")"  target="_blank" >@Messages("yetu.imprint.name")</a>
-    <img class="logo" src="@controllers.routes.Assets.versioned("images/yetulogo.svg")"/>
-</div>
-
+    <div class="content">
+        <div class="box">
+            <img class="logo" src="@controllers.routes.Assets.versioned("images/yetulogo.svg")"/>
+            @content
+            @views.html.footer(false)
+        </div>
+    </div>
 </body>
 </html>

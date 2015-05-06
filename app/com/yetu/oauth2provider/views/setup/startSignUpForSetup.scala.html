@@ -10,6 +10,7 @@
 <html>
 	<head>
         <title>Registration</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_startSignUp.css")">
@@ -21,7 +22,7 @@
 		@views.html.setup.header(true)
 		<div class="content">
             @views.html.setup.steps(1)
-            <div class="content__main">
+            <div class="content__main box">
                 <div name="setupSignup" id="leftContainer" class="left">
                     <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
                     <form action="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.handleStartSignUp"
@@ -122,7 +123,7 @@
                 </div>
             </div>
 		</div>
-		@views.html.setup.footer()
+		@views.html.footer(isSetup = true)
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/formController.js")"></script>
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/passwordController.js")"></script>
         <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/main.js")"></script>

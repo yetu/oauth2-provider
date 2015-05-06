@@ -4,6 +4,7 @@
 <html>
     <head>
         <title>Confirm email error</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_confirmedmail_error.css")">
         <link rel="shortcut icon" type="image/png" href="">
@@ -20,6 +21,6 @@
             </a>
         </div>
         <div class="clear"></div>
-        @views.html.setup.footer()
+        @views.html.footer(true)
     </body>
 </html>

@@ -1,0 +1,96 @@
+h1{
+    font-size: 25px;
+}
+
+.content {
+    height: auto;
+    font-size: 15px;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+}
+.box{
+    width: 280px;
+    height: 385px;
+    padding: 30px 40px;
+    margin: 40px auto;
+    position: relative;
+    box-shadow: 1px 1px 5px #666;
+}
+
+.help-icon, .help-block{
+    display:none;
+}
+
+.help-inline{
+    display: block;
+    color: #FF0000;
+    margin-top: 5px;
+    text-align: right;
+}
+
+/*classes defined by input field template*/
+/*label for input field*/
+.control-label{
+    display:none;
+}
+/*container around input field and help-inline/help-block*/
+.controls{
+    width: 280px;
+}
+
+.normal__input{
+    width: 258px;
+    height: 15px;
+    padding: 15px 10px 15px 10px;
+    box-sizing: content-box;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    font-size: 15px;
+}
+
+.control-group{
+    margin-bottom: 10px;
+}
+
+.alert-error, .alert-info{
+    margin-top: 30px;
+}
+
+.alert-error{
+    color: #FF0000;
+}
+
+.normal__button{
+    padding: 10px 0;
+    width: 100%;
+    margin-top: 20px;
+}
+
+form{
+    position: absolute;
+    top: 145px;
+}
+
+fieldset{
+    padding: 0;
+    margin: 0;
+}
+
+footer{
+    font-size: 11px;
+    height: 20px;
+    line-height: 20px;
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    background: #EDEDEd;
+}
+
+footer .dot{
+    padding: 0 1px;
+}
+
+.logo{
+    width: 50px;
+    height: 50px;
+    top: 30px;
+    right: 40px;
+}

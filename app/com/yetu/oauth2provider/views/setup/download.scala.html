@@ -6,6 +6,7 @@
 
     <head>
         <title>Download</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_download.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
@@ -83,7 +84,7 @@
             </div>
             <div class="clear"></div>
         </div>
-        @views.html.setup.footer()
+        @views.html.footer(true)
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/determine-os.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/downloadHandler.js")"></script>
     </body>

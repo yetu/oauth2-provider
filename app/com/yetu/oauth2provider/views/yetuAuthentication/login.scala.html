@@ -3,12 +3,15 @@
 @import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
 @import com.yetu.oauth2provider.controllers.authentication.SignatureAuthenticationProvider.SignatureAuthentication
 
+
 @main(Messages("securesocial.login.title")) {
+
+    <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/normal_login.css")">
     <div class="page-header">
       @if(registering){
         <h1 name="confirmmail">@Messages("securesocial.signup.title")</h1>
       } else { @if(passwordReset){
-      <h1>@Messages("securesocial.password.title")</h1>
+        <h1>@Messages("securesocial.password.title")</h1>
       } else{
         <h1 name="login">@Messages("securesocial.login.title")</h1>
       }}
@@ -17,7 +20,7 @@
 
 @defining( env.providers.values.filter( provider => provider.id != UsernamePassword && provider.id != SignatureAuthentication) ) { externalProviders =>
         @if( externalProviders.size > 0 && !(registering||passwordReset)) {
-            <div class="clearfix">
+            <div class="clear">
                 <p>@Messages("securesocial.login.instructions")</p>
                 <p>
                     @for(p <- externalProviders) {
@@ -28,15 +31,7 @@
         }
 
         @env.providers.get(UsernamePassword).map { up =>
-            <div class="clearfix">
-                @if(!(registering||passwordReset)){
-                    @if( externalProviders.size > 0) {
-                    <p class="login-instruction">@Messages("securesocial.login.useEmailAndPassword")</p>
-                    } else{
-                    <p class="login-instruction">@Messages("securesocial.login.useEmailAndPasswordOnly")</p>
-                    }
-                }
-
+            <div class="clear">
                 @errorMsg.map { msg =>
                 <div class="alert alert-error">
                   @Messages(msg)
