@@ -18,6 +18,8 @@ var FormValidator = function(root) {
         // Do not show placeholder if input has an error as error text will cover it
         input.placeholderCopy = input.placeholder;
         input.placeholder = '';
+        input.valueCopy = input.value;
+        input.value = '';
         inputError.addEventListener('click', this.onInputErrorClick.bind(this, input));
       }
       // Initialize input's help icon
@@ -42,15 +44,16 @@ var FormValidator = function(root) {
       }
     };
     var input = document.getElementById(inputId);
-    input.addEventListener('change', onChange.bind(input));
+    input.addEventListener('change', onChange.bind(this, input));
     onChange(input);
   };
 
   this.onInputFocus = function(input, inputError, inputHintText) {
     if (inputError) {
       inputError.classList.add('display-none');
-      // Restore placeholder text that was removed to show the error text instead
+      // Restore placeholder and value that was removed to show the error text instead
       input.placeholder = input.placeholderCopy;
+      input.value = input.valueCopy;
     }
     if (inputHintText) {
       inputHintText.classList.remove('display-none');
