@@ -96,8 +96,8 @@ window.DeterminedOS = {};
       break;
   }
   if (downloadAvailable) {
-    document.getElementById('left__download_available').setAttribute('class', 'left__content show');
-    document.getElementById('right__download_available').setAttribute('class', 'right__gateway-container show');
+    document.getElementById('left__download_available').classList.add('show');
+    document.getElementById('right__download_available').classList.add('show');
   }
   else {
     var yourOS = os + ' ' + osVersion.replace(/_/g, '.');
@@ -110,9 +110,9 @@ window.DeterminedOS = {};
     else {
       document.getElementById('requiredos1').innerHTML = requiredOS;
     }
-    document.getElementById('left__download_not_available').setAttribute('class', 'left__content show');
-    document.getElementById('right__download_not_available').setAttribute('class', 'right__gateway-container show');
-    document.getElementById('content').setAttribute('class', 'content content__download_not_available');
+    document.getElementById('left__download_not_available').classList.add('show');
+    document.getElementById('right__download_not_available').classList.add('show');
+    document.getElementById('content').classList.add('content__download_not_available');
   }
 
 })(window.DeterminedOS);

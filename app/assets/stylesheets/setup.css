@@ -36,17 +36,22 @@ header{
 
 .left{
 	float: left;
-	width: 420px;
+	width: 485px;
+}
+
+.divider {
+    display: inline-block;
+    width: 1px;
+    background-color: #B4B4B4;
+    height: 66%;
+    float: left;
+    margin-top: 70px;
 }
 
 .right{
     float: left;
 	margin-left: 20px;
-    width: 400px;
-}
-
-.left, .right {
-
+    width: 468px;
 }
 
 .full{
@@ -58,16 +63,6 @@ header{
 
 .full__headline{
     margin: 50px 50px 0px 50px;
-}
-
-.show{
-    display:block;
-}
-.hide{
-    display:none;
-}
-#or.visible{
-    visibility:visible;
 }
 
 input[type="text"].valid,

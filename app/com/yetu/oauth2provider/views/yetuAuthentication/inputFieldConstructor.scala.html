@@ -1,6 +1,6 @@
 @(elements: views.html.helper.FieldElements)
 
-<div class="control-group @elements.args.get('_class) @if(elements.hasErrors) {error}" id="@elements.args.get('_id).getOrElse(elements.id + "_field")">
+<div class="control-group clear @elements.args.get('_class) @if(elements.hasErrors) {error}" id="@elements.args.get('_id).getOrElse(elements.id + "_field")">
     <label class="control-label" for="@elements.id">
         @if(elements.id=="agreement" ){
             <span>@Messages("setup.signup.terms1")</span>
@@ -14,11 +14,13 @@
             @elements.label(elements.lang)
         }
     </label>
-    <div class="controls">
+    <div class="inputWrapper">
         @elements.input
         @if( elements.hasErrors ) {
             <span id="@{elements.id}ErrorText" class="help-inline">@elements.errors(elements.lang).take(1)</span>
         }
+    </div>
+    <span class="help-icon" id="@{elements.id}HelpIcon">?
         <span class="help-block display-none" id="@{elements.id}HelpText">
             @if( elements.id=="password1ID") {
                 <div>
@@ -28,6 +30,5 @@
             }
             @elements.infos(elements.lang).mkString(", ")
         </span>
-        <span class="help-icon" id="@{elements.id}HelpIcon">?</span>
-    </div>
+    </span>
 </div>

@@ -28,9 +28,9 @@
 }
 .content__main{
     margin: 20px auto;
-    width: 895px;
+    width: 975px;
     height: 445px;
-    padding: 40px 50px 0 50px;
+    padding: 40px 10px 0 10px;
 }
 
 form {
@@ -47,21 +47,36 @@ form .submit {
     margin-left: -75px;
 }
 
-.radioWrapper {
+.control-group {
     display: block;
+    margin-bottom: 10px;
+}
+
+.radioWrapper {
+    display: inline-block;
     margin-bottom: 20px;
+    cursor: pointer;
 }
 
 .radioWrapper input {
     float: left;
+    opacity: 0;
+}
+
+.right .radioWrapper {
+    margin-left: 90px;
+}
+
+.radioWrapper input[type='radio']:checked + span {
+    background: url("../images/button_selected.svg") 0 center /24px no-repeat;
+}
+.radioWrapper input[type='radio'] + span {
+    background: url("../images/button_not_selected.svg") 0 center /24px no-repeat;
 }
 
 .radioWrapper span {
     font-size: 25px;
-}
-
-.left {
-    border-right: solid 1px #B4B4B4;
+    padding-left: 34px;
 }
 
 .left__link{
@@ -70,9 +85,15 @@ form .submit {
 
 .left__input{
     display: block;
-    width: 241px;
+    width: 262px;
     height: 15px;
     padding: 5px 7.5px;
+}
+.inputWrapper {
+    float: left;
+    position: relative;
+    display: inline-block;
+    margin-right: 24px;
 }
 
 input::-webkit-input-placeholder,
@@ -105,10 +126,9 @@ input:-ms-input-placeholder {
 
 #agreementErrorText{
     font-size: 11px;
-}
-
-#agreement{
-    margin-top: -89px;
+    left: 166px;
+    top: 75px;
+    width: 220px;
 }
 
 /*classes defined by input field template*/
@@ -119,72 +139,32 @@ input:-ms-input-placeholder {
     line-height: 29px;
     vertical-align: middle;
     font-size: 18px;
-    width: 180px;
-    margin-left: -100px;
+    width: 134px;
     text-align: right;
-    padding: 0 10px;
-}
-/*container around input field and help-inline/help-block*/
-.controls{
-    width: 258px;
-    margin-left: 100px;
-    margin-bottom: 10px;
-    position: relative;
+    padding: 0 10px 0 0;
 }
 
 /*checkbox agreement*/
-#agreementCheckBoxID label, #getinfoID_field label{
+#agreementCheckBoxID label{
     font-size: 13px;
-    width: 234px;
     display: block;
     line-height: 18px;
     text-align: left;
-    margin-left: 110px;
+    margin-right: 44px;
+    float: right;
+    width: 266px;
 }
 
-#getinfoID_field label:nth-child(1){
-    display:none;
+#agreementCheckBoxID .inputWrapper {
+    margin: 0;
 }
-#agreementCheckBoxID input, #getinfo_field input{
+
+#agreementCheckBoxID input{
     float:left;
     display:block;
-    clear:both;
+    margin-left: 144px;
 }
-#UserRegistrationStatus_field .controls{
-    position: absolute;
-    top: 220px;
-    margin-left: -25px;
-    width: 875px;
-    font-size: 25px;
-}
-#UserRegistrationStatus_field label:nth-child(1){
-    display: none;
-}
-#UserRegistrationStatus_field label{
-    line-height: 34px;
-    vertical-align: middle;
-    margin-left: 10px;
-}
-#UserRegistrationStatus_field input {
-    position: absolute;
-    top: 7px;
-    left: 0;
-    z-index: -1;
-}
-#UserRegistrationStatus_field .radio{
-    background: url("../images/button_not_selected.svg") no-repeat;
-    width: 19px;
-    height: 22px;
-    display: inline-block;
-    line-height: 25px;
-    vertical-align: middle;
-}
-#UserRegistrationStatus_field .radio:hover{
-    cursor: pointer;
-}
-#UserRegistrationStatus_field .radio__checked{
-    background: url("../images/button_selected.svg") no-repeat;
-}
+
 .radio__registered{
     margin-left: 359px;
 }
@@ -193,28 +173,24 @@ input:-ms-input-placeholder {
     display:none;
 }
 
-/*only until we are sure about law stuff with it*/
-#getinfoID_field{
-    display:none;
-}
 /*info*/
 .help-block{
-    margin-top: -26.5px;
     background: white;
     padding: 5px 5px;
-    font-size: 13px;
+    font-size: 10px;
     font-style: italic;
     width: 210px;
     box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
-    margin-right: -265px;
     z-index: 10;
+    text-align: left;
     position: absolute;
-    right: 0;
+    top: 0;
+    left: 20px;
 }
 /*erros*/
 .help-inline{
     position: absolute;
-    top: 8px;
+    top: 6px;
     left: 8px;
     color: #FF0000;
     font-size: 12px;
@@ -228,18 +204,16 @@ input:-ms-input-placeholder {
 }
 
 .help-icon{
-    height: 6px;
-    width: 5px;
-    position: absolute;
-    top: 0;
-    right: -38px;
+    height: 14px;
+    width: 12px;
     border: solid 1px #B4B4B4;
-    padding: 4px;
     font-size: 13px;
-    line-height: 7px;
     vertical-align: middle;
     background: #ffffff;
     cursor: default;
+    float: left;
+    position: relative;
+    text-align: center;
 }
 
 
