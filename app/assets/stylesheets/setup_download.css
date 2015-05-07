@@ -1,6 +1,8 @@
 /*LEFT CONTENT*/
 .left{
     margin-top: 15px;
+    padding: 0 30px;
+    width: 440px;
 }
 .left__content-download{
     display: none;
@@ -181,4 +183,13 @@
 
 #or{
     visibility: hidden;
+}
+#or.visible{
+    visibility:visible;
+}
+.hide{
+    display:none;
+}
+.show {
+    display: block;
 }

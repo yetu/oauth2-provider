@@ -86,13 +86,6 @@
                     )
 
                     @helper.checkbox(
-                        startForm("getinfo"),
-                        '_label -> "getinfo",
-                        'id -> "getinfoID",
-                        '_error -> startForm.error("getinfo")
-                    )
-
-                    @helper.checkbox(
                         startForm("agreement"),
                         '_label -> "agreementLabel",
                         '_id -> "agreementCheckBoxID",
@@ -107,6 +100,8 @@
                     }
                 </div>
 
+                <div class="divider">&nbsp;</div>
+
                 <div class="right">
                     <label for="alreadyRegistered" class="radioWrapper class">
                         <input type="radio" id="alreadyRegistered" name="UserRegistrationStatus" value="UserAlreadyRegistered">
@@ -116,7 +111,7 @@
                     <p class="right__text">@Html(Messages("setup.signup.clicknext"))</p>
                 </div>
 
-                <button class="button submit" type="submit" form="signup_form">
+                <button class="button submit" type="submit">
                     @Html(Messages("setup.next"))
                 </button>
             </form>
