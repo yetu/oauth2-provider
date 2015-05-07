@@ -36,17 +36,17 @@ header{
 
 .left{
 	float: left;
-	width: 440px;
-    margin-left: 20px;
-}
-
-.left__content {
-    display: none;
+	width: 420px;
 }
 
 .right{
-	margin-left: 515px;
+    float: left;
+	margin-left: 20px;
     width: 400px;
+}
+
+.left, .right {
+
 }
 
 .full{

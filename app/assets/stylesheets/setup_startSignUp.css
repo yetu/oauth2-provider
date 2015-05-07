@@ -33,36 +33,41 @@
     padding: 40px 50px 0 50px;
 }
 
-/*CONTAINER*/
-.left, .right{
-    width: 432.5px;
-    padding: 0;
-    margin: 0;
-    margin-top: 30px;
-}
-.right{
-    width: 247.5px;
-    padding-left: 110px;
-    margin-left: 440.5px;
-    margin-top: 60px;
+form {
+    height: 415px;
+    position: relative;
 }
 
-/** RIGHT CONTAINER ELEMENTS **/
-.right__text{
-    width: 185px;
-    margin-left: 25px;
-    font-size: 18px;
+form .submit {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
 }
 
-/**LEFT CONTAINER ELEMENTS*/
+.radioWrapper {
+    display: block;
+    margin-bottom: 20px;
+}
 
-.left__form{
+.radioWrapper input {
+    float: left;
+}
+
+.radioWrapper span {
+    font-size: 25px;
+}
+
+.left {
     border-right: solid 1px #B4B4B4;
-    height: 280px;
 }
+
 .left__link{
     color: #009900;
 }
+
 .left__input{
     display: block;
     width: 241px;
@@ -80,14 +85,22 @@ input:-ms-input-placeholder {
 .left__input:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
+
+.right p {
+    width: 185px;
+    margin: 0 auto 20px auto;
+    font-size: 18px;
+}
+
 #password2ID:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
 .left__fieldsmandatory{
-    font-size: 11px;
+    display: block;
+    font-size: 10px;
     text-align: right;
     margin-right: 63px;
-    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 #agreementErrorText{

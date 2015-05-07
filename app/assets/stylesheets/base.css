@@ -58,8 +58,10 @@ a:hover, a:visited {
     color: #009900;
 }
 
-.clear {
-    clear:both;
+.clear:after {
+    content: "";
+    display: table;
+    clear: both;
 }
 
 .content{
