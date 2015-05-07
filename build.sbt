@@ -29,7 +29,7 @@ libraryDependencies ++= Seq(
   "org.scalacheck" %% "scalacheck" % "1.12.1" % "test",
 
   "com.yetu" %% "securesocial" % "3.0.9",
-
+  "com.yetu" %% "yetu-notification-client-scala" % "1.4",
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
 
   "net.adamcin.httpsig" % "httpsig-api" % "1.0.6",
