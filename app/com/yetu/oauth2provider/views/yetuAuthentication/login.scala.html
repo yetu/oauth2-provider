@@ -31,37 +31,34 @@
         }
 
         @env.providers.get(UsernamePassword).map { up =>
-            <div class="clear">
-                @errorMsg.map { msg =>
-                <div class="alert alert-error">
-                  @Messages(msg)
-                </div>
-                }
+            @errorMsg.map { msg =>
+            <div class="alert alert-error">
+              @Messages(msg)
+            </div>
+            }
 
-                @request.flash.get("success").map { msg =>
-                  @if(msg == Messages("securesocial.password.passwordUpdated")){
-                    <div class="alert alert-info second-line">
-                      @msg
-                    </div>
-                  } else{
-                    <div class="alert alert-info">
-                      @msg
-                    </div>
-                  }
-
-                }
-
-                @request.flash.get("error").map { msg =>
-                <div class="alert alert-error">
+            @request.flash.get("success").map { msg =>
+              @if(msg == Messages("securesocial.password.passwordUpdated")){
+                <div class="alert alert-info second-line">
                   @msg
                 </div>
-                }
+              } else{
+                <div class="alert alert-info">
+                  @msg
+                </div>
+              }
 
-                @if(!(registering||passwordReset)){
-                  @com.yetu.oauth2provider.views.html.yetuAuthentication.provider("userpass", Some(loginForm))
-                }
+            }
 
+            @request.flash.get("error").map { msg =>
+            <div class="alert alert-error">
+              @msg
             </div>
+            }
+
+            @if(!(registering||passwordReset)){
+              @com.yetu.oauth2provider.views.html.yetuAuthentication.provider("userpass", Some(loginForm))
+            }
         }
     }
 }

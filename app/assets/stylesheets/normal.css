@@ -9,7 +9,7 @@ h1{
 }
 .box{
     width: 280px;
-    height: 385px;
+    height: 420px;
     padding: 30px 40px;
     margin: 40px auto;
     position: relative;
@@ -64,11 +64,6 @@ h1{
     margin-top: 20px;
 }
 
-form{
-    position: absolute;
-    top: 145px;
-}
-
 fieldset{
     padding: 0;
     margin: 0;
@@ -97,4 +92,8 @@ footer .dot{
 
 .controls {
     position: relative;
+}
+
+.page-header {
+    margin-bottom: 50px;
 }
