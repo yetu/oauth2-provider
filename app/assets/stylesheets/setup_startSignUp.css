@@ -281,9 +281,3 @@ input[type="text"],
 input[type="password"] {
 
 }
-
-input[type="text"].valid,
-input[type="password"].valid {
-    background: url('../images/verified-01.svg') no-repeat 200% 50%;
-    background-size: 70% 70%;
-}

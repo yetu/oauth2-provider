@@ -1,5 +1,13 @@
+/**
+ * A simple, reusable form validator that
+ *   - shows/hides input hints on hint icon hover/input focusing
+ *   - hides inline error messages when clicked
+ *   - can validate input fields
+ *
+ * @param root DOM element where validator starts looking for input fields; defaults to document
+ */
 var FormValidator = function(root) {
-  this.init = function(root) {
+  this.init = function() {
     root = root || document;
     var inputs = root.querySelectorAll('input');
     for (var i=0; i < inputs.length; i++) {
@@ -23,6 +31,19 @@ var FormValidator = function(root) {
       input.addEventListener('focus', this.onInputFocus.bind(this, input, inputError, inputHintText));
       input.addEventListener('blur', this.onInputBlur.bind(this, inputHintText));
     }
+  };
+
+  this.addInputValidation = function(inputId, validator) {
+    var onChange = function (input) {
+      if (validator.isValid(input.value)) {
+        input.classList.add('valid');
+      } else {
+        input.classList.remove('valid');
+      }
+    };
+    var input = document.getElementById(inputId);
+    input.addEventListener('change', onChange.bind(input));
+    onChange(input);
   };
 
   this.onInputFocus = function(input, inputError, inputHintText) {
@@ -58,4 +79,33 @@ var FormValidator = function(root) {
   };
 
   this.init();
+};
+
+var NameValidator = function() {
+  this.isValid = function(name) {
+    return name.trim().length > 0;
+  }
+};
+
+var EmailValidator = function() {
+  this.isValid = function(email) {
+    // http://stackoverflow.com/a/46181/543875
+    var re = /^([\w-]+(?:\.[\w-]+)*)@((?:[\w-]+\.)*\w[\w-]{0,66})\.([a-z]{2,6}(?:\.[a-z]{2})?)$/i;
+    return re.test(email);
+  }
+};
+
+var PasswordValidator = function() {
+  this.isValid = function(password) {
+    // Password must contain at least one lower case, one upper case, one number and have at least 8 characters
+    var re = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/i;
+    return re.test(password);
+  }
+};
+
+var PasswordMatchValidator = function(password1Id) {
+  this.isValid = function(password2) {
+    var password1 = document.getElementById(password1Id).value;
+    return new PasswordValidator().isValid(password1) && (password1 === password2);
+  }
 };

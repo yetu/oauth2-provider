@@ -127,11 +127,11 @@
     <script src="@controllers.routes.Assets.versioned("javascripts/form-validator.js")"></script>
     <script>
         var formValidator = new FormValidator();
+        formValidator.addInputValidation('firstNameID', new NameValidator());
+        formValidator.addInputValidation('lastNameID', new NameValidator());
+        formValidator.addInputValidation('email', new EmailValidator());
+        formValidator.addInputValidation('password1ID', new PasswordValidator());
+        formValidator.addInputValidation('password2ID', new PasswordMatchValidator('password1ID'));
     </script>
-      <!--
-        <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/formController.js")"></script>
-        <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/passwordController.js")"></script>
-        <script src="@controllers.routes.Assets.versioned("javascripts/signUpForm/main.js")"></script>
-      -->
 	</body>
 </html>
