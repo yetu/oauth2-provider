@@ -37,14 +37,14 @@ securesocial.signup.password2=Repeat Password
 securesocial.signup.createAccount=Create Account
 securesocial.signup.cancel=Cancel
 securesocial.signup.userNameAlreadyTaken=Username already taken.
-securesocial.signup.passwordsDoNotMatch=The passwords do not match.
+securesocial.signup.passwordsDoNotMatch=The passwords do not match
 securesocial.signup.passwordStrength=Password strength
 securesocial.signup.thankYouCheckEmail=Thank you. Please check your emails for further instructions.
 securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
 securesocial.signup.fieldRequired=This field is required
-securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit and one uppercase letter.
-securesocial.signup.invalidPasswordError=Not a valid password. See information for details.
+securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit and one uppercase letter
+securesocial.signup.invalidPasswordError=Not a valid password
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
 
