@@ -14,14 +14,14 @@
 	</head>
 	<body>
 		@views.html.setup.header(false)
-		<div name="confirmmailSetup" class="content">
+		<div class="content">
             @views.html.setup.steps(2)
             <div class="content__main">
                 <div class="left">
                     <img class="left__img" src="@controllers.routes.Assets.versioned("images/check-inbox-01.png")" alt="E-Mail content"/>
                 </div>
                 <div class="right">
-                    <h2 class="right__heading" name="setupConfirmmail">@Messages("setup.confirmmail.headline")</h2>
+                    <h2 class="right__heading">@Messages("setup.confirmmail.headline")</h2>
                     <p>@Messages("setup.confirmmail.description")</p>
                 </div>
             </div>
