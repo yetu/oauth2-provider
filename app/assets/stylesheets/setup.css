@@ -67,6 +67,11 @@ header{
 
 input[type="text"].valid,
 input[type="password"].valid {
-    background: url('../images/verified-01.svg') no-repeat 200% 50%;
+    background: #E5E5E5 url('../images/verified-01.svg') no-repeat 200% 50%;
     background-size: 70% 70%;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+    background: #fff;
 }

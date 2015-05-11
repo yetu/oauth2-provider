@@ -1,11 +1,9 @@
 package com.yetu.oauth2provider.controllers.authentication
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import play.api.Play._
 import play.api.mvc._
 import securesocial.controllers._
 import securesocial.core._
-import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.services.RoutesService
 
 class LoginApi(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginApi[YetuUser]

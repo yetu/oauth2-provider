@@ -184,7 +184,7 @@ input:-ms-input-placeholder {
     z-index: 10;
     text-align: left;
     position: absolute;
-    top: 0;
+    top: -1px;
     left: 20px;
 }
 /*erros*/

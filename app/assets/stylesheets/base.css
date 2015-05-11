@@ -124,7 +124,7 @@ input::-webkit-input-placeholder,
 input:-moz-placeholder,
 input::-moz-placeholder,
 input:-ms-input-placeholder {
-    color: #B4B4B4
+    color: #B4B4B4;
 }
 
 footer{

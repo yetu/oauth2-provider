@@ -20,7 +20,7 @@ var FormValidator = function(root) {
         input.placeholder = '';
         input.valueCopy = input.value;
         input.value = '';
-        inputError.addEventListener('click', this.onInputErrorClick.bind(this, input));
+        inputError.addEventListener('click', this.onInputErrorClick.bind(this, input, inputError));
       }
       // Initialize input's help icon
       var inputHintIcon = root.getElementById(input.id + 'HelpIcon');
@@ -30,7 +30,7 @@ var FormValidator = function(root) {
         inputHintIcon.addEventListener('mouseout', this.onInputHintMouseOut.bind(this, input, inputHintText));
       }
       // Initialize input
-      input.addEventListener('focus', this.onInputFocus.bind(this, input, inputError, inputHintText));
+      input.addEventListener('focus', this.onInputFocus.bind(this, input, inputHintText));
       input.addEventListener('blur', this.onInputBlur.bind(this, inputHintText));
     }
   };
@@ -48,9 +48,10 @@ var FormValidator = function(root) {
     onChange(input);
   };
 
-  this.onInputFocus = function(input, inputError, inputHintText) {
+  this.onInputFocus = function(input, inputHintText) {
+    var inputError = root.getElementById(input.id + 'ErrorText');
     if (inputError) {
-      inputError.classList.add('display-none');
+      inputError.remove();
       // Restore placeholder and value that was removed to show the error text instead
       input.placeholder = input.placeholderCopy;
       input.value = input.valueCopy;
@@ -66,7 +67,7 @@ var FormValidator = function(root) {
     }
   };
 
-  this.onInputErrorClick = function(input) {
+  this.onInputErrorClick = function(input, inputError) {
     input.focus();
   };
 
