@@ -50,6 +50,10 @@ h1{
     margin-bottom: 10px;
 }
 
+.inputWrapper {
+    position: relative;
+}
+
 .alert-error, .alert-info{
     margin-top: 30px;
 }
