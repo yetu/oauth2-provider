@@ -10,6 +10,7 @@
 <html>
 	<head>
         <title>Registration</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_startSignUp.css")">
@@ -18,110 +19,115 @@
         @views.html.googleanalytics()
 	</head>
 	<body>
-		@views.html.setup.header(true)
+		@views.html.setup.header(isStartSignUp = true)
 		<div class="content">
-            @views.html.setup.steps(1)
-            <div class="content__main">
-                <div name="setupSignup" id="leftContainer" class="left">
-                    <div class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</div>
-                    <form action="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.handleStartSignUp"
-                    class="left__form" id="signup_form"
-                    autocomplete="off" method="post">
-                        <fieldset class="left__fieldset">
-                            @CSRF.formField
-                            @helper.inputRadioGroup(
-                                filledNewUserForm(UserRegistrationStatus),
-                                options = Seq(
-                                    UserNotRegistered -> Messages("setup.signup.register"),
-                                    UserAlreadyRegistered -> Messages("setup.signup.already")
-                                )
-                            )
-                            @helper.inputText(
-                                startForm("firstName"),
-                                '_label -> Messages("securesocial.signup.firstName"),
-                                'class -> "left__input",
-                                'id -> "firstNameID",
-                                '_help -> Messages("setup.signup.help.firstName"),
-                                'placeholder -> Messages("setup.signup.firstNamePlaceholder"),
-                                '_error -> startForm.error("firstName")
-                            )
+        @views.html.setup.steps(1)
+        <div class="content__main box">
+            <form action="@com.yetu.oauth2provider.controllers.setup.routes.SetupController.handleStartSignUp" class="clear" autocomplete="off" method="post">
+                <div class="left">
+                    @CSRF.formField
 
-                            @helper.inputText(
-                                startForm("lastName"),
-                                '_label -> Messages("securesocial.signup.lastName"),
-                                'class -> "left__input",
-                                'id -> "lastNameID",
-                                '_help -> Messages("setup.signup.help.lastName"),
-                                'placeholder -> Messages("setup.signup.lastNamePlaceholder"),
-                                '_error -> startForm.error("lastName")
-                            )
+                    <label for="notYetRegistered" class="radioWrapper clear">
+                        <input type="radio" id="notYetRegistered" name="UserRegistrationStatus" value="UserNotRegistered" checked="checked">
+                        <span>Register at yetu</span>
+                    </label>
 
-                            @helper.inputText(
-                                startForm("email"),
-                                '_label -> Messages("securesocial.signup.email1"),
-                                'class -> "left__input",
-                                '_id -> "emailID",
-                                '_help -> Messages("setup.signup.email"),
-                                'placeholder -> Messages("setup.signup.email"),
-                                '_error -> startForm.error("email")
+                    <span class="left__fieldsmandatory">@Messages("setup.signup.allfieldsmandatory")</span>
 
-                            )
+                    @helper.inputText(
+                        startForm("firstName"),
+                        '_label -> Messages("securesocial.signup.firstName"),
+                        'class -> "left__input",
+                        'id -> "firstNameID",
+                        '_help -> Messages("setup.signup.help.firstName"),
+                        'placeholder -> Messages("setup.signup.firstNamePlaceholder"),
+                        '_error -> startForm.error("firstName")
+                    )
 
-                            @helper.inputPassword(
-                                startForm("password.password1"),
-                                '_label -> Messages("securesocial.signup.password1"),
-                                'class -> "left__input",
-                                'id -> "password1ID",
-                                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
-                                'placeholder -> Messages("setup.signup.password1Placeholder"),
-                                '_error -> startForm.error("password")
-                            )
+                    @helper.inputText(
+                        startForm("lastName"),
+                        '_label -> Messages("securesocial.signup.lastName"),
+                        'class -> "left__input",
+                        'id -> "lastNameID",
+                        '_help -> Messages("setup.signup.help.lastName"),
+                        'placeholder -> Messages("setup.signup.lastNamePlaceholder"),
+                        '_error -> startForm.error("lastName")
+                    )
 
-                            @helper.inputPassword(
-                                startForm("password.password2"),
-                                '_label -> Messages("securesocial.signup.password2"),
-                                'id -> "password2ID",
-                                '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
-                                'placeholder -> Messages("setup.signup.password2Placeholder"),
-                                '_error -> startForm.error("password")
-                            )
+                    @helper.inputText(
+                        startForm("email"),
+                        '_label -> Messages("securesocial.signup.email1"),
+                        'class -> "left__input",
+                        '_id -> "emailID",
+                        '_help -> Messages("setup.signup.email"),
+                        'placeholder -> Messages("setup.signup.email"),
+                        '_error -> startForm.error("email")
 
-                            @helper.checkbox(
-                                startForm("getinfo"),
-                                '_label -> "getinfo",
-                                'id -> "getinfoID",
-                                '_error -> startForm.error("getinfo")
-                            )
+                    )
 
-                            @helper.checkbox(
-                                startForm("agreement"),
-                                '_label -> "agreementLabel",
-                                '_id -> "agreementCheckBoxID",
-                                '_error -> startForm.error("agreement")
-                            )
+                    @helper.inputPassword(
+                        startForm("password.password1"),
+                        '_label -> Messages("securesocial.signup.password1"),
+                        'class -> "left__input",
+                        'id -> "password1ID",
+                        '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
+                        'placeholder -> Messages("setup.signup.password1Placeholder"),
+                        '_error -> startForm.error("password")
+                    )
+
+                    @helper.inputPassword(
+                        startForm("password.password2"),
+                        '_label -> Messages("securesocial.signup.password2"),
+                        'class -> "left__input",
+                        'id -> "password2ID",
+                        '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
+                        'placeholder -> Messages("setup.signup.password2Placeholder"),
+                        '_error -> startForm.error("password")
+                    )
+
+                    @helper.checkbox(
+                        startForm("agreement"),
+                        '_label -> "agreementLabel",
+                        '_id -> "agreementCheckBoxID",
+                        '_error -> startForm.error("agreement")
+                    )
 
 
-                            @request.flash.get("error").map { msg =>
-                                <div class="alert alert-error">
-                                    @Messages(msg)
-                                </div>
-                            }
-                        </fieldset>
-                </form>
+                    @request.flash.get("error").map { msg =>
+                        <div class="alert alert-error">
+                            @Messages(msg)
+                        </div>
+                    }
                 </div>
-                <div id="rightContainer" class="right">
+
+                <div class="divider">&nbsp;</div>
+
+                <div class="right">
+                    <label for="alreadyRegistered" class="radioWrapper class">
+                        <input type="radio" id="alreadyRegistered" name="UserRegistrationStatus" value="UserAlreadyRegistered">
+                        <span>Already registered?</span>
+                    </label>
                     <p class="right__text">@Messages("setup.signup.ifalreadyregistered")</p>
                     <p class="right__text">@Html(Messages("setup.signup.clicknext"))</p>
                 </div>
-                <div class="clear"></div>
-                <div class="buttoncontainer">
-                    <button id="submitButton" type="submit" form="signup_form" class="button buttoncontainer__next-button">
-                            @Html(Messages("setup.next"))
-                    </button>
-                </div>
-            </div>
+
+                <button class="button submit" type="submit">
+                    @Html(Messages("setup.next"))
+                </button>
+            </form>
+        </div>
 		</div>
-		@views.html.setup.footer()
-        <script src="@controllers.routes.Assets.versioned("javascripts/formMessageController.js")"></script>
+		@views.html.footer(isSetup = true)
+    <script src="@controllers.routes.Assets.versioned("javascripts/form-validator.js")"></script>
+    <script src="@controllers.routes.Assets.versioned("javascripts/password-strength.js")"></script>
+    <script>
+        var formValidator = new FormValidator();
+        formValidator.addInputValidation('firstNameID', new NameValidator());
+        formValidator.addInputValidation('lastNameID', new NameValidator());
+        formValidator.addInputValidation('email', new EmailValidator());
+        formValidator.addInputValidation('password1ID', new PasswordValidator());
+        formValidator.addInputValidation('password2ID', new PasswordMatchValidator('password1ID'));
+        new PasswordStrengthCalculator('password1ID', 'passwordStrength');
+    </script>
 	</body>
 </html>

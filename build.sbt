@@ -24,9 +24,9 @@ lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
 pipelineStages := Seq(digest, gzip)
 
 libraryDependencies ++= Seq(
-  "org.scalatest" %% "scalatest" % "2.2.1" % "test",
+  "org.scalatest" %% "scalatest" % "2.2.4" % "test",
   "org.scalatestplus" %% "play" % "1.2.0" % "test",
-  "org.scalacheck" %% "scalacheck" % "1.12.1" % "test",
+  "org.scalacheck" %% "scalacheck" % "1.12.2" % "test",
 
   "com.yetu" %% "securesocial" % "3.0.10",
 

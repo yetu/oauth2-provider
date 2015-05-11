@@ -1,0 +1,18 @@
+@(isSetup:Boolean)
+<footer>
+	<span>@Html(Messages("footer.copyright"))</span>
+    @if(!isSetup) {
+        <span class="dot">&middot;</span>
+        <span>@Messages("footer.version")</span>
+    }
+    <span class="dot">&middot;</span>
+    <a target="_blank" href="">@Messages("footer.privacy")</a>
+    <span class="dot">&middot;</span>
+    <a target="_blank" href="">@Html(Messages("footer.terms"))</a>
+    <span class="dot">&middot;</span>
+	<a target="_blank" href="http://yetu.com/imprint/">@Messages("footer.imprint")</a>
+    @if(isSetup) {
+        <span class="dot">&middot;</span>
+        <a target="_blank" href="">@Html(Messages("footer.cookies"))</a>
+    }
+</footer>

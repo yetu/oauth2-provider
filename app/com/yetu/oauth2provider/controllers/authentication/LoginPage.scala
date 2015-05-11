@@ -17,7 +17,6 @@ class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit ov
 
 import play.api.mvc._
 
-
 case class DeleteRelevantAccessTokens[A](authAccessTokenService: IAuthCodeAccessTokenService)(action: Action[A]) extends Action[A] {
   //TODO: implement this! Perhaps (? if possible since user is needed ?) use action composition as described
   // here: https://www.playframework.com/documentation/2.3.x/ScalaActionsComposition

@@ -29,6 +29,8 @@ class BrowserRegistrationSpec extends BrowserBaseSpec {
 
       sendRegistration
 
+      eventually { currentUrl must be(s"http://localhost:$port/login") }
+
       val confirmMailHeader = find(name("confirmmail"))
       confirmMailHeader must be('defined)
     }

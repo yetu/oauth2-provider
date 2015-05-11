@@ -1,6 +1,8 @@
 /*LEFT CONTENT*/
 .left{
     margin-top: 15px;
+    padding: 0 30px;
+    width: 440px;
 }
 .left__content-download{
     display: none;
@@ -145,8 +147,6 @@
     padding: 0 5px;
 }
 .full__steps-headline {
-    font-size: 25px;
-    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
     margin: 15px 0 0 0;
 }
 .full__steps-headline {
@@ -183,4 +183,13 @@
 
 #or{
     visibility: hidden;
+}
+#or.visible{
+    visibility:visible;
+}
+.hide{
+    display:none;
+}
+.show {
+    display: block;
 }

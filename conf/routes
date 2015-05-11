@@ -79,7 +79,7 @@ POST           /api/authenticate/:provider          @com.yetu.oauth2provider.con
 # New registration page
 GET            /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.startSignUp
 POST           /setup/registration                  @com.yetu.oauth2provider.controllers.setup.SetupController.handleStartSignUp
-
+POST           /setup/checkPassword                 @com.yetu.oauth2provider.controllers.setup.SetupController.checkPassword
 
 # New confirm mail page
 GET            /setup/confirmmail                   @com.yetu.oauth2provider.controllers.setup.SetupController.confirmmail

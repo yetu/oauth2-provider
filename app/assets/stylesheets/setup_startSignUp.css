@@ -27,57 +27,73 @@
     margin: 0 auto 0 auto;
 }
 .content__main{
-    box-shadow: 1px 1px 5px #666;
     margin: 20px auto;
-    background: #F6F6F6;
-    width: 895px;
+    width: 975px;
     height: 445px;
-    padding: 40px 50px 0 50px;
+    padding: 40px 10px 0 10px;
 }
 
-/*CONTAINER*/
-.left, .right{
-    width: 432.5px;
-    padding: 0;
-    margin: 0;
-    margin-top: 30px;
-}
-.right{
-    width: 247.5px;
-    padding-left: 110px;
-    margin-left: 440.5px;
-    margin-top: 60px;
+form {
+    height: 415px;
+    position: relative;
 }
 
-/** RIGHT CONTAINER ELEMENTS **/
-.right__text{
-    width: 185px;
-    margin-left: 25px;
-    font-size: 18px;
+form .submit {
+    position: absolute;
+    bottom: 0;
+    height: 50px;
+    width: 150px;
+    left: 50%;
+    margin-left: -75px;
 }
 
-/**LEFT CONTAINER ELEMENTS*/
-
-.left__form{
-    border-right: solid 1px #B4B4B4;
-    height: 280px;
+.control-group {
+    display: block;
+    margin-bottom: 10px;
 }
+
+.radioWrapper {
+    display: inline-block;
+    margin-bottom: 20px;
+    cursor: pointer;
+}
+
+.radioWrapper input {
+    float: left;
+    opacity: 0;
+}
+
+.right .radioWrapper {
+    margin-left: 90px;
+}
+
+.radioWrapper input[type='radio']:checked + span {
+    background: url("../images/button_selected.svg") 0 center /24px no-repeat;
+}
+.radioWrapper input[type='radio'] + span {
+    background: url("../images/button_not_selected.svg") 0 center /24px no-repeat;
+}
+
+.radioWrapper span {
+    font-size: 25px;
+    padding-left: 34px;
+}
+
 .left__link{
     color: #009900;
 }
-.left__fieldset{
-    border: none;
-}
-.left__input, #password2ID{
+
+.left__input{
     display: block;
+    width: 262px;
     height: 15px;
     padding: 5px 7.5px;
-    font-size: 13px;
-    font-family: source_sans_proregular, 'Helvetica Neue', Arial;
-    width: 241px;
-    border: solid 1px #B4B4B4;
-    background:#ffffff;
-    color: black;
+}
+.inputWrapper {
+    float: left;
+    position: relative;
+    display: inline-block;
+    margin-right: 24px;
 }
 
 input::-webkit-input-placeholder,
@@ -90,23 +106,31 @@ input:-ms-input-placeholder {
 .left__input:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
+
+.right p {
+    width: 185px;
+    margin: 0 auto 20px auto;
+    font-size: 18px;
+}
+
 #password2ID:focus{
     outline: -webkit-focus-ring-color auto 1px;
 }
 .left__fieldsmandatory{
+    display: block;
     font-size: 10px;
     text-align: right;
     margin-right: 63px;
-    margin-top: 25px;
+    margin-bottom: 5px;
 }
 
 #agreementErrorText{
-    font-size: 10px;
+    font-size: 11px;
+    left: 166px;
+    top: 75px;
+    width: 220px;
 }
 
-#agreement{
-    margin-top: -55.5px;
-}
 /*classes defined by input field template*/
 /*label for input field*/
 .control-label{
@@ -114,119 +138,62 @@ input:-ms-input-placeholder {
     display: block;
     line-height: 29px;
     vertical-align: middle;
-    text-align: right;
-    width: 180px;
-    margin-left: -100px;
-    padding: 0 10px;
     font-size: 18px;
-}
-/*container around input field and help-inline/help-block*/
-.controls{
-    width: 258px;
-    margin-left: 100px;
-    margin-bottom: 10px;
-    position: relative;
+    width: 134px;
+    text-align: right;
+    padding: 0 10px 0 0;
 }
 
 /*checkbox agreement*/
-#agreementCheckBoxID label, #getinfoID_field label{
-    font-size: 10px;
-    width: 234px;
+#agreementCheckBoxID label{
+    font-size: 13px;
     display: block;
-    line-height: 14px;
+    line-height: 18px;
     text-align: left;
-    margin-left: 110px;
+    margin-right: 44px;
+    float: right;
+    width: 266px;
 }
 
-#getinfoID_field label:nth-child(1){
-    display:none;
+#agreementCheckBoxID .inputWrapper {
+    margin: 0;
 }
-#agreementCheckBoxID input, #getinfo_field input{
+
+#agreementCheckBoxID input{
     float:left;
     display:block;
-    clear:both;
+    margin-left: 144px;
 }
-#UserRegistrationStatus_field .controls{
-    position: absolute;
-    top: 220px;
-    margin-left: -25px;
-    width: 875px;
-    font-size: 25px;
-}
-#UserRegistrationStatus_field label:nth-child(1){
-    display: none;
-}
-#UserRegistrationStatus_field label{
-    line-height: 34px;
-    vertical-align: middle;
-    margin-left: 10px;
-}
-#UserRegistrationStatus_field input {
-    position: absolute;
-    top: 7px;
-    left: 0;
-    z-index: -1;
-}
-#UserRegistrationStatus_field .radio{
-    background: url("../images/button_not_selected.svg") no-repeat;
-    width: 19px;
-    height: 22px;
-    display: inline-block;
-    line-height: 25px;
-    vertical-align: middle;
-}
-#UserRegistrationStatus_field .radio:hover{
-    cursor: pointer;
-}
-#UserRegistrationStatus_field .radio__checked{
-    background: url("../images/button_selected.svg") no-repeat;
-}
+
 .radio__registered{
     margin-left: 359px;
 }
 
-#UserRegistrationStatus_field .help-icon{
-    display:none;
-}
-#password2ID_field .help-icon{
-    display:none;
-}
-#password2ID_field .help-block{
-    display:none;
-}
 #agreementCheckBoxID .help-icon{
     display:none;
 }
-#getinfoID_field .help-icon{
-    display:none;
-}
-/*only until we are sure about law stuff with it*/
-#getinfoID_field{
-    display:none;
-}
+
 /*info*/
 .help-block{
-    display: block;
-    margin-top: -32px;
     background: white;
-    padding: 5px;
+    padding: 5px 5px;
     font-size: 10px;
     font-style: italic;
-    width: 110px;
+    width: 210px;
     box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
-    margin-right: -15px;
     z-index: 10;
+    text-align: left;
     position: absolute;
-    right: 0;
+    top: -1px;
+    left: 20px;
 }
 /*erros*/
 .help-inline{
-    display: block;
     position: absolute;
-    top: 7.5px;
+    top: 6px;
+    left: 8px;
     color: #FF0000;
     font-size: 12px;
-    left: 7.5px;
     z-index: 5;
 }
 
@@ -236,22 +203,17 @@ input:-ms-input-placeholder {
     margin-bottom: 13px;
 }
 
-.help-inline.display-none, .help-block.display-none{
-    display: none;
-}
 .help-icon{
-    height: 6px;
-    width: 5px;
-    display: block;
-    position: absolute;
-    top: 0px;
-    right: -38px;
+    height: 14px;
+    width: 12px;
     border: solid 1px #B4B4B4;
-    padding: 4px;
-    font-size: 10px;
-    line-height: 7px;
+    font-size: 13px;
     vertical-align: middle;
     background: #ffffff;
+    cursor: default;
+    float: left;
+    position: relative;
+    text-align: center;
 }
 
 
@@ -266,7 +228,43 @@ input:-ms-input-placeholder {
     width: 150px;
     height: 50px;
 }
-.buttoncontainer__next-button:active,.buttoncontainer__next-button:focus {
-    background: #009900;
-    color: white;
+
+.failure-password{
+    border: solid 1px #FF0000;
+    color: #FF0000;
+}
+
+#passwordStrength {
+    height:10px;
+    margin-bottom:10px;
+}
+
+#passwordStrength.strength-0 {
+    width:10%;
+    background:darkred;
+}
+
+#passwordStrength.strength-1 {
+    width:20%;
+    background:orangered;
+}
+
+#passwordStrength.strength-2 {
+    width:40%;
+    background:orange;
+}
+
+#passwordStrength.strength-3 {
+    width:60%;
+    background:gold;
+}
+
+#passwordStrength.strength-4 {
+    width:100%;
+    background:forestgreen;
+}
+
+input[type="text"],
+input[type="password"] {
+
 }

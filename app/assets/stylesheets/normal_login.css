@@ -1,0 +1,16 @@
+.login__below-form-left{
+    float: left;
+    width: auto;
+}
+.login__below-form-right{
+    width: auto;
+    float: right;
+}
+.login__below-form-right p{
+    margin: 0;
+}
+.normal__input{
+    padding-left: 40px;
+    width: 228px;
+}
+

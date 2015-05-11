@@ -6,9 +6,10 @@
 
     <head>
         <title>Download</title>
-        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_download.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup_download.css")">
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
         @views.html.googleanalytics()
     </head>
@@ -20,13 +21,13 @@
             <div class="content__main">
                 <div id="leftContainer" class="left">
                     <h2 name="setupDownload" class="content__headline">@Messages("setup.download.headline")</h2>
-                    <div id="left__download_available" class="left__content">
+                    <div id="left__download_available" class="hide">
                         <p class="left__content-description">@Messages("setup.download.description")</p>
                         <a id="download_mac" class="left__content-download button" href="@Html(downloadUrlMac)" onclick="window.DownloadHandler.onClickDownload()">@Messages("setup.download.button.mac")</a>
                         <a id="download_win" class="left__content-download button" href="@Html(downloadUrlWin)" onclick="window.DownloadHandler.onClickDownload()">@Messages("setup.download.button.win")</a>
                         <a class="left__content-faq" href="">@Messages("setup.download.faq")</a>
                     </div>
-                    <div id="left__download_not_available" class="left__content">
+                    <div id="left__download_not_available" class="hide">
                         <p class="left__content-description smallbuttonmargin">@Messages("setup.download.notavailable.descriptionone")</p>
                         <p class="left__content-description nobottommargin">
                             <span class="left__OS">@Messages("setup.download.notavailable.youros")</span>
@@ -83,7 +84,7 @@
             </div>
             <div class="clear"></div>
         </div>
-        @views.html.setup.footer()
+        @views.html.footer(true)
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/determine-os.js")"></script>
         <script type="text/javascript" src="@controllers.routes.Assets.versioned("javascripts/downloadHandler.js")"></script>
     </body>

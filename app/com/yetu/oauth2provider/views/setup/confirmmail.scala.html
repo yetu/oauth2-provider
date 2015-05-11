@@ -4,6 +4,7 @@
 <html>
 	<head>
         <title>Confirm e-mail</title>
+        <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/base.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/setup.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/steps.css")">
         <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/confirmmail.css")">
@@ -13,19 +14,19 @@
 	</head>
 	<body>
 		@views.html.setup.header(false)
-		<div name="confirmmailSetup" class="content">
+		<div class="content">
             @views.html.setup.steps(2)
             <div class="content__main">
                 <div class="left">
                     <img class="left__img" src="@controllers.routes.Assets.versioned("images/check-inbox-01.png")" alt="E-Mail content"/>
                 </div>
                 <div class="right">
-                    <h2 class="right__heading" name="setupConfirmmail">@Messages("setup.confirmmail.headline")</h2>
+                    <h2 class="right__heading">@Messages("setup.confirmmail.headline")</h2>
                     <p>@Messages("setup.confirmmail.description")</p>
                 </div>
             </div>
 		</div>
         <div class="clear"></div>
-		@views.html.setup.footer()
+		@views.html.footer(true)
 	</body>
 </html>
