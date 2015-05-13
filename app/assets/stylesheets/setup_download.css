@@ -119,16 +119,54 @@
 }
 
 /*FULL CONTENT*/
+.full__description{
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    margin: 5px 50px 10px 50px;
+    font-size: 25px;
+    line-height: 35px;
+}
 .full__download{
     color: #009900;
-    display: none;
+    display: block;
+    font-family: source_sans_proregular, 'Helvetica Neue', Arial;
+    margin: 5px 50px 10px 50px;
+}
+.full__instructions{
+    margin-top: 30px;
+    padding: 0 62.5px;
+    width: 880px;
+    text-align: left;
+}
+.full__step{
+    width: 280px;
+    padding: 20px;
+}
+.full__steps-headline, .full__steps-desc{
+    padding: 0 5px;
+}
+.full__steps-headline {
+    font-size: 25px;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    margin: 15px 0 0 0;
+}
+.full__steps-headline {
+    margin-top: 10px;
+}
+.full__steps-img{
+    width: 280px;
+}
+.full__step1{
+    padding-left:0;
+    float:left;
+}
+.full__step2{
+    margin-left: 280px;
+}
+.full__step3{
+    padding-right:0;
+    float:right;
 }
 
-.full__instructions{
-    margin: 45px auto;
-    width: 600px;
-    height: 200px;
-}
 
 /*MAIN STUFF*/
 .smallbuttonmargin{

@@ -18,13 +18,13 @@ import scalaoauth2.provider.AuthInfo
 import OAuth2Protocol._
 import com.yetu.oauth2provider.oauth2.models._
 import errors.InvalidState
-import utils.{ Config, BearerTokenGenerator }
+import com.yetu.oauth2provider.utils.{NamedLogger, Config, BearerTokenGenerator}
 import com.yetu.oauth2provider.models.Permission._
 
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
     scopeService: ScopeService,
-    permissionService: IPermissionService) extends provider.OAuth2BaseProvider {
+    permissionService: IPermissionService) extends provider.OAuth2BaseProvider with NamedLogger {
 
   import play.api.mvc._
 
@@ -68,11 +68,12 @@ class AuthorizeErrorHandler(clientService: IClientService,
     //If there is no redirect url in the request then we fetch the first url from LDAP as a default one
     val redirectUrl = URLDecoder.decode(request.redirectUri.getOrElse(validRedirectUrls.head), "UTF-8")
 
+
+
     if (!validRedirectUrls.contains(redirectUrl)) {
+        logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! [$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
       if (Config.redirectURICheckingEnabled) {
         throw new RedirectUriMismatch(s"invalid redirect url.")
-      } else {
-        warn(s"request redirect url is NOT VALID! [$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
       }
     }
 

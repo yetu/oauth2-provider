@@ -86,6 +86,7 @@ GET            /setup/confirmmail                   @com.yetu.oauth2provider.con
 
 # New confirm mail page
 GET            /setup/confirmedmail                 @com.yetu.oauth2provider.controllers.setup.SetupController.confirmedmail
+GET            /setup/confirmedmailerror            @com.yetu.oauth2provider.controllers.setup.SetupController.confirmedmailerror
 GET            /setup/confirmedmail/:mailToken      @com.yetu.oauth2provider.controllers.setup.SetupController.handleSignUp(mailToken)
 
 # Download setup app

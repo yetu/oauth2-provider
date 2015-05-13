@@ -44,8 +44,8 @@ class StringUtilsSpec extends BaseSpec {
         "access_token" -> Seq("someString"),
         "expires_in" -> Seq("someNumber")
       )
-      StringUtils.toHashmark("http://local.yetudev.com/", queryString) mustBe "http://local.yetudev.com/#access_token=someString&expires_in=someNumber"
-      StringUtils.toHashmark("http://local.yetudev.com/#value=1", queryString) mustBe "http://local.yetudev.com/#value=1&access_token=someString&expires_in=someNumber"
+      StringUtils.toHashmark("https://auth.yetu.me/", queryString) mustBe "https://auth.yetu.me/#access_token=someString&expires_in=someNumber"
+      StringUtils.toHashmark("https://auth.yetu.me/#value=1", queryString) mustBe "https://auth.yetu.me/#value=1&access_token=someString&expires_in=someNumber"
 
     }
   }

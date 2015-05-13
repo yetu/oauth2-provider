@@ -8,6 +8,7 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
   val fullSetupConfirmMailUrl = s"http://localhost:$port$setupConfirmMailUrl"
   val fullSetupConfirmedMailUrl = s"http://localhost:$port$setupConfirmedMailUrl"
   val fullSetupDownloadUrl = s"http://localhost:$port$setupDownloadUrl"
+  val fullSetupConfirmedMailErrorUrl = s"http://localhost:$port$setupConfirmedMailErrorUrl"
 
   def fullMailTokenUrl(token: String) = {
     s"http://localhost:$port$setupConfirmedMailUrl/$token"
@@ -103,7 +104,12 @@ class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
       go to fullMailTokenUrl(getMailTokenFromMemory)
 
       currentUrl mustEqual fullSetupConfirmedMailUrl
+    }
 
+    s"go to confirmed mail error page when token is wrong" in {
+      go to s"$fullSetupConfirmedMailUrl/3485797250jdgs"
+
+      currentUrl mustEqual fullSetupConfirmedMailErrorUrl
     }
 
   }

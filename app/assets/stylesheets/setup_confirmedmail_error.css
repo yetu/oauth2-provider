@@ -1,0 +1,19 @@
+.confirmedmailerror__headline{
+    color: #FF0000;
+    margin: 115px 0 20px 0;
+    text-align: center;
+    font-size: 25px;
+    font-weight: normal;
+}
+.confirmedmailerror__desc{
+    margin: 0;
+    text-align: center;
+    font-size: 25px;
+    font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+}
+.confirmedmailerror__button{
+    width: 100px;
+    margin: 50px auto;
+    padding: 10px 20px;
+    display: block;
+}

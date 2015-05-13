@@ -1,0 +1,23 @@
+@(downloadUrl:String, step1Img:String, step2Img:String, step3Img:String, step2Desc: String, step3Desc: String)
+<h2 class="full__headline">@Messages("setup.download.ready.heading")</h2>
+<p class="full__description">
+  <span>@Messages("setup.download.ready.description")</span>
+  <a class="full__download" href="@Html(downloadUrl)">@Messages("setup.download.ready.link")</a>
+</p>
+<div class="full__instructions">
+  <div class="full__step full__step1">
+    <img class="full__steps-img" src="@controllers.routes.Assets.versioned(step1Img)"/>
+    <h3 class="full__steps-headline">@Messages("setup.download.ready.instruction.step1")</h3>
+    <p class="full__steps-desc">@Messages("setup.download.ready.instruction.step1desc")</p>
+  </div>
+  <div class="full__step full__step3">
+    <img class="full__steps-img" src="@controllers.routes.Assets.versioned(step3Img)"/>
+    <h3 class="full__steps-headline">@Messages("setup.download.ready.instruction.step3")</h3>
+    <p class="full__steps-desc">@Messages(step3Desc)</p>
+  </div>
+  <div class="full__step full__step2">
+    <img class="full__steps-img" src="@controllers.routes.Assets.versioned(step2Img)"/>
+    <h3 class="full__steps-headline">@Messages("setup.download.ready.instruction.step2")</h3>
+    <p class="full__steps-desc">@Messages(step2Desc)</p>
+  </div>
+</div>

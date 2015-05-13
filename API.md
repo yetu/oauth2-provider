@@ -168,5 +168,5 @@ scope `basic`:
 Example Request:
 
 * HTTPie syntax:
-    - `http "https://auth.yetudev.com/oauth2/info?access_token=nDFPRcNPCHhdk3APVp85JR4yh6lYtxeV"`
+    - `http "https://auth.yetu.me/oauth2/info?access_token=nDFPRcNPCHhdk3APVp85JR4yh6lYtxeV"`
 

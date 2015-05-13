@@ -73,7 +73,9 @@ header{
     padding: 35px 0;
     height: 480px;
 }
-
+.content__full{
+    height: 585px;
+}
 .content__download_not_available{
     height: 590px;
 }
@@ -127,11 +129,6 @@ header{
     margin: 50px 50px 0px 50px;
     font-size: 25px;
     font-weight: 400;
-}
-.full__description{
-    font-size: 25px;
-    margin: 0 50px 10px 50px;
-    line-height: 35px;
 }
 
 .clear {
