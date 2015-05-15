@@ -97,6 +97,11 @@ object Config {
     lazy val setupDownloadUrlWin = Play.configuration.getString("frontendConfig.setupDownloadUrlWin").get
   }
 
+  object YetuMessageEvents {
+    lazy val logoutEventName = Play.configuration.getString("yetu.events.logoutEvent").get
+    lazy val clientId = Play.configuration.getString("yetu.events.clientId").get
+  }
+
   // play.configuration requires a started play app; however this configuration value needs to eb read before
   // application start. Use the standard ConfigFactory (loading reference.conf / application.conf)
   val configWithoutStartedApplication = ConfigFactory.load()

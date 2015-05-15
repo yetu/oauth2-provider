@@ -54,10 +54,6 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
 
   def createAccessToken(authInfo: AuthInformation) = {
 
-    //TODO: create the correct scope depending on what the user granted permission to... ??
-    val scope: Option[String] = None //Some("basic")
-
-    val accessToken = BearerTokenGenerator.generateToken
     val refreshToken = BearerTokenGenerator.generateToken
     val jsonWebToken = jsonWebTokenGenerator.generateToken(authInfo)
     val token = new AccessToken(jsonWebToken,
