@@ -3,7 +3,7 @@ h1{
 }
 
 .content {
-    height: auto;
+    height: 560px;
     font-size: 15px;
     font-family: source_sans_prolight, 'Helvetica Neue', Arial;
 }
@@ -71,20 +71,6 @@ h1{
 fieldset{
     padding: 0;
     margin: 0;
-}
-
-footer{
-    font-size: 11px;
-    height: 20px;
-    line-height: 20px;
-    position: absolute;
-    left: 0;
-    bottom: 0;
-    background: #EDEDEd;
-}
-
-footer .dot{
-    padding: 0 1px;
 }
 
 .logo{

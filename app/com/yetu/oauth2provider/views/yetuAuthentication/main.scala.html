@@ -15,9 +15,10 @@
         <div class="box">
             <img class="logo" src="@controllers.routes.Assets.versioned("images/yetulogo.svg")"/>
             @content
-            @views.html.footer(isSetup = false)
         </div>
     </div>
+
+    @views.html.footer(isSetup = false)
 
     <script src="@controllers.routes.Assets.versioned("javascripts/form-validator.js")"></script>
     <script>
