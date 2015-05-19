@@ -44,6 +44,7 @@ securesocial.signup.invalidLink=The link you followed is invalid.
 securesocial.signup.signUpDone=Thank you for signing up.
 securesocial.signup.fieldRequired=This field is required
 securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit, one uppercase and one lowercase letter
+securesocial.signup.passwordInfoOnChange=The new password must contain at least {0} characters, one digit, one uppercase and one lowercase letter
 securesocial.signup.invalidPasswordError=Not a valid password
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
@@ -62,8 +63,7 @@ securesocial.password.error=There was a problem changing your password. Please t
 
 # Password change
 securesocial.passwordChange.title=Change Password
-securesocial.passwordChange.subtitle=Type and confirm \
-   your new password
+securesocial.passwordChange.subtitle=Please type your current password
 securesocial.passwordChange.currentPassword=Current Password
 securesocial.passwordChange.newPassword1=New Password
 securesocial.passwordChange.newPassword2=New Password Confirmation

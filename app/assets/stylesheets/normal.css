@@ -44,6 +44,7 @@ h1{
 }
 
 .normal__input{
+    width: 280px;
     height: 18px;
     padding: 15px 10px 15px 10px;
     box-sizing: content-box;
@@ -91,5 +92,5 @@ fieldset{
 }
 
 .page-header {
-    margin-bottom: 84px;
+    margin-bottom: 34px;
 }
