@@ -1,19 +1,25 @@
 h1{
-    font-size: 25px;
+    font-size: 30px;
+    font-family: source_sans_proregular, 'Helvetica Neue', Arial;
 }
 
 .content {
     height: 560px;
-    font-size: 15px;
+    font-size: 16px;
     font-family: source_sans_prolight, 'Helvetica Neue', Arial;
+    background: -webkit-linear-gradient(to bottom left, #ededed , #f0f0f0); /* For Safari 5.1 to 6.0 */
+    background: -o-linear-gradient(to bottom left, #ededed , #f0f0f0); /* For Opera 11.1 to 12.0 */
+    background: -moz-linear-gradient(to bottom left, #ededed , #f0f0f0); /* For Firefox 3.6 to 15 */
+    background: linear-gradient(to bottom left, #ededed , #f0f0f0)
 }
 .box{
-    width: 280px;
-    height: 420px;
-    padding: 30px 40px;
-    margin: 40px auto;
+    width: 300px;
+    height: 450px;
+    padding: 25px 50px;
+    margin: 30px auto;
     position: relative;
     box-shadow: 1px 1px 5px #666;
+    background: #ededed;
 }
 
 .help-icon, .help-block{
@@ -38,16 +44,16 @@ h1{
 }
 
 .normal__input{
-    width: 258px;
-    height: 15px;
+    height: 18px;
     padding: 15px 10px 15px 10px;
     box-sizing: content-box;
     font-family: source_sans_prolight, 'Helvetica Neue', Arial;
-    font-size: 15px;
+    font-size: 16px;
+    color: #999;
 }
 
 .control-group{
-    margin-bottom: 10px;
+    margin-bottom: 15px;
 }
 
 .inputWrapper {
@@ -55,7 +61,7 @@ h1{
 }
 
 .alert-error, .alert-info{
-    margin-top: 30px;
+    margin-bottom: 15px;
 }
 
 .alert-error{
@@ -76,8 +82,8 @@ fieldset{
 .logo{
     width: 50px;
     height: 50px;
-    top: 30px;
-    right: 40px;
+    top: 25px;
+    right: 50px;
 }
 
 .controls {
@@ -85,5 +91,5 @@ fieldset{
 }
 
 .page-header {
-    margin-bottom: 50px;
+    margin-bottom: 84px;
 }
