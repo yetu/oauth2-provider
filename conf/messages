@@ -64,6 +64,7 @@ securesocial.password.error=There was a problem changing your password. Please t
 # Password change
 securesocial.passwordChange.title=Change Password
 securesocial.passwordChange.subtitle=Please type your current password
+securesocial.passwordReset.subtitle=Please type your new password
 securesocial.passwordChange.currentPassword=Current Password
 securesocial.passwordChange.newPassword1=New Password
 securesocial.passwordChange.newPassword2=New Password Confirmation
