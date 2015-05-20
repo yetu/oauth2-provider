@@ -8,12 +8,22 @@ var PasswordStrengthCalculator = function(inputId, strengthLabelId) {
   //var specialchars = new RegExp('([!,%,&,@,#,$,^,*,?,_,~])');
 
   var getPasswordStrength = function(value){
-    if (value.length > 8) { characters = 1; } else { characters = 0; };
+    if (value.length >= 8) { characters = 1; } else { characters = 0; };
     if (value.match(upperCase)) { capitalletters = 1} else { capitalletters = 0; };
     if (value.match(lowerCase)) { loweletters = 1}  else { loweletters = 0; };
     if (value.match(numbers)) { number = 1}  else { number = 0; };
 
     return characters + capitalletters + loweletters + number;
+  };
+
+  this.isValid = function(value){
+    var passwordStrength = getPasswordStrength(value);
+    if(passwordStrength===4){
+      return true;
+    }
+    else{
+      return false;
+    }
   };
 
   passwordInput.onkeyup = function(){

@@ -177,7 +177,7 @@ input:-ms-input-placeholder {
 .help-block{
     background: white;
     padding: 5px 5px;
-    font-size: 10px;
+    font-size: 12px;
     font-style: italic;
     width: 210px;
     box-shadow: rgba(0, 0, 0, 0.27) 1px 1px 5px 0px;
@@ -214,6 +214,14 @@ input:-ms-input-placeholder {
     float: left;
     position: relative;
     text-align: center;
+}
+
+.validation-error{
+    clear: both;
+    margin-left: 145px;
+    font-size: 13px;
+    color: #FF0000;
+    padding-top: 5px;
 }
 
 

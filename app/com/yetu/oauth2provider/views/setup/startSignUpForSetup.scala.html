@@ -61,7 +61,8 @@
                         '_id -> "emailID",
                         '_help -> Messages("setup.signup.email"),
                         'placeholder -> Messages("setup.signup.email"),
-                        '_error -> startForm.error("email")
+                        '_error -> startForm.error("email"),
+                        'validationError -> Messages("securesocial.signup.invalidEmail")
 
                     )
 
@@ -82,7 +83,8 @@
                         'id -> "password2ID",
                         '_help -> Messages("securesocial.signup.invalidPassword", minimumPasswordLength),
                         'placeholder -> Messages("setup.signup.password2Placeholder"),
-                        '_error -> startForm.error("password")
+                        '_error -> startForm.error("password"),
+                        'validationError -> Messages("securesocial.signup.passwordsDoNotMatch")
                     )
 
                     @helper.checkbox(
@@ -122,12 +124,12 @@
     <script src="@controllers.routes.Assets.versioned("javascripts/password-strength.js")"></script>
     <script>
         var formValidator = new FormValidator();
+        var passwordStrengthValidator = new PasswordStrengthCalculator('password1ID', 'passwordStrength');
         formValidator.addInputValidation('firstNameID', new NameValidator());
         formValidator.addInputValidation('lastNameID', new NameValidator());
         formValidator.addInputValidation('email', new EmailValidator());
-        formValidator.addInputValidation('password1ID', new PasswordValidator());
+        formValidator.addInputValidation('password1ID', passwordStrengthValidator);
         formValidator.addInputValidation('password2ID', new PasswordMatchValidator('password1ID'));
-        new PasswordStrengthCalculator('password1ID', 'passwordStrength');
     </script>
 	</body>
 </html>
