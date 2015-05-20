@@ -18,12 +18,7 @@ var PasswordStrengthCalculator = function(inputId, strengthLabelId) {
 
   this.isValid = function(value){
     var passwordStrength = getPasswordStrength(value);
-    if(passwordStrength===4){
-      return true;
-    }
-    else{
-      return false;
-    }
+    return passwordStrength === 4;
   };
 
   passwordInput.onkeyup = function(){

@@ -20,7 +20,7 @@ securesocial.login.useEmailAndPassword=Or login using a username and password.
 securesocial.login.useEmailAndPasswordOnly=Login using a username and password.
 securesocial.login.signUp=If you do not have an account, you can sign up
 securesocial.login.here=here
-securesocial.login.invalidCredentials=Wrong email address or password!
+securesocial.login.invalidCredentials=Wrong email address or password
 securesocial.login.forgotPassword=Forgot your password?
 securesocial.login.fullstop=.
 
