@@ -46,7 +46,7 @@ securesocial.signup.fieldRequired=This field is required
 securesocial.signup.invalidPassword=Password must contain at least {0} characters, one digit, one uppercase and one lowercase letter
 securesocial.signup.passwordInfoOnChange=The new password must contain at least {0} characters, one digit, one uppercase and one lowercase letter
 securesocial.signup.invalidPasswordError=Not a valid password
-securesocial.signup.invalidEmail=Valid email required.
+securesocial.signup.invalidEmail=Valid email required
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
 
