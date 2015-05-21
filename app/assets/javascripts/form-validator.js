@@ -110,6 +110,7 @@ var EmailValidator = function() {
 var PasswordMatchValidator = function(password1Id) {
   this.isValid = function(password2) {
     var password1 = document.getElementById(password1Id).value;
-    return new PasswordStrengthCalculator(password1Id, 'passwordStrength').isValid(password1) && (password1 === password2);
+    var passwordStrengthCalculator = new PasswordStrengthCalculator(password1Id, 'passwordStrength');
+    return passwordStrengthCalculator.isValid(password1) && (password1 === password2);
   }
 };
