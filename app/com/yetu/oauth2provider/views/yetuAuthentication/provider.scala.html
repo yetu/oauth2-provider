@@ -35,6 +35,9 @@
                                 'placeholder -> Messages("securesocial.signup.email1")
                             )
                         }
+                        <div class="input__label-icon">
+                            <img class="input__label-icon__img" src="@controllers.routes.Assets.versioned("images/at-01.svg")"/>
+                        </div>
 
                         @helper.inputPassword(
                             loginForm.get("password"),
@@ -42,6 +45,9 @@
                             'class -> "normal__input",
                             'placeholder -> Messages("securesocial.signup.password1")
                         )
+                        <div class="input__label-icon">
+                            <img class="input__label-icon__img" src="@controllers.routes.Assets.versioned("images/lot-01.svg")"/>
+                        </div>
 
                         <div class="login__below-form-left">
                             <!--Here the stay signed in has to be placed-->

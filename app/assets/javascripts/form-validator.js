@@ -37,15 +37,23 @@ var FormValidator = function(root) {
 
   this.addInputValidation = function(inputId, validator) {
     var onChange = function (input) {
+      var inputValidationError = root.getElementById(input.id + 'ValidationError');
       if (validator.isValid(input.value)) {
+        inputValidationError.classList.add('display-none');
         input.classList.add('valid');
       } else {
+        if(input.value.length>0){
+          inputValidationError.classList.remove('display-none');
+        }
         input.classList.remove('valid');
+
       }
     };
     var input = document.getElementById(inputId);
     input.addEventListener('change', onChange.bind(this, input));
     onChange(input);
+
+
   };
 
   this.onInputFocus = function(input, inputHintText) {
@@ -67,7 +75,7 @@ var FormValidator = function(root) {
     }
   };
 
-  this.onInputErrorClick = function(input, inputError) {
+  this.onInputErrorClick = function(input) {
     input.focus();
   };
 
@@ -99,17 +107,10 @@ var EmailValidator = function() {
   }
 };
 
-var PasswordValidator = function() {
-  this.isValid = function(password) {
-    // Password must contain at least one lower case, one upper case, one number and have at least 8 characters
-    var re = /^.*(?=.{8,})(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).*$/i;
-    return re.test(password);
-  }
-};
-
 var PasswordMatchValidator = function(password1Id) {
   this.isValid = function(password2) {
     var password1 = document.getElementById(password1Id).value;
-    return new PasswordValidator().isValid(password1) && (password1 === password2);
+    var passwordStrengthCalculator = new PasswordStrengthCalculator(password1Id, 'passwordStrength');
+    return passwordStrengthCalculator.isValid(password1) && (password1 === password2);
   }
 };

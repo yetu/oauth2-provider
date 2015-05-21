@@ -10,7 +10,7 @@ securesocial.login.useEmailAndPassword=Oder melden Sie sich mit ihrem Benutzerna
 securesocial.login.useEmailAndPasswordOnly=Anmeldung mit Benutzername und Passwort
 securesocial.login.signUp=Sollten Sie noch kein Benutzerkonto haben, registrieren Sie ein neues
 securesocial.login.here=hier
-securesocial.login.invalidCredentials=Falsches Passwort oder falsche E-Mail-Adresse. Bitte versuchen Sie es erneut!
+securesocial.login.invalidCredentials=Falsches Passwort oder falsche E-Mail-Adresse.
 securesocial.login.forgotPassword=Passwort vergessen?
 securesocial.login.fullstop=.
 
@@ -32,6 +32,7 @@ securesocial.signup.thankYouCheckEmail=Vielen Dank. Bitte prüfen Sie ihr E-Mail
 securesocial.signup.invalidLink=Der Link ist ungültig
 securesocial.signup.signUpDone=Vielen Dank für Ihre Registrierung.
 securesocial.signup.invalidPassword=Das Passwort muss mindestens {0} Zeichen, eine Ziffer, einen Großbuchstaben und einen Kleinbuchstaben enthalten.
+securesocial.signup.passwordInfoOnChange=Das neue Passwort muss mindestens {0} Zeichen, eine Ziffer, einen Großbuchstaben und einen Kleinbuchstaben enthalten.
 securesocial.signup.loginhere=Melden Sie sich hier an
 securesocial.signup.welcome= um ihre neue Welt zu Hause mit yetu.me zu erkunden.
 
@@ -43,6 +44,7 @@ securesocial.password.error=Das Passwort konnte nicht geändert werden. Bitte ve
 
 # Password change
 securesocial.passwordChange.title=Passwort ändern
+securesocial.passwordChange.subtitle=Bitte geben Sie ihr aktuelles Password ein.
 securesocial.passwordChange.currentPassword=Aktuelles Passwort
 securesocial.passwordChange.newPassword1=Neues Passwort
 securesocial.passwordChange.newPassword2=Neues Passwort Bestätitung

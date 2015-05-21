@@ -10,7 +10,15 @@
     margin: 0;
 }
 .normal__input{
+    width: 248px;
     padding-left: 40px;
-    width: 228px;
 }
 
+.input__label-icon{
+    height: 56px;
+    position: relative;
+    width: 20px;
+    margin-top: -51px;
+    z-index: 1;
+    margin-left: 10px;
+}
