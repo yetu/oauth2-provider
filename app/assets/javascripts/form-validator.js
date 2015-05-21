@@ -75,7 +75,7 @@ var FormValidator = function(root) {
     }
   };
 
-  this.onInputErrorClick = function(input, inputError) {
+  this.onInputErrorClick = function(input) {
     input.focus();
   };
 
