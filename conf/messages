@@ -49,6 +49,7 @@ securesocial.signup.invalidPasswordError=Not a valid password
 securesocial.signup.invalidEmail=Valid email required
 securesocial.signup.loginhere=Log in here
 securesocial.signup.welcome=&nbsp;to start your discovery of a new world at home with yetu.me.
+securesocial.password.goback=Go back to your yetu homescreen
 
 # Permission page
 securesocial.permission.title=Request for Permission
