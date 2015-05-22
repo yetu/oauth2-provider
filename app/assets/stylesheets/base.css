@@ -116,7 +116,7 @@ input{
     font-size: 13px;
     font-family: source_sans_proregular, 'Helvetica Neue', Arial;
     border: solid 1px #B4B4B4;
-    background: #ffffff;
+    background: #ffffff !important;
     color: #666;
 }
 
