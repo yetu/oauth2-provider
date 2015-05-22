@@ -116,8 +116,12 @@ input{
     font-size: 13px;
     font-family: source_sans_proregular, 'Helvetica Neue', Arial;
     border: solid 1px #B4B4B4;
-    background: #ffffff !important;
+    background: #ffffff;
     color: #666;
+}
+
+input:focus{
+    outline: -webkit-focus-ring-color auto 1px;
 }
 
 input::-webkit-input-placeholder,

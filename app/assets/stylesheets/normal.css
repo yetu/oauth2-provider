@@ -51,6 +51,7 @@ h1{
     font-family: source_sans_prolight, 'Helvetica Neue', Arial;
     font-size: 16px;
     color: #999;
+    background: #ffffff !important;
 }
 
 .control-group{

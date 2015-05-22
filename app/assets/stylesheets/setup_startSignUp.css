@@ -102,11 +102,6 @@ input::-moz-placeholder,
 input:-ms-input-placeholder {
     color: #B4B4B4
 }
-
-.left__input:focus{
-    outline: -webkit-focus-ring-color auto 1px;
-}
-
 .right p {
     width: 185px;
     margin: 0 auto 20px auto;
@@ -272,7 +267,3 @@ input:-ms-input-placeholder {
     background:forestgreen;
 }
 
-input[type="text"],
-input[type="password"] {
-
-}

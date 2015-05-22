@@ -36,7 +36,8 @@ var FormValidator = function(root) {
   };
 
   this.addInputValidation = function(inputId, validator) {
-    var onChange = function (input) {
+    var onChange = function (e) {
+      var input = e.target;
       var inputValidationError = root.getElementById(input.id + 'ValidationError');
       if (validator.isValid(input.value)) {
         inputValidationError.classList.add('display-none');
@@ -50,9 +51,7 @@ var FormValidator = function(root) {
       }
     };
     var input = document.getElementById(inputId);
-    input.addEventListener('change', onChange.bind(this, input));
-    onChange(input);
-
+    input.addEventListener('change', onChange);
 
   };
 
