@@ -6,7 +6,6 @@ import com.yetu.oauth2provider.controllers.authentication._
 import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.LdapUserService
 import securesocial.core.{ EventListener, RuntimeEnvironment }
 import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
 import securesocial.core.providers.UsernamePasswordProvider
@@ -31,7 +30,6 @@ trait AuthenticationControllerRegistry extends ServicesRegistry {
   lazy val passwordChange = wire[PasswordChange]
   lazy val passwordReset = wire[PasswordReset]
   lazy val providerController = wire[ProviderController]
-  lazy val registration = wire[Registration]
   lazy val signatureAuthenticationProvider = new SignatureAuthenticationProvider[YetuUser](signatureService)
 
   lazy val application = play.api.Play.current

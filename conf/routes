@@ -48,12 +48,6 @@ GET            /trustedEntity/profile               @com.yetu.oauth2provider.con
 GET            /login                               @com.yetu.oauth2provider.controllers.authentication.LoginPage.login
 GET            /logout                              @com.yetu.oauth2provider.controllers.authentication.LoginPage.logout
 
-# Registration routes
-GET            /signup                              @com.yetu.oauth2provider.controllers.authentication.Registration.startSignUp
-POST           /signup                              @com.yetu.oauth2provider.controllers.authentication.Registration.handleStartSignUp
-GET            /signup/:mailToken                   @com.yetu.oauth2provider.controllers.authentication.Registration.handleSignUp(mailToken)
-GET            /confirmedSignup                     @com.yetu.oauth2provider.controllers.authentication.Registration.confirmedSignUp
-
 # Reset password
 GET            /reset                               @com.yetu.oauth2provider.controllers.authentication.PasswordReset.startResetPassword
 POST           /reset                               @com.yetu.oauth2provider.controllers.authentication.PasswordReset.handleStartResetPassword

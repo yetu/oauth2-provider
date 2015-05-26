@@ -47,8 +47,6 @@ trait DefaultTestVariables {
   val setupConfirmedMailErrorUrl = "/setup/confirmedmailerror"
   val setupDownloadUrl = "/setup/download"
 
-  val signupUrl = "/signup"
-  val confirmedSignUpUrl = "/confirmedSignup"
   val passwordResetUrl = "/reset"
 
   val validateUrl = "/oauth2/validate"

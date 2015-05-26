@@ -90,7 +90,6 @@ class OAuth2ResourceServer(scopeService: ScopeService,
   }
 
   def index = Action {
-
     TemporaryRedirect(Config.redirectAfterLogin)
   }
 
