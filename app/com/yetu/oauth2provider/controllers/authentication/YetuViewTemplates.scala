@@ -29,15 +29,15 @@ class YetuViewTemplates(env: RuntimeEnvironment[_]) extends ViewTemplates {
   }
 
   override def getSignUpPage()(implicit request: RequestHeader, lang: Lang): Html = {
-    views.html.yetuAuthentication.Registration.signUp()(request, lang, env)
+    Html("")
   }
 
   override def getConfirmedSignUpPage()(implicit request: RequestHeader, lang: Lang): Html = {
-    views.html.yetuAuthentication.Registration.confirmedSignUp()(request, lang, env)
+    views.html.setup.confirmedmail()
   }
 
   override def getStartSignUpPage(form: Form[RegistrationInfo])(implicit request: RequestHeader, lang: Lang): Html = {
-    views.html.yetuAuthentication.Registration.startSignUp(form)(request, lang, env)
+    views.html.setup.startSignUpForSetup(form)
   }
 
   override def getStartResetPasswordPage(form: Form[String])(implicit request: RequestHeader, lang: Lang): Html = {

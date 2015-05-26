@@ -1,9 +1,0 @@
-@()(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
-@import helper._
-@implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
-
-@com.yetu.oauth2provider.views.html.yetuAuthentication.main( Messages("securesocial.signup.success.title") ) {
-    <div class="page-header">
-        <h1 name="signup">@Messages("securesocial.signup.title")</h1>
-    </div>
-}
