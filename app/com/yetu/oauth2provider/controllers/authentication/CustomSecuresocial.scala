@@ -1,5 +1,6 @@
 package com.yetu.oauth2provider.controllers.authentication
 
+import com.yetu.oauth2provider.controllers.setup
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import play.api.mvc._
 import securesocial.controllers._
@@ -21,7 +22,7 @@ class CustomRoutesService extends RoutesService.Default {
   }
 
   override def startSignUpUrl(implicit req: RequestHeader): String = {
-    absoluteUrl(routes.Registration.startSignUp())
+    absoluteUrl(setup.routes.SetupController.startSignUp())
   }
 
   override def startResetPasswordUrl(implicit request: RequestHeader): String = {
