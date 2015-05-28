@@ -91,3 +91,4 @@ GET            /setup/confirmedmail/:mailToken      @com.yetu.oauth2provider.con
 
 # Download setup app
 GET            /setup/download                      @com.yetu.oauth2provider.controllers.setup.SetupController.download
+
