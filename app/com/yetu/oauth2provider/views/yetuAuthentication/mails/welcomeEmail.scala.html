@@ -1,5 +1,6 @@
 @(user: securesocial.core.BasicProfile)(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
 
+
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
@@ -24,9 +25,7 @@
 
                                             <table class="ten columns" style="border-spacing: 0; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; margin: 0 auto; width: 480px;">
                                                 <tr style="padding: 0; vertical-align: top; text-align: left;">
-                                                    <td style="text-align: right; word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">
-                                                        <a href="" target="_blank" style="color: #009900; text-decoration: none;">view this email in a browser</a>
-                                                    </td>
+                                                    <td style="text-align: right; word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">&nbsp;</td>
                                                     <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;"></td>
                                                 </tr>
                                             </table>
@@ -75,7 +74,7 @@
                                             <tr style="padding: 0; vertical-align: top; text-align: left;">
                                                 <td class="right-text-pad" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; text-align: left; padding-right: 10px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">
                                                     <a href="#" target="_blank" style="color: #009900; text-decoration: none;">
-                                                        <img src="@controllers.routes.Assets.versioned('images/emails/yetu-logo.png')" width="50" height="50" class="right" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: right; clear: both; display: block; border: none;" />
+                                                        <img src="@controllers.routes.Assets.versioned("images/emails/yetu-logo.png").absoluteURL()" width="50" height="50" class="right" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: right; clear: both; display: block; border: none;" />
                                                     </a>
                                                 </td>
                                                 <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;"></td>
@@ -122,10 +121,8 @@
 
                                         <table class="six columns" style="border-spacing: 0; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; margin: 0 auto; width: 280px;">
                                             <tr style="padding: 0; vertical-align: top; text-align: left;">
-                                                <td class="line-division" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; text-align: left; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">
-                                                    <span class="line first-line" style="width: 100%; display: block; height: 1px; background-color: #e8e8e8;">&nbsp;</span>
-                                                    <span class="line second-line" style="width: 100%; display: block; height: 1px; background-color: #c0c0c0;">&nbsp;</span>
-                                                    <span class="line third-line" style="width: 100%; display: block; height: 1px;">&nbsp;</span>
+                                                <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; text-align: left; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">
+                                                    <img src="@controllers.routes.Assets.versioned("images/emails/line-divisor.png").absoluteURL()" width="280" height="3" class="center" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: none; clear: both; display: block; margin: 0 auto;" />
                                                 </td>
                                                 <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;"></td>
                                             </tr>
@@ -154,7 +151,7 @@
                                             <tr style="padding: 0; vertical-align: top; text-align: left;">
                                                 <td style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0px 0px 10px; vertical-align: top; text-align: left; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;">
                                                     <a href="#" target="_blank" style="color: #009900; text-decoration: none;">
-                                                        <img src="@controllers.routes.Assets.versioned('images/emails/yetu-tips.png')" width="201" height="201" class="center" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: none; clear: both; display: block; border: none; margin: 0 auto;" /><br />
+                                                        <img src="@controllers.routes.Assets.versioned("images/emails/yetu-tips.png").absoluteURL()" width="201" height="201" class="center" style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; width: auto; max-width: 100%; float: none; clear: both; display: block; border: none; margin: 0 auto;" /><br />
                                                     </a>
                                                 </td>
                                                 <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;"></td>
@@ -196,7 +193,7 @@
                                                         <span>© 2015 yetu AG • Version 1.0</span>&nbsp;&nbsp;&nbsp;
                                                         <a href="http://yetu.me/" target="_blank" style="color: #009900; text-decoration: none;">Privacy Policy</a> -
                                                         <a href="http://yetu.me/" target="_blank" style="color: #009900; text-decoration: none;">Terms and Conditions</a> -
-                                                        <a href="http://yetu.me/" target="_blank" style="color: #009900; text-decoration: none;">Imprint</a>
+                                                        <a href="http://yetu.com/imprint/" target="_blank" style="color: #009900; text-decoration: none;">Imprint</a>
                                                     </td>
                                                     <td class="expander" style="word-break: break-word; -webkit-hyphens: auto; -moz-hyphens: auto; hyphens: auto; border-collapse: collapse; padding: 0; vertical-align: top; text-align: left; visibility: hidden; width: 0px; color: #666666; font-family: Source Sans Pro, sans-serif; font-weight: normal; margin: 0; line-height: 19px; font-size: 14px;"></td>
                                                 </tr>
@@ -218,4 +215,3 @@
 
 </body>
 </html>
-
