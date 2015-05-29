@@ -4,6 +4,7 @@ import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.StringUtils
 import play.api.mvc.DiscardingCookie
+import play.filters.csrf.CSRFAddToken
 import securesocial.controllers.{ ProviderControllerHelper, BaseLoginPage }
 import securesocial.core.authenticator.CookieAuthenticator
 import securesocial.core.providers.UsernamePasswordProvider
@@ -13,7 +14,7 @@ import scala.concurrent.Future
 
 class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginPage[YetuUser] {
 
-  override def login = {
+  override def login = CSRFAddToken {
     UserAwareAction { implicit request =>
 
       var result = Redirect(ProviderControllerHelper.landingUrl)
