@@ -3,37 +3,28 @@ package com.yetu.oauth2provider.controllers.authentication
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.StringUtils
-import play.api.mvc.DiscardingCookie
-import play.filters.csrf.CSRFAddToken
-import securesocial.controllers.{ ProviderControllerHelper, BaseLoginPage }
+import play.api.mvc._
+import securesocial.controllers.BaseLoginPage
 import securesocial.core.authenticator.CookieAuthenticator
-import securesocial.core.providers.UsernamePasswordProvider
-import securesocial.core.{ SecureSocial, RuntimeEnvironment }
+import securesocial.core.RuntimeEnvironment
+import scala.concurrent.ExecutionContext.Implicits.global
 
 import scala.concurrent.Future
 
 class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginPage[YetuUser] {
 
-  override def login = CSRFAddToken {
-    UserAwareAction { implicit request =>
+  override def login = DiscardingCookieAction {
+    super.login()
+  }
 
-      var result = Redirect(ProviderControllerHelper.landingUrl)
-      if (!request.user.isDefined) {
-
-        result = Ok(env.viewTemplates.getLoginPage(UsernamePasswordProvider.loginForm))
-        if (SecureSocial.enableRefererAsOriginalUrl) {
-
-          result = SecureSocial.withRefererAsOriginalUrl(
-            Ok(env.viewTemplates.getLoginPage(UsernamePasswordProvider.loginForm)))
-        }
-      }
-
-      // Avoid domain cookie interpolation
-      result.discardingCookies(DiscardingCookie(
+  case class DiscardingCookieAction[A](action: Action[A]) extends Action[A] {
+    def apply(request: Request[A]): Future[Result] = {
+      action(request).map(_.discardingCookies(DiscardingCookie(
         CookieAuthenticator.DefaultCookieName,
         "/",
-        Some(StringUtils.subdomain(request.host))))
+        Some(StringUtils.subdomain(request.host)))))
     }
+    lazy val parser = action.parser
   }
 
 }

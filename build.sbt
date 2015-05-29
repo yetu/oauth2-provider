@@ -3,7 +3,7 @@ import scoverage.ScoverageSbtPlugin
 import com.typesafe.sbt.SbtScalariform._
 import scalariform.formatter.preferences._
 
-scalaVersion := "2.11.5"
+scalaVersion := "2.11.6"
 
 name := "oauth2provider"
 

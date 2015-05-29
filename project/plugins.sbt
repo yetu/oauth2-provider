@@ -13,8 +13,6 @@ resolvers += "Typesafe repo" at "http://repo.typesafe.com/typesafe/repo/"
 
 resolvers += Resolver.typesafeIvyRepo("releases")
 
-credentials += Credentials(Path.userHome / ".ivy2" / ".credentials")
-
 // Use the Play sbt plugin for Play projects
 addSbtPlugin("com.typesafe.play" % "sbt-plugin" % "2.3.8")
 
