@@ -3,7 +3,9 @@ package com.yetu.oauth2provider.controllers.authentication
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.StringUtils
+import play.api.mvc.DiscardingCookie
 import securesocial.controllers.{ ProviderControllerHelper, BaseLoginPage }
+import securesocial.core.authenticator.CookieAuthenticator
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.{ SecureSocial, RuntimeEnvironment }
 
@@ -26,10 +28,10 @@ class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit ov
       }
 
       // Avoid domain cookie interpolation
-      result.withHeaders(
-        "Set-Cookie" -> ("id=; domain=" +
-          StringUtils.subdomain(request.host) +
-          "; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"))
+      result.discardingCookies(DiscardingCookie(
+        CookieAuthenticator.DefaultCookieName,
+        "/",
+        Some(StringUtils.subdomain(request.host))))
     }
   }
 
