@@ -28,7 +28,6 @@ case class CustomCookieAuthenticator[U](id: String, user: U, expirationDate: Dat
   def withUser(user: U): CustomCookieAuthenticator[U] = this.copy[U](user = user)
 
   override def discarding(result: Result): Future[Result] = {
-    import scala.concurrent.ExecutionContext.Implicits.global
     store.delete(id).map { _ =>
       result.discardingCookies(CookieAuthenticator.discardingCookie,
         SessionStatusCookie.discardingCookie // |-EXTRA-|
@@ -55,12 +54,11 @@ case class CustomCookieAuthenticator[U](id: String, user: U, expirationDate: Dat
   }
 
   override def discarding(javaContext: play.mvc.Http.Context): Future[Unit] = {
-    import scala.concurrent.ExecutionContext.Implicits.global
     store.delete(id).map { _ =>
       javaContext.response().discardCookie(
         CookieAuthenticator.cookieName,
         CookieAuthenticator.cookiePath,
-        CookieAuthenticator.cookieDomain.getOrElse(null),
+        CookieAuthenticator.cookieDomain.orNull,
         CookieAuthenticator.cookieSecure
       )
     }
