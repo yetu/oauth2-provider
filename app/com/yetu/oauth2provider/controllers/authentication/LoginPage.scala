@@ -1,14 +1,37 @@
 package com.yetu.oauth2provider.controllers.authentication
 
-import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
-import securesocial.controllers.BaseLoginPage
-import securesocial.core.RuntimeEnvironment
+import com.yetu.oauth2provider.utils.StringUtils
+import securesocial.controllers.{ ProviderControllerHelper, BaseLoginPage }
+import securesocial.core.providers.UsernamePasswordProvider
+import securesocial.core.{ SecureSocial, RuntimeEnvironment }
 
 import scala.concurrent.Future
 
 class LoginPage(authAccessTokenService: IAuthCodeAccessTokenService)(implicit override val env: RuntimeEnvironment[YetuUser]) extends BaseLoginPage[YetuUser] {
+
+  override def login = {
+    UserAwareAction { implicit request =>
+
+      var result = Redirect(ProviderControllerHelper.landingUrl)
+      if (!request.user.isDefined) {
+
+        result = Ok(env.viewTemplates.getLoginPage(UsernamePasswordProvider.loginForm))
+        if (SecureSocial.enableRefererAsOriginalUrl) {
+
+          result = SecureSocial.withRefererAsOriginalUrl(
+            Ok(env.viewTemplates.getLoginPage(UsernamePasswordProvider.loginForm)))
+        }
+      }
+
+      // Avoid domain cookie interpolation
+      result.withHeaders(
+        "Set-Cookie" -> ("id=; domain=" +
+          StringUtils.subdomain(request.host) +
+          "; path=/; expires=Thu, 01 Jan 1970 00:00:00 GMT"))
+    }
+  }
 
 }
 

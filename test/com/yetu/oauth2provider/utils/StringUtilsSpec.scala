@@ -50,4 +50,27 @@ class StringUtilsSpec extends BaseSpec {
     }
   }
 
+  "the subdomain method" must {
+    "return the string itself if the host doesn't have subdomain" in {
+      val requestHost1 = "localhost"
+      val requestHost2 = "localhost:9000"
+      val requestHost3 = "localhost.com:9000"
+      StringUtils.subdomain(requestHost1) mustBe requestHost1
+      StringUtils.subdomain(requestHost2) mustBe requestHost2
+      StringUtils.subdomain(requestHost3) mustBe requestHost3
+    }
+    "return the proper subdomain url from the given host with port" in {
+      val requestHost = "auth.localhost.com:9000"
+      StringUtils.subdomain(requestHost) mustBe ".localhost.com"
+    }
+    "return the proper subdomain url from the given host without port" in {
+      val requestHost = "auth-dev.yetu.me"
+      StringUtils.subdomain(requestHost) mustBe ".yetu.me"
+    }
+    "return the proper subdomain url to 4 level subdomain" in {
+      val requestHost = "auth.prod.yetu.me"
+      StringUtils.subdomain(requestHost) mustBe ".yetu.me"
+    }
+  }
+
 }
