@@ -17,6 +17,7 @@ case class CustomCookieAuthenticator[U](id: String, user: U, expirationDate: Dat
     lastUsed: DateTime,
     creationDate: DateTime,
     @transient store: AuthenticatorStore[CustomCookieAuthenticator[U]]) extends StoreBackedAuthenticator[U, CustomCookieAuthenticator[U]] {
+
   @transient
   override val idleTimeoutInMinutes = CookieAuthenticator.idleTimeout
 

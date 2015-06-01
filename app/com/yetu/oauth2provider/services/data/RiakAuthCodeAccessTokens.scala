@@ -1,5 +1,6 @@
 package com.yetu.oauth2provider.services.data
 
+import com.scalapenos.riak.RiakValue
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.oauth2.models.YetuUser
@@ -9,15 +10,19 @@ import play.api.Logger
 import scala.concurrent.Future
 import scalaoauth2.provider.AccessToken
 
+import com.yetu.oauth2provider.data.riak.models.AccessTokenJson.jsonFormat
+
 /**
  * riak implementation for authorization codes and access tokens given to OAuth2 clients such as the homescreen
  */
 class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCodeAccessTokenService {
 
+  import scala.concurrent.ExecutionContext.Implicits.global
   val logger = Logger(this.getClass)
 
   def saveAuthCode(user: YetuUser, code: String) = {
     logger.debug(s"saveAuthCode code=$code user=$user")
+    riakConnection.bucket.store(code, RiakValue(user.uid))
   }
 
   def findUserByAuthCode(code: String) = {
@@ -66,6 +71,8 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
 
   def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken token: $token")
-    Future.successful(None)
+    riakConnection.bucket
+      .fetch(token)
+      .map(option => option.map(_.as[AccessToken]))
   }
 }

@@ -16,8 +16,14 @@ case class IdentityId(userId: String, providerId: String)
 /**
  * An implementation of user Profile.  Used to gather user information when users sign up and/or sign in.
  */
-case class YetuUser(identityId: IdentityId, uid: String, firstName: String, lastName: String, fullName: String, email: Option[String],
-    avatarUrl: Option[String], authMethod: AuthenticationMethod,
+case class YetuUser(identityId: IdentityId,
+    uid: String,
+    firstName: String,
+    lastName: String,
+    fullName: String,
+    email: Option[String],
+    avatarUrl: Option[String],
+    authMethod: AuthenticationMethod,
     oAuth1Info: Option[OAuth1Info] = None,
     oAuth2Info: Option[OAuth2Info] = None,
     passwordInfo: Option[PasswordInfo] = None,
