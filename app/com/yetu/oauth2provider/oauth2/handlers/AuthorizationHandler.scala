@@ -18,6 +18,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     passwordHashers: Map[String, PasswordHasher],
     jsonWebTokenGenerator: JsonWebTokenGenerator) extends DataHandler[YetuUser] {
 
+  import scala.concurrent.ExecutionContext.Implicits.global
   val logger = Logger(this.getClass)
 
   override def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = {
@@ -69,27 +70,20 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def findAuthInfoByCode(code: String): Future[Option[AuthInformation]] = {
-    // lookup from saved code:user object
-    val user = authAccessService.findUserByAuthCode(code)
-    logger.debug(s"findAuthInfoByCode: $code -> user: $user")
-    user match {
-      case None => Future.successful(None)
-      case Some(u) => {
-        val authInfo: Option[AuthInformation] = authAccessService.findAuthInfoByAuthCode(code)
-        logger.debug(s"findAuthInfoByCode: $code -> authInfo: $authInfo")
-        Future.successful(authInfo)
-      }
-    }
+    for {
+      authInfo <- authAccessService.findAuthInfoByAuthCode(code)
+      log = logger.debug(s"findAuthInfoByCode: $code -> authInfo: $authInfo")
+    } yield authInfo
   }
 
   def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken: $token")
-    Future.successful(authAccessService.findAccessToken(token))
+    authAccessService.findAccessToken(token)
   }
 
   def findAuthInfoByAccessToken(accessToken: AccessToken) = {
     logger.debug(s"findAuthInfoByAccessToken: $accessToken")
-    Future.successful(authAccessService.findUserByAccessToken(accessToken))
+    authAccessService.findUserByAccessToken(accessToken)
   }
 
   def findUser(username: String, password: String): Future[Option[YetuUser]] = {

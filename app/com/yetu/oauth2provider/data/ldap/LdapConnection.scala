@@ -1,16 +1,13 @@
-package com.yetu.oauth2provider
-package data
-package connection
+package com.yetu.oauth2provider.data.ldap
 
+import com.unboundid.ldap.sdk.{ LDAPConnection, LDAPConnectionPool }
 import com.yetu.oauth2provider.utils.Config._
-import com.unboundid.ldap.sdk.LDAPConnection
-import com.unboundid.ldap.sdk.LDAPConnectionPool
 import play.api.Logger
 
 /**
  * ConnectionHelper class to manage connection pool to retrieve and release a connection to LDAP
  */
-object ConnectionHelper {
+object LdapConnection {
 
   private val connectionPool = createConnectionPool
 

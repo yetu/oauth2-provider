@@ -5,6 +5,7 @@ import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import play.api.Logger
 
+import scala.concurrent.Future
 import scalaoauth2.provider.AccessToken
 
 /**
@@ -25,73 +26,30 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     authCodes += (code -> user)
   }
 
-  def findUserByAuthCode(code: String): Option[YetuUser] = {
-
+  def findUserByAuthCode(code: String) = {
     logger.debug(s"findUserByAuthCode code=$code")
-    authCodes.get(code)
+    Future.successful(authCodes.get(code))
   }
 
   def saveAccessToken(token: String, accessToken: AccessToken) = {
     accessTokens += (token -> accessToken)
   }
 
-  def findAuthCodeByUser(user: YetuUser): Option[String] = {
+  def findAuthCodeByUser(user: YetuUser) = {
     logger.debug(s"findAuthCodeByUser user=$user")
-    authCodes.foreach {
-      case (key, value) => {
-        if (value.equals(user)) return Some(key)
-      }
-    }
-    None
+    Future.successful(authCodes.find(_._2.equals(user)).map(_._1))
   }
 
-  def findAccessTokenByUser(user: YetuUser): Option[AccessToken] = {
-
+  def findAccessTokenByUser(user: YetuUser) = {
     logger.debug(s"findAccessTokenByUser user=$user")
-    accessTokensWithUser.foreach {
-      case (key, value) => {
-        logger.debug(value.user.identityId.userId + " - " + user.identityId)
-        if (value.user.identityId.userId == user.identityId.userId) {
-          return Some(key)
-        }
-      }
-    }
-    None
+    Future.successful(accessTokensWithUser
+      .find(_._2.user.identityId.userId == user.identityId.userId)
+      .map(_._1))
   }
 
-  def findTokenByAccessToken(accessToken: AccessToken): Option[String] = {
+  def findTokenByAccessToken(accessToken: AccessToken) = {
     logger.debug(s"findTokenByAccessToken accessToken=$accessToken")
-    accessTokens.foreach {
-      case (key, value) => {
-        if (value.equals(accessToken)) {
-          return Some(key)
-        }
-      }
-    }
-    None
-  }
-
-  def deleteAll(identity: YetuUser) {
-    try {
-      val authCode = findAuthCodeByUser(identity)
-      authCodes --= authCode
-    } catch {
-      case e: Exception => logger.debug("exception caught: " + e);
-    }
-
-    try {
-      val accessToken = findAccessTokenByUser(identity)
-      accessToken match {
-        case None => None
-        case Some(a) => {
-          val token = findTokenByAccessToken(a)
-          accessTokens --= token
-        }
-      }
-      accessTokensWithUser --= accessToken
-    } catch {
-      case e: Exception => logger.debug("exception caught: " + e);
-    }
+    Future.successful(accessTokens.find(_._2.equals(accessToken)).map(_._1))
   }
 
   def saveAuthCodeToAuthInfo(code: String, authInfo: AuthInformation) = {
@@ -99,10 +57,10 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     authCodeAuthInfo += (code -> authInfo)
   }
 
-  def findAuthInfoByAuthCode(code: String): Option[AuthInformation] = {
+  def findAuthInfoByAuthCode(code: String) = {
     val info = authCodeAuthInfo.get(code)
     logger.debug(s"findAuthInfoByAuthCode code: $code result=$info")
-    info
+    Future.successful(info)
   }
 
   def saveAccessTokenToUser(accessToken: AccessToken, authInfo: AuthInformation) = {
@@ -111,16 +69,16 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     accessTokensWithUser += (accessToken -> authInfo)
   }
 
-  def findUserByAccessToken(accessToken: AccessToken): Option[AuthInformation] = {
+  def findUserByAccessToken(accessToken: AccessToken) = {
     val authInfo: Option[AuthInformation] = accessTokensWithUser.get(accessToken)
     logger.debug(s"findUserByAccessToken accessToken: $accessToken")
     logger.debug(s"findUserByAccessToken authInfo: $authInfo")
-    authInfo
+    Future.successful(authInfo)
   }
 
-  def findAccessToken(token: String): Option[AccessToken] = {
+  def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken token: $token")
-    accessTokens.get(token)
+    Future.successful(accessTokens.get(token))
   }
 
 }
@@ -131,9 +89,9 @@ object MemoryAuthCodeAccessTokens {
    * e.g. redirect to homescreen.com?code=AUTH_CODE
    */
   var authCodes = Map[String, YetuUser]()
+  var authCodeAuthInfo = Map[String, AuthInformation]()
 
   var accessTokens = Map[String, AccessToken]()
   var accessTokensWithUser = Map[AccessToken, AuthInformation]()
-  var authCodeAuthInfo = Map[String, AuthInformation]()
 }
 

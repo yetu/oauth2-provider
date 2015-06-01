@@ -3,6 +3,7 @@ package com.yetu.oauth2provider.services.data.iface
 import com.yetu.oauth2provider.oauth2.models.Temp._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 
+import scala.concurrent.Future
 import scalaoauth2.provider.AccessToken
 
 //TODO: there should be a fewer save/find methods
@@ -14,26 +15,24 @@ trait IAuthCodeAccessTokenService {
 
   def saveAuthCode(user: YetuUser, code: String)
 
-  def findUserByAuthCode(code: String): Option[YetuUser]
+  def findUserByAuthCode(code: String): Future[Option[YetuUser]]
 
   def saveAccessToken(token: String, accessToken: AccessToken)
 
-  def findAuthCodeByUser(identity: YetuUser): Option[String]
+  def findAuthCodeByUser(identity: YetuUser): Future[Option[String]]
 
-  def findAccessTokenByUser(identity: YetuUser): Option[AccessToken]
+  def findAccessTokenByUser(identity: YetuUser): Future[Option[AccessToken]]
 
-  def findTokenByAccessToken(accessToken: AccessToken): Option[String]
-
-  def deleteAll(identity: YetuUser)
+  def findTokenByAccessToken(accessToken: AccessToken): Future[Option[String]]
 
   def saveAuthCodeToAuthInfo(code: String, authInfo: AuthInformation)
 
-  def findAuthInfoByAuthCode(code: String): Option[AuthInformation]
+  def findAuthInfoByAuthCode(code: String): Future[Option[AuthInformation]]
 
   def saveAccessTokenToUser(accessToken: AccessToken, authInfo: AuthInformation)
 
-  def findUserByAccessToken(accessToken: AccessToken): Option[AuthInformation]
+  def findUserByAccessToken(accessToken: AccessToken): Future[Option[AuthInformation]]
 
-  def findAccessToken(token: String): Option[AccessToken]
+  def findAccessToken(token: String): Future[Option[AccessToken]]
 
 }

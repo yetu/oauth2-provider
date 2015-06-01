@@ -39,10 +39,13 @@ libraryDependencies ++= Seq(
   "org.bouncycastle" % "bcpkix-jdk15on" % "1.51",
   "com.unboundid" % "unboundid-ldapsdk" % "2.3.8",
   "net.logstash.logback" % "logstash-logback-encoder" % "3.0",
-  "com.softwaremill.macwire" %% "macros" % "0.7.1",
-  "com.softwaremill.macwire" %% "runtime" % "0.7.1",
+  "com.softwaremill.macwire" %% "macros" % "1.0.2",
+  "com.softwaremill.macwire" %% "runtime" % "1.0.2",
   "com.yetu" %% "oauth2-resource-server" % "0.2.4",
   "com.yetu" %% "oauth2-resource-server" % "0.2.4" % "test" classifier "tests",
+
+  //riak
+  "com.scalapenos" %% "riak-scala-client" % "0.9.5",
 
   //JSON Web token libs
   "com.plasmaconduit" %% "jws" % "0.12.0",

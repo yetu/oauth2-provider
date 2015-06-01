@@ -12,7 +12,7 @@ import scala.concurrent.Future
  *
  * validity can be configured in securesocial.conf, default = 60 minutes
  */
-trait MemoryMailTokenService extends IMailTokenService {
+class MemoryMailTokenService extends IMailTokenService {
 
   val tokenLogger = Logger("com.yetu.oauth2provider.services.data.MemoryMailTokenService")
 

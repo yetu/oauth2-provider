@@ -26,16 +26,10 @@ object Global extends GlobalSettings with Macwire {
   //  }
 
   private val diRegistry: Wired = {
-    Config.databaseToUse match {
-      case "ldap" => {
-        wiredInModule(LdapControllerRegistry)
-      }
-      case "inmemory" => {
-        wiredInModule(MemoryControllerRegistry)
-      }
-      case _ => {
-        throw new Exception("Configuration invalid: please specify either 'inmemory' or 'ldap' for the 'databaseToUse' configuration key.")
-      }
+    if (Config.persist) {
+      wiredInModule(PersistentControllerRegistry)
+    } else {
+      wiredInModule(MemoryControllerRegistry)
     }
   }
 

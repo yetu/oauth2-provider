@@ -1,6 +1,27 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.services.data.iface.IMailTokenService
+import securesocial.core.providers.MailToken
 import securesocial.core.services.UserService
 
-class MemoryUserService extends MemoryPersonService with UserService[YetuUser] with MemoryMailTokenService
+import scala.concurrent.Future
+
+class MemoryUserService(mailTokenService: IMailTokenService) extends MemoryPersonService with UserService[YetuUser] {
+
+  override def saveToken(token: MailToken): Future[MailToken] = {
+    mailTokenService.saveToken(token)
+  }
+
+  override def deleteToken(uuid: String): Future[Option[MailToken]] = {
+    mailTokenService.deleteToken(uuid)
+  }
+
+  override def findToken(token: String): Future[Option[MailToken]] = {
+    mailTokenService.findToken(token)
+  }
+
+  override def deleteExpiredTokens(): Unit = {
+    mailTokenService.deleteExpiredTokens()
+  }
+}

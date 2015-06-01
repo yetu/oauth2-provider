@@ -2,6 +2,7 @@ package com.yetu.oauth2provider
 package utils
 
 import com.typesafe.config.ConfigFactory
+import com.yetu.oauth2provider.data.riak.RiakConnection
 import org.joda.time.DateTimeConstants.MILLIS_PER_SECOND
 import play.api.Play
 import play.api.Play.current
@@ -104,12 +105,24 @@ object Config {
 
   // play.configuration requires a started play app; however this configuration value needs to eb read before
   // application start. Use the standard ConfigFactory (loading reference.conf / application.conf)
-  val configWithoutStartedApplication = ConfigFactory.load()
-  val databaseToUse = configWithoutStartedApplication.getString("databaseToUse")
+  val config = ConfigFactory.load()
+  val persist = config.getBoolean("persist")
 
-  val minimumPasswordLength = configWithoutStartedApplication.getInt("securesocial.userpass.minimumPasswordLength")
+  val minimumPasswordLength = config.getInt("securesocial.userpass.minimumPasswordLength")
 
   val InvalidPasswordMessage = "securesocial.signup.invalidPassword"
+
+  object ProductionRiakSettings extends RiakConnection {
+    override def host: String = config.getString("riak.production.host")
+    override def port: Int = config.getInt("riak.production.port")
+    override def bucketName: String = config.getString("riak.production.authbucket")
+  }
+
+  object TestRiakSettings extends RiakConnection {
+    override def host: String = config.getString("riak.test.host")
+    override def port: Int = config.getInt("riak.test.port")
+    override def bucketName: String = config.getString("riak.test.authbucket")
+  }
 
 }
 
