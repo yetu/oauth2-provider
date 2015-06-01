@@ -30,7 +30,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
   authorizeService: AuthorizeService,
   clientService: IClientService,
   permissionService: IPermissionService,
-  tokenEndpoint: TokenEndpoint)(override implicit val env: RuntimeEnvironment[YetuUser])
+  tokenEndpoint: TokenEndpoint)(override val env: RuntimeEnvironment[YetuUser])
     extends OAuth2ImplicitControllerHelper(tokenEndpoint: TokenEndpoint) with securesocial.core.SecureSocial[YetuUser] {
 
   /**
