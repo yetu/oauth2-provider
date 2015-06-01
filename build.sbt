@@ -31,7 +31,7 @@ libraryDependencies ++= Seq(
   "com.yetu" %% "securesocial" % "3.0.10",
   "com.yetu" %% "yetu-notification-client-scala" % "1.5",
 
-  "com.nulab-inc" %% "play2-oauth2-provider" % "0.11.0",
+  "com.nulab-inc" %% "play2-oauth2-provider" % "0.14.0",
 
   "net.adamcin.httpsig" % "httpsig-api" % "1.0.6",
   "net.adamcin.httpsig" % "httpsig-ssh-jce" % "1.0.6",

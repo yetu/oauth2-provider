@@ -18,7 +18,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     passwordHashers: Map[String, PasswordHasher],
     jsonWebTokenGenerator: JsonWebTokenGenerator) extends DataHandler[YetuUser] {
 
-  val logger = Logger(this.getClass())
+  val logger = Logger(this.getClass)
 
   override def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = {
     //TODO: validate clientId String length and allowed symbols?
@@ -37,8 +37,8 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
         logger.debug(s"id = ${oauthClient.clientId} , secret = ${oauthClient.clientSecret}, grantType = ${oauthClient.grantTypes}")
 
         val validClientId = oauthClient.clientId == clientCredential.clientId
-        val validGrantType = oauthClient.grantTypes.map(grantList => grantList.contains(grantType)).getOrElse(false)
-        val validSecret = clientCredential.clientSecret.map(_ == oauthClient.clientSecret).getOrElse(false)
+        val validGrantType = oauthClient.grantTypes.exists(grantList => grantList.contains(grantType))
+        val validSecret = clientCredential.clientSecret.contains(oauthClient.clientSecret)
 
         if (grantType == Config.GRANT_TYPE_TOKEN) {
           validClientId && validGrantType
@@ -129,6 +129,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     Future.successful(None)
   }
 
+  override def deleteAuthCode(code: String): Future[Unit] = ???
 }
 
 //*   <li>validateClient(clientId, clientSecret, grantType)</li>

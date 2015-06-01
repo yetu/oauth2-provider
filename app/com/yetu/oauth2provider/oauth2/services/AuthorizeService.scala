@@ -7,19 +7,15 @@ import java.net.URLDecoder
 import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IPersonService, IAuthCodeAccessTokenService, IClientService }
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
-import play.Logger._
 import play.api.mvc.{ Cookie, Controller, Result }
 import securesocial.core.authenticator.CookieAuthenticator
 import scala.concurrent.Future
 import scalaoauth2.provider
 import scalaoauth2.provider._
-import scalaoauth2.provider.AuthInfo
-
 import OAuth2Protocol._
 import com.yetu.oauth2provider.oauth2.models._
 import errors.InvalidState
 import com.yetu.oauth2provider.utils.{ NamedLogger, Config, BearerTokenGenerator }
-import com.yetu.oauth2provider.models.Permission._
 
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
@@ -33,8 +29,8 @@ class AuthorizeErrorHandler(clientService: IClientService,
   }
 
   implicit def play2AuthorizeRequest[A](request: Request[A]): AuthorizeRequest = {
-    val param: Map[String, Seq[String]] = getParam(request)
-    AuthorizeRequest(request.headers.toMap, param)
+    val authorization = super.play2oauthRequest(request)
+    AuthorizeRequest(authorization.headers, authorization.params)
   }
 
   def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Either[OAuthError, AuthorizedClient] = try {

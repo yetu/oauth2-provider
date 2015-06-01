@@ -2,24 +2,15 @@ package com.yetu.oauth2provider
 package services
 package data
 
-import _root_.java.io.Serializable
-import play.api.libs.json.{ JsError, JsSuccess, JsValue }
-import play.api.mvc.Results._
-import play.api.mvc.Result
-
 import com.unboundid.ldap.sdk.Attribute
 import com.unboundid.ldap.sdk.Entry
-import com.unboundid.ldap.sdk.Modification
-import com.unboundid.ldap.sdk.ModificationType
 import com.unboundid.ldap.sdk.SearchResultEntry
 import play.api.Logger
-import com.yetu.oauth2provider.utils.{ LDAPUtils, DateUtility, UUIDGenerator, StringUtils }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
-import com.yetu.oauth2provider.data.ldap.models.{ People, Client }
-import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission }
-import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPersonService }
+import com.yetu.oauth2provider.data.ldap.models.Client
+import com.yetu.oauth2provider.services.data.iface.IClientService
 
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, OAuth2Client, ClientPermission }
+import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 
 class LdapClientService(dao: LdapDAO) extends IClientService {
 
