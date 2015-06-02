@@ -1,38 +1,35 @@
 package com.yetu.oauth2provider.services.data.iface
 
-import com.yetu.oauth2provider.oauth2.models.Temp._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 
 import scala.concurrent.Future
-import scalaoauth2.provider.AccessToken
+import scalaoauth2.provider.{ AuthInfo, AccessToken }
 
-//TODO: there should be a fewer save/find methods
-//TODO: instead nulab's AuthInfo and securesocial's Identity should be better linked together.
-
-//TODO scopes need to be taken into account.
-//TODO: this interface should be redesigned
 trait IAuthCodeAccessTokenService {
 
-  def saveAuthCode(user: YetuUser, code: String): Future[Unit]
-
-  def findUserByAuthCode(code: String): Future[Option[YetuUser]]
+  import scala.concurrent.ExecutionContext.Implicits.global
 
   def saveAccessToken(token: String, accessToken: AccessToken): Future[Unit]
 
-  def findAuthCodeByUser(identity: YetuUser): Future[Option[String]]
+  def saveAccessToken(accessToken: AccessToken, authInfo: AuthInfo[YetuUser]): Future[Unit] = {
+    val saveToken = saveAccessToken(accessToken.token, accessToken)
+    val saveAuthInfo = saveAccessTokenToAuthInfo(accessToken.token, authInfo)
+    for {
+      token <- saveToken
+      info <- saveAuthInfo
+    } yield info
+  }
 
-  def findAccessTokenByUser(identity: YetuUser): Future[Option[AccessToken]]
+  def saveAuthCode(code: String, authInfo: AuthInfo[YetuUser]): Future[Unit]
 
-  def findTokenByAccessToken(accessToken: AccessToken): Future[Option[String]]
+  def saveAccessTokenToAuthInfo(token: String, authInfo: AuthInfo[YetuUser]): Future[Unit]
 
-  def saveAuthCodeToAuthInfo(code: String, authInfo: AuthInformation)
+  def findAuthInfoByAuthCode(code: String): Future[Option[AuthInfo[YetuUser]]]
 
-  def findAuthInfoByAuthCode(code: String): Future[Option[AuthInformation]]
-
-  def saveAccessTokenToUser(accessToken: AccessToken, authInfo: AuthInformation)
-
-  def findUserByAccessToken(accessToken: AccessToken): Future[Option[AuthInformation]]
+  def findAuthInfoByAccessToken(token: String): Future[Option[AuthInfo[YetuUser]]]
 
   def findAccessToken(token: String): Future[Option[AccessToken]]
+
+  def deleteAuthCode(code: String): Future[Unit]
 
 }

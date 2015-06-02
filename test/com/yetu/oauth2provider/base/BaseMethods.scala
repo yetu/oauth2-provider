@@ -15,11 +15,9 @@ trait BaseMethods extends DefaultTestVariables {
   def generateAndSaveTestVariables(scope: String = Config.SCOPE_BASIC, user: YetuUser = testUser, clientId: String = testClientId, redirectURIs: List[String] = List(defaultRedirectUrl)) = {
 
     val (authInfo, token) = generateTestVariables(scope, user, clientId, redirectURIs)
+    authCodeAccessTokenService.saveAccessToken(token, authInfo)
 
-    authCodeAccessTokenService.saveAccessToken(token.token, token)
-    authCodeAccessTokenService.saveAccessTokenToUser(token, authInfo)
     (authInfo, token)
-
   }
 
 }

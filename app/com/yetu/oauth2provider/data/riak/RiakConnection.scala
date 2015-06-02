@@ -6,9 +6,13 @@ trait RiakConnection {
 
   def port: Int
   def host: String
-  def bucketName: String
+  def accessTokenBucketName: String
+  def authCodeBucketName: String
+  def mailTokenBucketName: String
 
   def riakClient: RiakClient = RiakClient(host, port)
-  def bucket: RiakBucket = riakClient.bucket(bucketName)
+  def accessTokenBucket: RiakBucket = riakClient.bucket(accessTokenBucketName)
+  def authCodeBucket: RiakBucket = riakClient.bucket(authCodeBucketName)
+  def mailTokenBucket: RiakBucket = riakClient.bucket(mailTokenBucketName)
 }
 

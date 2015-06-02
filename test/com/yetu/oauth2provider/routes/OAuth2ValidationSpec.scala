@@ -14,20 +14,19 @@ class OAuth2ValidationSpec extends BaseRoutesSpec {
 
     s"give badrequest if no token" in {
       val Some(result) = route(FakeRequest(GET, validateUrl))
-      status(result) mustEqual (BAD_REQUEST)
+      status(result) mustEqual BAD_REQUEST
     }
 
     s"give unauthorized if not valid" in {
 
       val Some(result) = route(FakeRequest(GET, s"$validateUrl?access_token=dummyAccessToken"))
-      status(result) mustEqual (UNAUTHORIZED)
+      status(result) mustEqual UNAUTHORIZED
     }
 
     s"give a correct 200 response if token is valid either in the header or in the query parameter" in {
 
       val (testUserInfo, testAccessToken) = generateTestVariables()
-      authCodeAccessTokenService.saveAccessToken(testAccessToken.token, testAccessToken)
-      authCodeAccessTokenService.saveAccessTokenToUser(testAccessToken, testUserInfo)
+      authCodeAccessTokenService.saveAccessToken(testAccessToken, testUserInfo)
 
       // use /validate/?access_token=<token>
       val Some(result) = route(FakeRequest(GET, s"$validateUrl?access_token=${testAccessToken.token}"))
@@ -38,13 +37,11 @@ class OAuth2ValidationSpec extends BaseRoutesSpec {
       val Some(result2) = route(FakeRequest(GET, validateUrl, headers, AnyContentAsEmpty))
 
       status(result2) mustEqual OK
-
     }
 
     s"give proper json if all correct" in {
       val (testUserInfo, testAccessToken) = generateTestVariables(scope = Config.SCOPE_CONTROLCENTER)
-      authCodeAccessTokenService.saveAccessToken(testAccessToken.token, testAccessToken)
-      authCodeAccessTokenService.saveAccessTokenToUser(testAccessToken, testUserInfo)
+      authCodeAccessTokenService.saveAccessToken(testAccessToken, testUserInfo)
 
       val Some(result) = route(FakeRequest(GET, s"$validateUrl?access_token=${testAccessToken.token}"))
 

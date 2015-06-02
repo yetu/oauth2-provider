@@ -2,6 +2,7 @@ import sbt.Keys._
 import scoverage.ScoverageSbtPlugin
 import com.typesafe.sbt.SbtScalariform._
 import scalariform.formatter.preferences._
+import java.nio.file.{Paths, Files}
 
 scalaVersion := "2.11.6"
 
@@ -13,7 +14,7 @@ resolvers += Resolver.bintrayRepo("yetu", "maven")
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
   .configs(CustomIntegrationTest)
-  .settings( inConfig(CustomIntegrationTest)(Defaults.testTasks) : _*)
+  .settings(inConfig(CustomIntegrationTest)(Defaults.testTasks): _*)
   .settings(
     testOptions in Test := Seq(Tests.Filter(unitFilter)),
     testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter))
@@ -65,7 +66,7 @@ scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
   "-feature", // Emit warning and location for usages of features that should be imported explicitly.
   "-unchecked", // Enable additional warnings where generated code depends on assumptions.
-//  "-Xfatal-warnings", // Fail the compilation if there are any warnings.
+  //  "-Xfatal-warnings", // Fail the compilation if there are any warnings.
   "-Xlint", // Enable recommended additional warnings.
   "-Ywarn-adapted-args", // Warn if an argument list is modified to match the receiver.
   "-Ywarn-dead-code", // Warn when dead code is identified.
@@ -96,15 +97,23 @@ ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;
 
 parallelExecution in Test := false
 
-javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
+javaOptions in Test += {
+  "-Dconfig.file=conf/application-test.conf"
+}
 
-javaOptions in CustomIntegrationTest += "-Dconfig.file=conf/application-integrationtest.conf"
+javaOptions in CustomIntegrationTest += {
+  if (Files.exists(Paths.get("conf/application.conf"))) {
+    "-Dconfig.file=conf/application.conf"
+  } else {
+    "-Dconfig.file=conf/application-integrationtest.conf"
+  }
+}
 
 
 def integrationFilter(name: String): Boolean = name endsWith "ITSpec"
 
 def unitFilter(name: String): Boolean = ((name endsWith "Test") || (name endsWith "Spec")) && !integrationFilter(name)
 
-lazy val CustomIntegrationTest = config("it") extend(Test)
+lazy val CustomIntegrationTest = config("it") extend Test
 
 parallelExecution in CustomIntegrationTest := false

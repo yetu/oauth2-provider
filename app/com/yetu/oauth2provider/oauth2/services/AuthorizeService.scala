@@ -4,7 +4,7 @@ package services
 
 import java.net.URLDecoder
 
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
+import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IPersonService, IAuthCodeAccessTokenService, IClientService }
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
 import play.api.mvc.{ Cookie, Controller, Result }
@@ -122,8 +122,10 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
 
     val redirectUrl = redirectUri.getOrElse(client.redirectURIs.head)
 
-    authAccessService.saveAuthCode(user, auth_code)
-    authAccessService.saveAuthCodeToAuthInfo(auth_code, new AuthInformation(user, Some(client.clientId), Some(scope), Some(redirectUrl)))
+    authAccessService.saveAuthCode(
+      auth_code,
+      new AuthInfo[YetuUser](user, Some(client.clientId), Some(scope), Some(redirectUrl)))
+
     Redirect(redirectUrl, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
   }
 
@@ -151,11 +153,11 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
   def handleClientPermissions(client: OAuth2Client, authorizeRequest: AuthorizeRequest, user: YetuUser): Result = {
     val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
     clientPermission match {
-      case None => {
+      case None =>
         //TODO: FIXME
         Ok("TODO: permissions form should be here!")
         //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
-      }
+
       case Some(permission) => handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
