@@ -23,7 +23,7 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
 
   def saveAuthCode(user: YetuUser, code: String) = {
     logger.debug(s"saveAuthCode code=$code user=$user")
-    authCodes += (code -> user)
+    Future.successful(authCodes += (code -> user))
   }
 
   def findUserByAuthCode(code: String) = {
@@ -32,7 +32,7 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
   }
 
   def saveAccessToken(token: String, accessToken: AccessToken) = {
-    accessTokens += (token -> accessToken)
+    Future.successful(accessTokens += (token -> accessToken))
   }
 
   def findAuthCodeByUser(user: YetuUser) = {

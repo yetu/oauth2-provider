@@ -13,11 +13,11 @@ import scalaoauth2.provider.AccessToken
 //TODO: this interface should be redesigned
 trait IAuthCodeAccessTokenService {
 
-  def saveAuthCode(user: YetuUser, code: String)
+  def saveAuthCode(user: YetuUser, code: String): Future[Unit]
 
   def findUserByAuthCode(code: String): Future[Option[YetuUser]]
 
-  def saveAccessToken(token: String, accessToken: AccessToken)
+  def saveAccessToken(token: String, accessToken: AccessToken): Future[Unit]
 
   def findAuthCodeByUser(identity: YetuUser): Future[Option[String]]
 

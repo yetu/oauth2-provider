@@ -1,37 +1,40 @@
 package com.yetu.oauth2provider.services.data
 
-import com.scalapenos.riak.RiakValue
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import play.api.Logger
+import play.api.libs.json.Json
 
 import scala.concurrent.Future
 import scalaoauth2.provider.AccessToken
 
-import com.yetu.oauth2provider.data.riak.models.AccessTokenJson.jsonFormat
 
 /**
  * riak implementation for authorization codes and access tokens given to OAuth2 clients such as the homescreen
  */
 class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCodeAccessTokenService {
 
+  implicit val formatAccessToken = Json.format[AccessToken]
+
   import scala.concurrent.ExecutionContext.Implicits.global
   val logger = Logger(this.getClass)
 
   def saveAuthCode(user: YetuUser, code: String) = {
     logger.debug(s"saveAuthCode code=$code user=$user")
-    riakConnection.bucket.store(code, RiakValue(user.uid))
+    riakConnection.bucket.store(code, Json.toJson(user).toString())
   }
 
   def findUserByAuthCode(code: String) = {
     logger.debug(s"findUserByAuthCode code=$code")
-    Future.successful(None)
+    riakConnection.bucket.fetch(code).map( p => {
+      p.map(o => Json.parse(o.data).as[YetuUser])
+    })
   }
 
   def saveAccessToken(token: String, accessToken: AccessToken) = {
-
+    riakConnection.bucket.store(token, Json.toJson(accessToken).toString())
   }
 
   def findAuthCodeByUser(user: YetuUser) = {
@@ -71,8 +74,8 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
 
   def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken token: $token")
-    riakConnection.bucket
-      .fetch(token)
-      .map(option => option.map(_.as[AccessToken]))
+    riakConnection.bucket.fetch(token).map( p => {
+      p.map(o => Json.parse(o.data).as[AccessToken])
+    })
   }
 }

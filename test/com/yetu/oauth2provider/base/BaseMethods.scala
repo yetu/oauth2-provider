@@ -1,11 +1,14 @@
 package com.yetu.oauth2provider.base
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.registry.TestRegistry
+import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.Config
 import play.api.Logger
 
-trait BaseMethods extends DefaultTestVariables with TestRegistry {
+trait BaseMethods extends DefaultTestVariables {
+
+  def authCodeAccessTokenService: IAuthCodeAccessTokenService
+
   val logger = Logger("TEST")
   def log(s: String) = logger.warn(s)
 

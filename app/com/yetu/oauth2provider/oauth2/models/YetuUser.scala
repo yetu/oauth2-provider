@@ -4,6 +4,7 @@ package models
 
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2resource.model.ContactInfo
+import play.api.libs.json.Json
 import securesocial.controllers.UserAgreement
 import securesocial.core._
 import _root_.java.util.Date
@@ -41,6 +42,18 @@ case class YetuUser(identityId: IdentityId,
 
   def toBasicProfile = BasicProfile(providerId, userId, Some(firstName), Some(lastName), Some(fullName), email, avatarUrl, authMethod, oAuth1Info, oAuth2Info, passwordInfo, userAgreement)
 
+}
+
+object YetuUser  {
+    implicit val formatIdentityId = Json.format[IdentityId]
+    implicit val formatOAuth1Info = Json.format[OAuth1Info]
+    implicit val formatOAuth2Info = Json.format[OAuth2Info]
+    implicit val formatPasswordInfo = Json.format[PasswordInfo]
+    implicit val formatContactInfo = Json.format[ContactInfo]
+    implicit val formatYetuPublicKey = Json.format[YetuPublicKey]
+    implicit val formatUserAgreement = Json.format[UserAgreement]
+    implicit val formatAuthenticationMethod = Json.format[AuthenticationMethod]
+    implicit val formatYetuUser = Json.format[YetuUser]
 }
 
 object YetuUserHelper {
