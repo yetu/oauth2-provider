@@ -6,11 +6,12 @@ import com.yetu.oauth2provider.controllers.authentication._
 import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.services.data.RiakCacheService
 import securesocial.core.{ EventListener, RuntimeEnvironment }
 import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.providers.utils.PasswordValidator
-import securesocial.core.services.{ AuthenticatorService, UserService }
+import securesocial.core.services.{ CacheService, AuthenticatorService, UserService }
 
 import scala.collection.immutable.ListMap
 
@@ -43,6 +44,7 @@ trait ControllerRegistry extends ServicesRegistry {
   lazy val setupController = wire[SetupController]
 
   object MyRuntimeEnvironment extends RuntimeEnvironment.Default[YetuUser] {
+    override lazy val cacheService: CacheService = cacheConnection
     override lazy val mailTemplates = yetuMailTemplates
     override lazy val viewTemplates = yetuViewTemplates
     override lazy val userService: UserService[YetuUser] = myUserService

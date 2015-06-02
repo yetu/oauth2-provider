@@ -9,18 +9,15 @@ import com.yetu.oauth2provider.oauth2.MyCustomTokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
-import com.yetu.oauth2provider.services.data._
+import com.yetu.oauth2provider.services.data.{ MemoryUserService, _ }
 import com.yetu.oauth2provider.services.data.iface._
 import com.yetu.oauth2provider.signature.services.SignatureService
 import com.yetu.oauth2provider.utils.Config.ProductionRiakSettings
-import com.yetu.oauth2provider.utils.{ Config, JsonWebTokenGenerator }
-import securesocial.core.RuntimeEnvironment
+import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
 import securesocial.core.providers.utils.PasswordHasher
-import securesocial.core.providers.utils.PasswordHasher.Default
-import com.yetu.oauth2provider.signature.services.SignatureService
-import securesocial.core.services.UserService
-import services.data.MemoryUserService
+import securesocial.core.services.{ CacheService, UserService }
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scalaoauth2.provider.TokenEndpoint
 
 trait InMemoryDataServices {
@@ -36,6 +33,8 @@ trait InMemoryDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[MemoryMailTokenService]
+
+  lazy val cacheConnection: CacheService = new CacheService.Default
 }
 
 trait PersistentDataServices {
@@ -55,6 +54,8 @@ trait PersistentDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[RiakAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[RiakMailTokenService]
+
+  lazy val cacheConnection: CacheService = wire[RiakCacheService]
 }
 
 trait ServicesRegistry {
@@ -69,6 +70,8 @@ trait ServicesRegistry {
 
   def personService: IPersonService
   def myUserService: UserService[YetuUser]
+
+  def cacheConnection: CacheService
 
   lazy val scopeService: ScopeService = wire[ScopeService]
   lazy val validationService: ValidationService = wire[ValidationService]

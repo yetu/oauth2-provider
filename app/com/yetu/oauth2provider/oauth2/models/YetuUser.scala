@@ -4,7 +4,7 @@ package models
 
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2resource.model.ContactInfo
-import play.api.libs.json.Json
+import play.api.libs.json.{ Format, Json }
 import securesocial.controllers.UserAgreement
 import securesocial.core._
 import _root_.java.util.Date

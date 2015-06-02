@@ -1,15 +1,14 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.data.riak.RiakConnection
-import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.IMailTokenService
-import play.api.Logger
+import com.yetu.oauth2provider.utils.NamedLogger
 import play.api.libs.json.Json
-import securesocial.controllers.{ UserAgreement, RegistrationInfo }
+import securesocial.controllers.{ RegistrationInfo, UserAgreement }
 import securesocial.core.providers.MailToken
 
-import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
 /**
  * A token used for reset password and sign up operations, i.e., the UUID used in the URL for signup sent via email,
@@ -17,9 +16,7 @@ import scala.concurrent.ExecutionContext.Implicits.global
  *
  * validity can be configured in securesocial.conf, default = 60 minutes
  */
-class RiakMailTokenService(riakConnection: RiakConnection) extends IMailTokenService {
-
-  val tokenLogger = Logger("com.yetu.oauth2provider.services.data.RiakMailTokenService")
+class RiakMailTokenService(riakConnection: RiakConnection) extends IMailTokenService with NamedLogger {
 
   implicit val formatUserAgreement = Json.format[UserAgreement]
   implicit val formatRegistrationInfo = Json.format[RegistrationInfo]
