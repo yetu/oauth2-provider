@@ -116,7 +116,7 @@ object Config {
     override def host: String = config.getString("riak.production.host")
     override def port: Int = config.getInt("riak.production.port")
     override def accessTokenBucketName: String = config.getString("riak.production.accesstokenbucket")
-    override def authCodeBucketName: String = config.getString("riak.production.authcodebucket")
+    override def authInfoBucketName: String = config.getString("riak.production.authinfobucket")
     override def mailTokenBucketName: String = config.getString("riak.production.mailtokenbucket")
   }
 
@@ -124,7 +124,7 @@ object Config {
     override def host: String = config.getString("riak.test.host")
     override def port: Int = config.getInt("riak.test.port")
     override def accessTokenBucketName: String = config.getString("riak.test.accesstokenbucket")
-    override def authCodeBucketName: String = config.getString("riak.test.authcodebucket")
+    override def authInfoBucketName: String = config.getString("riak.test.authinfobucket")
     override def mailTokenBucketName: String = config.getString("riak.test.mailtokenbucket")
   }
 

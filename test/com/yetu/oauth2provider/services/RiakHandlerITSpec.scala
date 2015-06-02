@@ -31,7 +31,7 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
 
     "save and retrieve the authInfo by authorization_code" in {
 
-      val resultFuture: Future[Option[AuthInfo[YetuUser]]] = for {
+      val resultFuture = for {
         save <- authCodeAccessTokenService.saveAuthCode(testAuthCode, testUserInfo)
         retrieve <- authCodeAccessTokenService.findAuthInfoByAuthCode(testAuthCode)
       } yield retrieve
@@ -44,7 +44,7 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
 
     "save and retrieve the authInfo by access_token" in {
 
-      val resultFuture: Future[Option[AuthInfo[YetuUser]]] = for {
+      val resultFuture = for {
         save <- authCodeAccessTokenService.saveAccessTokenToAuthInfo(testAccessToken.token, testUserInfo)
         retrieve <- authCodeAccessTokenService.findAuthInfoByAccessToken(testAccessToken.token)
       } yield retrieve
@@ -55,6 +55,38 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
 
     }
 
+    "no conflict for access tokens" in {
+
+      val resultFuture = for {
+        save <- authCodeAccessTokenService.saveAccessToken(testAccessToken.token, testAccessToken)
+        save <- authCodeAccessTokenService.saveAccessTokenToAuthInfo(testAccessToken.token, testUserInfo)
+        retrieveAuthInfo <- authCodeAccessTokenService.findAuthInfoByAccessToken(testAccessToken.token)
+        retrieveAccessToken <- authCodeAccessTokenService.findAccessToken(testAccessToken.token)
+      } yield (retrieveAccessToken, retrieveAuthInfo)
+
+      whenReady(resultFuture) {
+        result =>
+          {
+            result._1.get mustBe testAccessToken
+            result._2.get mustBe testUserInfo
+          }
+      }
+
+    }
+
+  }
+
+  "Riak MailToken Handler" must {
+    "save and retrieve the mailtoken" in {
+
+      val resultFuture = for {
+        save <- mailTokenService.saveToken(testMailToken)
+        retrieve <- mailTokenService.findToken(testMailToken.uuid)
+      } yield retrieve
+      whenReady(resultFuture) {
+        result => result.get mustBe testMailToken
+      }
+    }
   }
 
 }

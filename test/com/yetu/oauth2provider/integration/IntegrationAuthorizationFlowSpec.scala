@@ -25,7 +25,7 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       s"support yielding an access_token for the ${implementation.implementationId} flow" in {
 
         val accessToken = implementation.getAccessToken
-        accessToken.size must be > 10
+        accessToken.length must be > 10
       }
 
       s"support yielding an access_token which is a JWT and contains expected fields userUUID and clientId for the ${implementation.implementationId} flow" in {

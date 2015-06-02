@@ -3,6 +3,8 @@ package com.yetu.oauth2provider.base
 import java.util.Date
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
+import org.joda.time.DateTime
+import securesocial.core.providers.MailToken
 import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
 import com.yetu.oauth2provider.utils.Config
@@ -33,6 +35,8 @@ trait DefaultTestVariables {
   val testAccessToken: AccessToken = new AccessToken("bMqOIj86jKZVbo_kvJMG", Some("REFRESH"), scopeOption, Some(1234532L), new Date(System.currentTimeMillis()))
   val testUserInfo: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), scopeOption, None)
   val testUserInfoWithScopeId: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
+
+  val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
 
   val loginUrlWithUserPass = "/authenticate/userpass"
 

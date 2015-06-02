@@ -156,7 +156,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
       case None =>
         //TODO: FIXME
         Ok("TODO: permissions form should be here!")
-        //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
+      //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
 
       case Some(permission) => handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }

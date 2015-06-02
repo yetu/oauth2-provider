@@ -40,7 +40,7 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
 
   def saveAccessTokenToAuthInfo(token: String, authInfo: AuthInfo[YetuUser]) = {
     logger.debug(s"saveAccessTokenToAuthInfo token: $token, authInfo: $authInfo")
-    riakConnection.authCodeBucket.store(token, Json.toJson(authInfo).toString())
+    riakConnection.authInfoBucket.store(token, Json.toJson(authInfo).toString())
   }
 
   def findAuthInfoByAuthCode(code: String) = {
@@ -50,7 +50,7 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
   }
 
   def findAuthInfoByAccessToken(token: String) = {
-    riakConnection.authCodeBucket.fetch(token).map(p => {
+    riakConnection.authInfoBucket.fetch(token).map(p => {
       p.map(o => Json.parse(o.data).as[AuthInfo[YetuUser]])
     })
   }
@@ -63,6 +63,6 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
   }
 
   def deleteAuthCode(code: String): Future[Unit] = {
-    riakConnection.authCodeBucket.delete(code)
+    riakConnection.authInfoBucket.delete(code)
   }
 }
