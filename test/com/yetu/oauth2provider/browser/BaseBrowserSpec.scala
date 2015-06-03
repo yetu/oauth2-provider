@@ -5,7 +5,7 @@ import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
 import org.scalatest.BeforeAndAfterEach
-import org.scalatestplus.play.{ FirefoxFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
+import org.scalatestplus.play._
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
 
@@ -13,7 +13,7 @@ abstract class BaseBrowserSpec extends PlaySpec
     with OneServerPerSuite
     with OneBrowserPerSuite
     with BeforeAndAfterEach
-    with FirefoxFactory
+    with ChromeFactory
     with TestRegistry
     with BaseMethods {
 

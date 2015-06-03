@@ -19,7 +19,6 @@ class SetupRegistrationBrowserSpec extends BaseBrowserSpec {
     s"open $setupRegistrationUrl" in {
       go to fullSetupRegistrationUrl
       currentUrl mustEqual fullSetupRegistrationUrl
-      find(name("setupSignup")) must be('defined)
     }
 
     s"open $setupRegistrationUrl and have '$UserNotRegistered' as the default radio button selection" in {
@@ -57,7 +56,6 @@ class SetupRegistrationBrowserSpec extends BaseBrowserSpec {
       find(id("lastNameIDErrorText")) must be ('defined)
       find(id("emailErrorText")) must be ('defined)
       find(id("password1IDErrorText")) must be ('defined)
-      find(name("setupSignup")) must be('defined)
     }
 
     "not register without having passwords, that match" in {
