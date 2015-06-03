@@ -45,8 +45,7 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
 
   def findAuthInfoByAccessToken(token: String) = {
     val authInfo: Option[AuthInfo[YetuUser]] = accessTokensToAuthInfo.get(token)
-    logger.debug(s"findUserByAccessToken token: $token")
-    logger.debug(s"findUserByAccessToken authInfo: $authInfo")
+    logger.debug(s"findUserByAccessToken token: $token, authInfo: $authInfo")
     Future.successful(authInfo)
   }
 

@@ -12,7 +12,7 @@ import com.yetu.oauth2provider.oauth2.services._
 import com.yetu.oauth2provider.services.data.{ MemoryUserService, _ }
 import com.yetu.oauth2provider.services.data.iface._
 import com.yetu.oauth2provider.signature.services.SignatureService
-import com.yetu.oauth2provider.utils.Config.ProductionRiakSettings
+import com.yetu.oauth2provider.utils.Config.RiakSettings
 import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
 import securesocial.core.providers.utils.PasswordHasher
 import securesocial.core.services.UserService
@@ -48,7 +48,7 @@ trait PersistentDataServices {
 
   lazy val databaseImplementationName: String = "LDAP database"
 
-  lazy val riakConnection: RiakConnection = ProductionRiakSettings
+  lazy val riakConnection: RiakConnection = RiakSettings
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[RiakAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[RiakMailTokenService]

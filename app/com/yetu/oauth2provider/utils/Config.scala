@@ -112,12 +112,12 @@ object Config {
 
   val InvalidPasswordMessage = "securesocial.signup.invalidPassword"
 
-  object ProductionRiakSettings extends RiakConnection {
+  object RiakSettings extends RiakConnection {
     override def host: String = config.getString("riak.production.host")
     override def port: Int = config.getInt("riak.production.port")
-    override def accessTokenBucketName: String = config.getString("riak.production.accesstokenbucket")
-    override def authInfoBucketName: String = config.getString("riak.production.authinfobucket")
-    override def mailTokenBucketName: String = config.getString("riak.production.mailtokenbucket")
+    override def accessTokenBucketName: String = config.getString("riak.accesstokenbucket")
+    override def authInfoBucketName: String = config.getString("riak.authinfobucket")
+    override def mailTokenBucketName: String = config.getString("riak.mailtokenbucket")
   }
 
   object TestRiakSettings extends RiakConnection {

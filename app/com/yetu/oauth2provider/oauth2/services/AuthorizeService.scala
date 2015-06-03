@@ -154,10 +154,9 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
     clientPermission match {
       case None =>
-        //TODO: FIXME
-        Ok("TODO: permissions form should be here!")
-      //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
-
+        //TODO: This should be implemented
+        //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
+        Ok("OK")
       case Some(permission) => handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
