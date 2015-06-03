@@ -9,7 +9,7 @@
 var FormValidator = function(root) {
   this.init = function() {
     root = root || document;
-    var inputs = root.querySelectorAll('input');
+    var inputs = root.querySelectorAll('input[type="text"], input[type="password"]');
     for (var i=0; i < inputs.length; i++) {
       var input = inputs[i];
       // Initialize input's error
