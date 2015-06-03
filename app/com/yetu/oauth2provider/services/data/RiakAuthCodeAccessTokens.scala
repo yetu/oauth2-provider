@@ -2,6 +2,7 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.utils.NamedLogger
 import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import play.api.Logger
@@ -14,7 +15,7 @@ import scalaoauth2.provider.AccessToken
 /**
  * riak implementation for authorization codes and access tokens given to OAuth2 clients such as the homescreen
  */
-class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCodeAccessTokenService {
+class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCodeAccessTokenService with NamedLogger {
 
   implicit val formatAccessToken = Json.format[AccessToken]
 
@@ -26,7 +27,6 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
     )(AuthInfo.apply, unlift(AuthInfo.unapply))
 
   import scala.concurrent.ExecutionContext.Implicits.global
-  val logger = Logger(this.getClass)
 
   def saveAccessToken(token: String, accessToken: AccessToken) = {
     logger.debug(s"saveAccessToken token: $token, accessToken: $accessToken")
@@ -43,6 +43,11 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
     riakConnection.authInfoBucket.store(token, Json.toJson(authInfo).toString())
   }
 
+  def saveAuthInfoToAccessToken(key: String, accessToken: AccessToken): Future[Unit] = {
+    logger.debug(s"saveAuthInfoToAccessToken key: $key, accessToken: $accessToken")
+    riakConnection.accessTokenBucket.store(key, Json.toJson(accessToken).toString())
+  }
+
   def findAuthInfoByAuthCode(code: String) = {
     riakConnection.accessTokenBucket.fetch(code).map(p => {
       p.map(o => Json.parse(o.data).as[AuthInfo[YetuUser]])
@@ -52,6 +57,12 @@ class RiakAuthCodeAccessTokens(riakConnection: RiakConnection) extends IAuthCode
   def findAuthInfoByAccessToken(token: String) = {
     riakConnection.authInfoBucket.fetch(token).map(p => {
       p.map(o => Json.parse(o.data).as[AuthInfo[YetuUser]])
+    })
+  }
+
+  def findAccessTokenByAuthInfo(key: String): Future[Option[AccessToken]] = {
+    riakConnection.accessTokenBucket.fetch(key).map(p => {
+      p.map(o => Json.parse(o.data).as[AccessToken])
     })
   }
 

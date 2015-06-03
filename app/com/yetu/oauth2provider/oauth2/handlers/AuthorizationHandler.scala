@@ -38,7 +38,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
 
         val validClientId = oauthClient.clientId == clientCredential.clientId
         val validGrantType = oauthClient.grantTypes.exists(grantList => grantList.contains(grantType))
-        val validSecret = clientCredential.clientSecret.contains(oauthClient.clientSecret)
+        val validSecret = clientCredential.clientSecret.map(_ == oauthClient.clientSecret).getOrElse(false)
 
         if (grantType == Config.GRANT_TYPE_TOKEN) {
           validClientId && validGrantType
@@ -100,8 +100,11 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def getStoredAccessToken(authInfo: AuthInfo[YetuUser]) = {
-    logger.warn("...getStoredAccessToken :: NOT_IMPLEMENTED")
-    Future.successful(None)
+    authInfo.clientId match {
+      case Some(clientId) =>
+        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.identityId.userId)
+      case _ => Future.successful(None)
+    }
   }
 
   def refreshAccessToken(authInfo: AuthInfo[YetuUser], refreshToken: String) = {

@@ -6,7 +6,6 @@ import com.yetu.oauth2provider.controllers.authentication._
 import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.RiakCacheService
 import securesocial.core.{ EventListener, RuntimeEnvironment }
 import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
 import securesocial.core.providers.UsernamePasswordProvider

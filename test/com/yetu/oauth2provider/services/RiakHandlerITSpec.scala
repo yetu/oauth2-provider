@@ -12,8 +12,6 @@ import org.scalatest.time.{ Millis, Seconds, Span }
 
 class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with AsyncAssertions {
 
-  //with ParallelTestExecution
-
   implicit override val patienceConfig =
     PatienceConfig(timeout = Span(5, Seconds), interval = Span(50, Millis))
 
@@ -55,6 +53,21 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
 
     }
 
+    "save and retrieve the accessToken by authInfo" in {
+
+      val key = testUserInfo.clientId.get + testUserInfo.user.identityId.userId
+
+      val resultFuture = for {
+        save <- authCodeAccessTokenService.saveAuthInfoToAccessToken(key, testAccessToken)
+        retrieve <- authCodeAccessTokenService.findAccessTokenByAuthInfo(key)
+      } yield retrieve
+
+      whenReady(resultFuture) {
+        result => result.get mustBe testAccessToken
+      }
+
+    }
+
     "no conflict for access tokens" in {
 
       val resultFuture = for {
@@ -73,7 +86,6 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
       }
 
     }
-
   }
 
   "Riak MailToken Handler" must {

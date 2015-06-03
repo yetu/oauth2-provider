@@ -32,6 +32,11 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     Future.successful(accessTokensToAuthInfo += (token -> authInfo))
   }
 
+  def saveAuthInfoToAccessToken(key: String, accessToken: AccessToken): Future[Unit] = {
+    logger.debug(s"saveAuthInfoToAccessToken key: $key, accessToken: $accessToken")
+    Future.successful(accessTokens += (key -> accessToken))
+  }
+
   def findAuthInfoByAuthCode(code: String) = {
     val info = authCodes.get(code)
     logger.debug(s"findAuthInfoByAuthCode code: $code result=$info")
@@ -43,6 +48,12 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     logger.debug(s"findUserByAccessToken token: $token")
     logger.debug(s"findUserByAccessToken authInfo: $authInfo")
     Future.successful(authInfo)
+  }
+
+  def findAccessTokenByAuthInfo(key: String): Future[Option[AccessToken]] = {
+    val accessToken: Option[AccessToken] = accessTokens.get(key)
+    logger.debug(s"findUserByAccessToken token: $accessToken")
+    Future.successful(accessToken)
   }
 
   def findAccessToken(token: String) = {

@@ -14,19 +14,28 @@ trait IAuthCodeAccessTokenService {
   def saveAccessToken(accessToken: AccessToken, authInfo: AuthInfo[YetuUser]): Future[Unit] = {
     val saveToken = saveAccessToken(accessToken.token, accessToken)
     val saveAuthInfo = saveAccessTokenToAuthInfo(accessToken.token, authInfo)
+
+    val saveAuthInfoToken = authInfo.clientId.map(
+      clientId => saveAuthInfoToAccessToken(authInfo.user.identityId.userId + clientId, accessToken))
+
     for {
       token <- saveToken
       info <- saveAuthInfo
-    } yield info
+      client <- saveAuthInfoToken.getOrElse(Future.successful())
+    } yield client
   }
 
   def saveAuthCode(code: String, authInfo: AuthInfo[YetuUser]): Future[Unit]
+
+  def saveAuthInfoToAccessToken(key: String, accessToken: AccessToken): Future[Unit]
 
   def saveAccessTokenToAuthInfo(token: String, authInfo: AuthInfo[YetuUser]): Future[Unit]
 
   def findAuthInfoByAuthCode(code: String): Future[Option[AuthInfo[YetuUser]]]
 
   def findAuthInfoByAccessToken(token: String): Future[Option[AuthInfo[YetuUser]]]
+
+  def findAccessTokenByAuthInfo(key: String): Future[Option[AccessToken]]
 
   def findAccessToken(token: String): Future[Option[AccessToken]]
 
