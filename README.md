@@ -33,6 +33,7 @@ Then proceed with:
 
 * Run the app with `sbt run`
 * Run tests with `sbt test`
+* Run browser tests with `sbt browser:test`
 * Run integration tests with `sbt it:test`
     * you need to have correct ldap settings in a file called `conf/application-integrationtest.conf` for this to work.
 

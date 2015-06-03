@@ -9,7 +9,7 @@ import org.scalatestplus.play.{ FirefoxFactory, OneBrowserPerSuite, OneServerPer
 import play.api.test.FakeApplication
 import securesocial.core.providers.MailToken
 
-class BrowserBaseSpec extends PlaySpec
+abstract class BaseBrowserSpec extends PlaySpec
     with OneServerPerSuite
     with OneBrowserPerSuite
     with BeforeAndAfterEach

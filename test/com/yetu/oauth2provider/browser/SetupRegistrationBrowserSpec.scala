@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.browser
 
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 
-class BrowserSetupRegistrationSpec extends BrowserBaseSpec {
+class SetupRegistrationBrowserSpec extends BaseBrowserSpec {
 
   val fullSetupRegistrationUrl = s"http://localhost:$port$setupRegistrationUrl"
   val fullSetupConfirmMailUrl = s"http://localhost:$port$setupConfirmMailUrl"

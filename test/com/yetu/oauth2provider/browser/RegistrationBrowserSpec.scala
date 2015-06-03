@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.browser
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 
-class BrowserRegistrationSpec extends BrowserBaseSpec {
+class RegistrationBrowserSpec extends BaseBrowserSpec {
 
   s"Registration flow page at $signupUrl" must {
     s"open page at $signupUrl " in {

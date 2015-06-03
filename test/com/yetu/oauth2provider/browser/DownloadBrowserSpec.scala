@@ -3,7 +3,7 @@ package com.yetu.oauth2provider.browser
 /**
  * Created by elisahilprecht on 30/03/15.
  */
-class BrowserDownloadSpec extends BrowserBaseSpec {
+class DownloadBrowserSpec extends BaseBrowserSpec {
   "Download page" must {
     "have title called 'Download'" in {
       go to (s"http://localhost:$port" + setupDownloadUrl)
