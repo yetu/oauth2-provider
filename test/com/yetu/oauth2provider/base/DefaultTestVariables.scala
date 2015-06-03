@@ -3,7 +3,9 @@ package com.yetu.oauth2provider.base
 import java.util.Date
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
+import org.joda.time.DateTime
+import securesocial.core.providers.MailToken
+import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
@@ -31,8 +33,10 @@ trait DefaultTestVariables {
   val testClientId = "testClientId"
   val scopeOption = Some(SCOPE_BASIC)
   val testAccessToken: AccessToken = new AccessToken("bMqOIj86jKZVbo_kvJMG", Some("REFRESH"), scopeOption, Some(1234532L), new Date(System.currentTimeMillis()))
-  val testUserInfo: AuthInformation = new AuthInformation(testUser, Some(testClientId), scopeOption, None)
-  val testUserInfoWithScopeId: AuthInformation = new AuthInformation(testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
+  val testUserInfo: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), scopeOption, None)
+  val testUserInfoWithScopeId: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
+
+  val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
 
   val loginUrlWithUserPass = "/authenticate/userpass"
 
@@ -63,7 +67,7 @@ trait DefaultTestVariables {
 
   def generateTestVariables(scope: String = Config.SCOPE_BASIC, user: YetuUser = testUser, clientId: String = testClientId, redirectURIs: List[String] = List(defaultRedirectUrl)) = {
     val scopeOption = Some(scope)
-    val testUserInfo = new AuthInformation(user, Some(clientId), scopeOption, Some(redirectURIs.head))
+    val testUserInfo = new AuthInfo[YetuUser](user, Some(clientId), scopeOption, Some(redirectURIs.head))
     val testAccessToken: AccessToken = new AccessToken(s"$scope-randomnessAccessToken", Some("REFRESH"), scopeOption, Some(1234532L), new Date(System.currentTimeMillis()))
     (testUserInfo, testAccessToken)
   }

@@ -1,10 +1,12 @@
 package com.yetu.oauth2provider.services.data
 
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+
+import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
 import play.api.Logger
 
+import scala.concurrent.Future
 import scalaoauth2.provider.AccessToken
 
 /**
@@ -12,117 +14,55 @@ import scalaoauth2.provider.AccessToken
  */
 class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
 
-  val logger = Logger(this.getClass())
+  val logger = Logger(this.getClass)
   import com.yetu.oauth2provider.services.data.MemoryAuthCodeAccessTokens._
 
-  //TODO: there should be a fewer save/find methods
-  //TODO: instead nulab's AuthInfo and securesocial's Identity should be better linked together.
-
-  //TODO scopes need to be taken into account.
-
-  def saveAuthCode(user: YetuUser, code: String) = {
-    logger.debug(s"saveAuthCode code=$code user=$user")
-    authCodes += (code -> user)
-  }
-
-  def findUserByAuthCode(code: String): Option[YetuUser] = {
-
-    logger.debug(s"findUserByAuthCode code=$code")
-    authCodes.get(code)
-  }
-
   def saveAccessToken(token: String, accessToken: AccessToken) = {
-    accessTokens += (token -> accessToken)
+    logger.debug(s"saveAuthCode token=$token accessToken=$accessToken")
+    Future.successful(accessTokens += (token -> accessToken))
   }
 
-  def findAuthCodeByUser(user: YetuUser): Option[String] = {
-    logger.debug(s"findAuthCodeByUser user=$user")
-    authCodes.foreach {
-      case (key, value) => {
-        if (value.equals(user)) return Some(key)
-      }
-    }
-    None
+  def saveAuthCode(code: String, authInfo: AuthInfo[YetuUser]) = {
+    logger.debug(s"saveAuthCode code=$code authInfo=$authInfo")
+    Future.successful(authCodes += (code -> authInfo))
   }
 
-  def findAccessTokenByUser(user: YetuUser): Option[AccessToken] = {
-
-    logger.debug(s"findAccessTokenByUser user=$user")
-    accessTokensWithUser.foreach {
-      case (key, value) => {
-        logger.debug(value.user.identityId.userId + " - " + user.identityId)
-        if (value.user.identityId.userId == user.identityId.userId) {
-          return Some(key)
-        }
-      }
-    }
-    None
+  def saveAccessTokenToAuthInfo(token: String, authInfo: AuthInfo[YetuUser]) = {
+    logger.debug(s"saveAuthCode token=$token authInfo=$authInfo")
+    Future.successful(accessTokensToAuthInfo += (token -> authInfo))
   }
 
-  def findTokenByAccessToken(accessToken: AccessToken): Option[String] = {
-    logger.debug(s"findTokenByAccessToken accessToken=$accessToken")
-    accessTokens.foreach {
-      case (key, value) => {
-        if (value.equals(accessToken)) {
-          return Some(key)
-        }
-      }
-    }
-    None
+  def saveAuthInfoToAccessToken(key: String, accessToken: AccessToken): Future[Unit] = {
+    logger.debug(s"saveAuthInfoToAccessToken key: $key, accessToken: $accessToken")
+    Future.successful(accessTokens += (key -> accessToken))
   }
 
-  def deleteAll(identity: YetuUser) {
-    try {
-      val authCode = findAuthCodeByUser(identity)
-      authCodes --= authCode
-    } catch {
-      case e: Exception => logger.debug("exception caught: " + e);
-    }
-
-    try {
-      val accessToken = findAccessTokenByUser(identity)
-      accessToken match {
-        case None => None
-        case Some(a) => {
-          val token = findTokenByAccessToken(a)
-          accessTokens --= token
-        }
-      }
-      accessTokensWithUser --= accessToken
-    } catch {
-      case e: Exception => logger.debug("exception caught: " + e);
-    }
-  }
-
-  def saveAuthCodeToAuthInfo(code: String, authInfo: AuthInformation) = {
-    logger.debug(s"saveAuthCodeToAuthInfo code: $code, authInfo: $authInfo")
-    authCodeAuthInfo += (code -> authInfo)
-  }
-
-  def findAuthInfoByAuthCode(code: String): Option[AuthInformation] = {
-    val info = authCodeAuthInfo.get(code)
+  def findAuthInfoByAuthCode(code: String) = {
+    val info = authCodes.get(code)
     logger.debug(s"findAuthInfoByAuthCode code: $code result=$info")
-    info
+    Future.successful(info)
   }
 
-  def saveAccessTokenToUser(accessToken: AccessToken, authInfo: AuthInformation) = {
-    logger.debug(s"saveAccessTokenToUser accessToken: $accessToken")
-    logger.debug(s"saveAccessTokenToUser authInfo: $authInfo")
-    accessTokensWithUser += (accessToken -> authInfo)
+  def findAuthInfoByAccessToken(token: String) = {
+    val authInfo: Option[AuthInfo[YetuUser]] = accessTokensToAuthInfo.get(token)
+    logger.debug(s"findUserByAccessToken token: $token, authInfo: $authInfo")
+    Future.successful(authInfo)
   }
 
-  def findUserByAccessToken(accessToken: AccessToken): Option[AuthInformation] = {
-    val authInfo: Option[AuthInformation] = accessTokensWithUser.get(accessToken)
-    logger.debug(s"findUserByAccessToken accessToken: $accessToken")
-    logger.debug(s"findUserByAccessToken authInfo: $authInfo")
-    authInfo
+  def findAccessTokenByAuthInfo(key: String): Future[Option[AccessToken]] = {
+    val accessToken: Option[AccessToken] = accessTokens.get(key)
+    logger.debug(s"findUserByAccessToken token: $accessToken")
+    Future.successful(accessToken)
   }
 
-  def findAccessToken(token: String): Option[AccessToken] = {
+  def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken token: $token")
-    accessTokens.get(token)
+    Future.successful(accessTokens.get(token))
   }
 
+  def deleteAuthCode(code: String): Future[Unit] = {
+    Future.successful(authCodes -= code)
+  }
 }
 
 object MemoryAuthCodeAccessTokens {
@@ -130,10 +70,9 @@ object MemoryAuthCodeAccessTokens {
    * stores authentication codes sent in the parameters when redirecting to the OAuth client
    * e.g. redirect to homescreen.com?code=AUTH_CODE
    */
-  var authCodes = Map[String, YetuUser]()
 
   var accessTokens = Map[String, AccessToken]()
-  var accessTokensWithUser = Map[AccessToken, AuthInformation]()
-  var authCodeAuthInfo = Map[String, AuthInformation]()
+  var authCodes = Map[String, AuthInfo[YetuUser]]()
+  var accessTokensToAuthInfo = Map[String, AuthInfo[YetuUser]]()
 }
 

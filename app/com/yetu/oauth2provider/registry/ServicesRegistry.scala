@@ -4,21 +4,20 @@ package registry
 import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers.OAuth2ImplicitControllerHelper
 import com.yetu.oauth2provider.data.ldap.LdapDAO
+import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.MyCustomTokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
-import com.yetu.oauth2provider.services.data._
+import com.yetu.oauth2provider.services.data.{ MemoryUserService, _ }
 import com.yetu.oauth2provider.services.data.iface._
 import com.yetu.oauth2provider.signature.services.SignatureService
-import com.yetu.oauth2provider.utils.{ Config, JsonWebTokenGenerator }
-import securesocial.core.RuntimeEnvironment
+import com.yetu.oauth2provider.utils.Config.RiakSettings
+import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
 import securesocial.core.providers.utils.PasswordHasher
-import securesocial.core.providers.utils.PasswordHasher.Default
-import com.yetu.oauth2provider.signature.services.SignatureService
 import securesocial.core.services.UserService
-import services.data.MemoryUserService
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scalaoauth2.provider.TokenEndpoint
 
 trait InMemoryDataServices {
@@ -28,12 +27,16 @@ trait InMemoryDataServices {
   lazy val publicKeyService: IPublicKeyService = new MemoryPublicKeyService
 
   lazy val personService: IPersonService = wire[MemoryPersonService]
-  lazy val myUserService: UserService[YetuUser] = new MemoryUserService()
+  lazy val myUserService: UserService[YetuUser] = wire[MemoryUserService]
 
   lazy val databaseImplementationName: String = "In-Memory database"
+
+  lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
+  lazy val mailTokenService: IMailTokenService = wire[MemoryMailTokenService]
 }
 
-trait LdapDataServices {
+trait PersistentDataServices {
+
   lazy val dao: LdapDAO = wire[LdapDAO]
   lazy val clientService: IClientService = wire[LdapClientService]
   lazy val permissionService: IPermissionService = wire[LdapPermissionService]
@@ -41,12 +44,20 @@ trait LdapDataServices {
   lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
 
   lazy val personService: IPersonService = wire[LdapPersonService]
-  lazy val myUserService: UserService[YetuUser] = new LdapUserService(dao)
+  lazy val myUserService: UserService[YetuUser] = wire[LdapUserService]
 
   lazy val databaseImplementationName: String = "LDAP database"
+
+  lazy val riakConnection: RiakConnection = RiakSettings
+
+  lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[RiakAuthCodeAccessTokens]
+  lazy val mailTokenService: IMailTokenService = wire[RiakMailTokenService]
 }
 
 trait ServicesRegistry {
+
+  def authCodeAccessTokenService: IAuthCodeAccessTokenService
+  def mailTokenService: IMailTokenService
 
   def clientService: IClientService
   def permissionService: IPermissionService
@@ -55,8 +66,6 @@ trait ServicesRegistry {
 
   def personService: IPersonService
   def myUserService: UserService[YetuUser]
-
-  lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
 
   lazy val scopeService: ScopeService = wire[ScopeService]
   lazy val validationService: ValidationService = wire[ValidationService]
@@ -69,23 +78,11 @@ trait ServicesRegistry {
   lazy val defaultPasswordHasher = new PasswordHasher.Default()
   lazy val yetuPasswordHashers: Map[String, PasswordHasher] = Map(defaultPasswordHasher.id -> defaultPasswordHasher)
 
-  // wire other services based on the above data services
-  // need to be wired manually due to limitation in macwire to recognize services by name:
-  /**
-   *
-   * [error] /Users/joe/Documents/git/apphome-oauth2provider/app/com/yetu/oauth2provider/registry/ServicesRegistry.scala:37:
-   * Found multiple values of type [com.yetu.oauth2provider.services.data.iface.IPersonService]: [List(myUserService, personService)]
-   * [error]   lazy val authorizeService = wire[AuthorizeService]
-   */
+  lazy val authorizationHandler: AuthorizationHandler = wire[AuthorizationHandler]
 
-  lazy val authorizationHandler = new AuthorizationHandler(authCodeAccessTokenService, clientService, personService, yetuPasswordHashers, jsonWebTokenGenerator)
-  //  lazy val authorizationHandler = wire[AuthorizationHandler]
+  lazy val authorizeService: AuthorizeService = wire[AuthorizeService]
 
-  lazy val authorizeService = new AuthorizeService(authCodeAccessTokenService, personService, scopeService, permissionService)
-  //wire[AuthorizeService]
-
-  lazy val authorizeErrorHandler = new AuthorizeErrorHandler(clientService, personService, scopeService, permissionService)
-  //wire[AuthorizeErrorHandler]
+  lazy val authorizeErrorHandler = wire[AuthorizeErrorHandler]
 
   val signatureService = new SignatureService[YetuUser](personService, publicKeyService)
 

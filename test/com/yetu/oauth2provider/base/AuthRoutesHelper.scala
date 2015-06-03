@@ -1,16 +1,12 @@
 package com.yetu.oauth2provider.base
 
-import com.yetu.oauth2provider.base.DefaultTestVariables
-import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config._
-import com.yetu.oauth2resource.utils.RoutesHelper
-import org.scalatestplus.play._
 import play.api.libs.json.{ JsNull, JsValue }
-import play.api.mvc.{ Headers, AnyContentAsEmpty, Result }
+import play.api.mvc.{ AnyContentAsEmpty, Result }
 import play.api.test.Helpers._
-import play.api.test.{ FakeApplication, FakeHeaders, FakeRequest }
+import play.api.test.{ FakeHeaders, FakeRequest }
 
 import scala.concurrent.Future
 

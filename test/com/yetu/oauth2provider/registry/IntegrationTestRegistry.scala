@@ -1,10 +1,13 @@
 package com.yetu.oauth2provider.registry
 
-/**
- * use the real LDAP for these integration tests.
- */
-trait IntegrationTestRegistry extends ControllerRegistry with LdapDataServices {
+import com.yetu.oauth2provider.data.riak.RiakConnection
+import com.yetu.oauth2provider.utils.Config.TestRiakSettings
 
+/**
+ * use the real LDAP and Riak for these integration tests.
+ */
+trait IntegrationTestRegistry extends ControllerRegistry with PersistentDataServices {
+  override lazy val riakConnection: RiakConnection = TestRiakSettings
 }
 
 object IntegrationTestRegistry extends IntegrationTestRegistry

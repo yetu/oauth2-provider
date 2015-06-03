@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.oauth2.handlers
 
 import java.util.Date
 
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
+import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.iface.{ IAuthCodeAccessTokenService, IClientService, IPersonService }
 import com.yetu.oauth2provider.utils.{ Config, JsonWebTokenGenerator, BearerTokenGenerator }
@@ -18,10 +18,10 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     passwordHashers: Map[String, PasswordHasher],
     jsonWebTokenGenerator: JsonWebTokenGenerator) extends DataHandler[YetuUser] {
 
-  val logger = Logger(this.getClass())
+  import scala.concurrent.ExecutionContext.Implicits.global
+  val logger = Logger(this.getClass)
 
   override def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = {
-    //TODO: validate clientId String length and allowed symbols?
     logger.debug("validating client ...")
 
     val validationResult = clientService.findClient(clientCredential.clientId) match {
@@ -37,7 +37,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
         logger.debug(s"id = ${oauthClient.clientId} , secret = ${oauthClient.clientSecret}, grantType = ${oauthClient.grantTypes}")
 
         val validClientId = oauthClient.clientId == clientCredential.clientId
-        val validGrantType = oauthClient.grantTypes.map(grantList => grantList.contains(grantType)).getOrElse(false)
+        val validGrantType = oauthClient.grantTypes.exists(grantList => grantList.contains(grantType))
         val validSecret = clientCredential.clientSecret.map(_ == oauthClient.clientSecret).getOrElse(false)
 
         if (grantType == Config.GRANT_TYPE_TOKEN) {
@@ -52,7 +52,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     Future.successful(validationResult)
   }
 
-  def createAccessToken(authInfo: AuthInformation) = {
+  def createAccessToken(authInfo: AuthInfo[YetuUser]) = {
 
     val refreshToken = BearerTokenGenerator.generateToken
     val jsonWebToken = jsonWebTokenGenerator.generateToken(authInfo)
@@ -62,34 +62,27 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
       Some(Config.OAuth2.accessTokenExpirationInSeconds.toLong),
       new Date(System.currentTimeMillis()))
 
-    authAccessService.saveAccessToken(jsonWebToken, token)
-    authAccessService.saveAccessTokenToUser(token, authInfo)
+    authAccessService.saveAccessToken(token, authInfo)
+
     logger.debug(s"...create access Token: $token")
     Future.successful(token)
   }
 
-  def findAuthInfoByCode(code: String): Future[Option[AuthInformation]] = {
-    // lookup from saved code:user object
-    val user = authAccessService.findUserByAuthCode(code)
-    logger.debug(s"findAuthInfoByCode: $code -> user: $user")
-    user match {
-      case None => Future.successful(None)
-      case Some(u) => {
-        val authInfo: Option[AuthInformation] = authAccessService.findAuthInfoByAuthCode(code)
-        logger.debug(s"findAuthInfoByCode: $code -> authInfo: $authInfo")
-        Future.successful(authInfo)
-      }
-    }
+  def findAuthInfoByCode(code: String): Future[Option[AuthInfo[YetuUser]]] = {
+    for {
+      authInfo <- authAccessService.findAuthInfoByAuthCode(code)
+      log = logger.debug(s"findAuthInfoByCode: $code -> authInfo: $authInfo")
+    } yield authInfo
   }
 
   def findAccessToken(token: String) = {
     logger.debug(s"findAccessToken: $token")
-    Future.successful(authAccessService.findAccessToken(token))
+    authAccessService.findAccessToken(token)
   }
 
   def findAuthInfoByAccessToken(accessToken: AccessToken) = {
     logger.debug(s"findAuthInfoByAccessToken: $accessToken")
-    Future.successful(authAccessService.findUserByAccessToken(accessToken))
+    authAccessService.findAuthInfoByAccessToken(accessToken.token)
   }
 
   def findUser(username: String, password: String): Future[Option[YetuUser]] = {
@@ -106,43 +99,30 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     Future.successful(loggedIn)
   }
 
-  def getStoredAccessToken(authInfo: AuthInformation) = {
-    logger.warn("...getStoredAccessToken :: NOT_IMPLEMENTED")
-    Future.successful(None)
+  def getStoredAccessToken(authInfo: AuthInfo[YetuUser]) = {
+    authInfo.clientId match {
+      case Some(clientId) =>
+        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.identityId.userId)
+      case _ => Future.successful(None)
+    }
   }
 
-  def refreshAccessToken(authInfo: AuthInformation, refreshToken: String) = {
-
+  def refreshAccessToken(authInfo: AuthInfo[YetuUser], refreshToken: String) = {
     logger.warn("...refreshAccessToken :: NOT_IMPLEMENTED")
     createAccessToken(authInfo)
   }
 
   def findAuthInfoByRefreshToken(refreshToken: String) = {
-
     logger.warn("...findAuthInfoByRefreshToken :: NOT_IMPLEMENTED")
     Future.successful(None)
   }
 
   override def findClientUser(clientCredential: ClientCredential, scope: Option[String]): Future[Option[YetuUser]] = {
-
     logger.warn("...findClientUser :: NOT_IMPLEMENTED")
     Future.successful(None)
   }
 
+  override def deleteAuthCode(code: String): Future[Unit] = {
+    authAccessService.deleteAuthCode(code)
+  }
 }
-
-//*   <li>validateClient(clientId, clientSecret, grantType)</li>
-//*   <li>findAuthInfoByCode(code)</li>
-//*   <li>getStoredAccessToken(authInfo)</li>
-//*   <li>isAccessTokenExpired(token)</li>
-//*   <li>refreshAccessToken(authInfo, token)
-//*   <li>createAccessToken(authInfo)</li>
-
-//<li>validateClient(clientId, clientSecret, grantType)</li>
-//*   X<li>findAuthInfoByCode(code)</li>
-//*   X<li>getStoredAccessToken(authInfo)</li>
-//*   not needed? <li>refreshAccessToken(authInfo, token)
-//*   X<li>createAccessToken(authInfo)</li>
-
-//*   <li>findAccessToken(token)</li>
-//*   <li>findAuthInfoByAccessToken(token)</li>

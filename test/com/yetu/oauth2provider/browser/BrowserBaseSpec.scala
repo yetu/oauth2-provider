@@ -2,6 +2,7 @@ package com.yetu.oauth2provider.browser
 
 import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.services.data.{ MemoryPersonService, MemoryMailTokenService }
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.{ FirefoxFactory, OneBrowserPerSuite, OneServerPerSuite, PlaySpec }
@@ -13,6 +14,7 @@ class BrowserBaseSpec extends PlaySpec
     with OneBrowserPerSuite
     with BeforeAndAfterEach
     with FirefoxFactory
+    with TestRegistry
     with BaseMethods {
 
   implicit override lazy val app: FakeApplication =

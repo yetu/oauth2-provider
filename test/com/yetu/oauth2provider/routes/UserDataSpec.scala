@@ -1,15 +1,10 @@
 package com.yetu.oauth2provider.routes
 
-import java.util.Date
-
 import com.yetu.oauth2provider.base.BaseRoutesSpec
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
 import com.yetu.oauth2provider.utils.Config
 import play.api.libs.json.Json
 import play.api.test.Helpers._
 import play.api.test._
-
-import scalaoauth2.provider.AccessToken
 
 class UserDataSpec extends BaseRoutesSpec {
 
@@ -29,7 +24,7 @@ class UserDataSpec extends BaseRoutesSpec {
       val headers = FakeHeaders(Seq("Authorization" -> Seq("OAuth " + "invalid")))
 
       val response = postRequestWithHeaderAndJsonParameters(updateUrl, headers, jsonUpdateData)
-      status(response) mustEqual (UNAUTHORIZED)
+      status(response) mustEqual UNAUTHORIZED
 
     }
 
@@ -39,27 +34,27 @@ class UserDataSpec extends BaseRoutesSpec {
 
       val headers = FakeHeaders(Seq("Authorization" -> Seq("OAuth " + token.token)))
       val response = postRequestWithHeaderAndJsonParameters(updateUrl, headers, jsonUpdateData)
-      status(response) mustEqual (UNAUTHORIZED)
+      status(response) mustEqual UNAUTHORIZED
 
     }
 
     "give badRequest if authorization_code is in the wrong format" in {
       val headers = FakeHeaders(Seq("Authorization" -> Seq("INVALID " + testAccessToken.token)))
       val response = postRequestWithHeaderAndJsonParameters(updateUrl, headers, jsonUpdateData)
-      status(response) mustEqual (BAD_REQUEST)
+      status(response) mustEqual BAD_REQUEST
 
     }
 
     "give badRequest if Authorize header is misspelled" in {
       val headers = FakeHeaders(Seq("AuthorizatTYPO!!" -> Seq("INVALID " + testAccessToken.token)))
       val response = postRequestWithHeaderAndJsonParameters(updateUrl, headers, jsonUpdateData)
-      status(response) mustEqual (BAD_REQUEST)
+      status(response) mustEqual BAD_REQUEST
 
     }
 
     "give badRequest if authorization_code is not given" in {
       val response = postRequestWithHeaderAndJsonParameters(updateUrl)
-      status(response) mustEqual (BAD_REQUEST)
+      status(response) mustEqual BAD_REQUEST
 
     }
 
@@ -78,7 +73,7 @@ class UserDataSpec extends BaseRoutesSpec {
 
       val headers = FakeHeaders(Seq("Content-type" -> Seq("application/json"), "Authorization" -> Seq("OAuth " + token.token)))
       val response = postRequestWithHeaderAndJsonParameters(updateUrl, headers, parameters)
-      status(response) mustEqual (BAD_REQUEST)
+      status(response) mustEqual BAD_REQUEST
 
     }
   }

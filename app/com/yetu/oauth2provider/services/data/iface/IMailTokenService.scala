@@ -18,8 +18,6 @@ trait IMailTokenService {
 
   def deleteToken(uuid: String): Future[Option[MailToken]]
 
-  def deleteTokens()
-
   def deleteExpiredTokens()
 
 }

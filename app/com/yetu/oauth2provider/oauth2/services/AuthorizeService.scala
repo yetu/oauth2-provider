@@ -4,22 +4,18 @@ package services
 
 import java.net.URLDecoder
 
-import com.yetu.oauth2provider.oauth2.models.Temp.AuthInformation
+import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IPersonService, IAuthCodeAccessTokenService, IClientService }
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
-import play.Logger._
 import play.api.mvc.{ Cookie, Controller, Result }
 import securesocial.core.authenticator.CookieAuthenticator
 import scala.concurrent.Future
 import scalaoauth2.provider
 import scalaoauth2.provider._
-import scalaoauth2.provider.AuthInfo
-
 import OAuth2Protocol._
 import com.yetu.oauth2provider.oauth2.models._
 import errors.InvalidState
 import com.yetu.oauth2provider.utils.{ NamedLogger, Config, BearerTokenGenerator }
-import com.yetu.oauth2provider.models.Permission._
 
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
@@ -33,8 +29,8 @@ class AuthorizeErrorHandler(clientService: IClientService,
   }
 
   implicit def play2AuthorizeRequest[A](request: Request[A]): AuthorizeRequest = {
-    val param: Map[String, Seq[String]] = getParam(request)
-    AuthorizeRequest(request.headers.toMap, param)
+    val authorization = super.play2oauthRequest(request)
+    AuthorizeRequest(authorization.headers, authorization.params)
   }
 
   def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Either[OAuthError, AuthorizedClient] = try {
@@ -126,8 +122,10 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
 
     val redirectUrl = redirectUri.getOrElse(client.redirectURIs.head)
 
-    authAccessService.saveAuthCode(user, auth_code)
-    authAccessService.saveAuthCodeToAuthInfo(auth_code, new AuthInformation(user, Some(client.clientId), Some(scope), Some(redirectUrl)))
+    authAccessService.saveAuthCode(
+      auth_code,
+      new AuthInfo[YetuUser](user, Some(client.clientId), Some(scope), Some(redirectUrl)))
+
     Redirect(redirectUrl, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
   }
 
@@ -155,11 +153,10 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
   def handleClientPermissions(client: OAuth2Client, authorizeRequest: AuthorizeRequest, user: YetuUser): Result = {
     val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
     clientPermission match {
-      case None => {
-        //TODO: FIXME
-        Ok("TODO: permissions form should be here!")
+      case None =>
+        //TODO: This should be implemented
         //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
-      }
+        Ok("OK")
       case Some(permission) => handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
