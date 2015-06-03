@@ -27,7 +27,6 @@ dist
 /.settings
 /local
 /conf/application.conf
-/conf/application-integrationtest.conf
 artifact_settings.yml
 /00_concept/*
 public/keys/local_public_key.der
