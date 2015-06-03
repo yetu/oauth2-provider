@@ -44,7 +44,6 @@ trait ControllerRegistry extends ServicesRegistry {
   lazy val setupController = wire[SetupController]
 
   object MyRuntimeEnvironment extends RuntimeEnvironment.Default[YetuUser] {
-    override lazy val cacheService: CacheService = cacheConnection
     override lazy val mailTemplates = yetuMailTemplates
     override lazy val viewTemplates = yetuViewTemplates
     override lazy val userService: UserService[YetuUser] = myUserService

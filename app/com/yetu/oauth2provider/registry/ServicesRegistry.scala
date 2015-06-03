@@ -15,7 +15,7 @@ import com.yetu.oauth2provider.signature.services.SignatureService
 import com.yetu.oauth2provider.utils.Config.ProductionRiakSettings
 import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
 import securesocial.core.providers.utils.PasswordHasher
-import securesocial.core.services.{ CacheService, UserService }
+import securesocial.core.services.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scalaoauth2.provider.TokenEndpoint
@@ -33,8 +33,6 @@ trait InMemoryDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[MemoryMailTokenService]
-
-  lazy val cacheConnection: CacheService = new CacheService.Default
 }
 
 trait PersistentDataServices {
@@ -54,8 +52,6 @@ trait PersistentDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[RiakAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[RiakMailTokenService]
-
-  lazy val cacheConnection: CacheService = wire[RiakCacheService]
 }
 
 trait ServicesRegistry {
@@ -70,8 +66,6 @@ trait ServicesRegistry {
 
   def personService: IPersonService
   def myUserService: UserService[YetuUser]
-
-  def cacheConnection: CacheService
 
   lazy val scopeService: ScopeService = wire[ScopeService]
   lazy val validationService: ValidationService = wire[ValidationService]
