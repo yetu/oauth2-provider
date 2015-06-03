@@ -1,6 +1,9 @@
+import java.nio.file.{Files, Paths}
+
+import com.typesafe.sbt.SbtScalariform._
 import sbt.Keys._
 import scoverage.ScoverageSbtPlugin
-import com.typesafe.sbt.SbtScalariform._
+
 import scalariform.formatter.preferences._
 import java.nio.file.{Paths, Files}
 
@@ -13,11 +16,13 @@ organization := "com.yetu"
 resolvers += Resolver.bintrayRepo("yetu", "maven")
 
 lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
-  .configs(CustomIntegrationTest)
+  .configs(CustomIntegrationTest, BrowserTest)
   .settings(inConfig(CustomIntegrationTest)(Defaults.testTasks): _*)
+  .settings(inConfig(BrowserTest)(Defaults.testTasks): _*)
   .settings(
     testOptions in Test := Seq(Tests.Filter(unitFilter)),
-    testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter))
+    testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter)),
+    testOptions in BrowserTest := Seq(Tests.Filter(browserFilter))
   )
 
 
@@ -95,9 +100,22 @@ ScalariformKeys.preferences := ScalariformKeys.preferences.value
 //********************************************************
 ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;com.yetu.oauth2provider.views.html.*"
 
+
+lazy val CustomIntegrationTest = config("it") extend Test
+
+lazy val BrowserTest = config("browser") extend Test
+
 parallelExecution in Test := false
 
+parallelExecution in CustomIntegrationTest := false
+
+parallelExecution in BrowserTest := false
+
 javaOptions in Test += {
+  "-Dconfig.file=conf/application-test.conf"
+}
+
+javaOptions in BrowserTest += {
   "-Dconfig.file=conf/application-test.conf"
 }
 
@@ -109,11 +127,14 @@ javaOptions in CustomIntegrationTest += {
   }
 }
 
-
 def integrationFilter(name: String): Boolean = name endsWith "ITSpec"
 
-def unitFilter(name: String): Boolean = ((name endsWith "Test") || (name endsWith "Spec")) && !integrationFilter(name)
+def browserFilter(name: String): Boolean = name endsWith "BrowserSpec"
 
-lazy val CustomIntegrationTest = config("it") extend Test
+def unitFilter(name: String): Boolean = {
+  ((name endsWith "Test") || (name endsWith "Spec")) &&
+    ! integrationFilter(name) &&
+    ! browserFilter(name)
+}
 
-parallelExecution in CustomIntegrationTest := false
+

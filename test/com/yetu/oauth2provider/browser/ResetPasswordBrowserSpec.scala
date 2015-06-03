@@ -1,6 +1,6 @@
 package com.yetu.oauth2provider.browser
 
-class BrowserResetPasswordSpec extends BrowserBaseSpec {
+class ResetPasswordBrowserSpec extends BaseBrowserSpec {
 
   "Password reset page" must {
     "reset browserTestUserPassword" in {
