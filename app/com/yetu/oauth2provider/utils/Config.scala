@@ -113,8 +113,8 @@ object Config {
   val InvalidPasswordMessage = "securesocial.signup.invalidPassword"
 
   object RiakSettings extends RiakConnection {
-    override def host: String = config.getString("riak.production.host")
-    override def port: Int = config.getInt("riak.production.port")
+    override def host: String = config.getString("riak.host")
+    override def port: Int = config.getInt("riak.port")
     override def accessTokenBucketName: String = config.getString("riak.accesstokenbucket")
     override def authInfoBucketName: String = config.getString("riak.authinfobucket")
     override def mailTokenBucketName: String = config.getString("riak.mailtokenbucket")
