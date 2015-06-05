@@ -59,6 +59,8 @@ class ProviderController(personService: IPersonService)(implicit override val en
     val authenticationFlow = request.user.isEmpty
     val modifiedSession = overrideOriginalUrl(request.session, redirectTo)
 
+    logger.debug(s"provider: $provider")
+
     env.providers.get(provider).map {
       _.authenticate().flatMap {
         case denied: AuthenticationResult.AccessDenied =>

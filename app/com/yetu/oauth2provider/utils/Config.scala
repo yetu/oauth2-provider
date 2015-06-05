@@ -118,6 +118,7 @@ object Config {
     override def accessTokenBucketName: String = config.getString("riak.accesstokenbucket")
     override def authInfoBucketName: String = config.getString("riak.authinfobucket")
     override def mailTokenBucketName: String = config.getString("riak.mailtokenbucket")
+    override def sessionBucketName: String = config.getString("riak.sessionbucket")
   }
 
   object TestRiakSettings extends RiakConnection {
@@ -126,6 +127,7 @@ object Config {
     override def accessTokenBucketName: String = config.getString("riak.test.accesstokenbucket")
     override def authInfoBucketName: String = config.getString("riak.test.authinfobucket")
     override def mailTokenBucketName: String = config.getString("riak.test.mailtokenbucket")
+    override def sessionBucketName: String = config.getString("riak.test.sessionbucket")
   }
 
 }

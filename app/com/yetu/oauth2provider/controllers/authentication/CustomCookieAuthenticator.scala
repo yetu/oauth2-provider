@@ -85,7 +85,6 @@ class CustomCookieAuthenticatorBuilder[YetuUser](store: AuthenticatorStore[Custo
       case Some(cookie) => store.find(cookie.value).map { retrieved =>
         retrieved.map {
           _.copy(store = store)
-
         }
       }
       case None => Future.successful(None)

@@ -1,21 +1,17 @@
 package com.yetu.oauth2provider
 package controllers
 
-import com.yetu.oauth2provider.oauth2.OAuth2Protocol.AuthorizeParameters
+import com.yetu.oauth2provider.models.Permission.permissionsForm
+import com.yetu.oauth2provider.models.{ Permission, Permissions }
 import com.yetu.oauth2provider.oauth2.handlers
+import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
+import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
 import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPermissionService }
-import com.yetu.oauth2provider.models.{ Permissions, Permission }
 import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
-import com.yetu.oauth2provider.services._
-
-import Permission.permissionsForm
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, OAuth2Client, ClientPermission, AuthorizedClient }
 import securesocial.core.RuntimeEnvironment
 
-import scala.concurrent.Future
 import scalaoauth2.provider._
-import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
 
 /**
  * Handles the following requests:

@@ -3,9 +3,10 @@ package registry
 
 import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers.OAuth2ImplicitControllerHelper
+import com.yetu.oauth2provider.controllers.authentication.CustomCookieAuthenticator
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.riak.RiakConnection
-import com.yetu.oauth2provider.oauth2.MyCustomTokenEndpoint
+import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
@@ -14,8 +15,9 @@ import com.yetu.oauth2provider.services.data.iface._
 import com.yetu.oauth2provider.signature.services.SignatureService
 import com.yetu.oauth2provider.utils.Config.RiakSettings
 import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
+import securesocial.core.authenticator.{ HttpHeaderAuthenticator, AuthenticatorStore }
 import securesocial.core.providers.utils.PasswordHasher
-import securesocial.core.services.UserService
+import securesocial.core.services.{ CacheService, UserService }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scalaoauth2.provider.TokenEndpoint
@@ -33,6 +35,12 @@ trait InMemoryDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[MemoryAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[MemoryMailTokenService]
+
+  lazy val httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]] =
+    new AuthenticatorStore.Default(new CacheService.Default)
+
+  lazy val cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]] =
+    new AuthenticatorStore.Default(new CacheService.Default)
 }
 
 trait PersistentDataServices {
@@ -52,6 +60,12 @@ trait PersistentDataServices {
 
   lazy val authCodeAccessTokenService: IAuthCodeAccessTokenService = wire[RiakAuthCodeAccessTokens]
   lazy val mailTokenService: IMailTokenService = wire[RiakMailTokenService]
+
+  lazy val httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]] =
+    wire[RiakAuthenticatorStore[HttpHeaderAuthenticator[YetuUser]]]
+
+  lazy val cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]] =
+    wire[RiakAuthenticatorStore[CustomCookieAuthenticator[YetuUser]]]
 }
 
 trait ServicesRegistry {
@@ -66,6 +80,9 @@ trait ServicesRegistry {
 
   def personService: IPersonService
   def myUserService: UserService[YetuUser]
+
+  def httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]]
+  def cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]]
 
   lazy val scopeService: ScopeService = wire[ScopeService]
   lazy val validationService: ValidationService = wire[ValidationService]
@@ -92,9 +109,9 @@ trait ServicesRegistry {
 
   val implicitGrantFlowHandler = new ImplicitGrantFlowHandler[YetuUser](implicitGrantFlowService)
 
-  val myCustomTokenEndpoint: TokenEndpoint = new MyCustomTokenEndpoint(signatureHandler, implicitGrantFlowHandler)
+  val oAuth2TokenEndpoint: TokenEndpoint = new OAuth2TokenEndpoint(signatureHandler, implicitGrantFlowHandler)
 
-  val oAuth2ImplicitController = new OAuth2ImplicitControllerHelper(myCustomTokenEndpoint)
+  val oAuth2ImplicitController = new OAuth2ImplicitControllerHelper(oAuth2TokenEndpoint)
 
 }
 
