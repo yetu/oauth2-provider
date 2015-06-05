@@ -1,14 +1,10 @@
 package com.yetu.oauth2provider.services
 
 import com.yetu.oauth2provider.base.BaseIntegrationSpec
-import com.yetu.oauth2provider.oauth2.models.YetuUser
 import org.scalatest.concurrent.{ AsyncAssertions, ScalaFutures }
-import scala.concurrent.Future
-import scalaoauth2.provider.{ AuthInfo, AccessToken }
+import org.scalatest.time.{ Millis, Seconds, Span }
 
 import scala.concurrent.ExecutionContext.Implicits.global
-
-import org.scalatest.time.{ Millis, Seconds, Span }
 
 class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with AsyncAssertions {
 
@@ -88,13 +84,14 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
     }
   }
 
-  "Riak MailToken Handler" must {
+  "RiakMailToken" must {
     "save and retrieve the mailtoken" in {
 
       val resultFuture = for {
         save <- mailTokenService.saveToken(testMailToken)
         retrieve <- mailTokenService.findToken(testMailToken.uuid)
       } yield retrieve
+
       whenReady(resultFuture) {
         result => result.get mustBe testMailToken
       }

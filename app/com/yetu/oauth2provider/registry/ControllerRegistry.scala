@@ -55,8 +55,8 @@ trait ControllerRegistry extends ServicesRegistry {
     )
 
     override lazy val authenticatorService = new AuthenticatorService(
-      new CustomCookieAuthenticatorBuilder[YetuUser](new AuthenticatorStore.Default(cacheService), idGenerator),
-      new HttpHeaderAuthenticatorBuilder[YetuUser](new AuthenticatorStore.Default(cacheService), idGenerator)
+      new CustomCookieAuthenticatorBuilder[YetuUser](cookieAuthStore, idGenerator),
+      new HttpHeaderAuthenticatorBuilder[YetuUser](httpAuthStore, idGenerator)
     )
   }
 }
