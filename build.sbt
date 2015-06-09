@@ -5,7 +5,6 @@ import sbt.Keys._
 import scoverage.ScoverageSbtPlugin
 
 import scalariform.formatter.preferences._
-import java.nio.file.{Paths, Files}
 
 scalaVersion := "2.11.6"
 
@@ -13,21 +12,29 @@ name := "oauth2provider"
 
 organization := "com.yetu"
 
-resolvers += Resolver.bintrayRepo("yetu", "maven")
-
-lazy val root = (project in file(".")).enablePlugins(PlayScala, SbtWeb)
+lazy val root = (project in file("."))
+  .enablePlugins(PlayScala, SbtWeb)
   .configs(CustomIntegrationTest, BrowserTest)
   .settings(inConfig(CustomIntegrationTest)(Defaults.testTasks): _*)
   .settings(inConfig(BrowserTest)(Defaults.testTasks): _*)
-  .settings(
-    testOptions in Test := Seq(Tests.Filter(unitFilter)),
-    testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter)),
-    testOptions in BrowserTest := Seq(Tests.Filter(browserFilter))
-  )
-
 
 
 pipelineStages := Seq(digest, gzip)
+
+//********************************************************
+// resolvers and dependencies
+//********************************************************
+
+resolvers += Resolver.bintrayRepo("yetu", "maven")
+
+resolvers += Resolver.sonatypeRepo("snapshots")
+
+resolvers += "Plasma Conduit Repository" at "http://dl.bintray.com/plasmaconduit/releases"
+
+resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
+
+val versionMacwire = "1.0.5"
+val versionOAuth2Resource = "0.2.4"
 
 libraryDependencies ++= Seq(
   "org.scalatest" %% "scalatest" % "2.2.4" % "test",
@@ -36,21 +43,24 @@ libraryDependencies ++= Seq(
 
   "com.yetu" %% "securesocial" % "3.0.10",
   "com.yetu" %% "yetu-notification-client-scala" % "1.5",
+  "com.yetu" %% "oauth2-resource-server" % versionOAuth2Resource,
+  "com.yetu" %% "oauth2-resource-server" % versionOAuth2Resource % "test" classifier "tests",
 
   "com.nulab-inc" %% "play2-oauth2-provider" % "0.14.0",
 
   "net.adamcin.httpsig" % "httpsig-api" % "1.0.6",
   "net.adamcin.httpsig" % "httpsig-ssh-jce" % "1.0.6",
   "net.adamcin.httpsig" % "httpsig-ssh-bc" % "1.2.0",
-  "org.bouncycastle" % "bcpkix-jdk15on" % "1.51",
-  "com.unboundid" % "unboundid-ldapsdk" % "2.3.8",
-  "net.logstash.logback" % "logstash-logback-encoder" % "3.0",
-  "com.softwaremill.macwire" %% "macros" % "1.0.2",
-  "com.softwaremill.macwire" %% "runtime" % "1.0.2",
-  "com.yetu" %% "oauth2-resource-server" % "0.2.4",
-  "com.yetu" %% "oauth2-resource-server" % "0.2.4" % "test" classifier "tests",
 
-  //riak
+  "org.bouncycastle" % "bcpkix-jdk15on" % "1.51",
+
+  "com.unboundid" % "unboundid-ldapsdk" % "2.3.8",
+
+  "net.logstash.logback" % "logstash-logback-encoder" % "3.0",
+
+  "com.softwaremill.macwire" %% "macros" % versionMacwire,
+  "com.softwaremill.macwire" %% "runtime" % versionMacwire,
+
   "com.scalapenos" %% "riak-scala-client" % "0.9.5",
 
   //JSON Web token libs
@@ -59,13 +69,9 @@ libraryDependencies ++= Seq(
 )
 libraryDependencies += filters
 
-resolvers += Resolver.sonatypeRepo("snapshots")
-
-resolvers += "Plasma Conduit Repository" at "http://dl.bintray.com/plasmaconduit/releases"
-
-resolvers += "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots"
-
-resolvers += Resolver.bintrayRepo("yetu", "maven")
+//********************************************************
+// Main settings
+//********************************************************
 
 scalacOptions ++= Seq(
   "-deprecation", // Emit warning and location for usages of deprecated APIs.
@@ -102,23 +108,18 @@ ScoverageSbtPlugin.ScoverageKeys.coverageExcludedPackages := "<empty>;Reverse.*;
 
 
 lazy val CustomIntegrationTest = config("it") extend Test
-
 lazy val BrowserTest = config("browser") extend Test
 
+testOptions in Test := Seq(Tests.Filter(unitFilter))
+testOptions in CustomIntegrationTest := Seq(Tests.Filter(integrationFilter))
+testOptions in BrowserTest := Seq(Tests.Filter(browserFilter))
+
 parallelExecution in Test := false
-
 parallelExecution in CustomIntegrationTest := false
-
 parallelExecution in BrowserTest := false
 
-javaOptions in Test += {
-  "-Dconfig.file=conf/application-test.conf"
-}
-
-javaOptions in BrowserTest += {
-  "-Dconfig.file=conf/application-test.conf"
-}
-
+javaOptions in Test += "-Dconfig.file=conf/application-test.conf"
+javaOptions in BrowserTest += "-Dconfig.file=conf/application-test.conf"
 javaOptions in CustomIntegrationTest += {
   if (Files.exists(Paths.get("conf/application.conf"))) {
     "-Dconfig.file=conf/application.conf"
@@ -133,8 +134,8 @@ def browserFilter(name: String): Boolean = name endsWith "BrowserSpec"
 
 def unitFilter(name: String): Boolean = {
   ((name endsWith "Test") || (name endsWith "Spec")) &&
-    ! integrationFilter(name) &&
-    ! browserFilter(name)
+    !integrationFilter(name) &&
+    !browserFilter(name)
 }
 
 
