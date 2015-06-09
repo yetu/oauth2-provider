@@ -15,6 +15,9 @@ organization := "com.yetu"
 lazy val root = (project in file("."))
   .enablePlugins(PlayScala, SbtWeb)
   .configs(CustomIntegrationTest, BrowserTest)
+  .settings(inConfig(CustomIntegrationTest)(Defaults.testTasks): _*)
+  .settings(inConfig(BrowserTest)(Defaults.testTasks): _*)
+
 
 pipelineStages := Seq(digest, gzip)
 
