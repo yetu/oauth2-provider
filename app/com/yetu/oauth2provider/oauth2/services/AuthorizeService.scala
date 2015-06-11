@@ -4,18 +4,20 @@ package services
 
 import java.net.URLDecoder
 
-import scalaoauth2.provider.AuthInfo
-import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IPersonService, IAuthCodeAccessTokenService, IClientService }
+import com.yetu.oauth2provider.models.Permission
+import com.yetu.oauth2provider.oauth2.OAuth2Protocol._
+import com.yetu.oauth2provider.oauth2.errors.InvalidState
+import com.yetu.oauth2provider.oauth2.models._
+import com.yetu.oauth2provider.services.data.iface.{ IAuthCodeAccessTokenService, IClientService, IPermissionService, IPersonService }
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
-import play.api.mvc.{ Cookie, Controller, Result }
+import com.yetu.oauth2provider.utils.{ BearerTokenGenerator, Config, NamedLogger }
+import play.api.mvc.{ RequestHeader, Controller, Cookie, Result }
+import securesocial.core.{ BasicProfile, RuntimeEnvironment }
 import securesocial.core.authenticator.CookieAuthenticator
+
 import scala.concurrent.Future
 import scalaoauth2.provider
-import scalaoauth2.provider._
-import OAuth2Protocol._
-import com.yetu.oauth2provider.oauth2.models._
-import errors.InvalidState
-import com.yetu.oauth2provider.utils.{ NamedLogger, Config, BearerTokenGenerator }
+import scalaoauth2.provider.{ AuthInfo, _ }
 
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
@@ -47,11 +49,12 @@ class AuthorizeErrorHandler(clientService: IClientService,
       .getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
 
     val validScopes: List[String] = client.scopes.getOrElse(List.empty)
-    if (!client.coreYetuClient) {
 
+    // TODO: put back
+    // if (!client.coreYetuClient) {
+    if (client.coreYetuClient) {
       scopeService.getScopeFromPermission(
         permissionService.findPermission(user.identityId.userId, client.clientId))
-
     }
 
     request.scope.foreach { scope =>
@@ -148,14 +151,28 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     handlePermittedApp(client, authorizeRequest.redirectUri, authorizeRequest.state, authorizeRequest.scope, user, userDefinedScopes)
   }
 
-  def handleClientPermissions(client: OAuth2Client, authorizeRequest: AuthorizeRequest, user: YetuUser): Result = {
+  def handleClientPermissions(request: RequestHeader,
+    env: RuntimeEnvironment[YetuUser],
+    client: OAuth2Client,
+    authorizeRequest: AuthorizeRequest,
+    user: YetuUser): Result = {
+
     val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
     clientPermission match {
       case None =>
-        //TODO: This should be implemented
-        //Ok(com.yetu.oauth2provider.views.html.permissions(permissionsForm, client.clientName, Some(client.clientId), authorizeRequest.redirectUri, Some(authorizeRequest.state)))
-        Ok("OK")
-      case Some(permission) => handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
+
+        val scopeList = authorizeRequest.scope.map(s => s.split(" ").toList)
+
+        Ok(com.yetu.oauth2provider.views.html.permissions(
+          Permission.permissionsForm,
+          client.clientName,
+          client.clientId,
+          scopeList.getOrElse(List.empty[String]),
+          authorizeRequest.redirectUri,
+          Some(authorizeRequest.state))(request, env))
+
+      case Some(permission) =>
+        handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
 
