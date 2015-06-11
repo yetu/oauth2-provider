@@ -1,0 +1,22 @@
+.page-header {
+    margin-bottom: 15px;
+}
+
+.requestedPermissions {
+    max-height: 184px;
+    height: 184px;
+    display: block;
+    overflow-x: hidden;
+    overflow-y: auto;
+    margin-bottom: 15px;
+}
+
+.termsInfo {
+    margin-bottom: 15px;
+}
+
+.permissions__cancel {
+    text-align: right;
+    width: 100%;
+    display: block;
+}

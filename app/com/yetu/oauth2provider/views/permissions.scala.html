@@ -1,21 +1,22 @@
-@(permissionsForm: Form[com.yetu.oauth2provider.models.Permissions], appName: String,client_id: Option[String], redirect_uri: Option[String], state: Option[String])(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
-@import com.yetu.oauth2provider.services._
-@import com.yetu.oauth2provider._
+@(permissionsForm: Form[com.yetu.oauth2provider.models.Permissions], appName: String, client_id: String, scopes: List[String], redirect_uri: String, state: Option[String])(implicit request: RequestHeader, env: securesocial.core.RuntimeEnvironment[_])
 @import helper._
-
 @import securesocial.core.IdentityProvider
+
 @implicitFieldConstructor = @{ FieldConstructor(com.yetu.oauth2provider.views.html.yetuAuthentication.inputFieldConstructor.f) }
 
-@views.html.yetuAuthentication.main(Messages("securesocial.permission.title")) {
+@com.yetu.oauth2provider.views.html.yetuAuthentication.main(Messages("securesocial.permission.title")) {
+
+    <link rel="stylesheet" media="screen" href="@controllers.routes.Assets.versioned("stylesheets/normal_permissions.css")">
     <div class="page-header">
         <h2>@appName</h2>
-        <h3>This app would like to:</h3>
+        <span>This app would like to:</span>
     </div>
 
     <div class="requestedPermissions">
         <ul>
-            <li>View your email address</li>
-            <li>View basic information about your account</li>
+            @for(scope <- scopes) {
+                <li>@scope</li>
+            }
         </ul>
     </div>
 
@@ -25,17 +26,14 @@
 
     @helper.form(action = com.yetu.oauth2provider.controllers.routes.OAuth2Auth.permissionsPost) {
 
-
         <input type="hidden" name="client_id" value="@client_id">
         <input type="hidden" name="redirect_uri" value="@redirect_uri">
         <input type="hidden" name="state" value="@state">
+
+        <a class="permissions__cancel" href="@env.routes.loginPageUrl">@Messages("securesocial.permission.cancel")</a>
+
         <div class="form-actions">
-            <button type="submit" class="btn btn-primary">@Messages("securesocial.permission.accept")</button>
-            <a class="btn" href="@env.routes.loginPageUrl">@Messages("securesocial.permission.cancel")</a>
+            <button type="submit" class="button normal__button">@Messages("securesocial.permission.accept")</button>
         </div>
     }
 }
-
-
-
-
