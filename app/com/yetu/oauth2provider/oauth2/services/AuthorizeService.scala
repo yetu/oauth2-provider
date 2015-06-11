@@ -42,37 +42,40 @@ class AuthorizeErrorHandler(clientService: IClientService,
       throw new InvalidState(s"invalid state parameter. State length is not correct.")
     }
 
-    val client = clientService.findClient(request.clientId).getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
+    val client = clientService
+      .findClient(request.clientId)
+      .getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
 
-    val validScopes: List[String] = if (client.coreYetuClient) {
-      client.scopes.getOrElse(List.empty)
-    } else {
-      scopeService.getScopeFromPermission(permissionService.findPermission(user.identityId.userId, client.clientId))
+    val validScopes: List[String] = client.scopes.getOrElse(List.empty)
+    if (!client.coreYetuClient) {
+
+      scopeService.getScopeFromPermission(
+        permissionService.findPermission(user.identityId.userId, client.clientId))
+
     }
-    val requestScopeString = request.scope.getOrElse(Config.SCOPE_ID)
 
-    val requestScopes: List[String] = requestScopeString.split(' ').toList
-
-    requestScopes.foreach { requestScope =>
-      if (!validScopes.contains(requestScope)) {
-        throw new InvalidScope(s"invalid scope: $requestScope")
+    request.scope.foreach { scope =>
+      scope.split(' ').toList.foreach { requestScope =>
+        if (!validScopes.contains(requestScope)) {
+          throw new InvalidScope(s"invalid scope: $requestScope")
+        }
       }
     }
 
     val validRedirectUrls = client.redirectURIs
-
-    //If there is no redirect url in the request then we fetch the first url from LDAP as a default one
-    val redirectUrl = URLDecoder.decode(request.redirectUri.getOrElse(validRedirectUrls.head), "UTF-8")
+    val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
 
     if (!validRedirectUrls.contains(redirectUrl)) {
-      logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! [$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
+
+      logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! " +
+        s"[$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
+
       if (Config.redirectURICheckingEnabled) {
         throw new RedirectUriMismatch(s"invalid redirect url.")
       }
     }
 
     val authorizedClient = AuthorizedClient(client, request, redirectUrl)
-
     Right(authorizedClient)
 
   } catch {
@@ -101,7 +104,12 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     scopeService: ScopeService,
     permissionService: IPermissionService) extends Controller {
 
-  def handlePermittedApp(client: OAuth2Client, redirectUri: Option[String], state: String, scopeFromRequest: Option[String], user: YetuUser, userDefinedScopes: Option[List[String]] = None) = {
+  def handlePermittedApp(client: OAuth2Client,
+    redirectUri: String,
+    state: String,
+    scopeFromRequest: Option[String],
+    user: YetuUser,
+    userDefinedScopes: Option[List[String]] = None) = {
 
     val auth_code = BearerTokenGenerator.generateToken(Config.OAuth2.authTokenLength)
     val queryString: Map[String, Seq[String]] = Map(
@@ -109,24 +117,11 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
       AuthorizeParameters.STATE -> Seq(state)
     )
 
-    /*
-    Get the scope the user has defined when granting permissions;
-    if the user did not set any (because of core yetu app), get the scope of the request if it exists;
-    fallback to default scope of a certain client;
-    fallback to the most basic ID scope
-     */
-    val scope = scopeService.getFirstScope(userDefinedScopes).
-      getOrElse(scopeFromRequest.
-        getOrElse(scopeService.getFirstScope(client.scopes).
-          getOrElse(Config.SCOPE_ID)))
-
-    val redirectUrl = redirectUri.getOrElse(client.redirectURIs.head)
-
     authAccessService.saveAuthCode(
       auth_code,
-      new AuthInfo[YetuUser](user, Some(client.clientId), Some(scope), Some(redirectUrl)))
+      new AuthInfo[YetuUser](user, Some(client.clientId), scopeFromRequest, Some(redirectUri)))
 
-    Redirect(redirectUrl, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
+    Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
   }
 
   def getAdditionalSessionStateCookie(userId: String): Cookie = {
@@ -138,7 +133,8 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
       userUUID,
       if (CookieAuthenticator.makeTransient)
         CookieAuthenticator.Transient
-      else Some(CookieAuthenticator.absoluteTimeoutInSeconds),
+      else
+        Some(CookieAuthenticator.absoluteTimeoutInSeconds),
       SessionStatusCookie.cookiePath,
       SessionStatusCookie.cookieDomain,
       secure = SessionStatusCookie.cookieSecure,

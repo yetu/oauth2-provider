@@ -1,9 +1,11 @@
 import com.softwaremill.macwire.{ Macwire, Wired }
 import com.yetu.oauth2provider.utils.{ Config, CorsFilter }
 import play.api.GlobalSettings
-import play.api.mvc.EssentialAction
+import play.api.mvc.{ Result, RequestHeader, EssentialAction }
 
 import com.yetu.oauth2provider.registry._
+
+import scala.concurrent.Future
 
 object Global extends GlobalSettings with Macwire {
 
@@ -22,4 +24,3 @@ object Global extends GlobalSettings with Macwire {
   override def doFilter(action: EssentialAction) = CorsFilter(action)
 
 }
-
