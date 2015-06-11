@@ -85,9 +85,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val client: OAuth2Client = authClient.client
           val authorizeRequest = authClient.request
 
-          //TODO: put back
-          //if (client.coreYetuClient) {
-          if (!client.coreYetuClient) {
+          if (client.coreYetuClient) {
             authorizeService.handlePermittedApps(client, authorizeRequest, request.user)
           } else {
             authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
