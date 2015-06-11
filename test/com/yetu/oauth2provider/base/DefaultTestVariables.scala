@@ -6,7 +6,7 @@ import com.yetu.oauth2provider.models.DataUpdateRequest
 import org.joda.time.DateTime
 import securesocial.core.providers.MailToken
 import scalaoauth2.provider.AuthInfo
-import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ OAuth2Client, ClientPermission, IdentityId, YetuUser }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import play.api.libs.json.Json
@@ -30,11 +30,18 @@ trait DefaultTestVariables {
 
   val testUserPassword = "1234"
   val testAuthCode = "FDdrVgoQo2"
+  val testClientName = "testClientName"
   val testClientId = "testClientId"
+  val testClientSecret = "testClientSecret"
+  val testRedirectUri = "http://redirectUrl"
+  val testGrantTypes = List("token", "authorization_code")
   val scopeOption = Some(SCOPE_BASIC)
   val testAccessToken: AccessToken = new AccessToken("bMqOIj86jKZVbo_kvJMG", Some("REFRESH"), scopeOption, Some(1234532L), new Date(System.currentTimeMillis()))
   val testUserInfo: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), scopeOption, None)
   val testUserInfoWithScopeId: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
+
+  val testClient = OAuth2Client(testClientId, testClientSecret, List(testRedirectUri), Some(testGrantTypes), Some(List(SCOPE_BASIC)), testClientName, coreYetuClient = false)
+  val testPermission = ClientPermission(testClientId, Some(List("scope1")))
 
   val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
 
