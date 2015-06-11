@@ -4,9 +4,9 @@ import com.yetu.oauth2provider.oauth2.models.ClientPermission
 
 trait IPermissionService {
 
-  def savePermission(email: String, clientPermission: ClientPermission, ignoreEntryAlreadyExists: Boolean = false): Unit
+  def savePermission(uuid: String, clientPermission: ClientPermission)
 
-  def deletePermission(email: String, clientId: String)
+  def deletePermission(uuid: String, clientId: String)
 
   def findPermission(userId: String, clientId: String): Option[ClientPermission]
 

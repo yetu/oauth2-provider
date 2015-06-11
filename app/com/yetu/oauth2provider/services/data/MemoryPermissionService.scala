@@ -10,7 +10,7 @@ class MemoryPermissionService extends IPermissionService {
   val logger = Logger(this.getClass())
   import MemoryPermissionService.permissions
 
-  override def savePermission(email: String, clientPermission: ClientPermission, ignoreEntryAlreadyExists: Boolean): Unit = {
+  override def savePermission(email: String, clientPermission: ClientPermission): Unit = {
     logger.debug(s"save permission $email -> ${clientPermission.clientId}")
     permissions += EmailClient(email, clientPermission.clientId) -> clientPermission
   }

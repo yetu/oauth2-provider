@@ -24,7 +24,7 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
     }
   }
 
-  def savePermission(email: String, clientPermission: ClientPermission, ignoreEntryAlreadyExists: Boolean = false): Unit = {
+  def savePermission(email: String, clientPermission: ClientPermission): Unit = {
     //ou=permissions does not exist it will give error so first create that if is not
     val permissionTree = new Entry(LdapClientPermission.getDN(email))
     permissionTree.addAttribute(LdapClientPermission.getObjectClass())
@@ -37,7 +37,7 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
       entry.addAttribute(new Attribute("scope", scope))
     }
 
-    dao.persist(entry, ignoreEntryAlreadyExists)
+    dao.persist(entry, true)
   }
 
   def deletePermission(email: String, clientId: String) = {

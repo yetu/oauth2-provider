@@ -109,7 +109,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     state: String,
     scopeFromRequest: Option[String],
     user: YetuUser,
-    userDefinedScopes: Option[List[String]] = None) = {
+    userDefinedScopes: Option[List[String]]) = {
 
     val auth_code = BearerTokenGenerator.generateToken(Config.OAuth2.authTokenLength)
     val queryString: Map[String, Seq[String]] = Map(
@@ -117,9 +117,11 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
       AuthorizeParameters.STATE -> Seq(state)
     )
 
+    val scope = if (userDefinedScopes.isDefined) userDefinedScopes.map(_.mkString(" ")) else scopeFromRequest
+
     authAccessService.saveAuthCode(
       auth_code,
-      new AuthInfo[YetuUser](user, Some(client.clientId), scopeFromRequest, Some(redirectUri)))
+      new AuthInfo[YetuUser](user, Some(client.clientId), scope, Some(redirectUri)))
 
     Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
   }
