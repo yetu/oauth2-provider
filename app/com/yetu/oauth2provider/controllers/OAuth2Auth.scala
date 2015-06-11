@@ -101,13 +101,11 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
 
       val clientOption = clientService.findClient(formData.client_id)
       clientOption match {
-        case None => {
-          BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
-        }
+        case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
         case Some(client) => {
           val clientPermission = ClientPermission(client.clientId, client.scopes)
           permissionService.savePermission(request.user.email.get, clientPermission)
-          authorizeService.handlePermittedApp(client, Some(formData.redirect_uri), formData.state, None, request.user, clientPermission.scopes)
+          authorizeService.handlePermittedApp(client, formData.redirect_uri, formData.state, None, request.user, clientPermission.scopes)
         }
       }
   }
