@@ -37,7 +37,7 @@ class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
     Future.successful(accessTokens += (key -> accessToken))
   }
 
-  def findAuthInfoByAuthCode(code: String) = {
+  def findAuthInfoByAuthCode(code: String): Future[Option[AuthInfo[YetuUser]]] = {
     val info = authCodes.get(code)
     logger.debug(s"findAuthInfoByAuthCode code: $code result=$info")
     Future.successful(info)
