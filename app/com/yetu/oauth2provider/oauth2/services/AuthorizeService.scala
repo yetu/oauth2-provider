@@ -145,8 +145,18 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     )
   }
 
-  def handlePermittedApps(client: OAuth2Client, authorizeRequest: AuthorizeRequest, user: YetuUser, userDefinedScopes: Option[List[String]] = None): Result = {
-    handlePermittedApp(client, authorizeRequest.redirectUri, authorizeRequest.state, authorizeRequest.scope, user, userDefinedScopes)
+  def handlePermittedApps(client: OAuth2Client,
+    authorizeRequest: AuthorizeRequest,
+    user: YetuUser,
+    userDefinedScopes: Option[List[String]] = None): Result = {
+
+    handlePermittedApp(
+      client,
+      authorizeRequest.redirectUri,
+      authorizeRequest.state,
+      authorizeRequest.scope,
+      user,
+      userDefinedScopes)
   }
 
   def handleClientPermissions(request: RequestHeader,
