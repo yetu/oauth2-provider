@@ -3,8 +3,7 @@ package com.yetu.oauth2provider.browser
 import com.yetu.oauth2provider.base.{ TestGlobal, BaseMethods }
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.registry.TestRegistry
-import com.yetu.oauth2provider.services.data.MemoryMailTokenService
-import com.yetu.oauth2provider.services.data.memory.MemoryPersonService
+import com.yetu.oauth2provider.services.data.memory.{ MemoryMailTokenService, MemoryPersonService }
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play._
 import play.api.test.FakeApplication
