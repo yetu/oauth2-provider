@@ -49,7 +49,10 @@ trait PersistentDataServices {
 
   lazy val dao: LdapDAO = wire[LdapDAO]
   lazy val clientService: IClientService = wire[LdapClientService]
-  lazy val permissionService: IPermissionService = wire[LdapPermissionService]
+
+  //TODO: change this after LDAP is not in use anymore to use the new API.
+  //TODO: LDAP permission service is actually broken, do not use.
+  lazy val permissionService: IPermissionService = wire[MemoryPermissionService]
 
   lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
 
