@@ -1,23 +1,10 @@
 package com.yetu.oauth2provider.controllers.authentication
 
-import securesocial.core.providers
-import java.util
-import java.util.Date
-import com.yetu.oauth2provider.signature.SignatureHelper
-import com.yetu.oauth2provider.signature.models.{ SignatureSyntaxException, SignatureException, SignedRequestHeaders, YetuPublicKey }
-
-import com.yetu.oauth2provider.services.data.interface.{ IPublicKeyService, IPersonService }
+import com.yetu.oauth2provider.signature.models.{ SignatureException, SignatureSyntaxException }
 import com.yetu.oauth2provider.signature.services.SignatureService
-import com.yetu.oauth2provider.utils.DateUtility
-import net.adamcin.httpsig.api.{ Authorization, _ }
-import net.adamcin.httpsig.ssh.jce.{ AuthorizedKeys, UserKeysFingerprintKeyId }
-import play.api.Play.current
-import play.api.mvc.Results._
+import play.api.Logger
 import play.api.mvc._
-import play.api.{ Logger, Play }
-import securesocial.core.AuthenticationResult.Authenticated
 import securesocial.core._
-import securesocial.core.services.UserService
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -34,8 +21,9 @@ class SignatureAuthenticationProvider[U](signatureService: SignatureService[U]) 
   def authenticate()(implicit request: Request[AnyContent]): Future[AuthenticationResult] = doAuthentication()
 
   private def doAuthentication[A](apiMode: Boolean = false)(implicit request: Request[A]): Future[AuthenticationResult] = {
-    signatureService.validateRequest(request) map {
-      user => AuthenticationResult.Authenticated(user.toBasicProfile)
+    signatureService.validateRequest(request).map {
+      case Some(user) => AuthenticationResult.Authenticated(user.toBasicProfile)
+      case _          => AuthenticationResult.AccessDenied()
     } recover withErrorHandling
   }
 

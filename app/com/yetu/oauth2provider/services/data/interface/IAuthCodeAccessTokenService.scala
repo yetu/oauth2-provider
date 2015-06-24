@@ -16,7 +16,7 @@ trait IAuthCodeAccessTokenService {
     val saveAuthInfo = saveAccessTokenToAuthInfo(accessToken.token, authInfo)
 
     val saveAuthInfoToken = authInfo.clientId.map(
-      clientId => saveAuthInfoToAccessToken(authInfo.user.identityId.userId + clientId, accessToken))
+      clientId => saveAuthInfoToAccessToken(authInfo.user.userId + clientId, accessToken))
 
     val result = for {
       token <- saveToken

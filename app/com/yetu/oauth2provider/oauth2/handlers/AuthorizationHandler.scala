@@ -86,23 +86,26 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def findUser(username: String, password: String): Future[Option[YetuUser]] = {
-    logger.warn("Find user... ")
+    personService.findYetuUser(username).map {
+      case Some(user) =>
 
-    val loggedIn = for {
-      user <- personService.findYetuUser(username)
-      pinfo <- user.passwordInfo
-      hasher <- passwordHashers.get(pinfo.hasher) if hasher.matches(pinfo, password)
-    } yield user
+        val itMatches = user.passwordInfo
+          .flatMap(pInfo => passwordHashers.get(pInfo.hasher)
+            .map(_.matches(pInfo, password)))
+          .getOrElse(false)
 
-    logger.debug(s"user found? user=$loggedIn")
+        if (itMatches) {
+          Some(user)
+        } else None
 
-    Future.successful(loggedIn)
+      case _ => None
+    }
   }
 
   def getStoredAccessToken(authInfo: AuthInfo[YetuUser]) = {
     authInfo.clientId match {
       case Some(clientId) =>
-        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.identityId.userId)
+        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.userId)
       case _ => Future.successful(None)
     }
   }

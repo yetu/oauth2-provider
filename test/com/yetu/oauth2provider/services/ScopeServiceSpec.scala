@@ -47,7 +47,7 @@ class ScopeServiceSpec extends BaseSpec {
       Logger.info(result.toString)
       result match {
         case Some(User(Some(userId), _, _, _, None, _, _, _)) =>
-          userId mustEqual testUser.uid
+          userId mustEqual testUser.userId
         case _ => fail()
       }
     }

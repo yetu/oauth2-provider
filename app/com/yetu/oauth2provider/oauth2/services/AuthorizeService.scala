@@ -52,7 +52,7 @@ class AuthorizeErrorHandler(clientService: IClientService,
 
     if (!client.coreYetuClient) {
       scopeService.getScopeFromPermission(
-        permissionService.findPermission(user.identityId.userId, client.clientId))
+        permissionService.findPermission(user.userId, client.clientId))
     }
 
     request.scope.foreach { scope =>
@@ -128,12 +128,9 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def getAdditionalSessionStateCookie(userId: String): Cookie = {
-    val fullUser: Option[YetuUser] = personService.findYetuUser(userId)
-    val userUUID = fullUser.map(_.uid).getOrElse("unknownUser")
-
     Cookie(
       SessionStatusCookie.cookieName,
-      userUUID,
+      userId,
       if (CookieAuthenticator.makeTransient)
         CookieAuthenticator.Transient
       else
@@ -165,7 +162,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser): Result = {
 
-    val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
+    val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.userId, client.clientId)
     clientPermission match {
       case None =>
 

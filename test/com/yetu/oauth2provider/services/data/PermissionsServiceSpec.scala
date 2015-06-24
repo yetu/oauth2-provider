@@ -8,13 +8,13 @@ import securesocial.core.services.SaveMode
 abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
 
   override def beforeEach() {
-    permissionService.deletePermission(testUser.uid, testClientId)
+    permissionService.deletePermission(testUser.userId, testClientId)
     personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)
   }
 
   override def afterEach() {
-    permissionService.deletePermission(testUser.uid, testClientId)
+    permissionService.deletePermission(testUser.userId, testClientId)
     personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)
   }
@@ -24,8 +24,8 @@ abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
       clientService.saveClient(testClient)
 
-      permissionService.savePermission(testUser.uid, testPermission)
-      val retrieved = permissionService.findPermission(testUser.uid, testPermission.clientId)
+      permissionService.savePermission(testUser.userId, testPermission)
+      val retrieved = permissionService.findPermission(testUser.userId, testPermission.clientId)
       retrieved.get mustEqual testPermission
     }
   }
