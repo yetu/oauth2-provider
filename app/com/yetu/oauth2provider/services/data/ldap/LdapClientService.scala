@@ -1,27 +1,16 @@
-package com.yetu.oauth2provider
-package services
-package data
+package com.yetu.oauth2provider.services.data.ldap
 
-import com.unboundid.ldap.sdk.Attribute
-import com.unboundid.ldap.sdk.Entry
-import com.unboundid.ldap.sdk.SearchResultEntry
-import play.api.Logger
+import com.unboundid.ldap.sdk.{ Attribute, Entry, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.Client
-import com.yetu.oauth2provider.services.data.iface.IClientService
-
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
+import com.yetu.oauth2provider.services.data.interface.IClientService
 
 class LdapClientService(dao: LdapDAO) extends IClientService {
 
-  /**
-   *
-   *
-   * @param client
-   * @param ignoreEntryAlreadyExists
-   */
   def saveClient(client: OAuth2Client, ignoreEntryAlreadyExists: Boolean): Unit = {
-    var entry = new Entry(Client.getDN(client.clientId))
+
+    val entry = new Entry(Client.getDN(client.clientId))
     entry.addAttribute(Client.getObjectClass())
     entry.addAttribute(new Attribute(Client.CLIENT_ID, client.clientId))
     entry.addAttribute(new Attribute(Client.CLIENT_SECRET, client.clientSecret))
@@ -66,12 +55,6 @@ class LdapClientService(dao: LdapDAO) extends IClientService {
 
   def deleteClient(clientId: String) = {
     dao.deleteEntry(Client.getDN(clientId))
-  }
-
-  def deleteAllClients() = {
-    Logger.warn("delete All Clients was executed. This method should only execute during testing. Do your tests use the real ldap?")
-    println("delete All Clients was executed. This method should only execute during testing. Do your tests use the real ldap?")
-    //do nothing, can be overridden for tests.
   }
 
 }

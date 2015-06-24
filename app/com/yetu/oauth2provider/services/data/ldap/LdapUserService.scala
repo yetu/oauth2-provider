@@ -1,8 +1,8 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.ldap
 
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.iface.IMailTokenService
+import com.yetu.oauth2provider.services.data.interface.IMailTokenService
 import securesocial.core.providers.MailToken
 import securesocial.core.services.UserService
 

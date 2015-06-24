@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import com.yetu.oauth2provider.utils.DateUtility._
 import org.joda.time.DateTime
 import securesocial.core.PasswordInfo

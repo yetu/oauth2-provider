@@ -1,9 +1,9 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.memory
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 
 import scalaoauth2.provider.AuthInfo
-import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
+import com.yetu.oauth2provider.services.data.interface.IAuthCodeAccessTokenService
 import play.api.Logger
 
 import scala.concurrent.Future
@@ -15,7 +15,7 @@ import scalaoauth2.provider.AccessToken
 class MemoryAuthCodeAccessTokens extends IAuthCodeAccessTokenService {
 
   val logger = Logger(this.getClass)
-  import com.yetu.oauth2provider.services.data.MemoryAuthCodeAccessTokens._
+  import com.yetu.oauth2provider.services.data.memory.MemoryAuthCodeAccessTokens._
 
   def saveAccessToken(token: String, accessToken: AccessToken) = {
     logger.debug(s"saveAuthCode token=$token accessToken=$accessToken")
