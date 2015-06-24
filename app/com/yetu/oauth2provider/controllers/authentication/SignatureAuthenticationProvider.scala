@@ -6,7 +6,7 @@ import java.util.Date
 import com.yetu.oauth2provider.signature.SignatureHelper
 import com.yetu.oauth2provider.signature.models.{ SignatureSyntaxException, SignatureException, SignedRequestHeaders, YetuPublicKey }
 
-import com.yetu.oauth2provider.services.data.iface.{ IPublicKeyService, IPersonService }
+import com.yetu.oauth2provider.services.data.interface.{ IPublicKeyService, IPersonService }
 import com.yetu.oauth2provider.signature.services.SignatureService
 import com.yetu.oauth2provider.utils.DateUtility
 import net.adamcin.httpsig.api.{ Authorization, _ }

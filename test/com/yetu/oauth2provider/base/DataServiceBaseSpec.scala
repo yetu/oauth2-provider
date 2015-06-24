@@ -1,6 +1,6 @@
 package com.yetu.oauth2provider.base
 
-import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IClientService, IPersonService, IPublicKeyService }
+import com.yetu.oauth2provider.services.data.interface.{ IPermissionService, IClientService, IPersonService, IPublicKeyService }
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.{ OneAppPerSuite, PlaySpec }
 

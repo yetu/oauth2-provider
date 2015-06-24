@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.signature.services
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.iface.{ IPersonService, IPublicKeyService }
+import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.SignatureHelper
 import com.yetu.oauth2provider.signature.models.{ SignatureSyntaxException, SignatureException, YetuPublicKey, SignedRequestHeaders }
 import com.yetu.oauth2provider.utils.{ Config, DateUtility }

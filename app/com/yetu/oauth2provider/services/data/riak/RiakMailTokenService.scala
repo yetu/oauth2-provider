@@ -1,7 +1,7 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.riak
 
 import com.yetu.oauth2provider.data.riak.RiakConnection
-import com.yetu.oauth2provider.services.data.iface.IMailTokenService
+import com.yetu.oauth2provider.services.data.interface.IMailTokenService
 import com.yetu.oauth2provider.utils.NamedLogger
 import play.api.libs.json.Json
 import securesocial.controllers.{ RegistrationInfo, UserAgreement }

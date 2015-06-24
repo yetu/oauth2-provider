@@ -4,7 +4,7 @@ import java.util.Date
 
 import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.iface.{ IAuthCodeAccessTokenService, IClientService, IPersonService }
+import com.yetu.oauth2provider.services.data.interface.{ IAuthCodeAccessTokenService, IClientService, IPersonService }
 import com.yetu.oauth2provider.utils.{ Config, JsonWebTokenGenerator, BearerTokenGenerator }
 import play.api.Logger
 import securesocial.core.providers.utils.PasswordHasher

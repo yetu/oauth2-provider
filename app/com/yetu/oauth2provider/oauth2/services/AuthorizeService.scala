@@ -8,7 +8,7 @@ import com.yetu.oauth2provider.models.Permission
 import com.yetu.oauth2provider.oauth2.OAuth2Protocol._
 import com.yetu.oauth2provider.oauth2.errors.InvalidState
 import com.yetu.oauth2provider.oauth2.models._
-import com.yetu.oauth2provider.services.data.iface.{ IAuthCodeAccessTokenService, IClientService, IPermissionService, IPersonService }
+import com.yetu.oauth2provider.services.data.interface.{ IAuthCodeAccessTokenService, IClientService, IPermissionService, IPersonService }
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
 import com.yetu.oauth2provider.utils.{ BearerTokenGenerator, Config, NamedLogger }
 import play.api.mvc.{ Controller, Cookie, RequestHeader, Result }

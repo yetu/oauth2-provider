@@ -6,7 +6,7 @@ import com.yetu.oauth2provider.models.{ Permission, Permissions }
 import com.yetu.oauth2provider.oauth2.handlers
 import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
-import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPermissionService }
+import com.yetu.oauth2provider.services.data.interface.{ IClientService, IPermissionService }
 import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
 import securesocial.core.RuntimeEnvironment

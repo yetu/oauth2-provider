@@ -1,16 +1,14 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.riak
 
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.services.data.interface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.NamedLogger
-import scalaoauth2.provider.AuthInfo
-import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
-import play.api.Logger
-import play.api.libs.json._
 import play.api.libs.functional.syntax._
+import play.api.libs.json._
 
 import scala.concurrent.Future
-import scalaoauth2.provider.AccessToken
+import scalaoauth2.provider.{ AccessToken, AuthInfo }
 
 /**
  * riak implementation for authorization codes and access tokens given to OAuth2 clients such as the homescreen

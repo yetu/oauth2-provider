@@ -1,20 +1,19 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
-import com.yetu.oauth2provider.oauth2.models.ClientPermission
-import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
+import com.yetu.oauth2provider.registry.{IntegrationTestRegistry, TestRegistry}
 import securesocial.core.services.SaveMode
 
 //TODO: implement permissions correctly and make sure this test leaves no traces behind.
 abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
 
-  override def beforeEach {
+  override def beforeEach() {
     permissionService.deletePermission(testUser.uid, testClientId)
     personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)
   }
 
-  override def afterEach {
+  override def afterEach() {
     permissionService.deletePermission(testUser.uid, testClientId)
     personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)

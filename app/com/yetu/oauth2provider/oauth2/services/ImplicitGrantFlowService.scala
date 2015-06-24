@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.oauth2.services
 
 import com.yetu.oauth2provider.oauth2.models.{ ImplicitFlowSyntaxException, ImplicitFlowException, YetuUser }
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import play.api.Logger
 
 import scala.concurrent.Future

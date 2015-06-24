@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.controllers.authentication
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import com.yetu.oauth2provider.utils.Config.SessionStatusCookie
 import play.api.i18n.Messages
 import play.api.mvc.{ Action, AnyContent, Cookie, Session }

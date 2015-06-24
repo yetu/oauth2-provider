@@ -1,13 +1,17 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.memory
 
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, ClientPermission }
-import com.yetu.oauth2provider.services.data.iface.IPermissionService
-
+import com.yetu.oauth2provider.oauth2.models.ClientPermission
+import com.yetu.oauth2provider.services.data.interface.IPermissionService
 import play.api.Logger
+
+object MemoryPermissionService {
+
+  var permissions = Map[EmailClient, ClientPermission]()
+}
 
 class MemoryPermissionService extends IPermissionService {
 
-  val logger = Logger(this.getClass())
+  val logger = Logger(this.getClass)
   import MemoryPermissionService.permissions
 
   override def savePermission(email: String, clientPermission: ClientPermission): Unit = {
@@ -16,7 +20,7 @@ class MemoryPermissionService extends IPermissionService {
   }
 
   override def deletePermission(email: String, clientId: String): Unit = {
-    logger.debug(s"delete permission $email -> ${clientId}")
+    logger.debug(s"delete permission $email -> $clientId")
     permissions -= EmailClient(email, clientId)
   }
 
@@ -32,8 +36,3 @@ class MemoryPermissionService extends IPermissionService {
 }
 
 case class EmailClient(email: String, clientId: String)
-
-object MemoryPermissionService {
-
-  var permissions = Map[EmailClient, ClientPermission]()
-}

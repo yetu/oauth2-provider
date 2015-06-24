@@ -1,4 +1,4 @@
-package com.yetu.oauth2provider.services.data.iface
+package com.yetu.oauth2provider.services.data.interface
 
 import securesocial.core.providers.MailToken
 

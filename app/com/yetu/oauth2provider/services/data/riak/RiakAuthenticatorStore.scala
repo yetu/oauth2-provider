@@ -1,4 +1,4 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.riak
 
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.models.YetuUser

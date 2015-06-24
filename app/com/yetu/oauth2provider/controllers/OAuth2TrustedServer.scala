@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider
 package controllers
 
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import play.api.libs.json.{ Json, JsValue }
 import play.api.mvc.{ Result, Action }
 import com.yetu.oauth2provider.oauth2.services.ScopeService

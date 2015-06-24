@@ -1,6 +1,6 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.ldap
 
-import com.yetu.oauth2provider.services.data.iface.IPublicKeyService
+import com.yetu.oauth2provider.services.data.interface.IPublicKeyService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import play.api.Logger
 
@@ -8,7 +8,7 @@ import scala.concurrent.Future
 
 class LdapPublicKeyService(personService: LdapPersonService) extends IPublicKeyService {
 
-  lazy val logger = Logger("com.yetu.oauth2provider.services.data.LdapPublicKeyService ")
+  lazy val logger = Logger("com.yetu.oauth2provider.services.data.ldap.LdapPublicKeyService ")
 
   override def storeKey(userId: String, key: YetuPublicKey): Unit = {
     personService.modifyUserPublicKey(userId, key)
