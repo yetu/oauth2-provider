@@ -61,13 +61,12 @@ trait SignatureFlow extends AccessTokenRetriever {
       "client_secret" -> Seq(integrationTestSecret))
   }
 
-  override def getAccessToken() = {
+  override def getAccessTokenResponseBody = {
     prepareClientAndUser()
     setupUser()
 
     val response = postRequest(accessTokenUrl, validParams, validHeaders)
-    val accessToken = (contentAsJson(response) \ ("access_token")).as[String]
-    accessToken
+    contentAsJson(response)
   }
 }
 

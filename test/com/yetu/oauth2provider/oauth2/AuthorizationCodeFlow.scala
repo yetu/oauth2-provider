@@ -5,6 +5,7 @@ import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.scalatest.MustMatchers
+import play.api.libs.json.JsValue
 import play.api.mvc.Result
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -14,7 +15,7 @@ import scala.concurrent.Future
 
 trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
 
-  override def getAccessToken: String = {
+  override def getAccessTokenResponseBody: JsValue = {
 
     oauth2AccessTokenDance(List(SCOPE_BASIC))
   }
@@ -27,7 +28,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
    * /oauth2/access_token request with authorization code -> get access token
    *
    */
-  def oauth2AccessTokenDance(scopes: List[String], clientId: String = integrationTestClientId, coreYetuClient: Boolean = false, deleteSaveTestUser: Boolean = true): String = {
+  def oauth2AccessTokenDance(scopes: List[String], clientId: String = integrationTestClientId, coreYetuClient: Boolean = false, deleteSaveTestUser: Boolean = true): JsValue = {
 
     val (client, userPassParameters) = prepareClientAndUser(scopes, clientId, coreYetuClient, deleteSaveTestUser)
 
@@ -56,8 +57,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
     val accessTokenResponse = postRequest(accessTokenUrl, clientParameters)
     contentAsString(accessTokenResponse) must include("access_token")
 
-    val accessToken = (contentAsJson(accessTokenResponse) \ ("access_token")).as[String]
-    accessToken
+    contentAsJson(accessTokenResponse)
   }
 
   /**

@@ -7,6 +7,7 @@ import DefaultTestVariables._
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.utils.RoutesHelper
+import play.api.libs.json.JsValue
 import play.api.test.Helpers._
 
 trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with RoutesHelper with AuthRoutesHelper {
@@ -14,7 +15,11 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
   /**
    * implement me!
    */
-  def getAccessToken(): String
+  def getAccessTokenResponseBody : JsValue
+
+  def getAccessToken: String = {
+    (getAccessTokenResponseBody \ ("access_token")).as[String]
+  }
 
   def implementationId: String = this.getClass.getCanonicalName
 

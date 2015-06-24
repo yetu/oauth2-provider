@@ -5,6 +5,7 @@ import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.scalatest.MustMatchers
+import play.api.libs.json._
 import play.api.mvc.Result
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
@@ -14,7 +15,8 @@ import scala.concurrent.Future
 
 trait ImplicitGrantFlow extends AccessTokenRetriever with MustMatchers {
 
-  override def getAccessToken: String = {
+
+  override def getAccessTokenResponseBody: JsValue = {
     implicitFlowRequest(SCOPE_BASIC)
   }
 
@@ -25,7 +27,7 @@ trait ImplicitGrantFlow extends AccessTokenRetriever with MustMatchers {
    * /oauth2/dialog request with cookie -> save access token given in the 303 redirect
    *
    */
-  def implicitFlowRequest(scope: String, clientId: String = integrationTestClientId, coreYetuClient: Boolean = false, deleteSaveTestUser: Boolean = true): String = {
+  def implicitFlowRequest(scope: String, clientId: String = integrationTestClientId, coreYetuClient: Boolean = false, deleteSaveTestUser: Boolean = true): JsValue = {
 
     val (client, userPassParameters) = prepareClientAndUser(List(scope), clientId, coreYetuClient, deleteSaveTestUser)
 
@@ -62,7 +64,9 @@ trait ImplicitGrantFlow extends AccessTokenRetriever with MustMatchers {
 
     log("-------------------redirectUrlWithCode :" + redirectUrlWithCode)
 
-    accessToken
+
+    log("implicit flow does not return a json body, but query parameters. converting to json object to ease")
+    JsObject(Seq("access_token" -> JsString(accessToken), "expires_in" -> JsString(expiresIn)))
   }
 
 }

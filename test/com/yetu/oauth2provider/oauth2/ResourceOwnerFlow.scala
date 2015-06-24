@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.oauth2
 
 import com.yetu.oauth2provider.utils.Config._
+import play.api.libs.json.JsValue
 import play.api.test.Helpers._
 
 trait ResourceOwnerFlow extends AccessTokenRetriever {
@@ -19,7 +20,7 @@ trait ResourceOwnerFlow extends AccessTokenRetriever {
     )
   }
 
-  override def getAccessToken() = {
+  override def getAccessTokenResponseBody = {
 
     prepareClientAndUser()
     val params = ResourceOwnerPasswordBody(
@@ -28,8 +29,9 @@ trait ResourceOwnerFlow extends AccessTokenRetriever {
 
     val response = postRequest(accessTokenUrl, params)
 
-    val accessToken = (contentAsJson(response) \ ("access_token")).as[String]
-    accessToken
+    val x: JsValue = contentAsJson(response)
+
+    contentAsJson(response)
 
   }
 
