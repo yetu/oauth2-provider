@@ -47,7 +47,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     //Persist permissions
     val clientPermission = ClientPermission(clientId, Some(scopes))
     permissionService.deletePermission(testUser.userId, clientPermission.clientId)
-    permissionService.savePermission(testUser.userId, clientPermission, true)
+    permissionService.savePermission(testUser.userId, clientPermission)
 
     (client, userPassParameters)
   }

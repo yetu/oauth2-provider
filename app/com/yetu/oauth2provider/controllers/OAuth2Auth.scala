@@ -6,7 +6,7 @@ import com.yetu.oauth2provider.models.{ Permission, Permissions }
 import com.yetu.oauth2provider.oauth2.handlers
 import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
-import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPermissionService }
+import com.yetu.oauth2provider.services.data.interface.{ IClientService, IPermissionService }
 import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
 import securesocial.core.RuntimeEnvironment
@@ -88,7 +88,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           if (client.coreYetuClient) {
             authorizeService.handlePermittedApps(client, authorizeRequest, request.user)
           } else {
-            authorizeService.handleClientPermissions(client, authorizeRequest, request.user)
+            authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
           }
       }
 
@@ -101,13 +101,11 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
 
       val clientOption = clientService.findClient(formData.client_id)
       clientOption match {
-        case None => {
-          BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
-        }
+        case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
         case Some(client) => {
           val clientPermission = ClientPermission(client.clientId, client.scopes)
           permissionService.savePermission(request.user.email.get, clientPermission)
-          authorizeService.handlePermittedApp(client, Some(formData.redirect_uri), formData.state, None, request.user, clientPermission.scopes)
+          authorizeService.handlePermittedApp(client, formData.redirect_uri, formData.state, None, request.user, clientPermission.scopes)
         }
       }
   }

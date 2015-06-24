@@ -1,15 +1,10 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.ldap
 
-import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
+import com.unboundid.ldap.sdk.{ Attribute, Entry, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
-import com.yetu.oauth2provider.data.ldap.models.{ Client, People, ClientPermission => LdapClientPermission }
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, IdentityId, YetuUser }
-import com.yetu.oauth2provider.services.data.iface.{ IPermissionService, IPersonService }
-import com.yetu.oauth2provider.utils.{ DateUtility, LDAPUtils, StringUtils, UUIDGenerator }
-import play.api.Logger
-import play.api.mvc.Result
-import play.api.mvc.Results._
-import securesocial.core.{ PasswordInfo, _ }
+import com.yetu.oauth2provider.data.ldap.models.{ Client, ClientPermission => LdapClientPermission }
+import com.yetu.oauth2provider.oauth2.models.ClientPermission
+import com.yetu.oauth2provider.services.data.interface.IPermissionService
 
 class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
 
@@ -24,11 +19,11 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
     }
   }
 
-  def savePermission(email: String, clientPermission: ClientPermission, ignoreEntryAlreadyExists: Boolean = false): Unit = {
+  def savePermission(email: String, clientPermission: ClientPermission): Unit = {
     //ou=permissions does not exist it will give error so first create that if is not
     val permissionTree = new Entry(LdapClientPermission.getDN(email))
     permissionTree.addAttribute(LdapClientPermission.getObjectClass())
-    dao.persist(permissionTree, true)
+    dao.persist(permissionTree, ignoreEntryAlreadyExists = true)
 
     val entry = new Entry(LdapClientPermission.getClientDN(clientPermission.clientId, email))
     entry.addAttribute(LdapClientPermission.getClientObjectClass())
@@ -37,7 +32,7 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
       entry.addAttribute(new Attribute("scope", scope))
     }
 
-    dao.persist(entry, ignoreEntryAlreadyExists)
+    dao.persist(entry, ignoreEntryAlreadyExists = true)
   }
 
   def deletePermission(email: String, clientId: String) = {

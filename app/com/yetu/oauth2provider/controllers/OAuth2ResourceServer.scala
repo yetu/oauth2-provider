@@ -5,7 +5,7 @@ import com.yetu.oauth2provider.models.{ DataListWrapper, DataUpdateRequest }
 import com.yetu.oauth2provider.models.HouseholdModel.householdFormat
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.services.ScopeService
-import com.yetu.oauth2provider.services.data.iface.{ IPersonService, IPublicKeyService }
+import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.Config
 import play.api.Logger

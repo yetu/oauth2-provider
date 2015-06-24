@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.controllers.authentication
 
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.services.data.iface.IAuthCodeAccessTokenService
+import com.yetu.oauth2provider.services.data.interface.IAuthCodeAccessTokenService
 import com.yetu.oauth2provider.utils.StringUtils
 import play.api.mvc._
 import securesocial.controllers.BaseLoginPage

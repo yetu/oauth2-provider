@@ -1,21 +1,38 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
-import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
+import com.yetu.oauth2provider.registry.{ IntegrationTestRegistry, TestRegistry }
 
-//TODO: implement permissions correctly and make sure this test leaves no traces behind.
+//TODO: fix this test after getting rid of LDAP
 abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
+
+  def permissionToUserLink: String = {
+    testUser.uid
+  }
+
+  override def beforeEach() {
+    permissionService.deletePermission(permissionToUserLink, testClientId)
+    personService.deleteUser(permissionToUserLink)
+    clientService.deleteClient(testClientId)
+    permissionService.deletePermission(permissionToUserLink, testClientId)
+  }
+
+  override def afterEach() {
+    permissionService.deletePermission(permissionToUserLink, testClientId)
+    personService.deleteUser(permissionToUserLink)
+    clientService.deleteClient(testClientId)
+    permissionService.deletePermission(permissionToUserLink, testClientId)
+  }
+
+  //TODO: fix this test after getting rid of LDAP
   //  s"The [$databaseImplementationName] Permission Service" must {
-  //    val clientPermission = ClientPermission("123456", Some(List("scope1")))
   //    "delete, store and retrieve a permissions " in {
-  //      personService.deleteUser(testUser.userId)
-  //      permissionService.deletePermission(testUser.userId, clientPermission.clientId)
-  //      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-  //      permissionService.savePermission(testUser.userId, clientPermission, true)
-  //      val retrieved = permissionService.findPermission(testUser.userId, clientPermission.clientId)
-  //      retrieved.get mustEqual clientPermission
-  //      permissionService.deletePermission(testUser.userId, clientPermission.clientId)
-  //      personService.deleteUser(testUser.userId)
+  //
+  //      clientService.saveClient(testClient)
+  //      personService.addNewUser(testUser)
+  //      permissionService.savePermission(permissionToUserLink, testPermission)
+  //      val retrieved = permissionService.findPermission(permissionToUserLink, testPermission.clientId)
+  //      retrieved.get mustEqual testPermission
   //    }
   //  }
 }

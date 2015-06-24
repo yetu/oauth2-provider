@@ -1,10 +1,10 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.memory
 
 import java.util.Date
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import com.yetu.oauth2provider.utils.UUIDGenerator
 import play.api.Logger
 import play.api.mvc.Result
@@ -13,16 +13,11 @@ import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.services.SaveMode
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
-import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-/**
- * TODO: implement user service properly!
- * Method signatures are not consistent and should be refactored.
- */
 class MemoryPersonService extends IPersonService {
 
-  import com.yetu.oauth2provider.services.data.MemoryPersonService.users
+  import com.yetu.oauth2provider.services.data.memory.MemoryPersonService.users
 
   val logger = Logger("com.yetu.oauth2provider.services.memory.MemoryPersonService")
 
@@ -69,7 +64,6 @@ class MemoryPersonService extends IPersonService {
         }
         case _ =>
           logger.warn("not saving as signUp; ignoring request.")
-          //          val testUser = YetuUser(IdentityId("test@test.test222", "userpass"), "5d64e6dc-aaaa-4e91-b463-d15qweq25daf95","firstname", "lastname", "firstname lastname as fullname", Some("test@test.test222"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)))
           findYetuUser(user.userId).get
       }
       userToReturn
@@ -83,12 +77,6 @@ class MemoryPersonService extends IPersonService {
   }
 
   def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
-    //    if (current.identities.exists(i => i.providerId == to.providerId && i.userId == to.userId)) {
-    //      Future.successful(current)
-    //    } else {
-    //      val added = to :: current.identities
-    //      val updatedUser = current.copy(identities = added)
-    //      users = users + ((current.main.providerId, current.main.userId) -> updatedUser)
     Future.successful(current)
   }
 

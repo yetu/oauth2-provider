@@ -1,15 +1,11 @@
 package com.yetu.oauth2provider
 package services
 package data
-package iface
+package interface
 
-import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser, ClientPermission }
 import com.yetu.oauth2provider.models.DataUpdateRequest
+import com.yetu.oauth2provider.oauth2.models.YetuUser
 import play.api.mvc.Result
-import securesocial.core.{ PasswordInfo, BasicProfile }
-import securesocial.core.services.SaveMode
-
-import scala.concurrent.Future
 
 trait IPersonService extends ISecureSocialUserService {
 

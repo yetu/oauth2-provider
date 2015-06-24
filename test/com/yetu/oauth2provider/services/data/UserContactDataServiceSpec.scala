@@ -3,7 +3,7 @@ package com.yetu.oauth2provider.services.data
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import play.api.libs.json.Json
 import securesocial.core.services.SaveMode
 

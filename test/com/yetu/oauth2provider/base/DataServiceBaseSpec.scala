@@ -1,6 +1,6 @@
 package com.yetu.oauth2provider.base
 
-import com.yetu.oauth2provider.services.data.iface.{ IClientService, IPersonService, IPublicKeyService }
+import com.yetu.oauth2provider.services.data.interface.{ IPermissionService, IClientService, IPersonService, IPublicKeyService }
 import org.scalatest.BeforeAndAfterEach
 import org.scalatestplus.play.{ OneAppPerSuite, PlaySpec }
 
@@ -13,6 +13,8 @@ abstract class DataServiceBaseSpec extends PlaySpec
   def personService: IPersonService
 
   def publicKeyService: IPublicKeyService
+
+  def permissionService: IPermissionService
 
   def clientService: IClientService
 

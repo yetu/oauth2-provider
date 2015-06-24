@@ -10,12 +10,14 @@ import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
-import com.yetu.oauth2provider.services.data.{ MemoryUserService, _ }
-import com.yetu.oauth2provider.services.data.iface._
+import com.yetu.oauth2provider.services.data.interface._
+import com.yetu.oauth2provider.services.data.ldap._
+import com.yetu.oauth2provider.services.data.memory._
+import com.yetu.oauth2provider.services.data.riak.{ RiakAuthCodeAccessTokens, RiakAuthenticatorStore, RiakMailTokenService }
 import com.yetu.oauth2provider.signature.services.SignatureService
 import com.yetu.oauth2provider.utils.Config.RiakSettings
 import com.yetu.oauth2provider.utils.JsonWebTokenGenerator
-import securesocial.core.authenticator.{ HttpHeaderAuthenticator, AuthenticatorStore }
+import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticator }
 import securesocial.core.providers.utils.PasswordHasher
 import securesocial.core.services.{ CacheService, UserService }
 
@@ -47,7 +49,10 @@ trait PersistentDataServices {
 
   lazy val dao: LdapDAO = wire[LdapDAO]
   lazy val clientService: IClientService = wire[LdapClientService]
-  lazy val permissionService: IPermissionService = wire[LdapPermissionService]
+
+  //TODO: change this after LDAP is not in use anymore to use the new API.
+  //TODO: LDAP permission service is actually broken, do not use.
+  lazy val permissionService: IPermissionService = wire[MemoryPermissionService]
 
   lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
 

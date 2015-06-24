@@ -1,6 +1,6 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.memory
 
-import com.yetu.oauth2provider.services.data.iface.IMailTokenService
+import com.yetu.oauth2provider.services.data.interface.IMailTokenService
 import play.api.Logger
 import securesocial.core.providers.MailToken
 

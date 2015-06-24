@@ -1,6 +1,6 @@
-package com.yetu.oauth2provider.services.data
+package com.yetu.oauth2provider.services.data.memory
 
-import com.yetu.oauth2provider.services.data.iface.IPublicKeyService
+import com.yetu.oauth2provider.services.data.interface.IPublicKeyService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import play.api.Logger
 
@@ -9,7 +9,7 @@ import scala.concurrent.Future
 class MemoryPublicKeyService extends IPublicKeyService {
   import MemoryPublicKeyService.keys
 
-  lazy val logger = Logger("com.yetu.oauth2provider.services.data.MemoryPublicKeyService ")
+  lazy val logger = Logger("com.yetu.oauth2provider.services.data.memory.MemoryPublicKeyService ")
 
   override def storeKey(userId: String, key: YetuPublicKey): Unit = {
     keys += userId -> key

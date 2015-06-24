@@ -1,25 +1,19 @@
-package com.yetu.oauth2provider
-package services
-package data
-
-import java.util.Date
+package com.yetu.oauth2provider.services.data.ldap
 
 import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
-import com.yetu.oauth2provider.data.ldap.models.{ People, ClientPermission => LdapClientPermission }
+import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission, People }
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
-import com.yetu.oauth2provider.services.data.iface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.IPersonService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
-import org.joda.time.DateTime
-import play.api.Logger
 import play.api.mvc.Result
 import play.api.mvc.Results._
 import securesocial.controllers.UserAgreement
-import securesocial.core.{ PasswordInfo, _ }
 import securesocial.core.services.SaveMode
+import securesocial.core.{ PasswordInfo, _ }
 
 import scala.concurrent.Future
 import scala.util.Try

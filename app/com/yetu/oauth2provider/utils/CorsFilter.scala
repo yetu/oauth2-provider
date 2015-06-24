@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider
 package utils
 
-import com.yetu.oauth2resource.filters.{ AllowAllCorsFilter, WhiteListCorsFilter }
+import com.yetu.oauth2resource.filters.WhiteListCorsFilter
 
 /**
  * adds required CORS headers to chosen whiteListCORSUrls.
@@ -13,6 +13,3 @@ object CorsFilter extends WhiteListCorsFilter {
   val whiteListCORSUrls = List("/oauth2/access_token", "/oauth2/info", "/oauth2/access_token_implicit")
 
 }
-
-//object CorsFilter extends AllowAllCorsFilter
-
