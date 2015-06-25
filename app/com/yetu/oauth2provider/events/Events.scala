@@ -36,8 +36,8 @@ class LogoutEventListener(app: Application, authorizationHandler: AuthorizationH
     val currentClientId = YetuMessageEvents.clientId
 
     // TODO please change it and take information from topic into account
-    NotificationManager.publisherActor ! RabbitMessage(s"${user.uid}.$currentClientId.$LOGOUT_EVENT_NAME",
-      Json.toJson(EventLogoutMessage(LOGOUT_EVENT_NAME, user.uid)).toString()
+    NotificationManager.publisherActor ! RabbitMessage(s"${user.userId}.$currentClientId.$LOGOUT_EVENT_NAME",
+      Json.toJson(EventLogoutMessage(LOGOUT_EVENT_NAME, user.userId)).toString()
     )
   }
 }

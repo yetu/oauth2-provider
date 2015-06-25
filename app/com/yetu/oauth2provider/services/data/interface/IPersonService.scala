@@ -5,15 +5,16 @@ package interface
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import play.api.mvc.Result
+
+import scala.concurrent.Future
 
 trait IPersonService extends ISecureSocialUserService {
 
-  def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest): Result
+  def updateUserProfile(yetuUser: YetuUser, data: DataUpdateRequest): Future[Unit]
 
-  def deleteUser(email: String)
+  def deleteUser(id: String): Future[Unit]
 
-  def findYetuUser(userId: String): Option[YetuUser]
+  def findYetuUser(userId: String): Future[Option[YetuUser]]
 
-  def addNewUser(user: YetuUser): YetuUser
+  def addNewUser(user: YetuUser): Future[Option[YetuUser]]
 }

@@ -50,7 +50,7 @@ class OAuth2ValidationSpec extends BaseRoutesSpec {
       charset(result) mustEqual Some("utf-8")
       contentAsString(result) must include ("scope")
       contentAsString(result) must include (testAccessToken.scope.get)
-      contentAsString(result) must include (testUserInfo.user.uid)
+      contentAsString(result) must include (testUserInfo.user.userId)
       logger.info(s"validationJson: ${contentAsString(result)}")
     }
 

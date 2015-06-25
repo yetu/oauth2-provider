@@ -2,7 +2,7 @@ package com.yetu.oauth2provider
 package controllers
 
 import com.yetu.oauth2provider.models.Permission.permissionsForm
-import com.yetu.oauth2provider.models.{ Permission, Permissions }
+import com.yetu.oauth2provider.models.Permissions
 import com.yetu.oauth2provider.oauth2.handlers
 import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
@@ -56,7 +56,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
 
       //Add user email to the request header, as this action is secured.
       //There is a record of the user
-      val newHeaders: Map[String, Seq[String]] = request.headers.toMap ++ Map("email" -> Seq(request.user.email.get))
+      val newHeaders: Map[String, Seq[String]] = request.headers.toMap ++ Map("email" -> Seq(request.user.email))
       val headers = new Headers {
         val data = newHeaders.toSeq
       }
@@ -104,7 +104,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
         case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
         case Some(client) => {
           val clientPermission = ClientPermission(client.clientId, client.scopes)
-          permissionService.savePermission(request.user.email.get, clientPermission)
+          permissionService.savePermission(request.user.email, clientPermission)
           authorizeService.handlePermittedApp(client, formData.redirect_uri, formData.state, None, request.user, clientPermission.scopes)
         }
       }

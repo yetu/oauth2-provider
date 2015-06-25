@@ -41,10 +41,6 @@ object SignatureHelper {
   }
 
   def getKeyChain(key: YetuPublicKey): Keychain = {
-    //    import java.io.File
-    //    import play.api.Play
-    //    import net.adamcin.httpsig.ssh.jce
-    //    AuthorizedKeys.newKeychain(new File(Play.classloader.getResource("public_key_to_be_deleted.pub").getPath))
     YetuAuthorizedKeys.newKeychainFromString(key.key)
   }
 

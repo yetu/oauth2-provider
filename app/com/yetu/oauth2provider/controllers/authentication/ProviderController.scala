@@ -28,12 +28,9 @@ class ProviderController(personService: IPersonService)(implicit override val en
    * |-EXTRA-|
    */
   def getAdditionalSessionStateCookie(userId: String): Cookie = {
-    val fullUser: Option[YetuUser] = personService.findYetuUser(userId)
-    val userUUID = fullUser.map(_.uid).getOrElse("unknownUser")
-
     Cookie(
       SessionStatusCookie.cookieName,
-      userUUID,
+      userId,
       if (CookieAuthenticator.makeTransient)
         CookieAuthenticator.Transient
       else Some(CookieAuthenticator.absoluteTimeoutInSeconds),
@@ -55,7 +52,6 @@ class ProviderController(personService: IPersonService)(implicit override val en
    * @param redirectTo the url the user needs to be redirected to after being authenticated
    */
   private def handleAuth(provider: String, redirectTo: Option[String]): Action[AnyContent] = UserAwareAction.async { implicit request =>
-    import scala.concurrent.ExecutionContext.Implicits.global
     val authenticationFlow = request.user.isEmpty
     val modifiedSession = overrideOriginalUrl(request.session, redirectTo)
 
@@ -80,7 +76,6 @@ class ProviderController(personService: IPersonService)(implicit override val en
                 logger.debug(s"[securesocial] user completed authentication: provider = ${profile.providerId}, userId: ${profile.userId}, mode = $mode")
                 val evt = if (mode == SaveMode.LoggedIn) new LoginEvent(userForAction) else new SignUpEvent(userForAction)
                 val sessionAfterEvents = Events.fire(evt).getOrElse(request.session)
-                import scala.concurrent.ExecutionContext.Implicits.global
                 builder().fromUser(userForAction).flatMap { authenticator =>
                   Redirect(toUrl(sessionAfterEvents))
                     .withCookies(getAdditionalSessionStateCookie(profile.userId)) // |-EXTRA-|

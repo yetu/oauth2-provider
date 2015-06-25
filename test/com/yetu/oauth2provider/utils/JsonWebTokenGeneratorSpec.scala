@@ -27,7 +27,7 @@ class JsonWebTokenGeneratorSpec extends BaseRoutesSpec with DefaultTestVariables
       "provide an encoded JSON web token with uid, email and reserved json web token fields" in {
         val jsonWebToken = jsonWebTokenGenerator.generateToken(testUserInfo)
         val value = JSONWebToken.verify(publicKey, jsonWebToken).get // throws exception if verification fails
-        value.toString must include (testUser.uid)
+        value.toString must include (testUser.userId)
         value.toString must include ("userUUID")
         value.toString must include ("clientId")
         value.toString must include ("aud")

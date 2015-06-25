@@ -9,12 +9,11 @@ import com.yetu.oauth2provider.services.data.interface.IPersonService
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
-import play.api.mvc.Result
-import play.api.mvc.Results._
 import securesocial.controllers.UserAgreement
 import securesocial.core.services.SaveMode
 import securesocial.core.{ PasswordInfo, _ }
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
 
@@ -26,7 +25,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @param request
    * @return
    */
-  def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest): Result = {
+  def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest) = {
+
     val firstName = StringUtils.isFull(request.firstName) match {
       case true  => request.firstName.get
       case false => yetuUser.firstName
@@ -37,16 +37,15 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
       case false => yetuUser.lastName
     }
 
-    persistUserInfo(People.getDN(yetuUser.identityId.userId), firstName, lastName)
+    persistUserInfo(People.getDN(yetuUser.userId), firstName, lastName)
 
     //Update contact info only if there are contact info exist
     request.contactInfo match {
-      case Some(contInfo) => {
-        persistContactInfo(People.getDN(yetuUser.identityId.userId), contInfo)
-      }
-      case None =>
+      case Some(contInfo) => persistContactInfo(People.getDN(yetuUser.userId), contInfo)
+      case None           =>
     }
-    NoContent
+
+    Future.successful(Unit)
   }
 
   /**
@@ -57,23 +56,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @return an optional profile
    */
   override def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
-    Future.successful {
-      val yetuUser = findYetuUser(userId)
-      yetuUser.map(_.toBasicProfile)
-    }
-  }
-
-  /**
-   * Finds a profile by email and provider
-   *
-   * @param email - the user email
-   * @param providerId - the provider id
-   * @return an optional profile
-   */
-  override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
-    Future.successful {
-      val yetuUser = findYetuUser(email)
-      yetuUser.map(_.toBasicProfile)
+    findYetuUser(userId).map {
+      case Some(user) => Some(user.toBasicProfile)
+      case _          => None
     }
   }
 
@@ -83,7 +68,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @param userId
    * @return
    */
-  override def findYetuUser(userId: String): Option[YetuUser] = {
+  override def findYetuUser(userId: String) = {
     //For fetching operational attributes from LDAP (such as createdDateTime) just add "+" to search attributes
     val searchResult = dao.getEntry(People.getDN(userId),
       People.objectClassStr,
@@ -109,7 +94,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
       People.USER_AGREEMENT_DATE,
       "+")
 
-    searchResult match {
+    val result = searchResult match {
       case searchResult: SearchResultEntry => {
 
         try {
@@ -131,15 +116,20 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
             agreementDate = DateUtility.DateTimeFromString(agreementDateString)
           } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), agreementDate)
 
-          val user = YetuUser(IdentityId(userId, "userpass"),
-            searchResult.getAttribute(People.MEMBER_UID).getValue,
+          val user = YetuUser(
+            userId,
+            "userpass",
             searchResult.getAttribute(People.FIRST_NAME).getValue,
             searchResult.getAttribute(People.LAST_NAME).getValue,
             searchResult.getAttribute(People.FULL_NAME).getValue,
-            Some(searchResult.getAttribute(People.EMAIL).getValue),
-            None, AuthenticationMethod("userPassword"), None, None,
-            Some(PasswordInfo("bcrypt", userPassword, None)), Some(registrationDate), Some(contactInfo),
-            LDAPUtils.getAttribute(searchResult, People.PHOTO),
+            searchResult.getAttribute(People.EMAIL).getValue,
+            None,
+            AuthenticationMethod.UserPassword,
+            None,
+            None,
+            Some(PasswordInfo("bcrypt", userPassword, None)),
+            Some(registrationDate),
+            Some(contactInfo),
             LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key)),
             agreementOption
           )
@@ -159,10 +149,24 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
       }
       case _ => None
     }
+
+    Future.successful(result)
+  }
+
+  override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
+    findYetuUser(email).map {
+
+      case Some(u) =>
+        if (u.providerId.equals(providerId)) {
+          Some(u.toBasicProfile)
+        } else None
+
+      case _ => None
+    }
   }
 
   override def deleteUser(email: String) = {
-    dao.deleteEntry(People.getDN(email))
+    Future.successful(dao.deleteEntry(People.getDN(email))).map(_ => Unit)
   }
 
   private def persistUserInfo(dn: String, firstName: String, lastName: String) = {
@@ -189,16 +193,16 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
     dao.modify(dn, mods: _*)
   }
 
-  def addNewUser(user: YetuUser): YetuUser = {
+  override def addNewUser(user: YetuUser) = {
 
     val entry = new Entry(People.getDN(user.userId))
     entry.addAttribute(People.getObjectClass())
     entry.addAttribute(new Attribute(People.FIRST_NAME, user.firstName))
     entry.addAttribute(new Attribute(People.LAST_NAME, user.lastName))
     entry.addAttribute(new Attribute(People.FULL_NAME, user.fullName))
-    entry.addAttribute(new Attribute(People.EMAIL, user.email.getOrElse("")))
+    entry.addAttribute(new Attribute(People.EMAIL, user.email))
     entry.addAttribute(new Attribute(People.USER_PASSWORD, user.passwordInfo.get.password))
-    entry.addAttribute(new Attribute(People.MEMBER_UID, user.uid))
+    entry.addAttribute(new Attribute(People.MEMBER_UID, user.userId))
     user.userAgreement.map { agreement =>
       entry.addAttribute(new Attribute(
         People.USER_AGREEMENT,
@@ -211,10 +215,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
     }
 
     dao.persist(entry)
-    // the extra step of retrieving the user again from LDAP after storing it is necessary to
-    // get some extra information such as registration date. Do not skip this step.
-    //TODO: refactor somehow, this is prone to nullPointer Exceptions:
-    findYetuUser(user.userId).get
+    findYetuUser(user.userId)
   }
 
   private def modifyUserPassword(profile: BasicProfile) = {
@@ -286,26 +287,23 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @param profile the user profile
    * @param mode a mode that tells you why the save method was called
    */
-  override def save(profile: BasicProfile, mode: SaveMode): Future[YetuUser] = {
-
-    val result: YetuUser = mode match {
+  override def save(profile: BasicProfile, mode: SaveMode) = {
+    val result = mode match {
       case SaveMode.LoggedIn => {
-        //TODO: refactor somehow, this is prone to nullPointer Exceptions:
-        findYetuUser(profile.userId).get
+        findYetuUser(profile.userId)
       }
       case SaveMode.PasswordChange => {
         modifyUserPassword(profile)
-        findYetuUser(profile.userId).get //TODO: change this? Prone to Nullpointer Exceptions
+        findYetuUser(profile.userId)
       }
       case SaveMode.SignUp => {
         import UUIDGenerator._
         val user = YetuUserHelper.fromBasicProfile(profile, uuid())
         addNewUser(user)
       }
-
     }
-    Future.successful(result)
 
+    result.map(_.orNull)
   }
 
   /**

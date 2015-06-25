@@ -14,11 +14,11 @@ class ValidationService {
   def generateResponse(authInfo: AuthInfo[YetuUser]): ValidationResponse = {
 
     ValidationResponse(
-      userUUID = Some(authInfo.user.uid),
+      userUUID = Some(authInfo.user.userId),
       clientId = authInfo.clientId,
       iat = Some(DateUtility.unixSecondsNow()),
       exp = Some(DateUtility.unixSecondsDefaultExpiration()),
-      sub = Some(authInfo.user.uid),
+      sub = Some(authInfo.user.userId),
       iss = Some(Config.publicUrl),
       aud = authInfo.scope)
   }
@@ -26,14 +26,14 @@ class ValidationService {
   def generateJsonResponseDeprecated(authInfo: AuthInfo[YetuUser]): JsValue = Json.toJson(generateResponseDeprecated(authInfo))
 
   def generateResponseDeprecated(authInfo: AuthInfo[YetuUser]): ValidationResponse = {
-    ValidationResponse(userUUID = Some(authInfo.user.uid),
+    ValidationResponse(userUUID = Some(authInfo.user.userId),
       scope = authInfo.scope,
-      userId = Some(authInfo.user.identityId.userId),
+      userId = Some(authInfo.user.userId),
       clientId = authInfo.clientId,
-      userEmail = authInfo.user.email,
+      userEmail = Some(authInfo.user.email),
       iat = Some(DateUtility.unixSecondsNow()),
       exp = Some(DateUtility.unixSecondsDefaultExpiration()),
-      sub = Some(authInfo.user.uid),
+      sub = Some(authInfo.user.userId),
       iss = Some(Config.publicUrl),
       aud = authInfo.scope
     )

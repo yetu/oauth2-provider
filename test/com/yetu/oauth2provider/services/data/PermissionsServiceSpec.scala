@@ -11,30 +11,29 @@ abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
   }
 
   override def beforeEach() {
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-    personService.deleteUser(permissionToUserLink)
+    permissionService.deletePermission(testUser.userId, testClientId)
+    personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)
     permissionService.deletePermission(permissionToUserLink, testClientId)
   }
 
   override def afterEach() {
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-    personService.deleteUser(permissionToUserLink)
+    permissionService.deletePermission(testUser.userId, testClientId)
+    personService.deleteUser(testUser.email.get)
     clientService.deleteClient(testClientId)
     permissionService.deletePermission(permissionToUserLink, testClientId)
   }
 
-  //TODO: fix this test after getting rid of LDAP
-  //  s"The [$databaseImplementationName] Permission Service" must {
-  //    "delete, store and retrieve a permissions " in {
-  //
-  //      clientService.saveClient(testClient)
-  //      personService.addNewUser(testUser)
-  //      permissionService.savePermission(permissionToUserLink, testPermission)
-  //      val retrieved = permissionService.findPermission(permissionToUserLink, testPermission.clientId)
-  //      retrieved.get mustEqual testPermission
-  //    }
-  //  }
+  s"The [$databaseImplementationName] Permission Service" must {
+    "delete, store and retrieve a permissions " in {
+      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      clientService.saveClient(testClient)
+
+      permissionService.savePermission(testUser.userId, testPermission)
+      val retrieved = permissionService.findPermission(testUser.userId, testPermission.clientId)
+      retrieved.get mustEqual testPermission
+    }
+  }
 }
 
 class LDAPPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry

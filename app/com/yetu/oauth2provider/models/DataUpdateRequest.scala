@@ -12,7 +12,5 @@ case class DataUpdateRequest(firstName: Option[String],
   contactInfo: Option[ContactInfo])
 
 object DataUpdateRequest {
-
   implicit val DataUpdateRequestFormat = Json.format[DataUpdateRequest]
 }
-

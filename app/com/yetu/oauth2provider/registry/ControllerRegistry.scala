@@ -6,11 +6,11 @@ import com.yetu.oauth2provider.controllers.authentication._
 import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import securesocial.core.{ EventListener, RuntimeEnvironment }
-import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticatorBuilder }
+import securesocial.core.authenticator.HttpHeaderAuthenticatorBuilder
 import securesocial.core.providers.UsernamePasswordProvider
 import securesocial.core.providers.utils.PasswordValidator
-import securesocial.core.services.{ CacheService, AuthenticatorService, UserService }
+import securesocial.core.services.{ AuthenticatorService, UserService }
+import securesocial.core.{ EventListener, RuntimeEnvironment }
 
 import scala.collection.immutable.ListMap
 

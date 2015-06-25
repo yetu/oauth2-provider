@@ -2,12 +2,10 @@ package com.yetu.oauth2provider
 package oauth2
 package services
 
+import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, YetuUser }
+import com.yetu.oauth2provider.utils.Config._
+import com.yetu.oauth2provider.utils.DateUtility
 import com.yetu.oauth2resource.model.User
-import play.api.libs.json.{ JsObject, Json, JsValue }
-
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, ClientPermission }
-import utils.{ Config, DateUtility }
-import utils.Config._
 
 class ScopeService {
 
@@ -31,11 +29,10 @@ class ScopeService {
 
     scopes.find(idScopes.contains(_)).map { someValidIdScope =>
       User(
-        userId = scopes.find(idScopes.contains(_)).map(_ => user.uid),
+        userId = scopes.find(idScopes.contains(_)).map(_ => user.userId),
         firstName = scopes.find(basicScopes.contains(_)).map(_ => user.firstName),
         lastName = scopes.find(basicScopes.contains(_)).map(_ => user.lastName),
-        imageUrl = scopes.find(basicScopes.contains(_)).flatMap(_ => user.imageUrl),
-        email = scopes.find(basicScopes.contains(_)).flatMap(_ => user.email),
+        email = scopes.find(basicScopes.contains(_)).map(_ => user.email),
         contactInfo = scopes.find(contactScopes.contains(_)).flatMap(_ => user.contactInfo),
         registrationDate = scopes.find(registrationScopes.contains(_)).flatMap(_ => user.registrationDate.map(date => DateUtility.dateToString(date)))
       )
