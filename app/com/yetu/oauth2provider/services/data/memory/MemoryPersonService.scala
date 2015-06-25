@@ -5,27 +5,39 @@ import java.util.Date
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.interface.IPersonService
-import com.yetu.oauth2provider.utils.UUIDGenerator
 import play.api.Logger
 import securesocial.core.services.SaveMode
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global
-
 import scala.concurrent.Future
 
 class MemoryPersonService extends IPersonService {
 
-  import com.yetu.oauth2provider.services.data.memory.MemoryPersonService.users
+  import com.yetu.oauth2provider.services.data.memory.MemoryPersonService._
 
   val logger = Logger("com.yetu.oauth2provider.services.memory.MemoryPersonService")
 
   def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
-    Future.successful(Some(user.toBasicProfile))
+
+    val update = usersIds.values.find(_.userId == user.userId) match {
+      case Some(u) => Some(u.copy(passwordInfo = Some(info)))
+      case _       => None
+    }
+
+    val profile = if (update.isDefined) {
+
+      usersIds += update.get.userId -> update.get
+      usersEmails += update.get.email -> update.get
+      update.map(_.toBasicProfile)
+
+    } else None
+
+    Future.successful(profile)
   }
 
   def passwordInfoFor(user: YetuUser): Future[Option[PasswordInfo]] = {
-    Future.successful(users.values.find(_ == user).map(u => u.passwordInfo.get))
+    Future.successful(usersIds.values.find(_ == user).map(u => u.passwordInfo.get))
   }
 
   def find(providerId: String, userId: String) = {
@@ -41,22 +53,30 @@ class MemoryPersonService extends IPersonService {
   }
 
   def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
-    find(providerId, email)
+
+    val user = usersEmails.find(_._1 == email).map(_._2)
+    val result = user match {
+
+      case Some(u) =>
+        if (u.providerId.equals(providerId)) {
+          Some(u.toBasicProfile)
+        } else None
+
+      case _ => None
+    }
+
+    Future.successful(result)
   }
 
   override def save(user: BasicProfile, mode: SaveMode) = {
     logger.debug(s"Save user $user")
     val result = mode match {
-      case SaveMode.SignUp => {
-        val newUser = YetuUserHelper.fromBasicProfile(user, UUIDGenerator.uuid())
-        logger.debug(s"saving user $newUser")
-        addNewUser(newUser)
-      }
+      case SaveMode.SignUp => addNewUser(YetuUserHelper.fromBasicProfile(user))
       case SaveMode.PasswordChange => {
 
         for {
           oldUser <- findYetuUser(user.userId).map {
-            case Some(u) => users += user.userId -> u.copy(passwordInfo = user.passwordInfo)
+            case Some(u) => usersIds += user.userId -> u.copy(passwordInfo = user.passwordInfo)
             case _       => Unit
           }
           find <- findYetuUser(user.userId)
@@ -73,8 +93,11 @@ class MemoryPersonService extends IPersonService {
 
   def addNewUser(user: YetuUser) = {
     val userWithRegistrationDate = user.copy(registrationDate = Some(new Date()))
-    users = users + (user.userId -> userWithRegistrationDate)
-    Future.successful(users.get(user.userId))
+
+    usersIds += (user.userId -> userWithRegistrationDate)
+    usersEmails += (user.email -> userWithRegistrationDate)
+
+    Future.successful(usersIds.get(user.userId))
   }
 
   override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
@@ -82,23 +105,29 @@ class MemoryPersonService extends IPersonService {
   }
 
   override def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest) = {
-    Future.successful(
-      users += yetuUser.userId -> yetuUser.copy(
-        contactInfo = request.contactInfo,
-        firstName = request.firstName.get,
-        lastName = request.lastName.get))
+
+    val user = yetuUser.copy(
+      contactInfo = request.contactInfo,
+      firstName = request.firstName.get,
+      lastName = request.lastName.get)
+
+    Future.successful {
+      usersIds += yetuUser.userId -> user
+      usersEmails += yetuUser.email -> user
+    }
   }
 
   override def deleteUser(email: String) = {
-    Future.successful(users -= email)
+    Future.successful(usersIds -= email)
   }
 
   override def findYetuUser(userId: String) = {
-    Future.successful(users.find(_._1 == userId).map(_._2))
+    Future.successful(usersIds.find(_._1 == userId).map(_._2))
   }
 
 }
 
 object MemoryPersonService {
-  var users = Map[String, YetuUser]()
+  var usersIds = Map[String, YetuUser]()
+  var usersEmails = Map[String, YetuUser]()
 }

@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.oauth2.services
 
-import com.yetu.oauth2provider.oauth2.models.{ ImplicitFlowSyntaxException, YetuUser }
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
+import com.yetu.oauth2provider.oauth2.models.{ ImplicitFlowException, YetuUserHelper, ImplicitFlowSyntaxException, YetuUser }
 import com.yetu.oauth2provider.services.data.interface.IPersonService
 import play.api.Logger
 
@@ -13,7 +14,13 @@ class ImplicitGrantFlowService[U](personService: IPersonService) {
   lazy val logger = Logger("com.yetu.oauth2provider.oauth2.services.ImplicitGrantFlowService")
 
   def validateRequest(implicit request: AuthorizationRequest): Future[YetuUser] = {
-    parseHeaders { email => personService.findYetuUser(email).map(_.get) }
+    parseHeaders { email =>
+
+      personService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map { u =>
+        val user = u.getOrElse(throw new ImplicitFlowException("user not found"))
+        YetuUserHelper.fromBasicProfile(user)
+      }
+    }
   }
 
   //TODO change exception class SignatureSyntaxException  to something else

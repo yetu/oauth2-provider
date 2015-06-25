@@ -61,9 +61,7 @@ class APIPersonService extends IPersonService with APIHelper {
           Some(agreement)
         ))
 
-      } else {
-        None
-      }
+      } else None
     })
   }
 

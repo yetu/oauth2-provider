@@ -1,8 +1,7 @@
-package com.yetu.oauth2provider.controllers.authentication
+package com.yetu.oauth2provider.controllers.authentication.providers
 
 import com.yetu.oauth2provider.signature.models.{ SignatureException, SignatureSyntaxException }
 import com.yetu.oauth2provider.signature.services.SignatureService
-import play.api.Logger
 import play.api.mvc._
 import securesocial.core._
 
@@ -12,19 +11,16 @@ import scalaoauth2.provider.OAuth2BaseProvider
 
 class SignatureAuthenticationProvider[U](signatureService: SignatureService[U]) extends IdentityProvider with ApiSupport with OAuth2BaseProvider {
 
-  lazy val logger = Logger("com.yetu.oauth2provider.controllers.authentication.SignatureAuthenticationProvider")
-
   override val id: String = SignatureAuthenticationProvider.SignatureAuthentication
 
   def authMethod: AuthenticationMethod = AuthenticationMethod(id)
 
+  def authenticateForApi(implicit request: Request[AnyContent]): Future[AuthenticationResult] = doAuthentication(apiMode = true)
+
   def authenticate()(implicit request: Request[AnyContent]): Future[AuthenticationResult] = doAuthentication()
 
   private def doAuthentication[A](apiMode: Boolean = false)(implicit request: Request[A]): Future[AuthenticationResult] = {
-    signatureService.validateRequest(request).map {
-      case Some(user) => AuthenticationResult.Authenticated(user.toBasicProfile)
-      case _          => AuthenticationResult.AccessDenied()
-    } recover withErrorHandling
+    signatureService.validateRequest(request).map(u => AuthenticationResult.Authenticated(u.toBasicProfile)).recover(withErrorHandling)
   }
 
   private def withErrorHandling: PartialFunction[Throwable, AuthenticationResult] = {
@@ -32,11 +28,8 @@ class SignatureAuthenticationProvider[U](signatureService: SignatureService[U]) 
     case SignatureException(message)       => AuthenticationResult.NavigationFlow(Unauthorized(message))
   }
 
-  def authenticateForApi(implicit request: Request[AnyContent]): Future[AuthenticationResult] = ???
-
 }
 
 object SignatureAuthenticationProvider {
   val SignatureAuthentication = "SignatureAuthentication"
 }
-

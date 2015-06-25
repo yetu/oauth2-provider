@@ -2,18 +2,18 @@ package com.yetu.oauth2provider.base
 
 import java.util.Date
 
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import org.joda.time.DateTime
-import securesocial.core.providers.MailToken
-import scalaoauth2.provider.AuthInfo
-import com.yetu.oauth2provider.oauth2.models.{ OAuth2Client, ClientPermission, IdentityId, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
+import org.joda.time.DateTime
 import play.api.libs.json.Json
 import securesocial.controllers.UserAgreement
+import securesocial.core.providers.MailToken
 import securesocial.core.{ AuthenticationMethod, PasswordInfo }
 
-import scalaoauth2.provider.AccessToken
+import scalaoauth2.provider.{ AccessToken, AuthInfo }
 
 trait DefaultTestVariables {
 
@@ -23,10 +23,10 @@ trait DefaultTestVariables {
   //Password is 1234
 
   val testUserEmail = "test@test.test"
-  val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), "1231313131", "John", "Smith", "John Smith", Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
-  val testUser2 = YetuUser(IdentityId("test2@test2.test2", "userpass"), "1231313222131", "John2", "Smith2", "John Smith2", Some("test2@test2.test2"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
+  val testUser = YetuUser("1231313222131", EmailPasswordProvider.EmailPassword, "John", "Smith", "John Smith", testUserEmail, None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
+  val testUser2 = YetuUser("1231313222132", EmailPasswordProvider.EmailPassword, "John2", "Smith2", "John Smith2", "test2@test2.test2", None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)))
 
-  val testUserWithoutUserAgreement = YetuUser(IdentityId(testUserEmail, "userpass"), "1231313131", "John", "Smith", "John Smith", Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = None)
+  val testUserWithoutUserAgreement = YetuUser("1231313131", EmailPasswordProvider.EmailPassword, "John", "Smith", "John Smith", testUserEmail, None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = None)
 
   val testUserPassword = "1234"
   val testAuthCode = "FDdrVgoQo2"
@@ -43,7 +43,7 @@ trait DefaultTestVariables {
   val testClient = OAuth2Client(testClientId, testClientSecret, List(testRedirectUri), Some(testGrantTypes), Some(List(SCOPE_BASIC)), testClientName, coreYetuClient = false)
   val testPermission = ClientPermission(testClientId, Some(List("scope1")))
 
-  val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
+  val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email, DateTime.now(), DateTime.now(), true)
 
   val loginUrlWithUserPass = "/authenticate/userpass"
 

@@ -51,7 +51,7 @@ class RiakHandlerITSpec extends BaseIntegrationSpec with ScalaFutures with Async
 
     "save and retrieve the accessToken by authInfo" in {
 
-      val key = testUserInfo.clientId.get + testUserInfo.user.identityId.userId
+      val key = testUserInfo.clientId.get + testUserInfo.user.userId
 
       val resultFuture = for {
         save <- authCodeAccessTokenService.saveAuthInfoToAccessToken(key, testAccessToken)

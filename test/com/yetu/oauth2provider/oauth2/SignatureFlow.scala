@@ -1,14 +1,13 @@
 package com.yetu.oauth2provider.oauth2
 
 import java.io.File
-import java.util.{ TimeZone, GregorianCalendar }
+import java.util.{ GregorianCalendar, TimeZone }
 
-import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 import com.yetu.oauth2provider.signature.SignatureHelper._
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.Config._
-import com.yetu.oauth2provider.utils.{ Config, DateUtility }
-import net.adamcin.httpsig.api.{ Signer, DefaultKeychain, RequestContent }
+import com.yetu.oauth2provider.utils.DateUtility
+import net.adamcin.httpsig.api.{ DefaultKeychain, RequestContent, Signer }
 import net.adamcin.httpsig.ssh.bc.PEMUtil
 import net.adamcin.httpsig.ssh.jce.UserKeysFingerprintKeyId
 import play.api.test.FakeHeaders
@@ -25,11 +24,11 @@ trait SignatureFlow extends AccessTokenRetriever {
     personService.deleteUser(testUser.userId)
     personService.save(testUser.toBasicProfile, SaveMode.SignUp)
 
-    publicKeyService.storeKey(testUser.userId, testKey)
+    publicKeyService.storeKeyF(testUser.userId, testKey)
   }
 
   def setupKey() = {
-    publicKeyService.storeKey(testUser.userId, testKey)
+    publicKeyService.storeKeyF(testUser.userId, testKey)
   }
 
   //java weirdness: must be 'def', not val.

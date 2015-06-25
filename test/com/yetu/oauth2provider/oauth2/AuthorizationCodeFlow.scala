@@ -1,14 +1,11 @@
 package com.yetu.oauth2provider.oauth2
 
 import com.yetu.oauth2provider.oauth2.OAuth2Protocol.ResponseTypes
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
-import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.scalatest.MustMatchers
 import play.api.mvc.Result
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import securesocial.core.services.SaveMode
 
 import scala.concurrent.Future
 
@@ -31,7 +28,9 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
 
     val (client, userPassParameters) = prepareClientAndUser(scopes, clientId, coreYetuClient, deleteSaveTestUser)
 
+    println("Lars")
     val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters)
+    println("Guilherme")
     val cookie = header("Set-Cookie", cookieResponse)
 
     status(cookieResponse) mustEqual (SEE_OTHER)

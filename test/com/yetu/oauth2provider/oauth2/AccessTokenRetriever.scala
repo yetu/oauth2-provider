@@ -1,13 +1,11 @@
 package com.yetu.oauth2provider.oauth2
 
-import com.yetu.oauth2provider.base.{ DefaultTestVariables, AuthRoutesHelper }
+import com.yetu.oauth2provider.base.{ AuthRoutesHelper, DefaultTestVariables }
 import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
 import com.yetu.oauth2provider.registry.TestRegistry
-import DefaultTestVariables._
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.utils.RoutesHelper
-import play.api.test.Helpers._
 
 trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with RoutesHelper with AuthRoutesHelper {
 
@@ -32,7 +30,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
 
     //Persist User
     val userPassParameters = Map(
-      "username" -> Seq(testUser.identityId.userId),
+      "username" -> Seq(testUser.email),
       "password" -> Seq(testUserPassword)
     )
     if (deleteSaveTestUser) {

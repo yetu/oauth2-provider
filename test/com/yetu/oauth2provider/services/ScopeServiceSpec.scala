@@ -2,13 +2,13 @@ package com.yetu.oauth2provider
 package services
 
 import com.yetu.oauth2provider.base.BaseSpec
-import com.yetu.oauth2provider.utils.{ DateUtility, Config }
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
+import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.utils.{ Config, DateUtility }
 import com.yetu.oauth2resource.model.User
 import org.joda.time.DateTime
-import securesocial.core.{ AuthenticationMethod, PasswordInfo }
-import com.yetu.oauth2provider.services._
 import play.api.Logger
-import com.yetu.oauth2provider.oauth2.models.{ IdentityId, YetuUser }
+import securesocial.core.{ AuthenticationMethod, PasswordInfo }
 
 class ScopeServiceSpec extends BaseSpec {
 
@@ -17,7 +17,19 @@ class ScopeServiceSpec extends BaseSpec {
     val testFirstName = "peter"
     val testLastName = "parker"
     val testRegistrationDate = DateTime.now().toDate
-    val testUser = YetuUser(IdentityId(testUserEmail, "userpass"), testUid, testFirstName, testLastName, testFirstName + " " + testLastName, Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)), Some(testRegistrationDate))
+
+    val testUser = YetuUser(testUid,
+      EmailPasswordProvider.EmailPassword,
+      testFirstName,
+      testLastName,
+      testFirstName + " " + testLastName,
+      testUserEmail,
+      None,
+      AuthenticationMethod("userPassword"),
+      None,
+      None,
+      Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)),
+      Some(testRegistrationDate))
 
     "return an id and an email for scope basic" in {
       val result = scopeService.getInfoByScope(testUser, Config.SCOPE_BASIC)
@@ -54,7 +66,7 @@ class ScopeServiceSpec extends BaseSpec {
 
     "return None for invalid scope" in {
       val result = scopeService.getInfoByScope(testUser, "asljkbiqrwbu")
-      result mustBe (None)
+      result mustBe None
     }
 
     "return a firstname, lastname, email and registration date for two scopes: basic + registrationInfo" in {

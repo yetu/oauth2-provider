@@ -57,7 +57,7 @@ object YetuUser {
 }
 
 object YetuUserHelper {
-  def fromBasicProfile(profile: BasicProfile, uuid: String): YetuUser = {
+  def fromBasicProfile(profile: BasicProfile): YetuUser = {
     YetuUser(
       profile.userId,
       profile.providerId,

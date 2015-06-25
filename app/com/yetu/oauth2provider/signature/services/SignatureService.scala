@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.signature.services
 
-import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
+import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.SignatureHelper
 import com.yetu.oauth2provider.signature.models.{ SignatureException, SignatureSyntaxException, SignedRequestHeaders, YetuPublicKey }
@@ -18,17 +19,26 @@ class SignatureService[U](personService: IPersonService, keyService: IPublicKeyS
 
   lazy val logger = Logger("com.yetu.oauth2provider.signature.services.SignatureService")
 
-  def validateRequest(implicit request: AuthorizationRequest): Future[Option[YetuUser]] = {
+  def validateRequest(implicit request: AuthorizationRequest): Future[YetuUser] = {
     parseHeaders { (signedRequestHeaders, headersToSign) =>
       for {
-        user <- personService.findYetuUser(signedRequestHeaders.email)
-        key <- keyService.getKeyF(signedRequestHeaders.email)
-        validate <- verifySignature(signedRequestHeaders, user, key, headersToSign)
+
+        user <- personService.findByEmailAndProvider(
+          signedRequestHeaders.email,
+          EmailPasswordProvider.EmailPassword)
+
+        realUser = user.map(YetuUserHelper.fromBasicProfile)
+        joe = println(realUser)
+        realUserWithoutOption = realUser.getOrElse(throw new SignatureException("user not found"))
+
+        key <- keyService.getKeyF(realUser.map(_.userId).getOrElse(""))
+        validate <- verifySignature(signedRequestHeaders, realUserWithoutOption, key, headersToSign)
+
       } yield validate
     }
   }
 
-  def parseHeaders(callback: (SignedRequestHeaders, RequestContent) => Future[Option[YetuUser]])(implicit request: AuthorizationRequest): Future[Option[YetuUser]] = {
+  def parseHeaders(callback: (SignedRequestHeaders, RequestContent) => Future[YetuUser])(implicit request: AuthorizationRequest): Future[YetuUser] = {
 
     val maybeHeaders: Option[SignedRequestHeaders] = for {
       date <- request.headers.get("date").map(_.head)
@@ -57,22 +67,26 @@ class SignatureService[U](personService: IPersonService, keyService: IPublicKeyS
     }
   }
 
-  def verifySignature(signedRequestHeaders: SignedRequestHeaders, user: Option[YetuUser], key: Option[YetuPublicKey], requestContent: RequestContent): Future[Option[YetuUser]] = {
+  def verifySignature(signedRequestHeaders: SignedRequestHeaders, user: YetuUser, key: Option[YetuPublicKey], requestContent: RequestContent): Future[YetuUser] = {
 
-    val keychain = SignatureHelper.getKeyChain(key.getOrElse(YetuPublicKey("")))
+    if (key.isDefined) {
 
-    val verifier = new DefaultVerifier(keychain,
-      new UserKeysFingerprintKeyId(signedRequestHeaders.email),
-      Config.OAuth2.signatureDateExpirationInMilliseconds)
+      val keychain = SignatureHelper.getKeyChain(key.getOrElse(new YetuPublicKey("")))
 
-    val result = verifier.verifyWithResult(SignatureHelper.defaultChallenge,
-      requestContent,
-      signedRequestHeaders.auth)
+      val verifier = new DefaultVerifier(keychain,
+        new UserKeysFingerprintKeyId(signedRequestHeaders.email),
+        Config.OAuth2.signatureDateExpirationInMilliseconds)
 
-    result match {
-      case VerifyResult.SUCCESS => Future.successful(user)
-      case _                    => Future.failed(SignatureException(s"request verification failed due to: $result"))
-    }
+      val result = verifier.verifyWithResult(SignatureHelper.defaultChallenge,
+        requestContent,
+        signedRequestHeaders.auth)
+
+      result match {
+        case VerifyResult.SUCCESS => Future.successful(user)
+        case _                    => Future.failed(SignatureException(s"request verification failed due to: $result"))
+      }
+
+    } else Future.failed(SignatureException(s"request verification failed"))
   }
 
 }

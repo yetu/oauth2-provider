@@ -1,75 +1,94 @@
 package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
-import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
-import com.yetu.oauth2provider.services.data.interface.IPersonService
+import com.yetu.oauth2provider.registry.{ IntegrationTestRegistry, TestRegistry }
 import com.yetu.oauth2provider.utils.DateUtility._
 import org.joda.time.DateTime
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{ Seconds, Span }
 import securesocial.core.PasswordInfo
 import securesocial.core.services.SaveMode
+
+import scala.concurrent.ExecutionContext.Implicits.global
 
 /*
  * This test class is extended below to run the same tests against the in-memory and the LDAP implementations.
  */
-abstract class UserServiceBase extends DataServiceBaseSpec {
-
-  override def beforeEach {
-    personService.deleteUser(testUser.identityId.userId)
-  }
-
-  override def afterEach {
-    personService.deleteUser(testUser.identityId.userId)
-  }
+abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
 
   s"The [$databaseImplementationName] User Service" must {
 
     "store and retrieve a user " in {
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-      val Some(yetuUser) = personService.findYetuUser(testUser.userId)
 
-      yetuUser.email mustEqual testUser.email
-      yetuUser.firstName mustEqual testUser.firstName
-      yetuUser.passwordInfo mustEqual testUser.passwordInfo
-      dateToString(yetuUser.userAgreement.get.acceptTermsAndConditionsDate.toDate) mustEqual dateToString(DateTime.now().toDate)
-      yetuUser.userAgreement.get.acceptTermsAndConditions mustEqual true
+      val result = for {
+        delete <- personService.deleteUser(testUser.userId)
+        save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+        retrieve <- personService.findYetuUser(testUser.userId)
+      } yield retrieve
+
+      whenReady(result) {
+        yetuUser =>
+          yetuUser.isDefined mustBe true
+          yetuUser.get.email mustEqual testUser.email
+          yetuUser.get.firstName mustEqual testUser.firstName
+          yetuUser.get.passwordInfo mustEqual testUser.passwordInfo
+          dateToString(yetuUser.get.userAgreement.get.acceptTermsAndConditionsDate.toDate) mustEqual dateToString(DateTime.now().toDate)
+          yetuUser.get.userAgreement.get.acceptTermsAndConditions mustEqual true
+      }
     }
 
     "store an old user without userAgreement and retrieve a valid user " in {
-      personService.save(testUserWithoutUserAgreement.toBasicProfile, SaveMode.SignUp)
-      val Some(yetuUser) = personService.findYetuUser(testUserWithoutUserAgreement.userId)
 
-      yetuUser.email mustEqual testUserWithoutUserAgreement.email
-      yetuUser.firstName mustEqual testUserWithoutUserAgreement.firstName
-      yetuUser.passwordInfo mustEqual testUserWithoutUserAgreement.passwordInfo
-      yetuUser.userAgreement mustEqual testUserWithoutUserAgreement.userAgreement
-      yetuUser.userAgreement mustEqual None
+      val result = for {
+        delete <- personService.deleteUser(testUserWithoutUserAgreement.userId)
+        save <- personService.save(testUserWithoutUserAgreement.toBasicProfile, SaveMode.SignUp)
+        retrieve <- personService.findYetuUser(testUserWithoutUserAgreement.userId)
+      } yield retrieve
 
+      whenReady(result) {
+        yetuUser =>
+          yetuUser.isDefined mustBe true
+          yetuUser.get.email mustEqual testUserWithoutUserAgreement.email
+          yetuUser.get.firstName mustEqual testUserWithoutUserAgreement.firstName
+          yetuUser.get.passwordInfo mustEqual testUserWithoutUserAgreement.passwordInfo
+          yetuUser.get.userAgreement mustEqual testUserWithoutUserAgreement.userAgreement
+          yetuUser.get.userAgreement mustEqual None
+      }
     }
 
     "store and retrieve a user with registration date " in {
-      //registration date is automatically generated in LDAP
 
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-      val retrieved = personService.findYetuUser(testUser.userId)
+      val result = for {
+        delete <- personService.deleteUser(testUser.userId)
+        save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+        retrieve <- personService.findYetuUser(testUser.userId)
+      } yield retrieve
 
-      retrieved.isDefined mustBe true
-
-      retrieved.get.registrationDate.get must not be None
-      dateToString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
+      whenReady(result) {
+        retrieved =>
+          retrieved.isDefined mustBe true
+          retrieved.get.registrationDate.get must not be None
+          dateToString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
+      }
     }
 
     "change password of user " in {
 
-      personService.deleteUser(testUser.userId)
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-      val newUserPassObject = testUser.copy(passwordInfo = Some(PasswordInfo("bcrypt", "$2a$10$huRtPOgtcSMvaYiznS3IG.8elJVBvSCDXUD11EXK6FLZqw5nL7iiO", None)))
-      personService.save(newUserPassObject.toBasicProfile, SaveMode.PasswordChange)
+      val pw = PasswordInfo("bcrypt", "$2a$10$huRtPOgtcSMvaYiznS3IG.8elJVBvSCDXUD11EXK6FLZqw5nL7iiO", None)
 
-      val Some(retrieved) = personService.findYetuUser(newUserPassObject.userId)
+      val result = for {
+        delete <- personService.deleteUser(testUser.userId)
+        save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+        update <- personService.updatePasswordInfo(save, pw)
+        retrieve <- personService.findYetuUser(testUser.userId)
+      } yield retrieve
 
-      retrieved.passwordInfo mustEqual newUserPassObject.passwordInfo
-      retrieved.passwordInfo must not be testUser.passwordInfo
-
+      whenReady(result, timeout(Span(5, Seconds))) {
+        retrieved =>
+          retrieved.isDefined mustBe true
+          retrieved.get.passwordInfo mustEqual Some(pw)
+          retrieved.get.passwordInfo must not be Some(testUser.passwordInfo)
+      }
     }
 
   }

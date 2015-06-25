@@ -58,7 +58,8 @@ abstract class BaseBrowserSpec extends PlaySpec
   }
 
   def clearUsersFromMemory() = {
-    MemoryPersonService.users = Map[String, YetuUser]()
+    MemoryPersonService.usersIds = Map[String, YetuUser]()
+    MemoryPersonService.usersEmails = Map[String, YetuUser]()
   }
 
   def getMailTokenFromMemory: String = {

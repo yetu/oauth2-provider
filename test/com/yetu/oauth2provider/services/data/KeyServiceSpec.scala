@@ -3,9 +3,12 @@ package com.yetu.oauth2provider.services.data
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
+import org.scalatest.concurrent.ScalaFutures
 import securesocial.core.services.SaveMode
 
-abstract class BaseKeyServiceSpec extends DataServiceBaseSpec {
+import scala.concurrent.ExecutionContext.Implicits.global
+
+abstract class BaseKeyServiceSpec extends DataServiceBaseSpec with ScalaFutures {
 
   s"The [$databaseImplementationName] Public Key Service" must {
 
@@ -16,10 +19,16 @@ abstract class BaseKeyServiceSpec extends DataServiceBaseSpec {
       personService.deleteUser(testUser.userId)
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
 
-      publicKeyService.storeKey(testUser.userId, testKey)
-      publicKeyService.getKey(testUser.userId).value mustEqual (testKey)
+      val result = for {
+        store <- publicKeyService.storeKeyF(testUser.userId, testKey)
+        retrieve <- publicKeyService.getKeyF(testUser.userId)
+      } yield retrieve
 
-      personService.deleteUser(testUser.userId)
+      whenReady(result) {
+        response =>
+          response mustEqual Some(testKey)
+          personService.deleteUser(testUser.userId)
+      }
     }
 
   }

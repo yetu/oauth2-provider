@@ -18,12 +18,10 @@ class MemoryPublicKeyService extends IPublicKeyService {
   override def getKeyF(userId: String): Future[Option[YetuPublicKey]] = {
     Future.successful{
       keys.find(_._1 == userId).map(_._2)
-
     }
   }
 }
 
 object MemoryPublicKeyService {
-
   var keys = Map[String, YetuPublicKey]()
 }

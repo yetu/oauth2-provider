@@ -3,8 +3,14 @@ package com.yetu.oauth2provider.integration
 import com.yetu.oauth2provider.oauth2.AuthorizationCodeFlow
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.model.ContactInfo
-import play.api.libs.json.{ Json, JsError, JsSuccess }
+import play.api.libs.json.{ JsError, JsSuccess }
+import play.api.mvc.Result
 import play.api.test.Helpers._
+
+import scala.concurrent.ExecutionContext.Implicits.global
+import play.api.mvc.Results.NotFound
+
+import scala.concurrent.Future
 
 class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCodeFlow {
 
@@ -30,11 +36,23 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
     //TODO: upon implementing contact Info, make LDAP and inMemory services consistent and add this test back in.
     "return information based on contact scope (e.g. street, postalcode,..)" ignore {
       personService.updateUserProfile(testUser, dataUpdateRequest)
-      val (inf, tok) = generateAndSaveTestVariables(SCOPE_CONTACT, personService.findYetuUser(testUser.userId).get)
-      val accessToken = oauth2AccessTokenDance(List(SCOPE_CONTACT), coreYetuClient = true, deleteSaveTestUser = false)
 
-      val URL = s"$infoUrl?access_token=$accessToken"
-      val response = getRequest(URL)
+      val response: Future[Result] = for {
+
+        user <- personService.findYetuUser(testUser.userId)
+        result <- user match {
+          case Some(u) =>
+
+            val (inf, tok) = generateAndSaveTestVariables(SCOPE_CONTACT, u)
+            val accessToken = oauth2AccessTokenDance(List(SCOPE_CONTACT), coreYetuClient = true, deleteSaveTestUser = false)
+
+            val URL = s"$infoUrl?access_token=$accessToken"
+            getRequest(URL)
+
+          case _ => Future.successful(NotFound)
+        }
+
+      } yield result
 
       status(response) mustEqual (200)
       log(contentAsJson(response).toString())
