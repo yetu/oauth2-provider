@@ -2,27 +2,19 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.registry.{ IntegrationTestRegistry, TestRegistry }
+import securesocial.core.services.SaveMode
 
 //TODO: fix this test after getting rid of LDAP
 abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
 
-  def permissionToUserLink: String = {
-    testUser.uid
-  }
-
   override def beforeEach() {
     permissionService.deletePermission(testUser.userId, testClientId)
-    personService.deleteUser(testUser.email)
+    personService.deleteUser(testUser.userId)
     clientService.deleteClient(testClientId)
-    permissionService.deletePermission(permissionToUserLink, testClientId)
+    permissionService.deletePermission(testUser.userId, testClientId)
   }
 
-  override def afterEach() {
-    permissionService.deletePermission(testUser.userId, testClientId)
-    personService.deleteUser(testUser.email)
-    clientService.deleteClient(testClientId)
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-  }
+  override def afterEach() = beforeEach()
 
   s"The [$databaseImplementationName] Permission Service" must {
     "delete, store and retrieve a permissions " in {
