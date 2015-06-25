@@ -1,13 +1,10 @@
-import com.softwaremill.macwire.{ Macwire, Wired }
-import com.yetu.oauth2provider.utils.{ Config, CorsFilter }
-import play.api.mvc.{ Result, RequestHeader, EssentialAction }
-
+import com.softwaremill.macwire.{Macwire, Wired}
 import com.yetu.common.YetuCommonGlobalSettings
 import com.yetu.oauth2provider.registry._
+import com.yetu.oauth2provider.utils.{Config, CorsFilter}
+import play.api.mvc.EssentialAction
 
-import scala.concurrent.Future
 object Global extends YetuCommonGlobalSettings with Macwire {
-
 
   private val diRegistry: Wired = {
     if (Config.persist) {
