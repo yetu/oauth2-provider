@@ -1,6 +1,5 @@
 @(providerId: String, loginForm: Option[Form[(String, String)]] = None)(implicit request: RequestHeader, lang: Lang, env: securesocial.core.RuntimeEnvironment[_])
 
-@import securesocial.core.providers.UsernamePasswordProvider
 @import securesocial.core.AuthenticationMethod._
 @import play.api.Logger
 @import helper._
@@ -20,21 +19,14 @@
                       class="form-horizontal" autocomplete="off" method="POST">
                     <fieldset>
                         @CSRF.formField
-                        @if( UsernamePasswordProvider.withUserNameSupport ) {
-                            @helper.inputText(
-                                loginForm.get("username"),
-                                '_label -> Messages("securesocial.signup.username"),
-                                'class -> "normal__input",
-                                'placeholder -> Messages("securesocial.signup.username")
-                            )
-                        } else {
-                            @helper.inputText(
-                                loginForm.get("username"),
-                                '_label -> Messages("securesocial.signup.email1"),
-                                'class -> "normal__input",
-                                'placeholder -> Messages("securesocial.signup.email1")
-                            )
-                        }
+
+                        @helper.inputText(
+                            loginForm.get("username"),
+                            '_label -> Messages("securesocial.signup.email1"),
+                            'class -> "normal__input",
+                            'placeholder -> Messages("securesocial.signup.email1")
+                        )
+
                         <div class="input__label-icon">
                             <img class="input__label-icon__img" src="@controllers.routes.Assets.versioned("images/at-01.svg")"/>
                         </div>
@@ -45,6 +37,7 @@
                             'class -> "normal__input",
                             'placeholder -> Messages("securesocial.signup.password1")
                         )
+
                         <div class="input__label-icon">
                             <img class="input__label-icon__img" src="@controllers.routes.Assets.versioned("images/lot-01.svg")"/>
                         </div>

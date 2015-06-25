@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.services.data.ldap
 
 import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission, People }
 import com.yetu.oauth2provider.models.DataUpdateRequest
@@ -118,7 +119,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
 
           val user = YetuUser(
             userId,
-            "userpass",
+            EmailPasswordProvider.EmailPassword,
             searchResult.getAttribute(People.FIRST_NAME).getValue,
             searchResult.getAttribute(People.LAST_NAME).getValue,
             searchResult.getAttribute(People.FULL_NAME).getValue,
@@ -165,8 +166,8 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
     }
   }
 
-  override def deleteUser(email: String) = {
-    Future.successful(dao.deleteEntry(People.getDN(email))).map(_ => Unit)
+  override def deleteUser(id: String) = {
+    Future.successful(dao.deleteEntry(People.getDN(id))).map(_ => Unit)
   }
 
   private def persistUserInfo(dn: String, firstName: String, lastName: String) = {
@@ -219,15 +220,23 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
   }
 
   private def modifyUserPassword(profile: BasicProfile) = {
+
     logger.debug(s"Modify password for user ${profile.userId}")
-    val passwordMod = new Modification(ModificationType.REPLACE,
-      People.USER_PASSWORD, profile.passwordInfo.get.password)
+    val passwordMod = new Modification(
+      ModificationType.REPLACE,
+      People.USER_PASSWORD,
+      profile.passwordInfo.get.password)
+
     dao.modify(People.getDN(profile.userId), passwordMod)
+    findYetuUser(profile.userId)
   }
 
   def modifyUserPublicKey(userId: String, key: YetuPublicKey) = {
-    val publicKeyModification = new Modification(ModificationType.REPLACE,
-      People.PUBLIC_KEY, key.key)
+
+    val publicKeyModification = new Modification(
+      ModificationType.REPLACE,
+      People.PUBLIC_KEY,
+      key.key)
 
     dao.modify(People.getDN(userId), publicKeyModification)
   }
@@ -289,18 +298,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    */
   override def save(profile: BasicProfile, mode: SaveMode) = {
     val result = mode match {
-      case SaveMode.LoggedIn => {
-        findYetuUser(profile.userId)
-      }
-      case SaveMode.PasswordChange => {
-        modifyUserPassword(profile)
-        findYetuUser(profile.userId)
-      }
-      case SaveMode.SignUp => {
-        import UUIDGenerator._
-        val user = YetuUserHelper.fromBasicProfile(profile, uuid())
-        addNewUser(user)
-      }
+      case SaveMode.LoggedIn       => findYetuUser(profile.userId)
+      case SaveMode.PasswordChange => modifyUserPassword(profile)
+      case SaveMode.SignUp         => addNewUser(YetuUserHelper.fromBasicProfile(profile))
     }
 
     result.map(_.orNull)
@@ -314,10 +314,9 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @return
    */
   override def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
-    Future.successful {
-      val newUser = user.toBasicProfile.copy(passwordInfo = Some(info))
-      modifyUserPassword(newUser)
-      Some(newUser)
+    modifyUserPassword(user.toBasicProfile.copy(passwordInfo = Some(info))).map {
+      case Some(u) => Some(u.toBasicProfile)
+      case _       => None
     }
   }
 }

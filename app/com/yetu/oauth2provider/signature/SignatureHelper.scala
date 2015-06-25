@@ -41,6 +41,7 @@ object SignatureHelper {
   }
 
   def getKeyChain(key: YetuPublicKey): Keychain = {
+    logger.info(s"current key: ${key.key}")
     YetuAuthorizedKeys.newKeychainFromString(key.key)
   }
 

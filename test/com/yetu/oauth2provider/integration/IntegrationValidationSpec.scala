@@ -16,7 +16,7 @@ class IntegrationValidationSpec extends IntegrationBaseSpec {
 
         log(s"validationJson: ${contentAsString(response)}")
         status(response) mustEqual OK
-        contentAsString(response) must include(testUserInfo.user.email.get)
+        contentAsString(response) must include(testUserInfo.user.email)
       }
     }
   }

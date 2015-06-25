@@ -74,6 +74,7 @@ public final class YetuAuthorizedKeys {
     }
 
     public static Keychain newKeychainFromString(String key) throws IOException {
+
         DefaultKeychain identities = new DefaultKeychain();
 
         AuthorizedKey authorizedKey = parseAuthorizedKey(key);

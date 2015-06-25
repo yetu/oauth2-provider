@@ -3,9 +3,7 @@ package com.yetu.oauth2provider.routes
 import com.yetu.oauth2provider.base.BaseRoutesSpec
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.Config
-import play.api.libs.json
 import play.api.libs.json.Json
-
 import play.api.test.Helpers._
 
 class KeySpec extends BaseRoutesSpec {
@@ -40,7 +38,7 @@ class KeySpec extends BaseRoutesSpec {
       status(response) mustEqual NO_CONTENT
     }
 
-    " return stored key" in {
+    "return stored key" in {
       val (authInfo, token) = generateAndSaveTestVariables(Config.SCOPE_BASIC)
 
       val responseOne = (keyUrl ? token.token).post(Json.toJson(testKey))
@@ -52,13 +50,12 @@ class KeySpec extends BaseRoutesSpec {
 
     }
 
-    " issue a 404 notFound if key doesn't exist." in {
+    "issue a 404 notFound if key doesn't exist." in {
 
       val (authInfo, token) = generateAndSaveTestVariables(Config.SCOPE_BASIC, testUser2)
 
       val response = (keyUrl ? token.token).get
       status(response) mustEqual NOT_FOUND
-
     }
 
   }

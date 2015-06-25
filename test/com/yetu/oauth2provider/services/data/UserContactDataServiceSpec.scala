@@ -2,15 +2,15 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
-import com.yetu.oauth2provider.services.data.interface.IPersonService
+import com.yetu.oauth2provider.registry.IntegrationTestRegistry
+import org.scalatest.concurrent.ScalaFutures
 import play.api.libs.json.Json
 import securesocial.core.services.SaveMode
 
 /*
  * This test class is extended below to run the same tests against the in-memory and the LDAP implementations.
  */
-abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec {
+abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with ScalaFutures {
 
   s"The [$databaseImplementationName] Contact Service" must {
 
@@ -35,28 +35,28 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec {
       val updateDataObject = jsonUpdateData.as[DataUpdateRequest]
 
       //DELETE IF USER EXISTS
-      personService.deleteUser(testUser.identityId.userId)
+      personService.deleteUser(testUser.userId)
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val retrieved = personService.findYetuUser(testUser.userId)
-      retrieved.isDefined mustBe true
-      //Basic Data
-      retrieved.get.firstName mustEqual (jsonUpdateData \ "firstName").as[String]
-      retrieved.get.lastName mustEqual (jsonUpdateData \ "lastName").as[String]
-      retrieved.get.fullName mustEqual ((jsonUpdateData \ "firstName").as[String] + " " + (jsonUpdateData \ "lastName").as[String])
-
-      //Contact Data
-      retrieved.get.contactInfo.get.country.get mustEqual (jsonUpdateData \ "contactInfo" \ "country").as[String]
-      retrieved.get.contactInfo.get.street.get mustEqual (jsonUpdateData \ "contactInfo" \ "street").as[String]
-      retrieved.get.contactInfo.get.houseNumber.get mustEqual (jsonUpdateData \ "contactInfo" \ "houseNumber").as[String]
-      retrieved.get.contactInfo.get.postalCode.get mustEqual (jsonUpdateData \ "contactInfo" \ "postalCode").as[String]
-      retrieved.get.contactInfo.get.city.get mustEqual (jsonUpdateData \ "contactInfo" \ "city").as[String]
-      retrieved.get.contactInfo.get.mobile.get mustEqual (jsonUpdateData \ "contactInfo" \ "mobile").as[String]
-      retrieved.get.contactInfo.get.homePhone.get mustEqual (jsonUpdateData \ "contactInfo" \ "homePhone").as[String]
-      retrieved.get.contactInfo.get.fax.get mustEqual (jsonUpdateData \ "contactInfo" \ "fax").as[String]
-      retrieved.get.contactInfo.get.chat.get mustEqual (jsonUpdateData \ "contactInfo" \ "chat").as[String]
+      val result = personService.findYetuUser(testUser.userId)
+      whenReady(result) {
+        retrieved =>
+          retrieved.isDefined mustBe true
+          retrieved.get.firstName mustEqual (jsonUpdateData \ "firstName").as[String]
+          retrieved.get.lastName mustEqual (jsonUpdateData \ "lastName").as[String]
+          retrieved.get.fullName mustEqual ((jsonUpdateData \ "firstName").as[String] + " " + (jsonUpdateData \ "lastName").as[String])
+          retrieved.get.contactInfo.get.country.get mustEqual (jsonUpdateData \ "contactInfo" \ "country").as[String]
+          retrieved.get.contactInfo.get.street.get mustEqual (jsonUpdateData \ "contactInfo" \ "street").as[String]
+          retrieved.get.contactInfo.get.houseNumber.get mustEqual (jsonUpdateData \ "contactInfo" \ "houseNumber").as[String]
+          retrieved.get.contactInfo.get.postalCode.get mustEqual (jsonUpdateData \ "contactInfo" \ "postalCode").as[String]
+          retrieved.get.contactInfo.get.city.get mustEqual (jsonUpdateData \ "contactInfo" \ "city").as[String]
+          retrieved.get.contactInfo.get.mobile.get mustEqual (jsonUpdateData \ "contactInfo" \ "mobile").as[String]
+          retrieved.get.contactInfo.get.homePhone.get mustEqual (jsonUpdateData \ "contactInfo" \ "homePhone").as[String]
+          retrieved.get.contactInfo.get.fax.get mustEqual (jsonUpdateData \ "contactInfo" \ "fax").as[String]
+          retrieved.get.contactInfo.get.chat.get mustEqual (jsonUpdateData \ "contactInfo" \ "chat").as[String]
+      }
     }
 
     "update the user contact with partial data " in {
@@ -73,25 +73,27 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec {
       val updateDataObject = jsonUpdateData.as[DataUpdateRequest]
 
       //DELETE IF USER EXISTS
-      personService.deleteUser(testUser.identityId.userId)
+      personService.deleteUser(testUser.userId)
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val retrieved = personService.findYetuUser(testUser.userId)
-      retrieved.isDefined mustBe true
-
-      retrieved.get.lastName mustEqual (jsonUpdateData \ "lastName").as[String]
-      retrieved.get.fullName mustEqual testUser.firstName + " " + (jsonUpdateData \ "lastName").as[String]
-      retrieved.get.contactInfo.get.city.get mustEqual (jsonUpdateData \ "contactInfo" \ "city").as[String]
-      retrieved.get.contactInfo.get.mobile.get mustEqual (jsonUpdateData \ "contactInfo" \ "mobile").as[String]
-      retrieved.get.contactInfo.get.homePhone.isEmpty mustBe true
-      retrieved.get.contactInfo.get.houseNumber.isEmpty mustBe true
-      retrieved.get.contactInfo.get.fax.isEmpty mustBe true
-      retrieved.get.contactInfo.get.country.isEmpty mustBe true
-      retrieved.get.contactInfo.get.street.isEmpty mustBe true
-      retrieved.get.contactInfo.get.postalCode.isEmpty mustBe true
-      retrieved.get.contactInfo.get.chat.isEmpty mustBe true
+      val result = personService.findYetuUser(testUser.userId)
+      whenReady(result) {
+        retrieved =>
+          retrieved.isDefined mustBe true
+          retrieved.get.lastName mustEqual (jsonUpdateData \ "lastName").as[String]
+          retrieved.get.fullName mustEqual testUser.firstName + " " + (jsonUpdateData \ "lastName").as[String]
+          retrieved.get.contactInfo.get.city.get mustEqual (jsonUpdateData \ "contactInfo" \ "city").as[String]
+          retrieved.get.contactInfo.get.mobile.get mustEqual (jsonUpdateData \ "contactInfo" \ "mobile").as[String]
+          retrieved.get.contactInfo.get.homePhone.isEmpty mustBe true
+          retrieved.get.contactInfo.get.houseNumber.isEmpty mustBe true
+          retrieved.get.contactInfo.get.fax.isEmpty mustBe true
+          retrieved.get.contactInfo.get.country.isEmpty mustBe true
+          retrieved.get.contactInfo.get.street.isEmpty mustBe true
+          retrieved.get.contactInfo.get.postalCode.isEmpty mustBe true
+          retrieved.get.contactInfo.get.chat.isEmpty mustBe true
+      }
     }
 
     "update the user contact with no data " in {
@@ -106,23 +108,26 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec {
       val updateDataObject = jsonUpdateData.as[DataUpdateRequest]
 
       //DELETE IF USER EXISTS
-      personService.deleteUser(testUser.identityId.userId)
+      personService.deleteUser(testUser.userId)
       personService.save(testUser.toBasicProfile, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val retrieved = personService.findYetuUser(testUser.userId)
-      retrieved.isDefined mustBe true
+      val result = personService.findYetuUser(testUser.userId)
+      whenReady(result) {
+        retrieved =>
+          retrieved.isDefined mustBe true
+          retrieved.get.contactInfo.get.city.isEmpty mustBe true
+          retrieved.get.contactInfo.get.mobile.isEmpty mustBe true
+          retrieved.get.contactInfo.get.homePhone.isEmpty mustBe true
+          retrieved.get.contactInfo.get.houseNumber.isEmpty mustBe true
+          retrieved.get.contactInfo.get.fax.isEmpty mustBe true
+          retrieved.get.contactInfo.get.country.isEmpty mustBe true
+          retrieved.get.contactInfo.get.street.isEmpty mustBe true
+          retrieved.get.contactInfo.get.postalCode.isEmpty mustBe true
+          retrieved.get.contactInfo.get.chat.isEmpty mustBe true
+      }
 
-      retrieved.get.contactInfo.get.city.isEmpty mustBe true
-      retrieved.get.contactInfo.get.mobile.isEmpty mustBe true
-      retrieved.get.contactInfo.get.homePhone.isEmpty mustBe true
-      retrieved.get.contactInfo.get.houseNumber.isEmpty mustBe true
-      retrieved.get.contactInfo.get.fax.isEmpty mustBe true
-      retrieved.get.contactInfo.get.country.isEmpty mustBe true
-      retrieved.get.contactInfo.get.street.isEmpty mustBe true
-      retrieved.get.contactInfo.get.postalCode.isEmpty mustBe true
-      retrieved.get.contactInfo.get.chat.isEmpty mustBe true
     }
 
   }

@@ -75,7 +75,7 @@ class IntegrationSignedHttpSpec extends IntegrationBaseSpec with SignatureFlow {
 
     }
 
-    "support a signature grant type and give an access_token when all is good " in {
+    "support a signature grant type and give an access_token when all is good" in {
 
       prepareClientAndUser()
       setupKey()

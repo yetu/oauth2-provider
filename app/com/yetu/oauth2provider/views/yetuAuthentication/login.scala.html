@@ -1,7 +1,7 @@
 @(loginForm: Form[(String,String)], errorMsg: Option[String] = None, registering: Boolean, passwordReset: Boolean)(implicit request: RequestHeader, lang: Lang, env:securesocial.core.RuntimeEnvironment[_])
 
-@import securesocial.core.providers.UsernamePasswordProvider.UsernamePassword
-@import com.yetu.oauth2provider.controllers.authentication.SignatureAuthenticationProvider.SignatureAuthentication
+@import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider.EmailPassword
+@import com.yetu.oauth2provider.controllers.authentication.providers.SignatureAuthenticationProvider.SignatureAuthentication
 
 
 @main(Messages("securesocial.login.title")) {
@@ -18,7 +18,7 @@
     </div>
 
 
-@defining( env.providers.values.filter( provider => provider.id != UsernamePassword && provider.id != SignatureAuthentication) ) { externalProviders =>
+@defining( env.providers.values.filter( provider => provider.id != EmailPassword && provider.id != SignatureAuthentication) ) { externalProviders =>
         @if( externalProviders.size > 0 && !(registering||passwordReset)) {
             <div class="clear">
                 <p>@Messages("securesocial.login.instructions")</p>
@@ -30,7 +30,7 @@
             </div>
         }
 
-        @env.providers.get(UsernamePassword).map { up =>
+        @env.providers.get(EmailPassword).map { up =>
             @errorMsg.map { msg =>
             <div class="alert alert-error">
               @Messages(msg)
@@ -57,7 +57,7 @@
             }
 
             @if(!(registering||passwordReset)){
-              @com.yetu.oauth2provider.views.html.yetuAuthentication.provider("userpass", Some(loginForm))
+              @com.yetu.oauth2provider.views.html.yetuAuthentication.provider(EmailPassword, Some(loginForm))
             }
         }
     }

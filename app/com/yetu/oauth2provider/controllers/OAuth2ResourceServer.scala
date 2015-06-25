@@ -7,7 +7,7 @@ import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.services.ScopeService
 import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import com.yetu.oauth2provider.utils.Config
+import com.yetu.oauth2provider.utils.{ NamedLogger, Config }
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc.Action
@@ -18,7 +18,7 @@ import scala.concurrent.Future
 class OAuth2ResourceServer(scopeService: ScopeService,
     personService: IPersonService,
     authorizationHandler: AuthorizationHandler,
-    keyService: IPublicKeyService) extends OAuth2Controller {
+    keyService: IPublicKeyService) extends OAuth2Controller with NamedLogger {
 
   def info = Action.async {
     implicit request =>
@@ -79,8 +79,10 @@ class OAuth2ResourceServer(scopeService: ScopeService,
     authorize(authorizationHandler) {
       authInfo =>
         {
+          logger.info("current user keys request: " + authInfo.user.userId)
           keyService.getKeyF(authInfo.user.userId).map {
             case Some(key) => {
+              logger.info("current user keys request keys: " + key.key)
               val result = DataListWrapper(List(key))
               Ok(Json.toJson(result))
             }

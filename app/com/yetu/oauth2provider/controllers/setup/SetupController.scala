@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.controllers.setup
 
 import com.yetu.oauth2provider.controllers.authentication.YetuPasswordValidator
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.utils.Config
@@ -13,7 +14,6 @@ import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
 import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
-import securesocial.core.providers.UsernamePasswordProvider
 
 import scala.concurrent.Future
 
@@ -68,7 +68,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   override def handleStartSignUpSuccess(registrationInfo: RegistrationInfo)(implicit request: Request[Map[String, Seq[String]]]) = {
     val email = registrationInfo.email.toLowerCase
     // check if there is already an account for this email address
-    env.userService.findByEmailAndProvider(email, UsernamePasswordProvider.UsernamePassword).map {
+    env.userService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map {
       maybeUser =>
         maybeUser match {
           case Some(user) =>

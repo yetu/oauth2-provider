@@ -12,14 +12,14 @@ abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
 
   override def beforeEach() {
     permissionService.deletePermission(testUser.userId, testClientId)
-    personService.deleteUser(testUser.email.get)
+    personService.deleteUser(testUser.email)
     clientService.deleteClient(testClientId)
     permissionService.deletePermission(permissionToUserLink, testClientId)
   }
 
   override def afterEach() {
     permissionService.deletePermission(testUser.userId, testClientId)
-    personService.deleteUser(testUser.email.get)
+    personService.deleteUser(testUser.email)
     clientService.deleteClient(testClientId)
     permissionService.deletePermission(permissionToUserLink, testClientId)
   }
