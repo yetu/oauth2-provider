@@ -10,6 +10,7 @@ import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
+import com.yetu.oauth2provider.services.data.api.APIClientService
 import com.yetu.oauth2provider.services.data.interface._
 import com.yetu.oauth2provider.services.data.ldap._
 import com.yetu.oauth2provider.services.data.memory._
@@ -48,7 +49,7 @@ trait InMemoryDataServices {
 trait PersistentDataServices {
 
   lazy val dao: LdapDAO = wire[LdapDAO]
-  lazy val clientService: IClientService = wire[LdapClientService]
+  lazy val clientService: IClientService = wire[APIClientService]
 
   //TODO: change this after LDAP is not in use anymore to use the new API.
   //TODO: LDAP permission service is actually broken, do not use.

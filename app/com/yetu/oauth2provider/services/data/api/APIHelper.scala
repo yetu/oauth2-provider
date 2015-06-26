@@ -4,15 +4,17 @@ import play.Play
 
 trait APIHelper {
 
+  val PermissionApiKey = "permission.api.url"
+
   val Version1 = "v1"
 
   val currentConfig = Play.application().configuration()
 
   def url(endpoint: String, version: String) = {
-    currentConfig.getString("/" + version + "/api/" + endpoint)
+    currentConfig.getString(PermissionApiKey) + "/" + version + "/" + endpoint
   }
 
-  def urlForResource(endpoint: String, version: String, resource: String) = {
+  def urlForResource(endpoint: String, resource: String, version: String) = {
     url(endpoint + "/" + resource, version)
   }
 

@@ -2,9 +2,8 @@ package com.yetu.oauth2provider.oauth2.services
 
 import com.yetu.oauth2provider.signature.models.{ SignatureException, SignatureSyntaxException }
 import com.yetu.oauth2provider.signature.services.SignatureService
-import securesocial.core.{ AuthenticationResult, BasicProfile }
-import scala.concurrent.ExecutionContext.Implicits.global
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scalaoauth2.provider._
 

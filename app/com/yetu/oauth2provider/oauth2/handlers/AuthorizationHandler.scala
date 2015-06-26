@@ -24,12 +24,12 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   override def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = {
     logger.debug("validating client ...")
 
-    val validationResult = clientService.findClient(clientCredential.clientId) match {
-      case None => {
+    clientService.findClient(clientCredential.clientId).map {
+      case None =>
         logger.debug(s"No client with this id: ${clientCredential.clientId}")
         false
-      }
-      case Some(oauthClient) => {
+
+      case Some(oauthClient) =>
 
         logger.debug("given:")
         logger.debug(s"id = ${clientCredential.clientId} , secret = ${clientCredential.clientSecret}, grantType = $grantType")
@@ -45,11 +45,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
         } else {
           validClientId && validGrantType && validSecret
         }
-
-      }
     }
-    logger.debug(s"...validating client ${clientCredential.clientId}: $validationResult")
-    Future.successful(validationResult)
   }
 
   def createAccessToken(authInfo: AuthInfo[YetuUser]) = {

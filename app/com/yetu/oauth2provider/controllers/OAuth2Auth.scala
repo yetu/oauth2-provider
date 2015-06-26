@@ -11,6 +11,7 @@ import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
 import securesocial.core.RuntimeEnvironment
 
+import scala.concurrent.Future
 import scalaoauth2.provider._
 
 /**
@@ -63,7 +64,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
       val queryString: Map[String, Seq[String]] = request.queryString ++ Map("grant_type" -> Seq(Config.GRANT_TYPE_TOKEN))
       val modifiedRequest = Request(request.copy(headers = headers, queryString = queryString), request.body)
 
-      errorHandler.validateParametersAsync(request.user) {
+      errorHandler.validateParameters(request.user) {
         (authClient: AuthorizedClient) =>
           issueAccessTokenImplicitFlow(authorizationHandler, authClient)(modifiedRequest)
       }(modifiedRequest)
@@ -76,7 +77,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
    * validateParameters rejects all invalid parameter combinations and gives us access to an AuthorizedClient object
    *
    */
-  def authorizeUser() = SecuredAction {
+  def authorizeUser() = SecuredAction.async {
     implicit request =>
 
       errorHandler.validateParameters(request.user) {
@@ -85,22 +86,23 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val client: OAuth2Client = authClient.client
           val authorizeRequest = authClient.request
 
-          if (client.coreYetuClient) {
+          val result = if (client.coreYetuClient) {
             authorizeService.handlePermittedApps(client, authorizeRequest, request.user)
           } else {
             authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
           }
+
+          Future.successful(result)
       }
 
   }
 
-  def permissionsPost = SecuredAction {
+  def permissionsPost = SecuredAction.async {
     implicit request =>
 
       val formData: Permissions = permissionsForm.bindFromRequest.get
 
-      val clientOption = clientService.findClient(formData.client_id)
-      clientOption match {
+      clientService.findClient(formData.client_id).map {
         case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
         case Some(client) => {
           val clientPermission = ClientPermission(client.clientId, client.scopes)

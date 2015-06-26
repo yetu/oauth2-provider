@@ -6,9 +6,11 @@ import com.yetu.oauth2provider.data.ldap.models.Client
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 import com.yetu.oauth2provider.services.data.interface.IClientService
 
+import scala.concurrent.Future
+
 class LdapClientService(dao: LdapDAO) extends IClientService {
 
-  def saveClient(client: OAuth2Client, ignoreEntryAlreadyExists: Boolean): Unit = {
+  override def saveClient(client: OAuth2Client) = {
 
     val entry = new Entry(Client.getDN(client.clientId))
     entry.addAttribute(Client.getObjectClass())
@@ -29,13 +31,15 @@ class LdapClientService(dao: LdapDAO) extends IClientService {
       entry.addAttribute(new Attribute(Client.GRANT_TYPE, grantType))
     }
 
-    dao.persist(entry, ignoreEntryAlreadyExists)
+    Future.successful(dao.persist(entry, ignoreEntryAlreadyExists = true))
   }
 
-  def findClient(clientId: String): Option[OAuth2Client] = {
+  override def findClient(clientId: String) = {
+
     val searchResultEntry = dao.getEntry(Client.getDN(clientId))
-    searchResultEntry match {
-      case r: SearchResultEntry => {
+    val optionClient = searchResultEntry match {
+      case r: SearchResultEntry =>
+
         val id = r.getAttribute(Client.CLIENT_ID).getValue
         val secret = r.getAttribute(Client.CLIENT_SECRET).getValue
         val redirects: List[String] = r.getAttribute(Client.REDIRECT_URL).getValues.toList
@@ -44,17 +48,17 @@ class LdapClientService(dao: LdapDAO) extends IClientService {
         val clientName = r.getAttribute(Client.CLIENT_NAME).getValue
         val coreYetuClient = r.getAttribute(Client.CORE_YETU_CLIENT).getValueAsBoolean
         Some(new OAuth2Client(id, secret, redirects, Some(grants), Some(scopes), clientName, coreYetuClient))
-      }
+
       case _ => None
     }
+
+    Future.successful(optionClient)
   }
 
-  def deleteClient(client: OAuth2Client) = {
-    dao.deleteEntry(Client.getDN(client.clientId))
-  }
+  def deleteClient(client: OAuth2Client) = deleteClient(client.clientId)
 
   def deleteClient(clientId: String) = {
-    dao.deleteEntry(Client.getDN(clientId))
+    Future.successful(dao.deleteEntry(Client.getDN(clientId)))
   }
 
 }

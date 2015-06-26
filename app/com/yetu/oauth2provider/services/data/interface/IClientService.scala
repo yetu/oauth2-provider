@@ -5,12 +5,14 @@ package interface
 
 import com.yetu.oauth2provider.oauth2.models.OAuth2Client
 
+import scala.concurrent.Future
+
 trait IClientService {
-  def saveClient(client: OAuth2Client, ignoreEntryAlreadyExists: Boolean = false): Unit
+  def saveClient(client: OAuth2Client): Future[Unit]
 
-  def findClient(clientId: String): Option[OAuth2Client]
+  def findClient(clientId: String): Future[Option[OAuth2Client]]
 
-  def deleteClient(client: OAuth2Client)
+  def deleteClient(client: OAuth2Client): Future[Unit]
 
-  def deleteClient(clientId: String)
+  def deleteClient(clientId: String): Future[Unit]
 }

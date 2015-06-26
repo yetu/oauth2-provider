@@ -19,6 +19,8 @@ import scala.concurrent.Future
 import scalaoauth2.provider
 import scalaoauth2.provider.{ AuthInfo, _ }
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
     scopeService: ScopeService,
@@ -35,7 +37,7 @@ class AuthorizeErrorHandler(clientService: IClientService,
     AuthorizeRequest(authorization.headers, authorization.params)
   }
 
-  def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Either[OAuthError, AuthorizedClient] = try {
+  def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Future[Either[OAuthError, AuthorizedClient]] = try {
 
     if (request.responseType != ResponseTypes.CODE && request.responseType != ResponseTypes.TOKEN) {
       throw new InvalidGrant(s"invalid response type.")
@@ -44,55 +46,52 @@ class AuthorizeErrorHandler(clientService: IClientService,
       throw new InvalidState(s"invalid state parameter. State length is not correct.")
     }
 
-    val client = clientService
+    clientService
       .findClient(request.clientId)
-      .getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
+      .map(c => try {
 
-    val validScopes: List[String] = client.scopes.getOrElse(List.empty)
+        val client = c.getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
+        val validScopes = client.scopes.getOrElse(List.empty)
 
-    if (!client.coreYetuClient) {
-      scopeService.getScopeFromPermission(
-        permissionService.findPermission(user.userId, client.clientId))
-    }
-
-    request.scope.foreach { scope =>
-      scope.split(' ').toList.foreach { requestScope =>
-        if (!validScopes.contains(requestScope)) {
-          throw new InvalidScope(s"invalid scope: $requestScope")
+        if (!client.coreYetuClient) {
+          scopeService.getScopeFromPermission(
+            permissionService.findPermission(user.userId, client.clientId))
         }
-      }
-    }
 
-    val validRedirectUrls = client.redirectURIs
-    val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
+        request.scope.foreach { scope =>
+          scope.split(' ').toList.foreach { requestScope =>
+            if (!validScopes.contains(requestScope)) {
+              throw new InvalidScope(s"invalid scope: $requestScope")
+            }
+          }
+        }
 
-    if (!validRedirectUrls.contains(redirectUrl)) {
+        val validRedirectUrls = client.redirectURIs
+        val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
 
-      logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! " +
-        s"[$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
+        if (!validRedirectUrls.contains(redirectUrl)) {
 
-      if (Config.redirectURICheckingEnabled) {
-        throw new RedirectUriMismatch(s"invalid redirect url.")
-      }
-    }
+          logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! " +
+            s"[$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
 
-    val authorizedClient = AuthorizedClient(client, request, redirectUrl)
-    Right(authorizedClient)
+          if (Config.redirectURICheckingEnabled) {
+            throw new RedirectUriMismatch(s"invalid redirect url.")
+          }
+        }
+
+        val authorizedClient = AuthorizedClient(client, request, redirectUrl)
+        Right(authorizedClient)
+
+      } catch {
+        case e: OAuthError => Left(e)
+      })
 
   } catch {
-    case e: OAuthError => Left(e)
+    case e: OAuthError => Future.successful(Left(e))
   }
 
-  def validateParameters[A](user: YetuUser)(callback: AuthorizedClient => Result)(implicit request: play.api.mvc.Request[A]): Result = {
-    handleAuthorizeRequest(request, user) match {
-      case Left(e) if e.statusCode == 400 => BadRequest.withHeaders(responseOAuthErrorHeader(e))
-      case Left(e) if e.statusCode == 401 => Unauthorized.withHeaders(responseOAuthErrorHeader(e))
-      case Right(client)                  => callback(client)
-    }
-  }
-
-  def validateParametersAsync[A](user: YetuUser)(callback: AuthorizedClient => Future[Result])(implicit request: play.api.mvc.Request[A]): Future[Result] = {
-    handleAuthorizeRequest(request, user) match {
+  def validateParameters[A](user: YetuUser)(callback: AuthorizedClient => Future[Result])(implicit request: play.api.mvc.Request[A]): Future[Result] = {
+    handleAuthorizeRequest(request, user).flatMap {
       case Left(e) if e.statusCode == 400 => Future.successful(BadRequest.withHeaders(responseOAuthErrorHeader(e)))
       case Left(e) if e.statusCode == 401 => Future.successful(Unauthorized.withHeaders(responseOAuthErrorHeader(e)))
       case Right(client)                  => callback(client)
