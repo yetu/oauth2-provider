@@ -18,12 +18,10 @@ class APIClientService extends IClientService with APIHelper with NamedLogger {
       "id" -> client.clientId,
       "name" -> client.clientName,
       "secret" -> client.clientSecret,
-      "coreClient" -> client.coreYetuClient
+      "coreClient" -> client.coreYetuClient,
+      "redirectUris" -> client.redirectURIs,
+      "grantTypes" -> client.grantTypes
     )
-
-    logger.info("send clientjson: " + clientJson)
-
-    //TODO: set the scopes, grantTypes and redirect URIs here
 
     WS.url(url("oauth2_clients", Version1)).post(clientJson).map(response => Unit)
   }
@@ -43,14 +41,14 @@ class APIClientService extends IClientService with APIHelper with NamedLogger {
         val clientName = (client \ "name").as[String]
         val coreYetuClient = (client \ "coreClient").as[Boolean]
 
-        //TODO: get the scopes, grantTypes and redirect URIs here
+        val redirectUris = (client \ "redirectUris").asOpt[List[String]]
+        val grantTypes = (client \ "grantTypes").asOpt[List[String]]
 
         Some(new OAuth2Client(
           clientId,
           clientSecret,
-          List(),
-          Some(List()),
-          Some(List()),
+          redirectUris.getOrElse(List()),
+          grantTypes,
           clientName,
           coreYetuClient
         ))

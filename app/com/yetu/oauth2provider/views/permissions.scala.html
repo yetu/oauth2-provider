@@ -26,6 +26,7 @@
 
     @helper.form(action = com.yetu.oauth2provider.controllers.routes.OAuth2Auth.permissionsPost) {
 
+        <input type="hidden" name="scopes" value="@scopes">
         <input type="hidden" name="client_id" value="@client_id">
         <input type="hidden" name="redirect_uri" value="@redirect_uri">
         <input type="hidden" name="state" value="@state">

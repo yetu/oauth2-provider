@@ -86,7 +86,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
     //    status(cookieResponse) mustEqual (SEE_OTHER)
     //    cookie must be ('defined)
 
-    val queryScope: String = queryScopes.getOrElse(client.scopes.get).mkString(" ")
+    val queryScope: String = queryScopes.getOrElse(List.empty).mkString(" ")
 
     val fullAuthorizationUrl = s"$authorizationUrl?scope=${queryScope}" +
       s"&client_id=${client.clientId}" +

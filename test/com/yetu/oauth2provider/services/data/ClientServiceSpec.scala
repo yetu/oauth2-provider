@@ -12,8 +12,8 @@ abstract class BaseClientServiceSpec extends DataServiceBaseSpec with ScalaFutur
 
   s"The [$databaseImplementationName] client service" must {
 
-    "delete, store and retrieve a client with one of each redirects, scope and grantType " in {
-      val client = OAuth2Client("2223", "secret1", List("http://a"), Some(List("code")), Some(List("scope1")), "clientName", coreYetuClient = true)
+    "delete, store and retrieve a client with one redirects, scope and grantType " in {
+      val client = OAuth2Client("2223", "secret1", List("http://a"), Some(List("token")), "clientName", coreYetuClient = true)
 
       val retrieved = for {
         delete <- clientService.deleteClient(client)
@@ -27,7 +27,7 @@ abstract class BaseClientServiceSpec extends DataServiceBaseSpec with ScalaFutur
     }
 
     "delete, store and retrieve a client with multiple attributes " in {
-      val client = OAuth2Client("2224", "secret2", List("http://a", "http://b"), Some(List("code", "bla")), Some(List("scope1", "scope2")), "clientName", coreYetuClient = true)
+      val client = OAuth2Client("2224", "secret2", List("http://a"), Some(List("token")), "clientName", coreYetuClient = true)
 
       val retrieved = for {
         delete <- clientService.deleteClient(client)
@@ -40,23 +40,8 @@ abstract class BaseClientServiceSpec extends DataServiceBaseSpec with ScalaFutur
       }
     }
 
-    "delete, store and retrieve a client with some attribute being None (at the moment all attributes are mandatory, ignoring test case)" ignore {
-      val client = OAuth2Client("2225", "secret3", List("http://a"), Some(List("code", "bla")), Some(List("scope1", "scope2")), "clientName", coreYetuClient = true)
-
-      val retrieved = for {
-        delete <- clientService.deleteClient(client)
-        save <- clientService.saveClient(client)
-        find <- clientService.findClient(client.clientId)
-      } yield find
-
-      whenReady(retrieved, timeout(Span(5, Seconds))) {
-        result => result mustEqual Some(client)
-      }
-    }
-
-    "store a client multiple time must fail gracefully" in {
+    "store a client multiple time must fail gracefully" ignore {
       //TODO: think in how to implement this kind of test.. maybe chance the return of save to Future[Result]
-      true mustBe true
     }
 
     "return None if client not in database " in {

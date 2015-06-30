@@ -15,10 +15,10 @@ trait AuthRoutesHelper extends TestRegistry with DefaultTestVariables with BaseM
 
     val client = OAuth2Client(clientId = clientId,
       clientSecret = clientSecret,
-      scopes = Some(List(SCOPE_ID)),
       redirectURIs = List(redirectUrl),
       grantTypes = OAuth2.Defaults.defaultGrantTypes,
-      clientName = s"Integration Test client $clientId", coreYetuClient = true)
+      clientName = s"Integration Test client $clientId",
+      coreYetuClient = true)
 
     clientService.deleteClient(client)
     clientService.saveClient(client)

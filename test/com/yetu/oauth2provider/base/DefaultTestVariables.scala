@@ -40,7 +40,7 @@ trait DefaultTestVariables {
   val testUserInfo: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), scopeOption, None)
   val testUserInfoWithScopeId: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
 
-  val testClient = OAuth2Client(testClientId, testClientSecret, List(testRedirectUri), Some(testGrantTypes), Some(List(SCOPE_BASIC)), testClientName, coreYetuClient = false)
+  val testClient = OAuth2Client(testClientId, testClientSecret, List(testRedirectUri), Some(testGrantTypes), testClientName, coreYetuClient = false)
   val testPermission = ClientPermission(testClientId, Some(List("scope1")))
 
   val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email, DateTime.now(), DateTime.now(), true)

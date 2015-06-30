@@ -19,10 +19,6 @@ class LdapClientService(dao: LdapDAO) extends IClientService {
     entry.addAttribute(new Attribute(Client.CLIENT_NAME, client.clientName))
     entry.addAttribute(new Attribute(Client.CORE_YETU_CLIENT, client.coreYetuClient.toString))
 
-    for (scope <- client.scopes.getOrElse(List())) {
-      entry.addAttribute(new Attribute(Client.SCOPE, scope))
-    }
-
     for (redirect <- client.redirectURIs) {
       entry.addAttribute(new Attribute(Client.REDIRECT_URL, redirect))
     }
@@ -47,7 +43,7 @@ class LdapClientService(dao: LdapDAO) extends IClientService {
         val scopes: List[String] = r.getAttribute(Client.SCOPE).getValues.toList
         val clientName = r.getAttribute(Client.CLIENT_NAME).getValue
         val coreYetuClient = r.getAttribute(Client.CORE_YETU_CLIENT).getValueAsBoolean
-        Some(new OAuth2Client(id, secret, redirects, Some(grants), Some(scopes), clientName, coreYetuClient))
+        Some(new OAuth2Client(id, secret, redirects, Some(grants), clientName, coreYetuClient))
 
       case _ => None
     }

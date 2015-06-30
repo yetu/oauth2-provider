@@ -21,8 +21,8 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     coreYetuClient: Boolean = false,
     deleteSaveTestUser: Boolean = true,
     clientRedirectUrls: List[String] = List("http://dummyRedirectUrl")) = {
+
     val client = OAuth2Client(clientId, integrationTestSecret,
-      scopes = Some(scopes),
       redirectURIs = clientRedirectUrls,
       grantTypes = Config.OAuth2.Defaults.defaultGrantTypes,
       clientName = "Integration Test client",

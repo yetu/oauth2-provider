@@ -46,24 +46,17 @@ class AuthorizeErrorHandler(clientService: IClientService,
       throw new InvalidState(s"invalid state parameter. State length is not correct.")
     }
 
+    //TODO: validate scopes on the request, need to create the scopes service that query for all at permission API
+
     clientService
       .findClient(request.clientId)
       .map(c => try {
 
         val client = c.getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
-        val validScopes = client.scopes.getOrElse(List.empty)
 
         if (!client.coreYetuClient) {
           scopeService.getScopeFromPermission(
             permissionService.findPermission(user.userId, client.clientId))
-        }
-
-        request.scope.foreach { scope =>
-          scope.split(' ').toList.foreach { requestScope =>
-            if (!validScopes.contains(requestScope)) {
-              throw new InvalidScope(s"invalid scope: $requestScope")
-            }
-          }
         }
 
         val validRedirectUrls = client.redirectURIs
@@ -161,7 +154,9 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser): Result = {
 
+    val scopeList = authorizeRequest.scope.getOrElse("").split(' ').toList
     val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.userId, client.clientId)
+
     clientPermission match {
       case None =>
 
@@ -169,7 +164,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
           Permission.permissionsForm,
           client.clientName,
           client.clientId,
-          client.scopes.getOrElse(List.empty[String]),
+          scopeList,
           authorizeRequest.redirectUri,
           Some(authorizeRequest.state))(request, env))
 

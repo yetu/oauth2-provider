@@ -26,7 +26,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         retrieve <- personService.findYetuUser(testUser.userId)
       } yield retrieve
 
-      whenReady(result) {
+      whenReady(result, timeout(Span(2, Seconds))) {
         yetuUser =>
           yetuUser.isDefined mustBe true
           yetuUser.get.email mustEqual testUser.email
@@ -45,7 +45,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         retrieve <- personService.findYetuUser(testUserWithoutUserAgreement.userId)
       } yield retrieve
 
-      whenReady(result) {
+      whenReady(result, timeout(Span(2, Seconds))) {
         yetuUser =>
           yetuUser.isDefined mustBe true
           yetuUser.get.email mustEqual testUserWithoutUserAgreement.email
@@ -64,7 +64,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         retrieve <- personService.findYetuUser(testUser.userId)
       } yield retrieve
 
-      whenReady(result) {
+      whenReady(result, timeout(Span(2, Seconds))) {
         retrieved =>
           retrieved.isDefined mustBe true
           retrieved.get.registrationDate.get must not be None
@@ -83,7 +83,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         retrieve <- personService.findYetuUser(testUser.userId)
       } yield retrieve
 
-      whenReady(result, timeout(Span(5, Seconds))) {
+      whenReady(result, timeout(Span(2, Seconds))) {
         retrieved =>
           retrieved.isDefined mustBe true
           retrieved.get.passwordInfo mustEqual Some(pw)
