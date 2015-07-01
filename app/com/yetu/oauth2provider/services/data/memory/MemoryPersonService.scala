@@ -1,6 +1,5 @@
 package com.yetu.oauth2provider.services.data.memory
 
-import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.interface.IPersonService
 import org.joda.time.DateTime
@@ -71,7 +70,7 @@ class MemoryPersonService extends IPersonService {
   override def save(user: BasicProfile, mode: SaveMode) = {
     logger.debug(s"Save user $user")
     val result = mode match {
-      case SaveMode.SignUp => addNewUser(user.asInstanceOf[YetuUser])
+      case SaveMode.SignUp => addUser(user.asInstanceOf[YetuUser])
       case SaveMode.PasswordChange => {
 
         for {
@@ -94,7 +93,7 @@ class MemoryPersonService extends IPersonService {
     result.map(_.orNull)
   }
 
-  def addNewUser(user: YetuUser) = {
+  def addUser(user: YetuUser) = {
     user.registrationDate = Some(DateTime.now())
 
     usersIds += (user.userId -> user)
@@ -107,14 +106,11 @@ class MemoryPersonService extends IPersonService {
     Future.successful(current)
   }
 
-  override def updateUserProfile(user: YetuUser, request: DataUpdateRequest) = {
+  override def updateUser(user: YetuUser) = {
+    usersIds += user.userId -> user
+    usersEmails += user.email.get -> user
 
-    val modifiedUser = user.copyUser(firstName = request.firstName, lastName = request.lastName, contactInfo = request.contactInfo)
-
-    Future.successful {
-      usersIds += user.userId -> modifiedUser
-      usersEmails += user.email.get -> modifiedUser
-    }
+    Future.successful(Some(user))
   }
 
   override def deleteUser(email: String) = {

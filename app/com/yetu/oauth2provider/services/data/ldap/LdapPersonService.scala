@@ -4,7 +4,6 @@ import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission, People }
-import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
 import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
@@ -37,52 +36,17 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
     mailTokenService.deleteExpiredTokens()
   }
 
-  /**
-   * * //This function updates user basic information and contact information in LDAP
-   * @param yetuUser
-   * @param request
-   * @return
-   */
-  def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest) = {
+  override def updateUser(user: YetuUser) = {
+    persistUserInfo(People.getDN(user.userId), user.firstName.get, user.lastName.get)
+    persistContactInfo(People.getDN(user.userId), user.contactInfo.get)
 
-    val firstName = StringUtils.isFull(request.firstName) match {
-      case true  => request.firstName.get
-      case false => yetuUser.firstName.get
-    }
-
-    val lastName = StringUtils.isFull(request.lastName) match {
-      case true  => request.lastName.get
-      case false => yetuUser.lastName.get
-    }
-
-    persistUserInfo(People.getDN(yetuUser.userId), firstName, lastName)
-
-    //Update contact info only if there are contact info exist
-    request.contactInfo match {
-      case Some(contInfo) => persistContactInfo(People.getDN(yetuUser.userId), contInfo)
-      case None           =>
-    }
-
-    Future.successful(Unit)
+    Future.successful(Some(user))
   }
 
-  /**
-   * Finds a SocialUser that maches the specified id
-   *
-   * @param providerId the provider id
-   * @param userId the user id
-   * @return an optional profile
-   */
   override def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
     findUser(userId)
   }
 
-  /**
-   * maybe: refactor this?
-   *
-   * @param userId
-   * @return
-   */
   override def findUser(userId: String) = {
     //For fetching operational attributes from LDAP (such as createdDateTime) just add "+" to search attributes
     val searchResult = dao.getEntry(People.getDN(userId),
@@ -208,7 +172,7 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
     dao.modify(dn, mods: _*)
   }
 
-  override def addNewUser(user: YetuUser) = {
+  override def addUser(user: YetuUser) = {
 
     val entry = new Entry(People.getDN(user.userId))
     entry.addAttribute(People.getObjectClass())
@@ -314,7 +278,7 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
     val result = mode match {
       case SaveMode.LoggedIn       => findUser(profile.userId)
       case SaveMode.PasswordChange => modifyUserPassword(profile)
-      case SaveMode.SignUp         => addNewUser(profile.asInstanceOf[YetuUser])
+      case SaveMode.SignUp         => addUser(profile.asInstanceOf[YetuUser])
     }
 
     result.map(_.orNull)

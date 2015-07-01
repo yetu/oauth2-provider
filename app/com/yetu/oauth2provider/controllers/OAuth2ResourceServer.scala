@@ -7,7 +7,7 @@ import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.services.ScopeService
 import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import com.yetu.oauth2provider.utils.{ NamedLogger, Config }
+import com.yetu.oauth2provider.utils.{ StringUtils, NamedLogger, Config }
 import play.api.Logger
 import play.api.libs.json._
 import play.api.mvc.Action
@@ -52,8 +52,23 @@ class OAuth2ResourceServer(scopeService: ScopeService,
 
             if (authInfo.scope.getOrElse("").equals(Config.SCOPE_CONTROLCENTER)) {
 
+              val firstName = StringUtils.isFull(request.body.firstName) match {
+                case true  => request.body.firstName.get
+                case false => authInfo.user.firstName.get
+              }
+
+              val lastName = StringUtils.isFull(request.body.lastName) match {
+                case true  => request.body.lastName.get
+                case false => authInfo.user.lastName.get
+              }
+
+              val modifiedUser = authInfo.user.copyUser(
+                firstName = Some(firstName),
+                lastName = Some(lastName),
+                contactInfo = request.body.contactInfo)
+
               personService
-                .updateUserProfile(authInfo.user, request.body)
+                .updateUser(modifiedUser)
                 .map(_ => NoContent)
 
             } else {

@@ -35,7 +35,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     )
     if (deleteSaveTestUser) {
       personService.deleteUser(testUser.userId)
-      personService.addNewUser(testUser)
+      personService.addUser(testUser)
     }
 
     //Persist client

@@ -1,6 +1,5 @@
 package com.yetu.oauth2provider.services.data.api
 
-import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
 import com.yetu.oauth2provider.utils.NamedLogger
@@ -8,7 +7,7 @@ import play.api.Play.current
 import play.api.libs.ws._
 import play.mvc.Http
 import securesocial.core.providers.MailToken
-import securesocial.core.services.{ UserService, SaveMode }
+import securesocial.core.services.{ SaveMode, UserService }
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global
@@ -32,10 +31,10 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     mailTokenService.deleteExpiredTokens()
   }
 
-  private def changePassword(profile: BasicProfile) = ???
-
-  override def updateUserProfile(user: YetuUser, request: DataUpdateRequest) = {
-    WS.url(urlForResource("users", user.userId, Version1)).post(YetuUserHelper.toJson(user)).map(_ => Some(user))
+  override def updateUser(user: YetuUser) = {
+    WS.url(urlForResource("users", user.userId, Version1)).put(YetuUserHelper.toJson(user)).map(response => {
+      Some(user)
+    })
   }
 
   override def deleteUser(id: String) = {
@@ -52,7 +51,7 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     })
   }
 
-  override def addNewUser(user: YetuUser) = {
+  override def addUser(user: YetuUser) = {
     WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(response => {
       Some(user)
     })
@@ -75,8 +74,8 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
   override def save(profile: BasicProfile, mode: SaveMode) = {
     val result = mode match {
       case SaveMode.LoggedIn       => findUser(profile.userId)
-      case SaveMode.PasswordChange => changePassword(profile)
-      case SaveMode.SignUp         => addNewUser(profile.asInstanceOf[YetuUser])
+      case SaveMode.PasswordChange => updateUser(profile.asInstanceOf[YetuUser])
+      case SaveMode.SignUp         => addUser(profile.asInstanceOf[YetuUser])
     }
 
     result.map(_.orNull)
@@ -94,28 +93,16 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     }
   }
 
-  /**
-   * Links the current user to another profile
-   *
-   * @param current The current user instance
-   * @param to the profile that needs to be linked to
-   */
   override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = ???
 
-  /**
-   * Returns an optional PasswordInfo instance for a given user
-   *
-   * @param user a user instance
-   * @return returns an optional PasswordInfo
-   */
-  override def passwordInfoFor(user: YetuUser): Future[Option[PasswordInfo]] = ???
+  override def passwordInfoFor(user: YetuUser): Future[Option[PasswordInfo]] = {
+    findUser(user.userId).map {
+      case Some(u) => u.passwordInfo
+      case _       => None
+    }
+  }
 
-  /**
-   * Updates the PasswordInfo for a given user
-   *
-   * @param user a user instance
-   * @param info the password info
-   * @return
-   */
-  override def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = ???
+  override def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
+    updateUser(user.copyUser(passwordInfo = Some(info)))
+  }
 }

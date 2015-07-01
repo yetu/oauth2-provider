@@ -35,7 +35,13 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
     //contact information in LDAP for the user.
     //TODO: upon implementing contact Info, make LDAP and inMemory services consistent and add this test back in.
     "return information based on contact scope (e.g. street, postalcode,..)" ignore {
-      personService.updateUserProfile(testUser, dataUpdateRequest)
+
+      val modifiedUser = testUser.copyUser(
+        firstName = dataUpdateRequest.firstName,
+        lastName = dataUpdateRequest.lastName,
+        contactInfo = dataUpdateRequest.contactInfo)
+
+      personService.updateUser(modifiedUser)
 
       val response: Future[Result] = for {
 
