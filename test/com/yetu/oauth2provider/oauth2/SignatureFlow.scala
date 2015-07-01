@@ -22,7 +22,7 @@ trait SignatureFlow extends AccessTokenRetriever {
   def setupUser() = {
     prepareClientAndUser(coreYetuClient = true)
     personService.deleteUser(testUser.userId)
-    personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+    personService.save(testUser, SaveMode.SignUp)
 
     publicKeyService.storeKeyF(testUser.userId, testKey)
   }

@@ -1,19 +1,19 @@
 package com.yetu.oauth2provider.services.data.ldap
 
-import com.unboundid.ldap.sdk.{Attribute, Entry, Modification, ModificationType, SearchResultEntry}
+import com.unboundid.ldap.sdk.{ Attribute, Entry, Modification, ModificationType, SearchResultEntry }
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.data.ldap.LdapDAO
-import com.yetu.oauth2provider.data.ldap.models.{ClientPermission => LdapClientPermission, People}
+import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission, People }
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
-import com.yetu.oauth2provider.services.data.interface.{IMailTokenService, IPersonService}
+import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
 import securesocial.controllers.UserAgreement
 import securesocial.core.providers.MailToken
-import securesocial.core.services.{SaveMode, UserService}
-import securesocial.core.{PasswordInfo, _}
+import securesocial.core.services.{ SaveMode, UserService }
+import securesocial.core.{ PasswordInfo, _ }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
@@ -47,12 +47,12 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
 
     val firstName = StringUtils.isFull(request.firstName) match {
       case true  => request.firstName.get
-      case false => yetuUser.firstName
+      case false => yetuUser.firstName.get
     }
 
     val lastName = StringUtils.isFull(request.lastName) match {
       case true  => request.lastName.get
-      case false => yetuUser.lastName
+      case false => yetuUser.lastName.get
     }
 
     persistUserInfo(People.getDN(yetuUser.userId), firstName, lastName)
@@ -74,10 +74,7 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
    * @return an optional profile
    */
   override def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
-    findUser(userId).map {
-      case Some(user) => Some(user.toBasicProfile)
-      case _          => None
-    }
+    findUser(userId)
   }
 
   /**
@@ -134,22 +131,22 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
             agreementDate = DateUtility.DateTimeFromString(agreementDateString)
           } yield UserAgreement(Try(agreement.toBoolean).getOrElse(false), agreementDate)
 
-          val user = YetuUser(
+          val user = new YetuUser(
             userId,
             EmailPasswordProvider.EmailPassword,
-            searchResult.getAttribute(People.FIRST_NAME).getValue,
-            searchResult.getAttribute(People.LAST_NAME).getValue,
-            searchResult.getAttribute(People.FULL_NAME).getValue,
-            searchResult.getAttribute(People.EMAIL).getValue,
+            Some(searchResult.getAttribute(People.FIRST_NAME).getValue),
+            Some(searchResult.getAttribute(People.LAST_NAME).getValue),
+            Some(searchResult.getAttribute(People.FULL_NAME).getValue),
+            Some(searchResult.getAttribute(People.EMAIL).getValue),
             None,
             AuthenticationMethod.UserPassword,
             None,
             None,
             Some(PasswordInfo("bcrypt", userPassword, None)),
+            agreementOption,
             None,
             Some(contactInfo),
-            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key)),
-            agreementOption
+            LDAPUtils.getAttribute(searchResult, People.PUBLIC_KEY).map(key => YetuPublicKey(key))
           )
 
           Some(user)
@@ -176,7 +173,7 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
 
       case Some(u) =>
         if (u.providerId.equals(providerId)) {
-          Some(u.toBasicProfile)
+          Some(u)
         } else None
 
       case _ => None
@@ -215,10 +212,10 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
 
     val entry = new Entry(People.getDN(user.userId))
     entry.addAttribute(People.getObjectClass())
-    entry.addAttribute(new Attribute(People.FIRST_NAME, user.firstName))
-    entry.addAttribute(new Attribute(People.LAST_NAME, user.lastName))
-    entry.addAttribute(new Attribute(People.FULL_NAME, user.fullName))
-    entry.addAttribute(new Attribute(People.EMAIL, user.email))
+    entry.addAttribute(new Attribute(People.FIRST_NAME, user.firstName.get))
+    entry.addAttribute(new Attribute(People.LAST_NAME, user.lastName.get))
+    entry.addAttribute(new Attribute(People.FULL_NAME, user.fullName.get))
+    entry.addAttribute(new Attribute(People.EMAIL, user.email.get))
     entry.addAttribute(new Attribute(People.USER_PASSWORD, user.passwordInfo.get.password))
     entry.addAttribute(new Attribute(People.MEMBER_UID, user.userId))
     user.userAgreement.map { agreement =>
@@ -317,7 +314,7 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
     val result = mode match {
       case SaveMode.LoggedIn       => findUser(profile.userId)
       case SaveMode.PasswordChange => modifyUserPassword(profile)
-      case SaveMode.SignUp         => addNewUser(YetuUserHelper.fromBasicProfile(profile))
+      case SaveMode.SignUp         => addNewUser(profile.asInstanceOf[YetuUser])
     }
 
     result.map(_.orNull)
@@ -331,9 +328,6 @@ class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) exten
    * @return
    */
   override def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
-    modifyUserPassword(user.toBasicProfile.copy(passwordInfo = Some(info))).map {
-      case Some(u) => Some(u.toBasicProfile)
-      case _       => None
-    }
+    modifyUserPassword(user.copyUser(passwordInfo = Some(info)))
   }
 }

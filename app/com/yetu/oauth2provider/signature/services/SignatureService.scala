@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.signature.services
 
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
+import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.interface.{ IPersonService, IPublicKeyService }
 import com.yetu.oauth2provider.signature.SignatureHelper
 import com.yetu.oauth2provider.signature.models.{ SignatureException, SignatureSyntaxException, SignedRequestHeaders, YetuPublicKey }
@@ -27,12 +27,12 @@ class SignatureService[U](personService: IPersonService, keyService: IPublicKeyS
           signedRequestHeaders.email,
           EmailPasswordProvider.EmailPassword)
 
-        realUser = user.map(YetuUserHelper.fromBasicProfile)
-        joe = println(realUser)
-        realUserWithoutOption = realUser.getOrElse(throw new SignatureException("user not found"))
+        resolvedUser = user
+          .getOrElse(throw new SignatureException("user not found"))
+          .asInstanceOf[YetuUser]
 
-        key <- keyService.getKeyF(realUser.map(_.userId).getOrElse(""))
-        validate <- verifySignature(signedRequestHeaders, realUserWithoutOption, key, headersToSign)
+        key <- keyService.getKeyF(user.map(_.userId).getOrElse(""))
+        validate <- verifySignature(signedRequestHeaders, resolvedUser, key, headersToSign)
 
       } yield validate
     }

@@ -18,7 +18,7 @@ abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
 
   s"The [$databaseImplementationName] Permission Service" must {
     "delete, store and retrieve a permissions " in {
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      personService.save(testUser, SaveMode.SignUp)
       clientService.saveClient(testClient)
 
       permissionService.savePermission(testUser.userId, testPermission)

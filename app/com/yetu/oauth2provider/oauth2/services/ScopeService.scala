@@ -30,9 +30,9 @@ class ScopeService {
     scopes.find(idScopes.contains(_)).map { someValidIdScope =>
       User(
         userId = scopes.find(idScopes.contains(_)).map(_ => user.userId),
-        firstName = scopes.find(basicScopes.contains(_)).map(_ => user.firstName),
-        lastName = scopes.find(basicScopes.contains(_)).map(_ => user.lastName),
-        email = scopes.find(basicScopes.contains(_)).map(_ => user.email),
+        firstName = scopes.find(basicScopes.contains(_)).map(_ => user.firstName.get),
+        lastName = scopes.find(basicScopes.contains(_)).map(_ => user.lastName.get),
+        email = scopes.find(basicScopes.contains(_)).map(_ => user.email.get),
         contactInfo = scopes.find(contactScopes.contains(_)).flatMap(_ => user.contactInfo),
         registrationDate = scopes.find(registrationScopes.contains(_)).flatMap(_ => user.registrationDate.map(date => DateUtility.dateToUtcString(date)))
       )

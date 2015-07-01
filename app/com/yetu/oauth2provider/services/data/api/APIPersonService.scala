@@ -46,7 +46,7 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     WS.url(urlForResource("users", userId, Version1)).get().map(response => {
       if (response.status == Http.Status.OK) {
 
-        Some(YetuUserHelper.fromJson(response.body))
+        Some(YetuUser.fromJson(response.body))
 
       } else None
     })
@@ -60,10 +60,10 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     WS.url(urlForResource("users/email", email, Version1)).get().map(response => {
       if (response.status == Http.Status.OK) {
 
-        val user = YetuUserHelper.fromJson(response.body)
+        val user = YetuUser.fromJson(response.body)
         if (user.providerId.equals(providerId)) {
 
-          Some(user.toBasicProfile)
+          Some(user)
 
         } else None
       } else None
@@ -74,7 +74,7 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     val result = mode match {
       case SaveMode.LoggedIn       => findUser(profile.userId)
       case SaveMode.PasswordChange => changePassword(profile)
-      case SaveMode.SignUp         => addNewUser(YetuUserHelper.fromBasicProfile(profile))
+      case SaveMode.SignUp         => addNewUser(profile.asInstanceOf[YetuUser])
     }
 
     result.map(_.orNull)
@@ -85,7 +85,7 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
 
       case Some(user) =>
         if (user.providerId.eq(providerId)) {
-          Some(user.toBasicProfile)
+          Some(user)
         } else None
 
       case _ => None

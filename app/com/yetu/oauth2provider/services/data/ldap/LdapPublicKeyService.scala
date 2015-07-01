@@ -12,7 +12,7 @@ class LdapPublicKeyService extends IPublicKeyService {
 
   override def storeKeyF(userId: String, key: YetuPublicKey): Future[Unit] = {
     //Future.successful(personService.modifyUserPublicKey(userId, key))
-    Future.successful()
+    Future.successful(Unit)
   }
 
   override def getKeyF(userId: String): Future[Option[YetuPublicKey]] = {

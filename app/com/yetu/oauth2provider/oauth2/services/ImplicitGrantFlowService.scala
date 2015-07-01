@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.oauth2.services
 
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
-import com.yetu.oauth2provider.oauth2.models.{ ImplicitFlowException, YetuUserHelper, ImplicitFlowSyntaxException, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ ImplicitFlowException, ImplicitFlowSyntaxException, YetuUser }
 import com.yetu.oauth2provider.services.data.interface.IPersonService
 import play.api.Logger
 
@@ -17,8 +17,7 @@ class ImplicitGrantFlowService[U](personService: IPersonService) {
     parseHeaders { email =>
 
       personService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map { u =>
-        val user = u.getOrElse(throw new ImplicitFlowException("user not found"))
-        YetuUserHelper.fromBasicProfile(user)
+        u.getOrElse(throw new ImplicitFlowException("user not found")).asInstanceOf[YetuUser]
       }
     }
   }

@@ -30,7 +30,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
 
     //Persist User
     val userPassParameters = Map(
-      "username" -> Seq(testUser.email),
+      "username" -> Seq(testUser.email.get),
       "password" -> Seq(testUserPassword)
     )
     if (deleteSaveTestUser) {

@@ -20,15 +20,16 @@ class ScopeServiceSpec extends BaseSpec {
 
     val testUser = YetuUser(testUid,
       EmailPasswordProvider.EmailPassword,
-      testFirstName,
-      testLastName,
-      testFirstName + " " + testLastName,
-      testUserEmail,
+      Some(testFirstName),
+      Some(testLastName),
+      Some(testFirstName + " " + testLastName),
+      Some(testUserEmail),
       None,
       AuthenticationMethod("userPassword"),
       None,
       None,
       Some(PasswordInfo("bcrypt", "$2a$10$qHwUqmHA7.24IZFNL90ke.mvjXwznoBh1pGR8D5r1TJ1tf9vttLji", None)),
+      None,
       Some(testRegistrationDate))
 
     "return an id and an email for scope basic" in {

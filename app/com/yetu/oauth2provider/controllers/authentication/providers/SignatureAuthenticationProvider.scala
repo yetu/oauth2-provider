@@ -20,7 +20,7 @@ class SignatureAuthenticationProvider[U](signatureService: SignatureService[U]) 
   def authenticate()(implicit request: Request[AnyContent]): Future[AuthenticationResult] = doAuthentication()
 
   private def doAuthentication[A](apiMode: Boolean = false)(implicit request: Request[A]): Future[AuthenticationResult] = {
-    signatureService.validateRequest(request).map(u => AuthenticationResult.Authenticated(u.toBasicProfile)).recover(withErrorHandling)
+    signatureService.validateRequest(request).map(u => AuthenticationResult.Authenticated(u)).recover(withErrorHandling)
   }
 
   private def withErrorHandling: PartialFunction[Throwable, AuthenticationResult] = {

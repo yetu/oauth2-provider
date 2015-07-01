@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.services.data.memory
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
+import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.interface.IPersonService
 import org.joda.time.DateTime
 import play.api.Logger
@@ -19,16 +19,17 @@ class MemoryPersonService extends IPersonService {
 
   def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
 
-    val update = usersIds.values.find(_.userId == user.userId) match {
+    val updatedUser = usersIds.values.find(_.userId == user.userId) match {
       case Some(u) => Some(u.copy(passwordInfo = Some(info)))
       case _       => None
     }
 
-    val profile = if (update.isDefined) {
+    val profile = if (updatedUser.isDefined) {
 
-      usersIds += update.get.userId -> update.get
-      usersEmails += update.get.email -> update.get
-      update.map(_.toBasicProfile)
+      usersIds += updatedUser.get.userId -> updatedUser.get.asInstanceOf[YetuUser]
+      usersEmails += updatedUser.get.email.get -> updatedUser.get.asInstanceOf[YetuUser]
+
+      updatedUser
 
     } else None
 
@@ -44,7 +45,7 @@ class MemoryPersonService extends IPersonService {
 
       case Some(user) =>
         if (user.providerId.equals(providerId)) {
-          Some(user.toBasicProfile)
+          Some(user)
         } else None
 
       case _ => None
@@ -58,7 +59,7 @@ class MemoryPersonService extends IPersonService {
 
       case Some(u) =>
         if (u.providerId.equals(providerId)) {
-          Some(u.toBasicProfile)
+          Some(u)
         } else None
 
       case _ => None
@@ -70,13 +71,16 @@ class MemoryPersonService extends IPersonService {
   override def save(user: BasicProfile, mode: SaveMode) = {
     logger.debug(s"Save user $user")
     val result = mode match {
-      case SaveMode.SignUp => addNewUser(YetuUserHelper.fromBasicProfile(user))
+      case SaveMode.SignUp => addNewUser(user.asInstanceOf[YetuUser])
       case SaveMode.PasswordChange => {
 
         for {
           oldUser <- findUser(user.userId).map {
-            case Some(u) => usersIds += user.userId -> u.copy(passwordInfo = user.passwordInfo)
-            case _       => Unit
+            case Some(u) => {
+              val modifiedUser = u.copyUser(passwordInfo = user.passwordInfo)
+              usersIds += user.userId -> modifiedUser
+            }
+            case _ => Unit
           }
           find <- findUser(user.userId)
         } yield find
@@ -91,10 +95,10 @@ class MemoryPersonService extends IPersonService {
   }
 
   def addNewUser(user: YetuUser) = {
-    val userWithRegistrationDate = user.copy(registrationDate = Some(DateTime.now()))
+    user.registrationDate = Some(DateTime.now())
 
-    usersIds += (user.userId -> userWithRegistrationDate)
-    usersEmails += (user.email -> userWithRegistrationDate)
+    usersIds += (user.userId -> user)
+    usersEmails += (user.email.get -> user)
 
     Future.successful(usersIds.get(user.userId))
   }
@@ -103,16 +107,13 @@ class MemoryPersonService extends IPersonService {
     Future.successful(current)
   }
 
-  override def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest) = {
+  override def updateUserProfile(user: YetuUser, request: DataUpdateRequest) = {
 
-    val user = yetuUser.copy(
-      contactInfo = request.contactInfo,
-      firstName = request.firstName.get,
-      lastName = request.lastName.get)
+    val modifiedUser = user.copyUser(firstName = request.firstName, lastName = request.lastName, contactInfo = request.contactInfo)
 
     Future.successful {
-      usersIds += yetuUser.userId -> user
-      usersEmails += yetuUser.email -> user
+      usersIds += user.userId -> modifiedUser
+      usersEmails += user.email.get -> modifiedUser
     }
   }
 

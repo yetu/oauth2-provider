@@ -17,7 +17,7 @@ abstract class BaseKeyServiceSpec extends DataServiceBaseSpec with ScalaFutures 
     "store and retrieve a key" in {
 
       personService.deleteUser(testUser.userId)
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      personService.save(testUser, SaveMode.SignUp)
 
       val result = for {
         store <- publicKeyService.storeKeyF(testUser.userId, testKey)

@@ -30,7 +30,7 @@ class ValidationService {
       scope = authInfo.scope,
       userId = Some(authInfo.user.userId),
       clientId = authInfo.clientId,
-      userEmail = Some(authInfo.user.email),
+      userEmail = authInfo.user.email,
       iat = Some(DateUtility.unixSecondsNow()),
       exp = Some(DateUtility.unixSecondsDefaultExpiration()),
       sub = Some(authInfo.user.userId),

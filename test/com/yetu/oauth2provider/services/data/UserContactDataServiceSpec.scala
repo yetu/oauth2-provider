@@ -36,7 +36,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       //DELETE IF USER EXISTS
       personService.deleteUser(testUser.userId)
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      personService.save(testUser, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
@@ -74,7 +74,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       //DELETE IF USER EXISTS
       personService.deleteUser(testUser.userId)
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      personService.save(testUser, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
@@ -109,7 +109,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       //DELETE IF USER EXISTS
       personService.deleteUser(testUser.userId)
-      personService.save(testUser.toBasicProfile, SaveMode.SignUp)
+      personService.save(testUser, SaveMode.SignUp)
 
       personService.updateUserProfile(testUser, updateDataObject)
 
