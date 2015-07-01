@@ -60,7 +60,7 @@ trait PersistentDataServices {
   lazy val personService: IPersonService = wire[APIPersonService]
 
   //TODO: Remove the entire UserService
-  lazy val myUserService: UserService[YetuUser] = wire[LdapPersonService]
+  lazy val myUserService: UserService[YetuUser] = wire[APIPersonService]
 
   lazy val databaseImplementationName: String = "LDAP database"
 

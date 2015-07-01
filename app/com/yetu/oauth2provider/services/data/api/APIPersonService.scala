@@ -2,18 +2,35 @@ package com.yetu.oauth2provider.services.data.api
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
-import com.yetu.oauth2provider.services.data.interface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.{IMailTokenService, IPersonService}
 import com.yetu.oauth2provider.utils.NamedLogger
 import play.api.Play.current
 import play.api.libs.ws._
 import play.mvc.Http
-import securesocial.core.services.SaveMode
+import securesocial.core.providers.MailToken
+import securesocial.core.services.{UserService, SaveMode}
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class APIPersonService extends IPersonService with APIHelper with NamedLogger {
+class APIPersonService(mailTokenService: IMailTokenService) extends IPersonService with APIHelper with NamedLogger with UserService[YetuUser] {
+
+  override def saveToken(token: MailToken): Future[MailToken] = {
+    mailTokenService.saveToken(token)
+  }
+
+  override def deleteToken(uuid: String): Future[Option[MailToken]] = {
+    mailTokenService.deleteToken(uuid)
+  }
+
+  override def findToken(token: String): Future[Option[MailToken]] = {
+    mailTokenService.findToken(token)
+  }
+
+  override def deleteExpiredTokens(): Unit = {
+    mailTokenService.deleteExpiredTokens()
+  }
 
   private def changePassword(profile: BasicProfile) = ???
 
