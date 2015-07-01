@@ -2,13 +2,13 @@ package com.yetu.oauth2provider.services.data.api
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
-import com.yetu.oauth2provider.services.data.interface.{IMailTokenService, IPersonService}
+import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
 import com.yetu.oauth2provider.utils.NamedLogger
 import play.api.Play.current
 import play.api.libs.ws._
 import play.mvc.Http
 import securesocial.core.providers.MailToken
-import securesocial.core.services.{UserService, SaveMode}
+import securesocial.core.services.{ UserService, SaveMode }
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global

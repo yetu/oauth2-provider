@@ -1,10 +1,9 @@
 package com.yetu.oauth2provider.services.data.memory
 
-import java.util.Date
-
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.interface.IPersonService
+import org.joda.time.DateTime
 import play.api.Logger
 import securesocial.core.services.SaveMode
 import securesocial.core.{ BasicProfile, PasswordInfo }
@@ -92,7 +91,7 @@ class MemoryPersonService extends IPersonService {
   }
 
   def addNewUser(user: YetuUser) = {
-    val userWithRegistrationDate = user.copy(registrationDate = Some(new Date()))
+    val userWithRegistrationDate = user.copy(registrationDate = Some(DateTime.now()))
 
     usersIds += (user.userId -> userWithRegistrationDate)
     usersEmails += (user.email -> userWithRegistrationDate)

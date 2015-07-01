@@ -2,14 +2,13 @@ package com.yetu.oauth2provider
 package oauth2
 package models
 
-import _root_.java.util.Date
-
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils.DateUtility
 import com.yetu.oauth2resource.model.ContactInfo
+import org.joda.time.DateTime
 import play.api.libs.json.Json
 import securesocial.controllers.UserAgreement
-import securesocial.core.{ OAuth1Info, OAuth2Info, _ }
+import securesocial.core.{OAuth1Info, OAuth2Info, _}
 
 /**
  * An implementation of user Profile.  Used to gather user information when users sign up and/or sign in.
@@ -26,7 +25,7 @@ case class YetuUser(
     oAuth1Info: Option[OAuth1Info] = None,
     oAuth2Info: Option[OAuth2Info] = None,
     passwordInfo: Option[PasswordInfo] = None,
-    registrationDate: Option[Date] = None,
+    registrationDate: Option[DateTime] = None,
     contactInfo: Option[ContactInfo] = None,
     publicKey: Option[YetuPublicKey] = None,
     userAgreement: Option[UserAgreement] = None) {
@@ -71,7 +70,7 @@ object YetuUserHelper {
       profile.oAuth1Info,
       profile.oAuth2Info,
       profile.passwordInfo,
-      None,
+      Some(DateTime.now()),
       None,
       None,
       profile.userAgreement
@@ -104,7 +103,7 @@ object YetuUserHelper {
       oAuth1Info = None,
       oAuth2Info = None,
       passwordInfo = Some(PasswordInfo("bcrypt", (user \ "password").as[String], None)),
-      registrationDate = Some(DateUtility.utcStringToDate((user \ "password").as[String])),
+      registrationDate = Some(DateUtility.utcStringToDateTime((user \ "password").as[String])),
       contactInfo = None,
       publicKey,
       Some(agreement)
@@ -118,8 +117,8 @@ object YetuUserHelper {
       "firstName" -> user.firstName,
       "lastName" -> user.lastName,
       "email" -> user.email,
-      "registrationDate" -> user.registrationDate,
-      "agreementDate" -> user.userAgreement.map(_.acceptTermsAndConditionsDate),
+      "registrationDate" -> user.registrationDate.map(registration => DateUtility.dateToUtcString(registration)),
+      "agreementDate" -> user.userAgreement.map(agree => DateUtility.dateToUtcString(agree.acceptTermsAndConditionsDate)),
       "password" -> user.passwordInfo.map(_.password)
     )
   }

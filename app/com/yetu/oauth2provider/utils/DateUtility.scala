@@ -15,6 +15,10 @@ object DateUtility {
   private val utcDateFormat = new SimpleDateFormat(UTC_FORMAT)
   private val utcDateTimeFormatter = DateTimeFormat.forPattern(UTC_FORMAT)
 
+  def dateToUtcString(date: DateTime): String = {
+    date.toString(UTC_FORMAT)
+  }
+
   def utcStringToDate(date: String): Date = {
     utcDateFormat.parse(date)
   }

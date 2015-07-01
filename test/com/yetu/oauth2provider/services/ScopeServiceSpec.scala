@@ -16,7 +16,7 @@ class ScopeServiceSpec extends BaseSpec {
     val testUid = "adhyuah-4564-afdsgf-435"
     val testFirstName = "peter"
     val testLastName = "parker"
-    val testRegistrationDate = DateTime.now().toDate
+    val testRegistrationDate = DateTime.now()
 
     val testUser = YetuUser(testUid,
       EmailPasswordProvider.EmailPassword,
@@ -49,7 +49,7 @@ class ScopeServiceSpec extends BaseSpec {
           firstName mustEqual testFirstName
           lastName mustEqual testLastName
           email mustEqual testUserEmail
-          registrationDate mustEqual DateUtility.dateToString(testRegistrationDate)
+          registrationDate mustEqual DateUtility.dateToUtcString(testRegistrationDate)
         case _ => fail()
       }
     }
@@ -79,7 +79,7 @@ class ScopeServiceSpec extends BaseSpec {
           firstName mustEqual testFirstName
           lastName mustEqual testLastName
           email mustEqual testUserEmail
-          registrationDate mustEqual DateUtility.dateToString(testRegistrationDate)
+          registrationDate mustEqual DateUtility.dateToUtcString(testRegistrationDate)
         case _ => fail()
       }
     }

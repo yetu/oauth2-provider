@@ -68,7 +68,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         retrieved =>
           retrieved.isDefined mustBe true
           retrieved.get.registrationDate.get must not be None
-          dateToString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
+          dateToUtcString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
       }
     }
 
