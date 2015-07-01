@@ -55,12 +55,12 @@ trait PersistentDataServices {
   //TODO: LDAP permission service is actually broken, do not use.
   lazy val permissionService: IPermissionService = wire[MemoryPermissionService]
 
-  lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
+  lazy val publicKeyService: IPublicKeyService = wire[LdapPublicKeyService]
 
   lazy val personService: IPersonService = wire[APIPersonService]
 
   //TODO: Remove the entire UserService
-  lazy val myUserService: UserService[YetuUser] = wire[LdapUserService]
+  lazy val myUserService: UserService[YetuUser] = wire[LdapPersonService]
 
   lazy val databaseImplementationName: String = "LDAP database"
 

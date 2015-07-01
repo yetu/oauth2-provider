@@ -6,19 +6,36 @@ import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission, People }
 import com.yetu.oauth2provider.models.DataUpdateRequest
 import com.yetu.oauth2provider.oauth2.models._
-import com.yetu.oauth2provider.services.data.interface.IPersonService
+import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
 import com.yetu.oauth2provider.utils._
 import com.yetu.oauth2resource.model.ContactInfo
 import securesocial.controllers.UserAgreement
-import securesocial.core.services.SaveMode
+import securesocial.core.providers.MailToken
+import securesocial.core.services.{ SaveMode, UserService }
 import securesocial.core.{ PasswordInfo, _ }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 import scala.util.Try
 
-class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
+class LdapPersonService(dao: LdapDAO, mailTokenService: IMailTokenService) extends IPersonService with NamedLogger with UserService[YetuUser] {
+
+  override def saveToken(token: MailToken): Future[MailToken] = {
+    mailTokenService.saveToken(token)
+  }
+
+  override def deleteToken(uuid: String): Future[Option[MailToken]] = {
+    mailTokenService.deleteToken(uuid)
+  }
+
+  override def findToken(token: String): Future[Option[MailToken]] = {
+    mailTokenService.findToken(token)
+  }
+
+  override def deleteExpiredTokens(): Unit = {
+    mailTokenService.deleteExpiredTokens()
+  }
 
   /**
    * * //This function updates user basic information and contact information in LDAP
