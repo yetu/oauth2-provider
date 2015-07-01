@@ -168,7 +168,7 @@ object YetuUser {
       oAuth2Info = None,
       passwordInfo = Some(PasswordInfo("bcrypt", (user \ "password").as[String], None)),
       Some(agreement),
-      registrationDate = Some(DateUtility.utcStringToDateTime((user \ "password").as[String])),
+      registrationDate = Some(DateUtility.utcStringToDateTime((user \ "registrationDate").as[String])),
       contactInfo = None,
       publicKey
     )

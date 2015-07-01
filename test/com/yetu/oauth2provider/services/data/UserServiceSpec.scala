@@ -18,7 +18,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
 
   s"The [$databaseImplementationName] User Service" must {
 
-    "store and retrieve a user " in {
+    "store and retrieve a user" in {
 
       val result = for {
         delete <- personService.deleteUser(testUser.userId)
@@ -37,7 +37,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       }
     }
 
-    "store an old user without userAgreement and retrieve a valid user " in {
+    "store an user without userAgreement and retrive no user" in {
 
       val result = for {
         delete <- personService.deleteUser(testUserWithoutUserAgreement.userId)
@@ -46,33 +46,11 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       } yield retrieve
 
       whenReady(result, timeout(Span(2, Seconds))) {
-        yetuUser =>
-          yetuUser.isDefined mustBe true
-          yetuUser.get.email mustEqual testUserWithoutUserAgreement.email
-          yetuUser.get.firstName mustEqual testUserWithoutUserAgreement.firstName
-          yetuUser.get.passwordInfo mustEqual testUserWithoutUserAgreement.passwordInfo
-          yetuUser.get.userAgreement mustEqual testUserWithoutUserAgreement.userAgreement
-          yetuUser.get.userAgreement mustEqual None
+        yetuUser => yetuUser mustBe None
       }
     }
 
-    "store and retrieve a user with registration date " in {
-
-      val result = for {
-        delete <- personService.deleteUser(testUser.userId)
-        save <- personService.save(testUser, SaveMode.SignUp)
-        retrieve <- personService.findUser(testUser.userId)
-      } yield retrieve
-
-      whenReady(result, timeout(Span(2, Seconds))) {
-        retrieved =>
-          retrieved.isDefined mustBe true
-          retrieved.get.registrationDate.get must not be None
-          dateToUtcString(retrieved.get.registrationDate.get) mustEqual dateToString(DateTime.now().toDate)
-      }
-    }
-
-    "change password of user " in {
+    "change password of user" in {
 
       val pw = PasswordInfo("bcrypt", "$2a$10$huRtPOgtcSMvaYiznS3IG.8elJVBvSCDXUD11EXK6FLZqw5nL7iiO", None)
 

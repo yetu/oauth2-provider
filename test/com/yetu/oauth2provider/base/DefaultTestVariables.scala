@@ -23,10 +23,10 @@ trait DefaultTestVariables {
   //Password is 1234
 
   val testUserEmail = "test@test.test"
-  val testUser = YetuUser("1231313222131", EmailPasswordProvider.EmailPassword, Some("John"), Some("Smith"), Some("John Smith"), Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)), registrationDate = Some(DateTime.now()))
-  val testUser2 = YetuUser("1231313222132", EmailPasswordProvider.EmailPassword, Some("John2"), Some("Smith2"), Some("John Smith2"), Some("test2@test2.test2"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)), registrationDate = Some(DateTime.now()))
+  val testUser = YetuUser("73fe4f5c-1ffe-11e5-b5f7-727283247c7f", EmailPasswordProvider.EmailPassword, Some("John"), Some("Smith"), Some("John Smith"), Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)), registrationDate = Some(DateTime.now()))
+  val testUser2 = YetuUser("73fe5628-1ffe-11e5-b5f7-727283247c7f", EmailPasswordProvider.EmailPassword, Some("John2"), Some("Smith2"), Some("John Smith2"), Some("test2@test2.test2"), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = Some(UserAgreement(true)), registrationDate = Some(DateTime.now()))
 
-  val testUserWithoutUserAgreement = YetuUser("1231313131", EmailPasswordProvider.EmailPassword, Some("John"), Some("Smith"), Some("John Smith"), Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = None, registrationDate = Some(DateTime.now()))
+  val testUserWithoutUserAgreement = YetuUser("73fe57ae-1ffe-11e5-b5f7-727283247c7f", EmailPasswordProvider.EmailPassword, Some("John"), Some("Smith"), Some("John Smith"), Some(testUserEmail), None, AuthenticationMethod("userPassword"), None, None, Some(PasswordInfo("bcrypt", "$2a$10$xZfTWeapL3blF3dA9mgUbeAAmCBLYC2HfOLVENFbJw4bC3X3NDhHS", None)), userAgreement = None, registrationDate = Some(DateTime.now()))
 
   val testUserPassword = "1234"
   val testAuthCode = "FDdrVgoQo2"

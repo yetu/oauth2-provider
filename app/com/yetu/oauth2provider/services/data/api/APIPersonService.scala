@@ -53,7 +53,9 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
   }
 
   override def addNewUser(user: YetuUser) = {
-    WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(_ => Some(user))
+    WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(response => {
+      Some(user)
+    })
   }
 
   override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
