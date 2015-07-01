@@ -57,7 +57,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @return an optional profile
    */
   override def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
-    findYetuUser(userId).map {
+    findUser(userId).map {
       case Some(user) => Some(user.toBasicProfile)
       case _          => None
     }
@@ -69,7 +69,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    * @param userId
    * @return
    */
-  override def findYetuUser(userId: String) = {
+  override def findUser(userId: String) = {
     //For fetching operational attributes from LDAP (such as createdDateTime) just add "+" to search attributes
     val searchResult = dao.getEntry(People.getDN(userId),
       People.objectClassStr,
@@ -155,7 +155,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
   }
 
   override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
-    findYetuUser(email).map {
+    findUser(email).map {
 
       case Some(u) =>
         if (u.providerId.equals(providerId)) {
@@ -216,10 +216,10 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
     }
 
     dao.persist(entry)
-    findYetuUser(user.userId)
+    findUser(user.userId)
   }
 
-  private def modifyUserPassword(profile: BasicProfile) = {
+  private def modifyUserPassword(profile: BasicProfile): Future[Option[YetuUser]] = {
 
     logger.debug(s"Modify password for user ${profile.userId}")
     val passwordMod = new Modification(
@@ -228,7 +228,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
       profile.passwordInfo.get.password)
 
     dao.modify(People.getDN(profile.userId), passwordMod)
-    findYetuUser(profile.userId)
+    findUser(profile.userId)
   }
 
   def modifyUserPublicKey(userId: String, key: YetuPublicKey) = {
@@ -298,7 +298,7 @@ class LdapPersonService(dao: LdapDAO) extends IPersonService with NamedLogger {
    */
   override def save(profile: BasicProfile, mode: SaveMode) = {
     val result = mode match {
-      case SaveMode.LoggedIn       => findYetuUser(profile.userId)
+      case SaveMode.LoggedIn       => findUser(profile.userId)
       case SaveMode.PasswordChange => modifyUserPassword(profile)
       case SaveMode.SignUp         => addNewUser(YetuUserHelper.fromBasicProfile(profile))
     }

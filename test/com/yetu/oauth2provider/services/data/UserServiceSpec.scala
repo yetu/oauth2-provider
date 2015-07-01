@@ -23,7 +23,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       val result = for {
         delete <- personService.deleteUser(testUser.userId)
         save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-        retrieve <- personService.findYetuUser(testUser.userId)
+        retrieve <- personService.findUser(testUser.userId)
       } yield retrieve
 
       whenReady(result, timeout(Span(2, Seconds))) {
@@ -42,7 +42,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       val result = for {
         delete <- personService.deleteUser(testUserWithoutUserAgreement.userId)
         save <- personService.save(testUserWithoutUserAgreement.toBasicProfile, SaveMode.SignUp)
-        retrieve <- personService.findYetuUser(testUserWithoutUserAgreement.userId)
+        retrieve <- personService.findUser(testUserWithoutUserAgreement.userId)
       } yield retrieve
 
       whenReady(result, timeout(Span(2, Seconds))) {
@@ -61,7 +61,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       val result = for {
         delete <- personService.deleteUser(testUser.userId)
         save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
-        retrieve <- personService.findYetuUser(testUser.userId)
+        retrieve <- personService.findUser(testUser.userId)
       } yield retrieve
 
       whenReady(result, timeout(Span(2, Seconds))) {
@@ -80,7 +80,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
         delete <- personService.deleteUser(testUser.userId)
         save <- personService.save(testUser.toBasicProfile, SaveMode.SignUp)
         update <- personService.updatePasswordInfo(save, pw)
-        retrieve <- personService.findYetuUser(testUser.userId)
+        retrieve <- personService.findUser(testUser.userId)
       } yield retrieve
 
       whenReady(result, timeout(Span(2, Seconds))) {

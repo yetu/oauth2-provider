@@ -8,7 +8,7 @@ trait APIHelper {
 
   val Version1 = "v1"
 
-  val currentConfig = Play.application().configuration()
+  lazy val currentConfig = Play.application().configuration()
 
   def url(endpoint: String, version: String) = {
     currentConfig.getString(PermissionApiKey) + "/" + version + "/" + endpoint

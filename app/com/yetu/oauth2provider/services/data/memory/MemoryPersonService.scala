@@ -41,7 +41,7 @@ class MemoryPersonService extends IPersonService {
   }
 
   def find(providerId: String, userId: String) = {
-    findYetuUser(userId).map {
+    findUser(userId).map {
 
       case Some(user) =>
         if (user.providerId.equals(providerId)) {
@@ -75,17 +75,17 @@ class MemoryPersonService extends IPersonService {
       case SaveMode.PasswordChange => {
 
         for {
-          oldUser <- findYetuUser(user.userId).map {
+          oldUser <- findUser(user.userId).map {
             case Some(u) => usersIds += user.userId -> u.copy(passwordInfo = user.passwordInfo)
             case _       => Unit
           }
-          find <- findYetuUser(user.userId)
+          find <- findUser(user.userId)
         } yield find
 
       }
       case _ =>
         logger.warn("not saving as signUp; ignoring request.")
-        findYetuUser(user.userId)
+        findUser(user.userId)
     }
 
     result.map(_.orNull)
@@ -121,7 +121,7 @@ class MemoryPersonService extends IPersonService {
     Future.successful(usersIds -= email)
   }
 
-  override def findYetuUser(userId: String) = {
+  override def findUser(userId: String) = {
     Future.successful(usersIds.find(_._1 == userId).map(_._2))
   }
 

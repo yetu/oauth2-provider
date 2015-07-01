@@ -10,11 +10,11 @@ import scala.concurrent.Future
 
 trait IPersonService extends ISecureSocialUserService {
 
-  def updateUserProfile(yetuUser: YetuUser, data: DataUpdateRequest): Future[Unit]
+  def updateUserProfile(user: YetuUser, data: DataUpdateRequest): Future[Unit]
 
   def deleteUser(id: String): Future[Unit]
 
-  def findYetuUser(userId: String): Future[Option[YetuUser]]
+  def findUser(userId: String): Future[Option[YetuUser]]
 
   def addNewUser(user: YetuUser): Future[Option[YetuUser]]
 }

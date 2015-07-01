@@ -17,6 +17,6 @@ class LdapPublicKeyService(personService: LdapPersonService) extends IPublicKeyS
   }
 
   override def getKeyF(userId: String): Future[Option[YetuPublicKey]] = {
-    personService.findYetuUser(userId).map(_.flatMap(_.publicKey))
+    personService.findUser(userId).map(_.flatMap(_.publicKey))
   }
 }

@@ -39,7 +39,7 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
 
       val response: Future[Result] = for {
 
-        user <- personService.findYetuUser(testUser.userId)
+        user <- personService.findUser(testUser.userId)
         result <- user match {
           case Some(u) =>
 

@@ -29,7 +29,7 @@ class OAuth2TrustedServer(scopeService: ScopeService,
       authorizeTrustedServer { userId =>
         {
 
-          personService.findYetuUser(userId).map {
+          personService.findUser(userId).map {
             case Some(id) =>
 
               val outputJson: Option[JsValue] = scopeService

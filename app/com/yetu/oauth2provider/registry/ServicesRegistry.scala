@@ -10,7 +10,7 @@ import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
-import com.yetu.oauth2provider.services.data.api.APIClientService
+import com.yetu.oauth2provider.services.data.api.{ APIPersonService, APIClientService }
 import com.yetu.oauth2provider.services.data.interface._
 import com.yetu.oauth2provider.services.data.ldap._
 import com.yetu.oauth2provider.services.data.memory._
@@ -57,7 +57,9 @@ trait PersistentDataServices {
 
   lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
 
-  lazy val personService: IPersonService = wire[LdapPersonService]
+  lazy val personService: IPersonService = wire[APIPersonService]
+
+  //TODO: Remove the entire UserService
   lazy val myUserService: UserService[YetuUser] = wire[LdapUserService]
 
   lazy val databaseImplementationName: String = "LDAP database"

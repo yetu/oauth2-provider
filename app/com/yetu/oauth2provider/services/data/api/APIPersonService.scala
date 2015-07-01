@@ -1,78 +1,70 @@
 package com.yetu.oauth2provider.services.data.api
 
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
 import com.yetu.oauth2provider.services.data.interface.IPersonService
-import com.yetu.oauth2provider.signature.models.YetuPublicKey
-import com.yetu.oauth2provider.utils.DateUtility
+import com.yetu.oauth2provider.utils.NamedLogger
 import play.api.Play.current
-import play.api.libs.json.Json
 import play.api.libs.ws._
 import play.mvc.Http
-import securesocial.controllers.UserAgreement
 import securesocial.core.services.SaveMode
-import securesocial.core.{ AuthenticationMethod, BasicProfile, PasswordInfo }
+import securesocial.core.{ BasicProfile, PasswordInfo }
 
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class APIPersonService extends IPersonService with APIHelper {
+class APIPersonService extends IPersonService with APIHelper with NamedLogger {
 
-  override def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest) = {
-    ???
+  private def changePassword(profile: BasicProfile) = ???
+
+  override def updateUserProfile(user: YetuUser, request: DataUpdateRequest) = {
+    WS.url(urlForResource("users", user.userId, Version1)).post(YetuUserHelper.toJson(user)).map(_ => Some(user))
   }
 
   override def deleteUser(id: String) = {
-    WS.url(urlForResource(Version1, "users", id)).delete().map(_ => Unit)
+    WS.url(urlForResource("users", id, Version1)).delete().map(_ => Unit)
   }
 
-  override def findYetuUser(userId: String) = {
-    WS.url(urlForResource(Version1, "users", userId)).get().map(response => {
+  override def findUser(userId: String) = {
+    WS.url(urlForResource("users", userId, Version1)).get().map(response => {
       if (response.status == Http.Status.OK) {
 
-        val user = Json.parse(response.body)
-        val firstName = (user \ "id").as[String]
-        val lastName = (user \ "id").as[String]
-
-        val publicKey = (user \ "publicKey").asOpt[String] match {
-          case Some(pk) => Some(new YetuPublicKey(pk))
-          case _        => None
-        }
-
-        val agreement = new UserAgreement(
-          acceptTermsAndConditions = true,
-          DateUtility.utcStringToDateTime((user \ "agreementDate").as[String]))
-
-        Some(new YetuUser(
-          (user \ "id").as[String],
-          (user \ "provider").as[String],
-          firstName,
-          lastName,
-          firstName + " " + lastName,
-          (user \ "email").as[String],
-          avatarUrl = None,
-          authMethod = AuthenticationMethod.OAuth2,
-          oAuth1Info = None,
-          oAuth2Info = None,
-          passwordInfo = Some(PasswordInfo("bcrypt", (user \ "password").as[String], None)),
-          registrationDate = Some(DateUtility.utcStringToDate((user \ "password").as[String])),
-          contactInfo = None,
-          publicKey,
-          Some(agreement)
-        ))
+        Some(YetuUserHelper.fromJson(response.body))
 
       } else None
     })
   }
 
-  override def addNewUser(user: YetuUser) = ???
+  override def addNewUser(user: YetuUser) = {
+    WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(_ => Some(user))
+  }
 
-  override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = ???
+  override def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
+    WS.url(urlForResource("users/email", email, Version1)).get().map(response => {
+      if (response.status == Http.Status.OK) {
 
-  override def save(profile: BasicProfile, mode: SaveMode) = ???
+        val user = YetuUserHelper.fromJson(response.body)
+        if (user.providerId.equals(providerId)) {
+
+          Some(user.toBasicProfile)
+
+        } else None
+      } else None
+    })
+  }
+
+  override def save(profile: BasicProfile, mode: SaveMode) = {
+    val result = mode match {
+      case SaveMode.LoggedIn       => findUser(profile.userId)
+      case SaveMode.PasswordChange => changePassword(profile)
+      case SaveMode.SignUp         => addNewUser(YetuUserHelper.fromBasicProfile(profile))
+    }
+
+    result.map(_.orNull)
+  }
 
   override def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
-    findYetuUser(userId).map {
+    findUser(userId).map {
 
       case Some(user) =>
         if (user.providerId.eq(providerId)) {

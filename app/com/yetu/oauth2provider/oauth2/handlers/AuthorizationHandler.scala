@@ -82,7 +82,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def findUser(username: String, password: String): Future[Option[YetuUser]] = {
-    personService.findYetuUser(username).map {
+    personService.findUser(username).map {
       case Some(user) =>
 
         val itMatches = user.passwordInfo

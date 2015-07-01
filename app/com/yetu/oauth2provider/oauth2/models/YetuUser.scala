@@ -5,6 +5,7 @@ package models
 import _root_.java.util.Date
 
 import com.yetu.oauth2provider.signature.models.YetuPublicKey
+import com.yetu.oauth2provider.utils.DateUtility
 import com.yetu.oauth2resource.model.ContactInfo
 import play.api.libs.json.Json
 import securesocial.controllers.UserAgreement
@@ -74,6 +75,52 @@ object YetuUserHelper {
       None,
       None,
       profile.userAgreement
+    )
+  }
+  def fromJson(raw: String): YetuUser = {
+
+    val user = Json.parse(raw)
+    val firstName = (user \ "firstName").as[String]
+    val lastName = (user \ "lastName").as[String]
+
+    val publicKey = (user \ "key").asOpt[String] match {
+      case Some(pk) => Some(new YetuPublicKey(pk))
+      case _        => None
+    }
+
+    val agreement = new UserAgreement(
+      acceptTermsAndConditions = true,
+      DateUtility.utcStringToDateTime((user \ "agreementDate").as[String]))
+
+    new YetuUser(
+      (user \ "id").as[String],
+      (user \ "provider").as[String],
+      firstName,
+      lastName,
+      firstName + " " + lastName,
+      (user \ "email").as[String],
+      avatarUrl = None,
+      authMethod = AuthenticationMethod.OAuth2,
+      oAuth1Info = None,
+      oAuth2Info = None,
+      passwordInfo = Some(PasswordInfo("bcrypt", (user \ "password").as[String], None)),
+      registrationDate = Some(DateUtility.utcStringToDate((user \ "password").as[String])),
+      contactInfo = None,
+      publicKey,
+      Some(agreement)
+    )
+  }
+
+  def toJson(user: YetuUser) = {
+    Json.obj(
+      "id" -> user.userId,
+      "provider" -> user.providerId,
+      "firstName" -> user.firstName,
+      "lastName" -> user.lastName,
+      "email" -> user.email,
+      "registrationDate" -> user.registrationDate,
+      "agreementDate" -> user.userAgreement.map(_.acceptTermsAndConditionsDate),
+      "password" -> user.passwordInfo.map(_.password)
     )
   }
 }

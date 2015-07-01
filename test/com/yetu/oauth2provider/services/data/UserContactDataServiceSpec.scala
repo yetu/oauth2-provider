@@ -40,7 +40,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val result = personService.findYetuUser(testUser.userId)
+      val result = personService.findUser(testUser.userId)
       whenReady(result) {
         retrieved =>
           retrieved.isDefined mustBe true
@@ -78,7 +78,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val result = personService.findYetuUser(testUser.userId)
+      val result = personService.findUser(testUser.userId)
       whenReady(result) {
         retrieved =>
           retrieved.isDefined mustBe true
@@ -113,7 +113,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
       personService.updateUserProfile(testUser, updateDataObject)
 
-      val result = personService.findYetuUser(testUser.userId)
+      val result = personService.findUser(testUser.userId)
       whenReady(result) {
         retrieved =>
           retrieved.isDefined mustBe true
