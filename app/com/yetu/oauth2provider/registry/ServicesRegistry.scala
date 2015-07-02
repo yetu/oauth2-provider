@@ -32,7 +32,7 @@ trait InMemoryDataServices {
   lazy val publicKeyService: IPublicKeyService = new MemoryPublicKeyService
 
   lazy val personService: IPersonService = wire[MemoryPersonService]
-  lazy val userService: UserService[YetuUser] = wire[MemoryPersonService]
+  lazy val yetuUserService: UserService[YetuUser] = wire[MemoryPersonService]
 
   lazy val databaseImplementationName: String = "In-Memory database"
 
@@ -58,7 +58,7 @@ trait PersistentDataServices {
   lazy val publicKeyService: IPublicKeyService = wire[LdapPublicKeyService]
 
   lazy val personService: IPersonService = wire[APIPersonService]
-  lazy val userService: UserService[YetuUser] = wire[APIPersonService]
+  lazy val yetuUserService: UserService[YetuUser] = wire[APIPersonService]
 
   lazy val databaseImplementationName: String = "LDAP database"
 
@@ -85,7 +85,7 @@ trait ServicesRegistry {
   def publicKeyService: IPublicKeyService
 
   def personService: IPersonService
-  def userService: UserService[YetuUser]
+  def yetuUserService: UserService[YetuUser]
 
   def httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]]
   def cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]]

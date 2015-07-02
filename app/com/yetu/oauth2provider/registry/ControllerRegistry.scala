@@ -7,10 +7,9 @@ import com.yetu.oauth2provider.controllers.authentication.providers.{ EmailPassw
 import com.yetu.oauth2provider.controllers.setup.SetupController
 import com.yetu.oauth2provider.events.LogoutEventListener
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import securesocial.core.authenticator.{ AuthenticatorStore, HttpHeaderAuthenticator, HttpHeaderAuthenticatorBuilder }
-import securesocial.core.providers.utils.PasswordHasher
+import securesocial.core.RuntimeEnvironment
+import securesocial.core.authenticator.HttpHeaderAuthenticatorBuilder
 import securesocial.core.services.{ AuthenticatorService, UserService }
-import securesocial.core.{ EventListener, RuntimeEnvironment }
 
 import scala.collection.immutable.ListMap
 
@@ -40,43 +39,27 @@ trait ControllerRegistry extends ServicesRegistry {
   lazy val application = play.api.Play.current
   lazy val logoutEventListener: LogoutEventListener = wire[LogoutEventListener]
 
-  lazy val env: RuntimeEnvironment[YetuUser] = new YetuRuntimeEnvironment(
-    yetuMailTemplates,
-    yetuViewTemplates,
-    userService,
-    yetuPasswordHashers,
-    logoutEventListener,
-    signatureAuthenticationProvider,
-    cookieAuthStore,
-    httpAuthStore)
+  lazy val env: RuntimeEnvironment[YetuUser] = YetuRuntimeEnvironment
+  object YetuRuntimeEnvironment extends RuntimeEnvironment.Default[YetuUser] {
+
+    override lazy val mailTemplates = yetuMailTemplates
+    override lazy val viewTemplates = yetuViewTemplates
+    override lazy val userService: UserService[YetuUser] = yetuUserService
+    override lazy val passwordHashers = yetuPasswordHashers
+    override lazy val passwordValidator = new YetuPasswordValidator()
+    override lazy val eventListeners = List(logoutEventListener)
+    override lazy val providers = ListMap(
+      include(new EmailPasswordProvider[YetuUser](userService, avatarService, viewTemplates, passwordHashers)),
+      include(signatureAuthenticationProvider)
+    )
+
+    override lazy val authenticatorService = new AuthenticatorService(
+      new CustomCookieAuthenticatorBuilder[YetuUser](cookieAuthStore, idGenerator),
+      new HttpHeaderAuthenticatorBuilder[YetuUser](httpAuthStore, idGenerator)
+    )
+  }
 
   lazy val setupController = wire[SetupController]
-}
-
-class YetuRuntimeEnvironment(yetuMailTemplates: YetuMailTemplates,
-    yetuViewTemplates: YetuViewTemplates,
-    yetuUserService: UserService[YetuUser],
-    yetuPasswordHashers: Map[String, PasswordHasher],
-    logoutEventListener: LogoutEventListener,
-    signatureAuthenticationProvider: SignatureAuthenticationProvider[YetuUser],
-    cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]],
-    httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]]) extends RuntimeEnvironment.Default[YetuUser] {
-
-  override lazy val mailTemplates = yetuMailTemplates
-  override lazy val viewTemplates = yetuViewTemplates
-  override lazy val userService: UserService[YetuUser] = yetuUserService
-  override lazy val passwordHashers = yetuPasswordHashers
-  override lazy val passwordValidator = new YetuPasswordValidator()
-  override lazy val eventListeners: List[EventListener[YetuUser]] = List(logoutEventListener)
-  override lazy val providers = ListMap(
-    include(new EmailPasswordProvider[YetuUser](userService, avatarService, viewTemplates, passwordHashers)),
-    include(signatureAuthenticationProvider)
-  )
-
-  override lazy val authenticatorService = new AuthenticatorService(
-    new CustomCookieAuthenticatorBuilder[YetuUser](cookieAuthStore, idGenerator),
-    new HttpHeaderAuthenticatorBuilder[YetuUser](httpAuthStore, idGenerator)
-  )
 }
 
 object PersistentControllerRegistry extends ControllerRegistry with PersistentDataServices
