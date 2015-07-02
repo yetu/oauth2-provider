@@ -65,6 +65,6 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
   }
 }
 
-class LDAPUserContactDataServiceITSpec extends BaseUserContactDataServiceSpec with IntegrationTestRegistry
+class APIUserContactDataServiceITSpec extends BaseUserContactDataServiceSpec with IntegrationTestRegistry
 
 class MemoryUserContactDataServiceSpec extends BaseUserContactDataServiceSpec with TestRegistry

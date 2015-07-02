@@ -88,7 +88,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
  * set this in your conf/application-integrationtest.conf
  *
  */
-class LDAPUserServiceITSpec extends UserServiceBase with IntegrationTestRegistry
+class APIUserServiceITSpec extends UserServiceBase with IntegrationTestRegistry
 
 class MemoryUserServiceSpec extends UserServiceBase with TestRegistry
 

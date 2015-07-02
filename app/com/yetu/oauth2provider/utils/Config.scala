@@ -26,13 +26,6 @@ object Config {
 
   lazy val publicUrl = Play.configuration.getString("yetu.publicUrl").get
 
-  lazy val ldapHost = Play.configuration.getString("ldap.hostname").get
-  lazy val ldapPort = Play.configuration.getInt("ldap.port").get
-  lazy val ldapUser = Play.configuration.getString("ldap.username").get
-  lazy val ldapPassword = Play.configuration.getString("ldap.password").get
-  //TODO: don't use the root account for ldap!
-  lazy val ldapNumberOfConnections = Play.configuration.getInt("ldap.numberOfConnections").get
-
   // OAUTH2 constants
   val GRANT_TYPE_AUTHORIZATION_CODE = "authorization_code"
   val GRANT_TYPE_RESOURCE_OWNER_PASSWORD = "password"

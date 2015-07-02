@@ -4,13 +4,12 @@ package registry
 import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers.OAuth2ImplicitControllerHelper
 import com.yetu.oauth2provider.controllers.authentication.CustomCookieAuthenticator
-import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
-import com.yetu.oauth2provider.services.data.api.{ APIPermissionService, APIClientService, APIPersonService, APIPublicKeyService }
+import com.yetu.oauth2provider.services.data.api.{ APIClientService, APIPermissionService, APIPersonService, APIPublicKeyService }
 import com.yetu.oauth2provider.services.data.interface._
 import com.yetu.oauth2provider.services.data.memory._
 import com.yetu.oauth2provider.services.data.riak.{ RiakAuthCodeAccessTokens, RiakAuthenticatorStore, RiakMailTokenService }
@@ -47,14 +46,13 @@ trait InMemoryDataServices {
 
 trait PersistentDataServices {
 
-  lazy val dao: LdapDAO = wire[LdapDAO]
   lazy val clientService: IClientService = wire[APIClientService]
   lazy val permissionService: IPermissionService = wire[APIPermissionService]
   lazy val publicKeyService: IPublicKeyService = wire[APIPublicKeyService]
   lazy val personService: IPersonService = wire[APIPersonService]
   lazy val yetuUserService: UserService[YetuUser] = wire[APIPersonService]
 
-  lazy val databaseImplementationName: String = "LDAP database"
+  lazy val databaseImplementationName: String = "Permission API Service"
 
   lazy val riakConnection: RiakConnection = RiakSettings
 

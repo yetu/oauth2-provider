@@ -52,6 +52,6 @@ abstract class BaseClientServiceSpec extends DataServiceBaseSpec with ScalaFutur
   }
 }
 
-class LDAPClientServiceITSpec extends BaseClientServiceSpec with IntegrationTestRegistry
+class APIClientServiceITSpec extends BaseClientServiceSpec with IntegrationTestRegistry
 
 class MemoryClientServiceSpec extends BaseClientServiceSpec with TestRegistry

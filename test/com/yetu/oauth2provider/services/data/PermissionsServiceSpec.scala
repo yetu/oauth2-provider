@@ -37,6 +37,6 @@ abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec with Scala
   }
 }
 
-class LDAPPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry
+class APIPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry
 
 class MemoryPermissionsServiceSpec extends BasePermissionsServiceSpec with TestRegistry

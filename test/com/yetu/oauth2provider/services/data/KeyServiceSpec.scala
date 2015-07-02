@@ -34,6 +34,6 @@ abstract class BaseKeyServiceSpec extends DataServiceBaseSpec with ScalaFutures 
   }
 }
 
-class LDAPKeyServiceITSpec extends BaseKeyServiceSpec with IntegrationTestRegistry
+class APIKeyServiceITSpec extends BaseKeyServiceSpec with IntegrationTestRegistry
 
 class MemoryKeyServiceSpec extends BaseKeyServiceSpec with TestRegistry

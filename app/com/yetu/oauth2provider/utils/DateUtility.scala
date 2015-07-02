@@ -41,29 +41,11 @@ object DateUtility {
 
   // java Date <---> String
 
-  private val LDAP_DATE_FORMAT = "yyyyMMddHHmmss"
-  private val ldapDateFormat: SimpleDateFormat = new SimpleDateFormat(LDAP_DATE_FORMAT)
-
   def dateToString(date: Date): String = {
     new SimpleDateFormat("yyyy.MM.dd").format(date)
   }
 
-  def LDAPStringToDate(value: String): Date = {
-    ldapDateFormat.parse(value)
-  }
-
   // joda DateTime <---> String
-
-  private val LDAP_CUSTOM_DATE_FORMAT = "yyyyMMddHHmmss.SSS Z"
-  private val ldapDateTimeFormatter = DateTimeFormat.forPattern(LDAP_CUSTOM_DATE_FORMAT)
-
-  def DateTimeToString(dateTime: DateTime): String = {
-    dateTime.toString(LDAP_CUSTOM_DATE_FORMAT)
-  }
-
-  def DateTimeFromString(dateTime: String): DateTime = {
-    ldapDateTimeFormatter.parseDateTime(dateTime)
-  }
 
   def unixSecondsNow(): Long = {
     System.currentTimeMillis() / MILLIS_PER_SECOND
