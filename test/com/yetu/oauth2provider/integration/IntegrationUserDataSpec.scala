@@ -16,18 +16,18 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
 
   //When scope is basic,there must not be "contactInfo" in json result
   s"GET user information based on basic scope" must {
-    "return infromation based on basic scope (e.g. firstName,..)" in {
+    "return information based on basic scope (e.g. firstName,..)" in {
 
       val accessToken = oauth2AccessTokenDance(List(SCOPE_BASIC), coreYetuClient = true)
       val url = s"$infoUrl?access_token=$accessToken"
       val response = getRequest(url)
 
-      status(response) mustEqual (200)
-      (contentAsJson(response) \ "firstName").validate[String].get mustEqual (testUser.firstName)
-      (contentAsJson(response) \ "lastName").validate[String].get mustEqual (testUser.lastName)
+      status(response) mustEqual 200
+      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
+      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
       (contentAsJson(response) \ "contactInfo").validate[ContactInfo] match {
-        case JsError(_)         => None mustEqual (None)
-        case JsSuccess(json, _) => json.country.getOrElse(None) mustEqual (None)
+        case JsError(_)         => None mustEqual None
+        case JsSuccess(json, _) => json.country.getOrElse(None) mustEqual None
       }
     }
 
@@ -60,12 +60,12 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
 
       } yield result
 
-      status(response) mustEqual (200)
+      status(response) mustEqual 200
       log(contentAsJson(response).toString())
-      (contentAsJson(response) \ "firstName").validate[String].get mustEqual (testUser.firstName)
-      (contentAsJson(response) \ "lastName").validate[String].get mustEqual (testUser.lastName)
+      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
+      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
       (contentAsJson(response) \ "contactInfo").validate[ContactInfo] match {
-        case JsError(_)         => None mustEqual (None)
+        case JsError(_)         => None mustEqual None
         //as we add country as a default contact information to testUser, so we could expect that
         // we have a "co" value
         case JsSuccess(json, _) => json.country must be ('defined)
@@ -80,9 +80,9 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
       val url = s"$infoUrl?access_token=$accessToken"
       val response = getRequest(url)
 
-      status(response) mustEqual (200)
-      (contentAsJson(response) \ "firstName").validate[String].get mustEqual (testUser.firstName)
-      (contentAsJson(response) \ "lastName").validate[String].get mustEqual (testUser.lastName)
+      status(response) mustEqual 200
+      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
+      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
 
     }
   }

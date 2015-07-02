@@ -34,7 +34,7 @@ class MemoryPersonService(mailTokenService: IMailTokenService) extends IPersonSe
   def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
 
     val updatedUser = usersIds.values.find(_.userId == user.userId) match {
-      case Some(u) => Some(u.copy(passwordInfo = Some(info)))
+      case Some(u) => Some(u.copyUser(passwordInfo = Some(info)))
       case _       => None
     }
 
@@ -109,12 +109,18 @@ class MemoryPersonService(mailTokenService: IMailTokenService) extends IPersonSe
   }
 
   def addUser(user: YetuUser) = {
-    user.registrationDate = Some(DateTime.now())
 
-    usersIds += (user.userId -> user)
-    usersEmails += (user.email.get -> user)
+    val savedUser = if (user.userAgreement.isDefined) {
 
-    Future.successful(usersIds.get(user.userId))
+      user.registrationDate = Some(DateTime.now())
+
+      usersIds += (user.userId -> user)
+      usersEmails += (user.email.get -> user)
+      usersIds.get(user.userId)
+
+    } else None
+
+    Future.successful(savedUser)
   }
 
   override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {

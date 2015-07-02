@@ -3,7 +3,6 @@ package com.yetu.oauth2provider.integration
 import com.yetu.oauth2provider.oauth2.AuthorizationCodeFlow
 import com.yetu.oauth2provider.utils.Config._
 import play.api.test.Helpers._
-import play.api.test._
 
 /**
  *
@@ -15,7 +14,7 @@ class IntegrationScopeSpec extends IntegrationBaseSpec with AuthorizationCodeFlo
 
   s"Integration test which starts with POSTing username and password to $loginUrlWithUserPass endpoint" must {
 
-    s"prevent any valid yetu core clients to access information with different scopes which is not match with client" in {
+    s"prevent any valid yetu core clients to access information with different scopes which does not match with client" in {
       val responseAuthorization = preProcess(integrationTestClientId, clientScopes = Some(List(SCOPE_BASIC)), queryScopes = Some(List(SCOPE_CONTACT)), coreYetuClient = true)
       status(responseAuthorization) mustEqual UNAUTHORIZED
     }

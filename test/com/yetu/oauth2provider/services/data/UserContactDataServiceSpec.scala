@@ -41,6 +41,7 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
       val modifiedUser = testUser.copyUser(
         firstName = updateDataObject.firstName,
         lastName = updateDataObject.lastName,
+        fullName = Some(updateDataObject.firstName.get + " " + updateDataObject.lastName.get),
         contactInfo = updateDataObject.contactInfo)
 
       val result = for {
