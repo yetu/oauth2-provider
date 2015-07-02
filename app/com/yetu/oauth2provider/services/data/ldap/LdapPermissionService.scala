@@ -1,13 +1,15 @@
 package com.yetu.oauth2provider.services.data.ldap
 
-import com.unboundid.ldap.sdk.{ Attribute, Entry, SearchResultEntry }
 import com.yetu.oauth2provider.data.ldap.LdapDAO
-import com.yetu.oauth2provider.data.ldap.models.{ Client, ClientPermission => LdapClientPermission }
+import com.yetu.oauth2provider.data.ldap.models.{ ClientPermission => LdapClientPermission }
 import com.yetu.oauth2provider.oauth2.models.ClientPermission
 import com.yetu.oauth2provider.services.data.interface.IPermissionService
 
+import scala.concurrent.Future
+
 class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
 
+  /*
   def findPermission(userId: String, clientId: String): Option[ClientPermission] = {
     val searchResult = dao.getEntry(LdapClientPermission.getClientDN(clientId, userId))
     searchResult match {
@@ -19,7 +21,7 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
     }
   }
 
-  def savePermission(email: String, clientPermission: ClientPermission): Unit = {
+  def savePermission(email: String, clientPermission: ClientPermission) = {
     //ou=permissions does not exist it will give error so first create that if is not
     val permissionTree = new Entry(LdapClientPermission.getDN(email))
     permissionTree.addAttribute(LdapClientPermission.getObjectClass())
@@ -38,5 +40,11 @@ class LdapPermissionService(dao: LdapDAO) extends IPermissionService {
   def deletePermission(email: String, clientId: String) = {
     dao.deleteEntry(LdapClientPermission.getClientDN(clientId, email))
   }
+  */
 
+  override def savePermission(userId: String, clientPermission: ClientPermission, amend: Boolean): Future[Unit] = ???
+
+  override def deletePermission(userId: String, clientId: String): Future[Unit] = ???
+
+  override def findPermission(userId: String, clientId: String): Future[Option[ClientPermission]] = ???
 }

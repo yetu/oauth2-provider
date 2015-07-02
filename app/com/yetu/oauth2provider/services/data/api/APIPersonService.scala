@@ -53,6 +53,11 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
 
   override def addUser(user: YetuUser) = {
     WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(response => {
+
+      findUser(user.userId).map(u => {
+        u
+      })
+
       Some(user)
     })
   }

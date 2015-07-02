@@ -53,12 +53,6 @@ class AuthorizeErrorHandler(clientService: IClientService,
       .map(c => try {
 
         val client = c.getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
-
-        if (!client.coreYetuClient) {
-          scopeService.getScopeFromPermission(
-            permissionService.findPermission(user.userId, client.clientId))
-        }
-
         val validRedirectUrls = client.redirectURIs
         val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
 
@@ -152,12 +146,10 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     env: RuntimeEnvironment[YetuUser],
     client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
-    user: YetuUser): Result = {
+    user: YetuUser): Future[Result] = {
 
     val scopeList = authorizeRequest.scope.getOrElse("").split(' ').toList
-    val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.userId, client.clientId)
-
-    clientPermission match {
+    permissionService.findPermission(user.userId, client.clientId).map {
       case None =>
 
         Ok(com.yetu.oauth2provider.views.html.permissions(

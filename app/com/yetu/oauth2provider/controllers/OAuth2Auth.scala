@@ -86,13 +86,11 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val client: OAuth2Client = authClient.client
           val authorizeRequest = authClient.request
 
-          val result = if (client.coreYetuClient) {
-            authorizeService.handlePermittedApps(client, authorizeRequest, request.user)
+          if (client.coreYetuClient) {
+            Future.successful(authorizeService.handlePermittedApps(client, authorizeRequest, request.user))
           } else {
             authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
           }
-
-          Future.successful(result)
       }
 
   }
