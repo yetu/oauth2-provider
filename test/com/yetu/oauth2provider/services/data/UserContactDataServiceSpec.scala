@@ -2,7 +2,7 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.registry.IntegrationTestRegistry
+import com.yetu.oauth2provider.registry.{ TestRegistry, IntegrationTestRegistry }
 import org.scalatest.concurrent.ScalaFutures
 import org.scalatest.time.{ Seconds, Span }
 import play.api.libs.json.Json
@@ -56,7 +56,9 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
           retrieved.get.firstName mustEqual Some((jsonUpdateData \ "firstName").as[String])
           retrieved.get.lastName mustEqual Some((jsonUpdateData \ "lastName").as[String])
           retrieved.get.fullName mustEqual Some((jsonUpdateData \ "firstName").as[String] + " " + (jsonUpdateData \ "lastName").as[String])
+
         //TODO: implement contact info
+
       }
     }
 
@@ -65,5 +67,4 @@ abstract class BaseUserContactDataServiceSpec extends DataServiceBaseSpec with S
 
 class LDAPUserContactDataServiceITSpec extends BaseUserContactDataServiceSpec with IntegrationTestRegistry
 
-//TODO: implement the same functionality in-memory
-//class MemoryUserContactDataServiceSpec extends BaseUserContactDataServiceSpec with TestRegistry
+class MemoryUserContactDataServiceSpec extends BaseUserContactDataServiceSpec with TestRegistry
