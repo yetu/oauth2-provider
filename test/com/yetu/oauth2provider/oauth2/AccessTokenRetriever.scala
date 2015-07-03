@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.oauth2
 
 import com.yetu.oauth2provider.base.{ AuthRoutesHelper, DefaultTestVariables }
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
+import com.yetu.oauth2provider.oauth2.models.{ ClientScopes, OAuth2Client }
 import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
@@ -43,7 +43,7 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     clientService.saveClient(client)
 
     //Persist permissions
-    val clientPermission = ClientPermission(clientId, Some(scopes))
+    val clientPermission = ClientScopes(clientId, Some(scopes))
     permissionService.deletePermission(testUser.userId, clientPermission.clientId)
     permissionService.savePermission(testUser.userId, clientPermission)
 

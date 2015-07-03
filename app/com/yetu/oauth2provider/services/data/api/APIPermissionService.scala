@@ -1,6 +1,6 @@
 package com.yetu.oauth2provider.services.data.api
 
-import com.yetu.oauth2provider.oauth2.models.ClientPermission
+import com.yetu.oauth2provider.oauth2.models.ClientScopes
 import com.yetu.oauth2provider.services.data.interface.IPermissionService
 import play.api.libs.json.Json
 import play.api.libs.ws.WS
@@ -12,18 +12,21 @@ import scala.concurrent.ExecutionContext.Implicits.global
 class APIPermissionService extends IPermissionService with APIHelper {
 
   def findPermission(userId: String, clientId: String) = {
-
     WS.url(urlForResource("permissions", userId + "/" + clientId, Version1)).get().map(response => {
       if (response.status == Http.Status.OK) {
 
         val json = Json.parse(response.body)
-        Some(ClientPermission(clientId, Some(json.as[List[String]])))
+        val permittedScopes = json.as[List[String]]
+
+        if (permittedScopes.nonEmpty) {
+          Some(ClientScopes(clientId, Some(permittedScopes)))
+        } else None
 
       } else None
     })
   }
 
-  def savePermission(userId: String, clientPermission: ClientPermission, amend: Boolean) = {
+  def savePermission(userId: String, clientPermission: ClientScopes, amend: Boolean) = {
 
     val permissionData = Json.obj(
       "amend" -> amend,

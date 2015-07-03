@@ -14,5 +14,5 @@ case class AuthorizeRequest(headers: Map[String, Seq[String]], params: Map[Strin
 
   def redirectUri: String = requireParam(AuthorizeParameters.REDIRECT_URI)
 
-  def scope: Option[String] = param(AuthorizeParameters.SCOPE)
+  def scopes: Option[String] = param(AuthorizeParameters.SCOPE)
 }

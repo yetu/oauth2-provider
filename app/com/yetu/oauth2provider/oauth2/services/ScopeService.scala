@@ -2,7 +2,7 @@ package com.yetu.oauth2provider
 package oauth2
 package services
 
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ ClientScopes, YetuUser }
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2provider.utils.DateUtility
 import com.yetu.oauth2resource.model.User
@@ -51,7 +51,7 @@ class ScopeService {
     }
   }
 
-  def getScopeFromPermission(clientPermission: Option[ClientPermission]): List[String] = {
+  def getScopeFromPermission(clientPermission: Option[ClientScopes]): List[String] = {
     clientPermission match {
       case None => List.empty
       case Some(permission) => permission.scopes match {

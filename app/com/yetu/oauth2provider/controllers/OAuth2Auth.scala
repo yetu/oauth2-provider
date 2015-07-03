@@ -4,15 +4,18 @@ package controllers
 import com.yetu.oauth2provider.models.Permission.permissionsForm
 import com.yetu.oauth2provider.models.Permissions
 import com.yetu.oauth2provider.oauth2.handlers
-import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientScopes, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
 import com.yetu.oauth2provider.services.data.interface.{ IClientService, IPermissionService }
 import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
 import securesocial.core.RuntimeEnvironment
 
-import scala.concurrent.Future
+import scala.concurrent.{ Await, Future }
+import scala.language.postfixOps
 import scalaoauth2.provider._
+
+import scala.concurrent.duration._
 
 /**
  * Handles the following requests:
@@ -87,9 +90,9 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val authorizeRequest = authClient.request
 
           if (client.coreYetuClient) {
-            Future.successful(authorizeService.handlePermittedApps(client, authorizeRequest, request.user))
+            Future.successful(authorizeService.handlePermittedClient(client, authorizeRequest, request.user))
           } else {
-            authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
+            authorizeService.handleNonCoreClient(request, env, client, authorizeRequest, request.user)
           }
       }
 
@@ -103,9 +106,19 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
       clientService.findClient(formData.client_id).map {
         case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
         case Some(client) => {
-          val clientPermission = ClientPermission(client.clientId, Some(formData.scopes))
-          permissionService.savePermission(request.user.email.get, clientPermission)
-          authorizeService.handlePermittedApp(client, formData.redirect_uri, formData.state, None, request.user, clientPermission.scopes)
+
+          val clientPermission = ClientScopes(client.clientId, Some(formData.scopes.split(' ').toList))
+          val savePermission = permissionService.savePermission(request.user.userId, clientPermission)
+
+          Await.result(savePermission, 2 seconds)
+
+          authorizeService.handlePermittedClient(
+            client,
+            formData.redirect_uri,
+            formData.state,
+            None,
+            request.user,
+            clientPermission.scopes)
         }
       }
   }

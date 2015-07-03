@@ -7,7 +7,7 @@ import com.yetu.oauth2provider.oauth2.AuthorizationCodeFlow
 import com.yetu.oauth2provider.utils.Config
 
 class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with AuthorizationCodeFlow {
-  
+
   "IntegrationAuthorizationFlow" must {
 
     "yield a response authorization Result" in {

@@ -4,7 +4,7 @@ import java.util.Date
 
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ ClientScopes, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.joda.time.DateTime
@@ -41,7 +41,7 @@ trait DefaultTestVariables {
   val testUserInfoWithScopeId: AuthInfo[YetuUser] = new AuthInfo[YetuUser](testUser, Some(testClientId), Some(Config.SCOPE_ID), None)
 
   val testClient = OAuth2Client(testClientId, testClientSecret, List(testRedirectUri), Some(testGrantTypes), testClientName, coreYetuClient = false)
-  val testPermission = ClientPermission(testClientId, Some(List("basic")))
+  val testPermission = ClientScopes(testClientId, Some(List("basic")))
 
   val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
 

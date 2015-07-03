@@ -91,7 +91,22 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     scopeService: ScopeService,
     permissionService: IPermissionService) extends Controller {
 
-  def handlePermittedApp(client: OAuth2Client,
+  def getAdditionalSessionStateCookie(userId: String): Cookie = {
+    Cookie(
+      SessionStatusCookie.cookieName,
+      userId,
+      if (CookieAuthenticator.makeTransient)
+        CookieAuthenticator.Transient
+      else
+        Some(CookieAuthenticator.absoluteTimeoutInSeconds),
+      SessionStatusCookie.cookiePath,
+      SessionStatusCookie.cookieDomain,
+      secure = SessionStatusCookie.cookieSecure,
+      httpOnly = SessionStatusCookie.cookieHttpOnly
+    )
+  }
+
+  def handlePermittedClient(client: OAuth2Client,
     redirectUri: String,
     state: String,
     scopeFromRequest: Option[String],
@@ -113,42 +128,26 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
   }
 
-  def getAdditionalSessionStateCookie(userId: String): Cookie = {
-    Cookie(
-      SessionStatusCookie.cookieName,
-      userId,
-      if (CookieAuthenticator.makeTransient)
-        CookieAuthenticator.Transient
-      else
-        Some(CookieAuthenticator.absoluteTimeoutInSeconds),
-      SessionStatusCookie.cookiePath,
-      SessionStatusCookie.cookieDomain,
-      secure = SessionStatusCookie.cookieSecure,
-      httpOnly = SessionStatusCookie.cookieHttpOnly
-    )
-  }
-
-  def handlePermittedApps(client: OAuth2Client,
+  def handlePermittedClient(client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser,
     userDefinedScopes: Option[List[String]] = None): Result = {
 
-    handlePermittedApp(
+    handlePermittedClient(
       client,
       authorizeRequest.redirectUri,
       authorizeRequest.state,
-      authorizeRequest.scope,
+      authorizeRequest.scopes,
       user,
       userDefinedScopes)
   }
 
-  def handleClientPermissions(request: RequestHeader,
+  def handleNonCoreClient(request: RequestHeader,
     env: RuntimeEnvironment[YetuUser],
     client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser): Future[Result] = {
 
-    val scopeList = authorizeRequest.scope.getOrElse("").split(' ').toList
     permissionService.findPermission(user.userId, client.clientId).map {
       case None =>
 
@@ -156,7 +155,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
           Permission.permissionsForm,
           client.clientName,
           client.clientId,
-          scopeList,
+          authorizeRequest.scopes.getOrElse(""),
           authorizeRequest.redirectUri,
           Some(authorizeRequest.state))(request, env))
 
@@ -167,7 +166,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
          * in the client.scopes means that the application is trying to ask for more permissions then
          * the one that is allowed to it.. this is the incremental permission process
          */
-        handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
+        handlePermittedClient(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
 
