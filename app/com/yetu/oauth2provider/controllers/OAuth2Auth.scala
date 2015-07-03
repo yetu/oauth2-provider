@@ -82,7 +82,6 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
    */
   def authorizeUser() = SecuredAction.async {
     implicit request =>
-
       errorHandler.validateParameters(request.user) {
         (authClient: AuthorizedClient) =>
 

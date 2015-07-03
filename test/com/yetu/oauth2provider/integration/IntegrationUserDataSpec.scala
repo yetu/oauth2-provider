@@ -23,8 +23,8 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
       val response = getRequest(url)
 
       status(response) mustEqual 200
-      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
-      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
+      (contentAsJson(response) \ "firstName").validate[String].get mustEqual testUser.firstName.get
+      (contentAsJson(response) \ "lastName").validate[String].get mustEqual testUser.lastName.get
       (contentAsJson(response) \ "contactInfo").validate[ContactInfo] match {
         case JsError(_)         => None mustEqual None
         case JsSuccess(json, _) => json.country.getOrElse(None) mustEqual None
@@ -62,8 +62,8 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
 
       status(response) mustEqual 200
       log(contentAsJson(response).toString())
-      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
-      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
+      (contentAsJson(response) \ "firstName").validate[String].get mustEqual testUser.firstName.get
+      (contentAsJson(response) \ "lastName").validate[String].get mustEqual testUser.lastName.get
       (contentAsJson(response) \ "contactInfo").validate[ContactInfo] match {
         case JsError(_)         => None mustEqual None
         //as we add country as a default contact information to testUser, so we could expect that
@@ -81,8 +81,8 @@ class IntegrationUserDataSpec extends IntegrationBaseSpec with AuthorizationCode
       val response = getRequest(url)
 
       status(response) mustEqual 200
-      (contentAsJson(response) \ "firstName").validate[String] mustEqual testUser.firstName
-      (contentAsJson(response) \ "lastName").validate[String] mustEqual testUser.lastName
+      (contentAsJson(response) \ "firstName").validate[String].get mustEqual testUser.firstName.get
+      (contentAsJson(response) \ "lastName").validate[String].get mustEqual testUser.lastName.get
 
     }
   }
