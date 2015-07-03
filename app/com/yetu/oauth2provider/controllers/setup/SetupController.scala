@@ -9,11 +9,16 @@ import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
 import play.api.Logger
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.libs.json.Json
 import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
+import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
-import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
+import securesocial.core.authenticator.CookieAuthenticator
+import securesocial.core.providers.UsernamePasswordProvider
+import securesocial.core.services.SaveMode
+import securesocial.core._
 
 import scala.concurrent.Future
 
@@ -24,6 +29,58 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   override def startSignUp = CSRFAddToken {
     Action {
       implicit request => Ok(views.html.setup.startSignUpForSetup(form))
+    }
+  }
+
+  override def handleSignUp(token: String) = {
+    Action.async {
+      implicit request =>
+        executeForToken(token, true, {
+          t =>
+            val id = if (UsernamePasswordProvider.withUserNameSupport) t.userName.get else t.email
+            val newUser = YetuUser(
+              providerId,
+              id,
+              firstName = t.registrationInfo.map(info => info.firstName),
+              lastName = t.registrationInfo.map(info => info.lastName),
+              fullName = t.registrationInfo.map(info => "%s %s".format(info.firstName, info.lastName)),
+              email = Some(t.email),
+              avatarUrl = None,
+              authMethod = AuthenticationMethod.UserPassword,
+              passwordInfo = t.registrationInfo.map(info => env.currentHasher.hash(info.password)),
+              userAgreement = t.registrationInfo.map(info => info.userAgreement)
+            )
+
+            val withAvatar = env.avatarService.map {
+              _.urlFor(t.email).map { url =>
+                if (url != newUser.avatarUrl) newUser.copyUser(avatarUrl = url) else newUser
+              }
+            }.getOrElse(Future.successful(newUser))
+
+            import securesocial.core.utils._
+            val result = for (
+              toSave <- withAvatar;
+              saved <- env.userService.save(toSave, SaveMode.SignUp);
+              deleted <- env.userService.deleteToken(t.uuid)
+            ) yield {
+              if (UsernamePasswordProvider.sendWelcomeEmail)
+                env.mailer.sendWelcomeEmail(newUser)
+              val eventSession = Events.fire(new SignUpEvent(saved)).getOrElse(request.session)
+              if (UsernamePasswordProvider.signupSkipLogin) {
+                env.authenticatorService.find(CookieAuthenticator.Id).map {
+                  _.fromUser(saved).flatMap { authenticator =>
+                    confirmationResult(gatewayRegistration = true).flashing(Success -> Messages(SignUpDone)).startingAuthenticator(authenticator)
+                  }
+                } getOrElse {
+                  logger.error(s"[securesocial] There isn't CookieAuthenticator registered in the RuntimeEnvironment")
+                  Future.successful(confirmationResult().flashing(Error -> Messages("There was an error signing you up")))
+                }
+              } else {
+                handleSignUpSuccess(eventSession)
+              }
+            }
+            result.flatMap(f => f)
+        })
     }
   }
 
