@@ -53,12 +53,9 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
 
   override def addUser(user: YetuUser) = {
     WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(response => {
-
-      findUser(user.userId).map(u => {
-        u
-      })
-
-      Some(user)
+      if (response.status == Http.Status.OK) {
+        Some(user)
+      } else None
     })
   }
 
@@ -90,7 +87,7 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
     findUser(userId).map {
 
       case Some(user) =>
-        if (user.providerId.eq(providerId)) {
+        if (user.providerId.equals(providerId)) {
           Some(user)
         } else None
 
