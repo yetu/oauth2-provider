@@ -28,9 +28,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
 
     val (client, userPassParameters) = prepareClientAndUser(scopes, clientId, coreYetuClient, deleteSaveTestUser)
 
-    println("Lars")
     val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters)
-    println("Guilherme")
     val cookie = header("Set-Cookie", cookieResponse)
 
     status(cookieResponse) mustEqual (SEE_OTHER)
