@@ -44,7 +44,7 @@ class IntegrationScopeSpec extends IntegrationBaseSpec with AuthorizationCodeFlo
         queryScopes = Some(List(SCOPE_BASIC, SCOPE_CONTACT, SCOPE_CONTROLCENTER)),
         coreYetuClient = true)
 
-      status(responseAuthorization) mustEqual UNAUTHORIZED
+      status(responseAuthorization) mustEqual SEE_OTHER
     }
 
     s"allow any valid third party clients to access information with correct scopes which is match with client" in {
@@ -64,12 +64,12 @@ class IntegrationScopeSpec extends IntegrationBaseSpec with AuthorizationCodeFlo
 
     s"prevent any valid yetu core clients to access information with a scope which is NOT one of the scopes the client has registered" in {
       val responseAuthorization = registerClientAndUserAndAuthenticate(integrationTestClientId, clientScopes = Some(List(SCOPE_ID, SCOPE_BASIC, SCOPE_HOUSEHOLD_READ)), queryScopes = Some(List(SCOPE_CONTACT)), coreYetuClient = true)
-      status(responseAuthorization) mustEqual UNAUTHORIZED
+      status(responseAuthorization) mustEqual SEE_OTHER
     }
 
     s"prevent any valid third party clients to access information with a scope which is NOT one of the scopes the client has registered" in {
       val responseAuthorization = registerClientAndUserAndAuthenticate("otherClientId", clientScopes = Some(List(SCOPE_ID, SCOPE_BASIC, SCOPE_HOUSEHOLD_READ)), queryScopes = Some(List(SCOPE_CONTACT)), coreYetuClient = false)
-      status(responseAuthorization) mustEqual UNAUTHORIZED
+      status(responseAuthorization) mustEqual SEE_OTHER
     }
 
   }

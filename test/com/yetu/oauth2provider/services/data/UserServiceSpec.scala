@@ -57,7 +57,7 @@ abstract class UserServiceBase extends DataServiceBaseSpec with ScalaFutures {
       val result = for {
         delete <- personService.deleteUser(testUser.userId)
         save <- personService.save(testUser, SaveMode.SignUp)
-        update <- personService.updatePasswordInfo(save, pw)
+        update <- personService.updatePasswordInfo(testUser, pw)
         retrieve <- personService.findUser(testUser.userId)
       } yield retrieve
 

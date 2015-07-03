@@ -32,12 +32,11 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
         s"&response_type=${ResponseTypes.CODE}" +
         s"&state=$testStateParameter"
 
-      val fakeCookie = "id=7c41c131334bcdc33c04cc0002205dfede54556de850070d06b52c135a756beb22a2a57ea69dc12e06b980bb75ee1372d044360474dc88bb0c9e6712b984998c595b8b4c1937e20ffe15e2f1ab154ddf11055a35c5c4fd4ba96344ee25aee89d38eb45a25b058cda5674e161acbab27b713744d9e435313e092f78171ea29fa6;"
-      val fakeHeaders = FakeHeaders(Seq("Cookie" -> Seq(fakeCookie)))
+      val fakeHeaders = FakeHeaders(Seq("Accept" -> Seq("text/html")))
 
       val responseAuthorization = getRequest(fullAuthorizationUrl, headers = fakeHeaders)
       status(responseAuthorization) mustEqual SEE_OTHER
-      header("Location", responseAuthorization) mustEqual loginUrlWithUserPass
+      header("Location", responseAuthorization) mustEqual Some("http:///login")
     }
 
   }

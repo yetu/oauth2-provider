@@ -38,7 +38,9 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
   }
 
   override def deleteUser(id: String) = {
-    WS.url(urlForResource("users", id, Version1)).delete().map(_ => Unit)
+    WS.url(urlForResource("users", id, Version1)).delete().map(response => {
+      Unit
+    })
   }
 
   override def findUser(userId: String) = {
@@ -52,7 +54,8 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
   }
 
   override def addUser(user: YetuUser) = {
-    WS.url(url("users", Version1)).post(YetuUserHelper.toJson(user)).map(response => {
+    val userJson = YetuUserHelper.toJson(user)
+    WS.url(url("users", Version1)).post(userJson).map(response => {
       if (response.status == Http.Status.OK) {
         Some(user)
       } else None
