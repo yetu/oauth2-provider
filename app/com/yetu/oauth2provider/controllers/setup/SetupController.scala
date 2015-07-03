@@ -4,9 +4,10 @@ import com.yetu.oauth2provider.controllers.authentication.YetuPasswordValidator
 import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.utils.Config
+import com.yetu.oauth2provider.utils.{ UUIDGenerator, Config }
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.data.Form
 import play.api.i18n.Messages
@@ -37,10 +38,9 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
       implicit request =>
         executeForToken(token, true, {
           t =>
-            val id = if (UsernamePasswordProvider.withUserNameSupport) t.userName.get else t.email
             val newUser = YetuUser(
+              UUIDGenerator.uuid(),
               providerId,
-              id,
               firstName = t.registrationInfo.map(info => info.firstName),
               lastName = t.registrationInfo.map(info => info.lastName),
               fullName = t.registrationInfo.map(info => "%s %s".format(info.firstName, info.lastName)),
@@ -48,7 +48,8 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
               avatarUrl = None,
               authMethod = AuthenticationMethod.UserPassword,
               passwordInfo = t.registrationInfo.map(info => env.currentHasher.hash(info.password)),
-              userAgreement = t.registrationInfo.map(info => info.userAgreement)
+              userAgreement = t.registrationInfo.map(info => info.userAgreement),
+              registrationDate = Some(DateTime.now)
             )
 
             val withAvatar = env.avatarService.map {
