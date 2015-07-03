@@ -1,20 +1,17 @@
 package com.yetu.oauth2provider.integration
 
-import java.nio.file.{ Paths, Files }
+import java.nio.file.{Files, Paths}
 
+import com.plasmaconduit.jwt.JSONWebToken
 import com.yetu.oauth2provider.oauth2.AuthorizationCodeFlow
 import com.yetu.oauth2provider.utils.Config
-import com.yetu.oauth2provider.utils.Config._
-import play.api.test.Helpers._
-import com.plasmaconduit.jwt.JSONWebToken
 
 class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with AuthorizationCodeFlow {
 
   "IntegrationAuthorizationFlow" must {
 
     "yield a response authorization Result" in {
-      preProcess(integrationTestClientId, clientRedirectUrls = List(defaultRedirectUrl), queryRedirectUrl = Some(s"$defaultRedirectUrl Invalid"), coreYetuClient = true)
-
+      registerClientAndUserAndAuthenticate(integrationTestClientId, clientRedirectUrls = List(defaultRedirectUrl), queryRedirectUrl = Some(s"$defaultRedirectUrl Invalid"), coreYetuClient = true)
     }
   }
 

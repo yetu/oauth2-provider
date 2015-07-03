@@ -67,7 +67,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
    * /oauth2/authorize request with cookie -> save authorization_code given in the 303 redirect
    *
    */
-  def preProcess(clientId: String,
+  def registerClientAndUserAndAuthenticate(clientId: String,
     clientScopes: Option[List[String]] = None,
     queryScopes: Option[List[String]] = None,
     clientRedirectUrls: List[String] = List("http://dummyRedirectUrl"),
