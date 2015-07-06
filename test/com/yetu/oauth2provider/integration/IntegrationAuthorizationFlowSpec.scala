@@ -103,6 +103,75 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       })
     }
 
+    "successful non-core client authorization should redirect if the permissions had been granted" in {
+
+      val queryScope = List(SCOPE_BASIC)
+      val redirectUris = testClient.redirectURIs
+
+      val (client, userPassParameters) = prepareClientAndUser(
+        queryScope,
+        testClientId,
+        coreYetuClient = false,
+        clientRedirectUrls = redirectUris)
+
+      val fullAuthorizationUrl = s"$authorizationUrl?scope=$queryScope" +
+        s"&client_id=${client.clientId}" +
+        s"&redirect_uri=${redirectUris.head}" +
+        s"&response_type=${ResponseTypes.CODE}" +
+        s"&state=$testStateParameter"
+
+      val originalUrl = ("original-url", fullAuthorizationUrl)
+      val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters, fakeHeaders = FakeHeaders(), sessions = List(originalUrl))
+
+      val cookie: Option[String] = header("Set-Cookie", cookieResponse)
+      val fakeHeaders = FakeHeaders(Seq("Cookie" -> Seq(cookie.get)))
+
+      val redirectUrl = new URL(redirectUris.head)
+      val responseAuthorization = getRequest(fullAuthorizationUrl, headers = fakeHeaders)
+
+      status(responseAuthorization) mustEqual SEE_OTHER
+      header("Location", responseAuthorization).foreach(location => {
+
+        val locationUrl = new URL(location)
+
+        locationUrl.getProtocol.mustEqual(redirectUrl.getProtocol)
+        locationUrl.getHost mustEqual redirectUrl.getHost
+        locationUrl.getQuery should include ("code=")
+        locationUrl.getQuery should include ("state=" + testStateParameter)
+      })
+    }
+
+    "successful non-core client authorization should render permission page if permissions had not been granted" in {
+
+      val queryScope = List(SCOPE_BASIC)
+      val redirectUris = testClient.redirectURIs
+
+      val (client, userPassParameters) = prepareClientAndUser(
+        queryScope,
+        testClientId,
+        coreYetuClient = false,
+        clientRedirectUrls = redirectUris,
+        grantPermissions = false)
+
+      val fullAuthorizationUrl = s"$authorizationUrl?scope=$queryScope" +
+        s"&client_id=${client.clientId}" +
+        s"&redirect_uri=${redirectUris.head}" +
+        s"&response_type=${ResponseTypes.CODE}" +
+        s"&state=$testStateParameter"
+
+      val originalUrl = ("original-url", fullAuthorizationUrl)
+      val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters, fakeHeaders = FakeHeaders(), sessions = List(originalUrl))
+
+      val cookie: Option[String] = header("Set-Cookie", cookieResponse)
+      val fakeHeaders = FakeHeaders(Seq("Cookie" -> Seq(cookie.get), "Accept" -> Seq("text/html")))
+
+      val redirectUrl = new URL(redirectUris.head)
+      val responseAuthorization = getRequest(fullAuthorizationUrl, headers = fakeHeaders)
+
+      status(responseAuthorization) mustEqual OK
+      contentAsString(responseAuthorization) should include ("class=\"requestedPermissions\"")
+    }
+
   }
 
   "IntegrationAuthorizationFlow" ignore {

@@ -12,7 +12,6 @@ import scala.concurrent.Future
 trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
 
   override def getAccessToken: String = {
-
     oauth2AccessTokenDance(List(SCOPE_BASIC))
   }
 

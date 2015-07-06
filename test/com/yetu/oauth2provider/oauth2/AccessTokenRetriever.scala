@@ -17,10 +17,11 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
   def implementationId: String = this.getClass.getCanonicalName
 
   def prepareClientAndUser(scopes: List[String] = List(SCOPE_BASIC),
-    clientId: String = integrationTestClientId,
-    coreYetuClient: Boolean = false,
-    deleteSaveTestUser: Boolean = true,
-    clientRedirectUrls: List[String] = List("http://dummyRedirectUrl")) = {
+                           clientId: String = integrationTestClientId,
+                           coreYetuClient: Boolean = false,
+                           deleteSaveTestUser: Boolean = true,
+                           clientRedirectUrls: List[String] = List("http://dummyRedirectUrl"),
+                           grantPermissions: Boolean = true) = {
 
     val client = OAuth2Client(clientId, integrationTestSecret,
       redirectURIs = clientRedirectUrls,
@@ -45,7 +46,10 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     //Persist permissions
     val clientPermission = ClientScopes(clientId, Some(scopes))
     permissionService.deletePermission(testUser.userId, clientPermission.clientId)
-    permissionService.savePermission(testUser.userId, clientPermission)
+
+    if (grantPermissions) {
+      permissionService.savePermission(testUser.userId, clientPermission)
+    }
 
     (client, userPassParameters)
   }
