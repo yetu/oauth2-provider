@@ -1,5 +1,6 @@
 package com.yetu.oauth2provider.integration
 
+import java.net.URL
 import java.nio.file.{ Files, Paths }
 
 import com.plasmaconduit.jwt.JSONWebToken
@@ -10,6 +11,7 @@ import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
+import org.scalatest.Matchers._
 
 class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with AuthorizationCodeFlow with DefaultTestVariables {
 
@@ -61,6 +63,44 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
 
       status(cookieResponse) mustEqual SEE_OTHER
       header("Location", cookieResponse) mustEqual Some(fullAuthorizationUrl)
+    }
+
+    "successful core client authorization should redirect to redirect uri" in {
+
+      val queryScope = List(SCOPE_BASIC)
+      val redirectUris = testClient.redirectURIs
+
+      val (client, userPassParameters) = prepareClientAndUser(
+        queryScope,
+        testClientId,
+        coreYetuClient = true,
+        clientRedirectUrls = redirectUris)
+
+      val fullAuthorizationUrl = s"$authorizationUrl?scope=$queryScope" +
+        s"&client_id=${client.clientId}" +
+        s"&redirect_uri=${redirectUris.head}" +
+        s"&response_type=${ResponseTypes.CODE}" +
+        s"&state=$testStateParameter"
+
+      val originalUrl = ("original-url", fullAuthorizationUrl)
+      val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters, fakeHeaders = FakeHeaders(), sessions = List(originalUrl))
+
+      val cookie: Option[String] = header("Set-Cookie", cookieResponse)
+      val fakeHeaders = FakeHeaders(Seq("Cookie" -> Seq(cookie.get)))
+
+      val redirectUrl = new URL(redirectUris.head)
+      val responseAuthorization = getRequest(fullAuthorizationUrl, headers = fakeHeaders)
+
+      status(responseAuthorization) mustEqual SEE_OTHER
+      header("Location", responseAuthorization).foreach(location => {
+
+        val locationUrl = new URL(location)
+
+        locationUrl.getProtocol.mustEqual(redirectUrl.getProtocol)
+        locationUrl.getHost mustEqual redirectUrl.getHost
+        locationUrl.getQuery should include ("code=")
+        locationUrl.getQuery should include ("state=" + testStateParameter)
+      })
     }
 
   }
