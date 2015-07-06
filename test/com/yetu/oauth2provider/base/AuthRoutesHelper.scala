@@ -25,8 +25,8 @@ trait AuthRoutesHelper extends TestRegistry with DefaultTestVariables with BaseM
     client
   }
 
-  def postRequest(url: String, parameters: Map[String, Seq[String]] = Map(), fakeHeaders: FakeHeaders = FakeHeaders()): Future[Result] = {
-    val response = route(FakeRequest(POST, url, fakeHeaders, parameters)).get
+  def postRequest(url: String, parameters: Map[String, Seq[String]] = Map(), fakeHeaders: FakeHeaders = FakeHeaders(), sessions: List[(String, String)] = List.empty): Future[Result] = {
+    val response = route(FakeRequest(POST, url, fakeHeaders, parameters).withSession(sessions: _*)).get
 
     log(s"response: ${contentAsString(response)}")
     log(s"response status: ${status(response)}")

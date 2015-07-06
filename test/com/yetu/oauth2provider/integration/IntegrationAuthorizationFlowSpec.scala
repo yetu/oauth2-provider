@@ -39,6 +39,30 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       header("Location", responseAuthorization) mustEqual Some("http:///login")
     }
 
+    "post correct credentials should redirect to authorize" in {
+
+      val queryScope = List(SCOPE_BASIC)
+      val redirectUris = testClient.redirectURIs
+
+      val (client, userPassParameters) = prepareClientAndUser(
+        queryScope,
+        testClientId,
+        coreYetuClient = true,
+        clientRedirectUrls = redirectUris)
+
+      val fullAuthorizationUrl = s"$authorizationUrl?scope=$queryScope" +
+        s"&client_id=${client.clientId}" +
+        s"&redirect_uri=${redirectUris.head}" +
+        s"&response_type=${ResponseTypes.CODE}" +
+        s"&state=$testStateParameter"
+
+      val originalUrl = ("original-url", fullAuthorizationUrl)
+      val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters, sessions = List(originalUrl))
+
+      status(cookieResponse) mustEqual SEE_OTHER
+      header("Location", cookieResponse) mustEqual Some(fullAuthorizationUrl)
+    }
+
   }
 
   "IntegrationAuthorizationFlow" ignore {
