@@ -46,8 +46,8 @@ trait DefaultTestVariables {
   val testMailToken: MailToken = new MailToken("mail-token-uuid", testUser.email.get, DateTime.now(), DateTime.now(), true)
 
   val loginUrlWithUserPass = "/authenticate/userpass"
-
   val loginUrlWithSignedHttp = "/authenticate/SignatureAuthentication"
+  val permissionPostUrl = "/permissions"
 
   val updateUrl = "/profile"
   val healthUrl = "/health"

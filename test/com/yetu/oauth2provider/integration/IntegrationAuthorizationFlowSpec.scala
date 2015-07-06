@@ -41,7 +41,7 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       header("Location", responseAuthorization) mustEqual Some("http:///login")
     }
 
-    "post correct credentials should redirect to authorize" in {
+    "redirect to authorize if post correct credentials" in {
 
       val queryScope = List(SCOPE_BASIC)
       val redirectUris = testClient.redirectURIs
@@ -65,7 +65,7 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       header("Location", cookieResponse) mustEqual Some(fullAuthorizationUrl)
     }
 
-    "successful core client authorization should redirect to redirect uri" in {
+    "redirect to redirect uri in case of successful core client authorization" in {
 
       val queryScope = List(SCOPE_BASIC)
       val redirectUris = testClient.redirectURIs
@@ -103,7 +103,7 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       })
     }
 
-    "successful non-core client authorization should redirect if the permissions had been granted" in {
+    "redirect with code and state parameters if the permissions had been granted for non-core client" in {
 
       val queryScope = List(SCOPE_BASIC)
       val redirectUris = testClient.redirectURIs
@@ -141,7 +141,7 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
       })
     }
 
-    "successful non-core client authorization should render permission page if permissions had not been granted" in {
+    "render permission page if permissions had not been granted for non-core client" in {
 
       val queryScope = List(SCOPE_BASIC)
       val redirectUris = testClient.redirectURIs
@@ -170,6 +170,56 @@ class IntegrationAuthorizationFlowSpec extends IntegrationBaseSpec with Authoriz
 
       status(responseAuthorization) mustEqual OK
       contentAsString(responseAuthorization) should include ("class=\"requestedPermissions\"")
+    }
+
+    "redirect with code and state parameters if the permission were granted by the user" in {
+
+      val queryScope = List(SCOPE_BASIC)
+      val redirectUris = testClient.redirectURIs
+
+      val (client, userPassParameters) = prepareClientAndUser(
+        queryScope,
+        testClientId,
+        coreYetuClient = false,
+        clientRedirectUrls = redirectUris,
+        grantPermissions = false)
+
+      val fullAuthorizationUrl = s"$authorizationUrl?scope=$queryScope" +
+        s"&client_id=${client.clientId}" +
+        s"&redirect_uri=${redirectUris.head}" +
+        s"&response_type=${ResponseTypes.CODE}" +
+        s"&state=$testStateParameter"
+
+      val originalUrl = ("original-url", fullAuthorizationUrl)
+      val cookieResponse = postRequest(loginUrlWithUserPass, userPassParameters, fakeHeaders = FakeHeaders(), sessions = List(originalUrl))
+
+      val cookie: Option[String] = header("Set-Cookie", cookieResponse)
+      val fakeHeaders = FakeHeaders(Seq("Cookie" -> Seq(cookie.get), "Accept" -> Seq("text/html")))
+
+      val redirectUrl = new URL(redirectUris.head)
+      val responseAuthorization = getRequest(fullAuthorizationUrl, headers = fakeHeaders)
+
+      status(responseAuthorization) mustEqual OK
+
+      val permissionData = Map[String, Seq[String]](
+        "scopes" -> Seq(queryScope.mkString(" ")),
+        "client_id" -> Seq(client.clientId),
+        "redirect_uri" -> Seq(redirectUris.head),
+        "state" -> Seq(testStateParameter)
+      )
+
+      val permissionPost = postRequest(permissionPostUrl, permissionData, fakeHeaders = fakeHeaders)
+
+      status(permissionPost) mustEqual SEE_OTHER
+      header("Location", permissionPost).foreach(location => {
+
+        val locationUrl = new URL(location)
+
+        locationUrl.getProtocol.mustEqual(redirectUrl.getProtocol)
+        locationUrl.getHost mustEqual redirectUrl.getHost
+        locationUrl.getQuery should include ("code=")
+        locationUrl.getQuery should include ("state=" + testStateParameter)
+      })
     }
 
   }
