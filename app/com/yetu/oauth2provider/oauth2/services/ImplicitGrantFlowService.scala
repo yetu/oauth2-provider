@@ -15,9 +15,9 @@ class ImplicitGrantFlowService[U](personService: IPersonService) {
 
   def validateRequest(implicit request: AuthorizationRequest): Future[YetuUser] = {
     parseHeaders { email =>
-
-      personService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map { u =>
-        u.getOrElse(throw new ImplicitFlowException("user not found")).asInstanceOf[YetuUser]
+      personService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map {
+        case Some(user) => user.asInstanceOf[YetuUser]
+        case _          => throw new ImplicitFlowException("user not found")
       }
     }
   }
