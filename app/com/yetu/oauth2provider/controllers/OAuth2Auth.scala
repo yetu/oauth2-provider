@@ -89,7 +89,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val authorizeRequest = authClient.request
 
           if (client.coreYetuClient) {
-            Future.successful(authorizeService.handlePermittedClient(client, authorizeRequest, request.user))
+            authorizeService.handlePermittedClient(client, authorizeRequest, request.user)
           } else {
             authorizeService.handleNonCoreClient(request, env, client, authorizeRequest, request.user)
           }
@@ -102,9 +102,8 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
 
       val formData: Permissions = permissionsForm.bindFromRequest.get
 
-      clientService.findClient(formData.client_id).map {
-        case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
-        case Some(client) => {
+      clientService.findClient(formData.client_id).flatMap {
+        case Some(client) =>
 
           val clientPermission = ClientScopes(client.clientId, Some(formData.scopes.split(' ').toList))
           val savePermission = permissionService.savePermission(request.user.userId, clientPermission)
@@ -118,7 +117,10 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
             None,
             request.user,
             clientPermission.scopes)
-        }
+
+        case None => Future.successful(
+          BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
+        )
       }
   }
 

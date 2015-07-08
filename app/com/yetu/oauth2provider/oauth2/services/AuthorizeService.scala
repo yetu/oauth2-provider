@@ -111,7 +111,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     state: String,
     scopeFromRequest: Option[String],
     user: YetuUser,
-    userDefinedScopes: Option[List[String]]) = {
+    userDefinedScopes: Option[List[String]]): Future[Result] = {
 
     val auth_code = BearerTokenGenerator.generateToken(Config.OAuth2.authTokenLength)
     val queryString: Map[String, Seq[String]] = Map(
@@ -119,19 +119,21 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
       AuthorizeParameters.STATE -> Seq(state)
     )
 
-    val scope = if (userDefinedScopes.isDefined) userDefinedScopes.map(_.mkString(" ")) else scopeFromRequest
+    val scope = if (userDefinedScopes.isDefined) {
+      userDefinedScopes.map(_.mkString(" "))
+    } else scopeFromRequest
 
-    authAccessService.saveAuthCode(
-      auth_code,
-      new AuthInfo[YetuUser](user, Some(client.clientId), scope, Some(redirectUri)))
+    val authInfo = new AuthInfo[YetuUser](user, Some(client.clientId), scope, Some(redirectUri))
 
-    Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
+    authAccessService.saveAuthCode(auth_code, authInfo).map(_ =>
+      Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
+    )
   }
 
   def handlePermittedClient(client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser,
-    userDefinedScopes: Option[List[String]] = None): Result = {
+    userDefinedScopes: Option[List[String]] = None): Future[Result] = {
 
     handlePermittedClient(
       client,
@@ -148,16 +150,18 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser): Future[Result] = {
 
-    permissionService.findPermission(user.userId, client.clientId).map {
+    permissionService.findPermission(user.userId, client.clientId).flatMap {
       case None =>
 
-        Ok(com.yetu.oauth2provider.views.html.permissions(
+        val renderPermissions = Ok(com.yetu.oauth2provider.views.html.permissions(
           Permission.permissionsForm,
           client.clientName,
           client.clientId,
           authorizeRequest.scopes.getOrElse(""),
           authorizeRequest.redirectUri,
           Some(authorizeRequest.state))(request, env))
+
+        Future.successful(renderPermissions)
 
       case Some(permission) =>
         /*
