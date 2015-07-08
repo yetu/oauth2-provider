@@ -35,9 +35,7 @@ class APIPermissionService extends IPermissionService with APIHelper {
 
     WS.url(urlForResource("authorize", userId + "/" + clientPermission.clientId, Version1))
       .post(permissionData)
-      .map(response => {
-        Unit
-      })
+      .map(_ => Unit)
   }
 
   def deletePermission(userId: String, clientId: String) = {

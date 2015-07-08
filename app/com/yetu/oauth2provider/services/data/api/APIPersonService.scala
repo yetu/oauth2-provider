@@ -32,15 +32,11 @@ class APIPersonService(mailTokenService: IMailTokenService) extends IPersonServi
   }
 
   override def updateUser(user: YetuUser) = {
-    WS.url(urlForResource("users", user.userId, Version1)).put(YetuUserHelper.toJson(user)).map(response => {
-      Some(user)
-    })
+    WS.url(urlForResource("users", user.userId, Version1)).put(YetuUserHelper.toJson(user)).map(_ => Some(user))
   }
 
   override def deleteUser(id: String) = {
-    WS.url(urlForResource("users", id, Version1)).delete().map(response => {
-      Unit
-    })
+    WS.url(urlForResource("users", id, Version1)).delete().map(_ => Unit)
   }
 
   override def findUser(userId: String) = {
