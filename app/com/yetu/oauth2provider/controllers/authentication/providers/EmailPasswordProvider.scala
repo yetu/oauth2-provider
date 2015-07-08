@@ -67,9 +67,7 @@ class EmailPasswordProvider[U](userService: UserService[U],
           AuthenticationResult.NavigationFlow(badRequest(errors)(request))
       },
       credentials => {
-        val email = credentials._1
-        val password = credentials._2
-
+        val (email, password) = credentials
         profileForCredentials(email, password).flatMap {
           case Some(profile) => withUpdatedAvatar(profile).map(Authenticated)
           case None          => authenticationFailedResult(apiMode)

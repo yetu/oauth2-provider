@@ -52,11 +52,13 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
               registrationDate = Some(DateTime.now)
             )
 
-            val withAvatar = env.avatarService.map {
-              _.urlFor(t.email).map { url =>
-                if (url != newUser.avatarUrl) newUser.copyUser(avatarUrl = url) else newUser
-              }
-            }.getOrElse(Future.successful(newUser))
+            val withAvatar = env.avatarService match {
+              case Some(avatar) =>
+                avatar.urlFor(t.email).map { url =>
+                  if (url != newUser.avatarUrl) newUser.copyUser(avatarUrl = url) else newUser
+                }
+              case _ => Future.successful(newUser)
+            }
 
             import securesocial.core.utils._
             val result = for (
