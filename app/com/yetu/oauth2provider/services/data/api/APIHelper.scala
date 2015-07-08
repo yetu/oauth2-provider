@@ -15,7 +15,7 @@ trait APIHelper {
   }
 
   def urlForResource(endpoint: String, resource: String, version: String) = {
-    url(endpoint + "/" + resource, version)
+    url(s"$endpoint/$resource", version)
   }
 
 }
