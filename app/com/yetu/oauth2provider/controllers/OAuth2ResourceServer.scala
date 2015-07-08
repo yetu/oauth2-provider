@@ -52,15 +52,15 @@ class OAuth2ResourceServer(scopeService: ScopeService,
 
             if (authInfo.scope.getOrElse("").equals(Config.SCOPE_CONTROLCENTER)) {
 
-              val firstName = StringUtils.isFull(request.body.firstName) match {
-                case true  => request.body.firstName.get
-                case false => authInfo.user.firstName.get
-              }
+              val firstName = if (StringUtils.isFull(request.body.firstName))
+                request.body.firstName.get
+              else
+                authInfo.user.firstName.get
 
-              val lastName = StringUtils.isFull(request.body.lastName) match {
-                case true  => request.body.lastName.get
-                case false => authInfo.user.lastName.get
-              }
+              val lastName = if (StringUtils.isFull(request.body.lastName))
+                request.body.lastName.get
+              else
+                authInfo.user.lastName.get
 
               val modifiedUser = authInfo.user.copyUser(
                 firstName = Some(firstName),
