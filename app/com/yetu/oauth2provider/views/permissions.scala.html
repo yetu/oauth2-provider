@@ -1,4 +1,4 @@
-@(permissionsForm: Form[com.yetu.oauth2provider.models.Permissions], appName: String, client_id: String, scopes: List[String], redirect_uri: String, state: Option[String])(implicit request: RequestHeader, env: securesocial.core.RuntimeEnvironment[_])
+@(permissionsForm: Form[com.yetu.oauth2provider.models.Permissions], appName: String, client_id: String, scopes: String, redirect_uri: String, state: Option[String])(implicit request: RequestHeader, env: securesocial.core.RuntimeEnvironment[_])
 @import helper._
 @import securesocial.core.IdentityProvider
 
@@ -14,7 +14,7 @@
 
     <div class="requestedPermissions">
         <ul>
-            @for(scope <- scopes) {
+            @for(scope <- scopes.split(' ')) {
                 <li>@scope</li>
             }
         </ul>
@@ -26,6 +26,7 @@
 
     @helper.form(action = com.yetu.oauth2provider.controllers.routes.OAuth2Auth.permissionsPost) {
 
+        <input type="hidden" name="scopes" value="@scopes">
         <input type="hidden" name="client_id" value="@client_id">
         <input type="hidden" name="redirect_uri" value="@redirect_uri">
         <input type="hidden" name="state" value="@state">

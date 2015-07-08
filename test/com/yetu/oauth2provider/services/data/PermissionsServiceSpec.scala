@@ -2,41 +2,41 @@ package com.yetu.oauth2provider.services.data
 
 import com.yetu.oauth2provider.base.DataServiceBaseSpec
 import com.yetu.oauth2provider.registry.{ IntegrationTestRegistry, TestRegistry }
+import org.scalatest.concurrent.ScalaFutures
+import org.scalatest.time.{ Seconds, Span }
+import securesocial.core.services.SaveMode
 
-//TODO: fix this test after getting rid of LDAP
-abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec {
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.concurrent.Future
 
-  def permissionToUserLink: String = {
-    testUser.uid
+abstract class BasePermissionsServiceSpec extends DataServiceBaseSpec with ScalaFutures {
+
+  override def beforeEach(): Future[Unit] = {
+    for {
+      deleteUser <- personService.deleteUser(testUser.userId)
+      deleteClient <- clientService.deleteClient(testClientId)
+    } yield deleteClient
   }
 
-  override def beforeEach() {
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-    personService.deleteUser(permissionToUserLink)
-    clientService.deleteClient(testClientId)
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-  }
+  override def afterEach(): Future[Unit] = beforeEach()
 
-  override def afterEach() {
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-    personService.deleteUser(permissionToUserLink)
-    clientService.deleteClient(testClientId)
-    permissionService.deletePermission(permissionToUserLink, testClientId)
-  }
+  s"The [$databaseImplementationName] Permission Service" must {
+    "delete, store and retrieve permissions" in {
 
-  //TODO: fix this test after getting rid of LDAP
-  //  s"The [$databaseImplementationName] Permission Service" must {
-  //    "delete, store and retrieve a permissions " in {
-  //
-  //      clientService.saveClient(testClient)
-  //      personService.addNewUser(testUser)
-  //      permissionService.savePermission(permissionToUserLink, testPermission)
-  //      val retrieved = permissionService.findPermission(permissionToUserLink, testPermission.clientId)
-  //      retrieved.get mustEqual testPermission
-  //    }
-  //  }
+      val retrieved = for {
+        savePerson <- personService.save(testUser, SaveMode.SignUp)
+        saveClient <- clientService.saveClient(testClient)
+        savePermission <- permissionService.savePermission(testUser.userId, testPermission)
+        find <- permissionService.findPermission(testUser.userId, testPermission.clientId)
+      } yield find
+
+      whenReady(retrieved, timeout(Span(2, Seconds))) {
+        result => result mustEqual Some(testPermission)
+      }
+    }
+  }
 }
 
-class LDAPPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry
+class APIPermissionsServiceITSpec extends BasePermissionsServiceSpec with IntegrationTestRegistry
 
 class MemoryPermissionsServiceSpec extends BasePermissionsServiceSpec with TestRegistry

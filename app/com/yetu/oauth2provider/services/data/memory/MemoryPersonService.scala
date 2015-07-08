@@ -1,104 +1,150 @@
 package com.yetu.oauth2provider.services.data.memory
 
-import java.util.Date
-
-import com.yetu.oauth2provider.models.DataUpdateRequest
-import com.yetu.oauth2provider.oauth2.models.{ YetuUser, YetuUserHelper }
-import com.yetu.oauth2provider.services.data.interface.IPersonService
-import com.yetu.oauth2provider.utils.UUIDGenerator
-import play.api.Logger
-import play.api.mvc.Result
-import play.api.mvc.Results._
-import securesocial.core.providers.UsernamePasswordProvider
-import securesocial.core.services.SaveMode
+import com.yetu.oauth2provider.oauth2.models.YetuUser
+import com.yetu.oauth2provider.services.data.interface.{ IMailTokenService, IPersonService }
+import com.yetu.oauth2provider.utils.NamedLogger
+import org.joda.time.DateTime
+import securesocial.core.providers.MailToken
+import securesocial.core.services.{ SaveMode, UserService }
 import securesocial.core.{ BasicProfile, PasswordInfo }
 
+import scala.concurrent.ExecutionContext.Implicits.global
 import scala.concurrent.Future
 
-class MemoryPersonService extends IPersonService {
+class MemoryPersonService(mailTokenService: IMailTokenService) extends IPersonService with NamedLogger with UserService[YetuUser] {
 
-  import com.yetu.oauth2provider.services.data.memory.MemoryPersonService.users
+  import com.yetu.oauth2provider.services.data.memory.MemoryPersonService._
 
-  val logger = Logger("com.yetu.oauth2provider.services.memory.MemoryPersonService")
+  override def saveToken(token: MailToken): Future[MailToken] = {
+    mailTokenService.saveToken(token)
+  }
+
+  override def deleteToken(uuid: String): Future[Option[MailToken]] = {
+    mailTokenService.deleteToken(uuid)
+  }
+
+  override def findToken(token: String): Future[Option[MailToken]] = {
+    mailTokenService.findToken(token)
+  }
+
+  override def deleteExpiredTokens(): Unit = {
+    mailTokenService.deleteExpiredTokens()
+  }
 
   def updatePasswordInfo(user: YetuUser, info: PasswordInfo): Future[Option[BasicProfile]] = {
-    Future.successful {
-      Some(user.main)
+
+    val updatedUser = usersIds.values.find(_.userId == user.userId) match {
+      case Some(u) => Some(u.copyUser(passwordInfo = Some(info)))
+      case _       => None
     }
+
+    val profile = if (updatedUser.isDefined) {
+
+      usersIds += updatedUser.get.userId -> updatedUser.get.asInstanceOf[YetuUser]
+      usersEmails += updatedUser.get.email.get -> updatedUser.get.asInstanceOf[YetuUser]
+
+      updatedUser
+
+    } else None
+
+    Future.successful(profile)
   }
 
   def passwordInfoFor(user: YetuUser): Future[Option[PasswordInfo]] = {
-    Future.successful {
-      for (
-        found <- users.values.find(_ == user);
-        identityWithPasswordInfo <- found.identities.find(_.providerId == UsernamePasswordProvider.UsernamePassword)
-      ) yield {
-        identityWithPasswordInfo.passwordInfo.get
-      }
-    }
+    Future.successful(usersIds.values.find(_ == user).map(u => u.passwordInfo.get))
   }
 
-  def find(providerId: String, userId: String): Future[Option[BasicProfile]] = {
-    Future.successful(findYetuUser(userId).map(_.toBasicProfile))
+  def find(providerId: String, userId: String) = {
+    findUser(userId).map {
+
+      case Some(user) =>
+        if (user.providerId.equals(providerId)) {
+          Some(user)
+        } else None
+
+      case _ => None
+    }
   }
 
   def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
-    find(providerId, email)
-  }
 
-  def save(user: BasicProfile, mode: SaveMode): Future[YetuUser] = {
-    logger.debug(s"Save user $user")
-    Future.successful {
-      val userToReturn: YetuUser = mode match {
-        case SaveMode.SignUp => {
-          val newUser = YetuUserHelper.fromBasicProfile(user, UUIDGenerator.uuid())
-          logger.debug(s"saving user $newUser")
-          addNewUser(newUser)
-          newUser
-        }
-        case SaveMode.PasswordChange => {
-          val oldUser = findYetuUser(user.userId).get
-          val newUser = oldUser.copy(passwordInfo = user.passwordInfo)
-          users += user.userId -> newUser
-          findYetuUser(user.userId).get
-        }
-        case _ =>
-          logger.warn("not saving as signUp; ignoring request.")
-          findYetuUser(user.userId).get
-      }
-      userToReturn
+    val user = usersEmails.find(_._1 == email).map(_._2)
+    val result = user match {
+
+      case Some(u) =>
+        if (u.providerId.equals(providerId)) {
+          Some(u)
+        } else None
+
+      case _ => None
     }
+
+    Future.successful(result)
   }
 
-  def addNewUser(user: YetuUser) = {
-    val userWithRegistrationDate = user.copy(registrationDate = Some(new Date()))
-    users = users + (user.userId -> userWithRegistrationDate)
-    user
+  override def save(user: BasicProfile, mode: SaveMode) = {
+    logger.debug(s"Save user $user")
+    val result = mode match {
+      case SaveMode.SignUp => addUser(user.asInstanceOf[YetuUser])
+      case SaveMode.PasswordChange => {
+
+        for {
+          oldUser <- findUser(user.userId).map {
+            case Some(u) => {
+              val modifiedUser = u.copyUser(passwordInfo = user.passwordInfo)
+              usersIds += user.userId -> modifiedUser
+            }
+            case _ => Unit
+          }
+          find <- findUser(user.userId)
+        } yield find
+
+      }
+      case _ =>
+        logger.warn("not saving as signUp; ignoring request.")
+        findUser(user.userId)
+    }
+
+    result.map(_.orNull)
   }
 
-  def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
+  def addUser(user: YetuUser) = {
+
+    val savedUser = if (user.userAgreement.isDefined) {
+
+      user.registrationDate = Some(DateTime.now())
+
+      usersIds += (user.userId -> user)
+      usersEmails += (user.email.get -> user)
+      usersIds.get(user.userId)
+
+    } else None
+
+    Future.successful(savedUser)
+  }
+
+  override def link(current: YetuUser, to: BasicProfile): Future[YetuUser] = {
     Future.successful(current)
   }
 
-  override def updateUserProfile(yetuUser: YetuUser, request: DataUpdateRequest): Result = {
-    users += yetuUser.userId -> yetuUser.copy(contactInfo = request.contactInfo, firstName = request.firstName.get, lastName = request.lastName.get)
-    println(s"USERS: $users")
-    //TODO: should not return a Result type in the service!
-    NoContent
+  override def updateUser(user: YetuUser) = {
+    usersIds += user.userId -> user
+    usersEmails += user.email.get -> user
+
+    Future.successful(Some(user))
   }
 
-  override def deleteUser(email: String): Unit = {
-    users -= email
+  override def deleteUser(email: String) = {
+    Future.successful(usersIds -= email)
   }
 
-  override def findYetuUser(userId: String): Option[YetuUser] = {
-    val found = users.find(_._1 == userId).map(_._2)
-    found
+  override def findUser(userId: String) = {
+    Future.successful(usersIds.find(_._1 == userId).map(_._2))
   }
 
 }
 
 object MemoryPersonService {
-
-  var users = Map[String, YetuUser]()
+  var usersIds = Map[String, YetuUser]()
+  var usersEmails = Map[String, YetuUser]()
 }

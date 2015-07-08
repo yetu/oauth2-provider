@@ -1,6 +1,7 @@
 package com.yetu.oauth2provider.services
 
 import com.yetu.oauth2provider.base.BaseSpec
+import com.yetu.oauth2provider.controllers.authentication.YetuPasswordValidator
 import com.yetu.oauth2provider.registry.TestRegistry
 import com.yetu.oauth2provider.utils.Config
 import org.scalatestplus.play.OneAppPerSuite
@@ -8,7 +9,7 @@ import org.scalatestplus.play.OneAppPerSuite
 class YetuPasswordValidatorSpec extends BaseSpec with OneAppPerSuite with TestRegistry {
 
   "Password validator" must {
-    val validator = MyRuntimeEnvironment.passwordValidator
+    val validator = new YetuPasswordValidator()
 
     s"not accept passwords shorter than ${Config.minimumPasswordLength} characters" in {
 

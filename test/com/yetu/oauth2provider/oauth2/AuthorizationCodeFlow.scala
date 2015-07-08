@@ -1,21 +1,17 @@
 package com.yetu.oauth2provider.oauth2
 
 import com.yetu.oauth2provider.oauth2.OAuth2Protocol.ResponseTypes
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
-import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.scalatest.MustMatchers
 import play.api.mvc.Result
 import play.api.test.FakeHeaders
 import play.api.test.Helpers._
-import securesocial.core.services.SaveMode
 
 import scala.concurrent.Future
 
 trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
 
   override def getAccessToken: String = {
-
     oauth2AccessTokenDance(List(SCOPE_BASIC))
   }
 
@@ -68,7 +64,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
    * /oauth2/authorize request with cookie -> save authorization_code given in the 303 redirect
    *
    */
-  def preProcess(clientId: String,
+  def registerClientAndUserAndAuthenticate(clientId: String,
     clientScopes: Option[List[String]] = None,
     queryScopes: Option[List[String]] = None,
     clientRedirectUrls: List[String] = List("http://dummyRedirectUrl"),
@@ -87,7 +83,7 @@ trait AuthorizationCodeFlow extends AccessTokenRetriever with MustMatchers {
     //    status(cookieResponse) mustEqual (SEE_OTHER)
     //    cookie must be ('defined)
 
-    val queryScope: String = queryScopes.getOrElse(client.scopes.get).mkString(" ")
+    val queryScope: String = queryScopes.getOrElse(List.empty).mkString(" ")
 
     val fullAuthorizationUrl = s"$authorizationUrl?scope=${queryScope}" +
       s"&client_id=${client.clientId}" +

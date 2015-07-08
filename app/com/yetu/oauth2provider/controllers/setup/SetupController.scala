@@ -1,19 +1,25 @@
 package com.yetu.oauth2provider.controllers.setup
 
 import com.yetu.oauth2provider.controllers.authentication.YetuPasswordValidator
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
 import com.yetu.oauth2provider.controllers.setup.SetupController._
 import com.yetu.oauth2provider.oauth2.models.YetuUser
-import com.yetu.oauth2provider.utils.Config
+import com.yetu.oauth2provider.utils.{ UUIDGenerator, Config }
 import com.yetu.oauth2provider.utils.Config.FrontendConfiguration
 import com.yetu.oauth2provider.views
+import org.joda.time.DateTime
 import play.api.Logger
 import play.api.data.Form
+import play.api.i18n.Messages
 import play.api.libs.json.Json
 import play.api.mvc._
 import play.filters.csrf.{ CSRFAddToken, CSRFCheck }
+import securesocial.controllers.BaseRegistration._
 import securesocial.controllers.{ BaseRegistration, RegistrationInfo }
-import securesocial.core.{ IdentityProvider, RuntimeEnvironment }
+import securesocial.core.authenticator.CookieAuthenticator
 import securesocial.core.providers.UsernamePasswordProvider
+import securesocial.core.services.SaveMode
+import securesocial.core._
 
 import scala.concurrent.Future
 
@@ -24,6 +30,60 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   override def startSignUp = CSRFAddToken {
     Action {
       implicit request => Ok(views.html.setup.startSignUpForSetup(form))
+    }
+  }
+
+  override def handleSignUp(token: String) = {
+    Action.async {
+      implicit request =>
+        executeForToken(token, true, {
+          t =>
+            val newUser = YetuUser(
+              UUIDGenerator.uuid(),
+              providerId,
+              firstName = t.registrationInfo.map(info => info.firstName),
+              lastName = t.registrationInfo.map(info => info.lastName),
+              fullName = t.registrationInfo.map(info => "%s %s".format(info.firstName, info.lastName)),
+              email = Some(t.email),
+              avatarUrl = None,
+              authMethod = AuthenticationMethod.UserPassword,
+              passwordInfo = t.registrationInfo.map(info => env.currentHasher.hash(info.password)),
+              userAgreement = t.registrationInfo.map(info => info.userAgreement),
+              registrationDate = Some(DateTime.now)
+            )
+
+            val withAvatar = env.avatarService match {
+              case Some(avatar) =>
+                avatar.urlFor(t.email).map { url =>
+                  if (url != newUser.avatarUrl) newUser.copyUser(avatarUrl = url) else newUser
+                }
+              case _ => Future.successful(newUser)
+            }
+
+            import securesocial.core.utils._
+            val result = for (
+              toSave <- withAvatar;
+              saved <- env.userService.save(toSave, SaveMode.SignUp);
+              deleted <- env.userService.deleteToken(t.uuid)
+            ) yield {
+              if (UsernamePasswordProvider.sendWelcomeEmail)
+                env.mailer.sendWelcomeEmail(newUser)
+              val eventSession = Events.fire(new SignUpEvent(saved)).getOrElse(request.session)
+              if (UsernamePasswordProvider.signupSkipLogin) {
+                env.authenticatorService.find(CookieAuthenticator.Id).map {
+                  _.fromUser(saved).flatMap { authenticator =>
+                    confirmationResult(gatewayRegistration = true).flashing(Success -> Messages(SignUpDone)).startingAuthenticator(authenticator)
+                  }
+                } getOrElse {
+                  logger.error(s"[securesocial] There isn't CookieAuthenticator registered in the RuntimeEnvironment")
+                  Future.successful(confirmationResult().flashing(Error -> Messages("There was an error signing you up")))
+                }
+              } else {
+                handleSignUpSuccess(eventSession)
+              }
+            }
+            result.flatMap(f => f)
+        })
     }
   }
 
@@ -68,7 +128,7 @@ class SetupController(override implicit val env: RuntimeEnvironment[YetuUser]) e
   override def handleStartSignUpSuccess(registrationInfo: RegistrationInfo)(implicit request: Request[Map[String, Seq[String]]]) = {
     val email = registrationInfo.email.toLowerCase
     // check if there is already an account for this email address
-    env.userService.findByEmailAndProvider(email, UsernamePasswordProvider.UsernamePassword).map {
+    env.userService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map {
       maybeUser =>
         maybeUser match {
           case Some(user) =>

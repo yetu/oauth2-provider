@@ -23,7 +23,7 @@ class AuthorizationHandlerTest extends BaseSpec with OneAppPerSuite with ScalaFu
 
     "validate a valid client ID/secret combination" in {
       clientService.deleteClient(clientId)
-      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), scopes = scopes, clientName = name, coreYetuClient = true))
+      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), clientName = name, coreYetuClient = true))
       whenReady(authorizationHandler.validateClient(ClientCredential(clientId, Some(clientSecret)), grantType)) {
         result => result mustBe true
       }
@@ -41,14 +41,14 @@ class AuthorizationHandlerTest extends BaseSpec with OneAppPerSuite with ScalaFu
 
     " validate an valid grantType" in {
       clientService.deleteClient(clientId)
-      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), scopes = scopes, clientName = name, coreYetuClient = true))
+      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), clientName = name, coreYetuClient = true))
       whenReady(authorizationHandler.validateClient(ClientCredential(clientId, Some(clientSecret)), grantType)) { result => result mustBe true
       }
     }
 
     "not validate an invalid grantType" in {
       clientService.deleteClient(clientId)
-      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), scopes = scopes, clientName = name, coreYetuClient = true))
+      clientService.saveClient(new OAuth2Client(clientId, clientSecret, redirectUrls, Some(List(grantType)), clientName = name, coreYetuClient = true))
       whenReady(authorizationHandler.validateClient(ClientCredential(clientId, Some(clientSecret)), "otherGrantType")) { result => result mustBe false
       }
     }

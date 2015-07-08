@@ -4,14 +4,13 @@ package registry
 import com.softwaremill.macwire.MacwireMacros._
 import com.yetu.oauth2provider.controllers.OAuth2ImplicitControllerHelper
 import com.yetu.oauth2provider.controllers.authentication.CustomCookieAuthenticator
-import com.yetu.oauth2provider.data.ldap.LdapDAO
 import com.yetu.oauth2provider.data.riak.RiakConnection
 import com.yetu.oauth2provider.oauth2.OAuth2TokenEndpoint
 import com.yetu.oauth2provider.oauth2.handlers.AuthorizationHandler
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.oauth2.services._
+import com.yetu.oauth2provider.services.data.api.{ APIClientService, APIPermissionService, APIPersonService, APIPublicKeyService }
 import com.yetu.oauth2provider.services.data.interface._
-import com.yetu.oauth2provider.services.data.ldap._
 import com.yetu.oauth2provider.services.data.memory._
 import com.yetu.oauth2provider.services.data.riak.{ RiakAuthCodeAccessTokens, RiakAuthenticatorStore, RiakMailTokenService }
 import com.yetu.oauth2provider.signature.services.SignatureService
@@ -31,7 +30,7 @@ trait InMemoryDataServices {
   lazy val publicKeyService: IPublicKeyService = new MemoryPublicKeyService
 
   lazy val personService: IPersonService = wire[MemoryPersonService]
-  lazy val myUserService: UserService[YetuUser] = wire[MemoryUserService]
+  lazy val yetuUserService: UserService[YetuUser] = wire[MemoryPersonService]
 
   lazy val databaseImplementationName: String = "In-Memory database"
 
@@ -47,19 +46,13 @@ trait InMemoryDataServices {
 
 trait PersistentDataServices {
 
-  lazy val dao: LdapDAO = wire[LdapDAO]
-  lazy val clientService: IClientService = wire[LdapClientService]
+  lazy val clientService: IClientService = wire[APIClientService]
+  lazy val permissionService: IPermissionService = wire[APIPermissionService]
+  lazy val publicKeyService: IPublicKeyService = wire[APIPublicKeyService]
+  lazy val personService: IPersonService = wire[APIPersonService]
+  lazy val yetuUserService: UserService[YetuUser] = wire[APIPersonService]
 
-  //TODO: change this after LDAP is not in use anymore to use the new API.
-  //TODO: LDAP permission service is actually broken, do not use.
-  lazy val permissionService: IPermissionService = wire[MemoryPermissionService]
-
-  lazy val publicKeyService: IPublicKeyService = new LdapPublicKeyService(new LdapPersonService(dao))
-
-  lazy val personService: IPersonService = wire[LdapPersonService]
-  lazy val myUserService: UserService[YetuUser] = wire[LdapUserService]
-
-  lazy val databaseImplementationName: String = "LDAP database"
+  lazy val databaseImplementationName: String = "Permission API Service"
 
   lazy val riakConnection: RiakConnection = RiakSettings
 
@@ -84,7 +77,7 @@ trait ServicesRegistry {
   def publicKeyService: IPublicKeyService
 
   def personService: IPersonService
-  def myUserService: UserService[YetuUser]
+  def yetuUserService: UserService[YetuUser]
 
   def httpAuthStore: AuthenticatorStore[HttpHeaderAuthenticator[YetuUser]]
   def cookieAuthStore: AuthenticatorStore[CustomCookieAuthenticator[YetuUser]]

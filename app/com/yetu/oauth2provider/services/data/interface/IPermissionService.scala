@@ -1,13 +1,15 @@
 package com.yetu.oauth2provider.services.data.interface
 
-import com.yetu.oauth2provider.oauth2.models.ClientPermission
+import com.yetu.oauth2provider.oauth2.models.ClientScopes
+
+import scala.concurrent.Future
 
 trait IPermissionService {
 
-  def savePermission(uuid: String, clientPermission: ClientPermission)
+  def savePermission(userId: String, clientPermission: ClientScopes, amend: Boolean = false): Future[Unit]
 
-  def deletePermission(uuid: String, clientId: String)
+  def deletePermission(userId: String, clientId: String): Future[Unit]
 
-  def findPermission(userId: String, clientId: String): Option[ClientPermission]
+  def findPermission(userId: String, clientId: String): Future[Option[ClientScopes]]
 
 }

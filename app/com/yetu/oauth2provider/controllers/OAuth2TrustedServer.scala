@@ -7,6 +7,11 @@ import play.api.mvc.{ Result, Action }
 import com.yetu.oauth2provider.oauth2.services.ScopeService
 import com.yetu.oauth2provider.utils.Config
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
+import scala.concurrent.Future
+
+//TODO: Remove this entirely
 class OAuth2TrustedServer(scopeService: ScopeService,
     personService: IPersonService) extends OAuth2Controller {
 
@@ -19,36 +24,38 @@ class OAuth2TrustedServer(scopeService: ScopeService,
    * THIS CODE MUST NOT BE DEPLOYED TO DEMO SERVER !!!!
    * @return
    */
-  def getUserProfile = Action {
+  def getUserProfile = Action.async {
     implicit request =>
-      authorizeTrustedServer {
-        userId =>
-          {
-            val identity = personService.findYetuUser(userId)
-            identity match {
-              case Some(id) => {
-                val outputJson: Option[JsValue] = scopeService.getInfoByScope(id, Config.SCOPE_CONTACT).map(user => Json.toJson(user))
-                outputJson match {
-                  case None           => BadRequest("You have been authorized, but your scope is invalid or not authorized, you cannot access any data for this user.")
-                  case Some(userJson) => Ok(userJson)
-                }
+      authorizeTrustedServer { userId =>
+        {
+
+          personService.findUser(userId).map {
+            case Some(id) =>
+
+              val outputJson: Option[JsValue] = scopeService
+                .getInfoByScope(id, Config.SCOPE_CONTACT)
+                .map(user => Json.toJson(user))
+
+              outputJson match {
+                case Some(userJson) => Ok(userJson)
+                case None => BadRequest("You have been authorized, but your scope is invalid or " +
+                  "not authorized, you cannot access any data for this user.")
               }
-              case _ => NotFound("The requested user does not exist")
-            }
+
+            case _ => NotFound("The requested user does not exist")
           }
+        }
       }
 
   }
 
-  private def authorizeTrustedServer[A, U](callback: String => Result)(implicit request: play.api.mvc.Request[A]): Result = {
+  private def authorizeTrustedServer[A, U](callback: String => Future[Result])(implicit request: play.api.mvc.Request[A]): Future[Result] = {
     val user = request.getQueryString("user")
     val resourceSecret = request.getQueryString("secret")
 
     resourceSecret match {
-      case Some(communityServiceSecret) => {
-        callback(user.get)
-      }
-      case _ => Unauthorized("")
+      case Some(communityServiceSecret) => callback(user.get)
+      case _                            => Future.successful(Unauthorized)
     }
   }
 

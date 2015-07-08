@@ -24,12 +24,12 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   override def validateClient(clientCredential: ClientCredential, grantType: String): Future[Boolean] = {
     logger.debug("validating client ...")
 
-    val validationResult = clientService.findClient(clientCredential.clientId) match {
-      case None => {
+    clientService.findClient(clientCredential.clientId).map {
+      case None =>
         logger.debug(s"No client with this id: ${clientCredential.clientId}")
         false
-      }
-      case Some(oauthClient) => {
+
+      case Some(oauthClient) =>
 
         logger.debug("given:")
         logger.debug(s"id = ${clientCredential.clientId} , secret = ${clientCredential.clientSecret}, grantType = $grantType")
@@ -45,11 +45,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
         } else {
           validClientId && validGrantType && validSecret
         }
-
-      }
     }
-    logger.debug(s"...validating client ${clientCredential.clientId}: $validationResult")
-    Future.successful(validationResult)
   }
 
   def createAccessToken(authInfo: AuthInfo[YetuUser]) = {
@@ -86,23 +82,26 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
   }
 
   def findUser(username: String, password: String): Future[Option[YetuUser]] = {
-    logger.warn("Find user... ")
+    personService.findUser(username).map {
+      case Some(user) =>
 
-    val loggedIn = for {
-      user <- personService.findYetuUser(username)
-      pinfo <- user.passwordInfo
-      hasher <- passwordHashers.get(pinfo.hasher) if hasher.matches(pinfo, password)
-    } yield user
+        val itMatches = user.passwordInfo
+          .flatMap(pInfo => passwordHashers.get(pInfo.hasher)
+            .map(_.matches(pInfo, password)))
+          .getOrElse(false)
 
-    logger.debug(s"user found? user=$loggedIn")
+        if (itMatches) {
+          Some(user)
+        } else None
 
-    Future.successful(loggedIn)
+      case _ => None
+    }
   }
 
   def getStoredAccessToken(authInfo: AuthInfo[YetuUser]) = {
     authInfo.clientId match {
       case Some(clientId) =>
-        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.identityId.userId)
+        authAccessService.findAccessTokenByAuthInfo(clientId + authInfo.user.userId)
       case _ => Future.successful(None)
     }
   }

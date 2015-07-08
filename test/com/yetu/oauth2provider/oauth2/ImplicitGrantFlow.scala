@@ -1,7 +1,7 @@
 package com.yetu.oauth2provider.oauth2
 
 import com.yetu.oauth2provider.oauth2.OAuth2Protocol.ResponseTypes
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
+import com.yetu.oauth2provider.oauth2.models.{ ClientScopes, OAuth2Client }
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import org.scalatest.MustMatchers

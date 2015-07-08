@@ -7,7 +7,7 @@ class ResetPasswordBrowserSpec extends BaseBrowserSpec {
       clearMailTokensInMemory
 
       log("create user")
-      personService.addNewUser(testUser)
+      personService.addUser(testUser)
 
       //start password reset
       log("request change pw")

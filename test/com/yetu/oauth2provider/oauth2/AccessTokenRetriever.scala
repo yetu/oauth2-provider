@@ -1,13 +1,11 @@
 package com.yetu.oauth2provider.oauth2
 
-import com.yetu.oauth2provider.base.{ DefaultTestVariables, AuthRoutesHelper }
-import com.yetu.oauth2provider.oauth2.models.{ ClientPermission, OAuth2Client }
+import com.yetu.oauth2provider.base.{ AuthRoutesHelper, DefaultTestVariables }
+import com.yetu.oauth2provider.oauth2.models.{ ClientScopes, OAuth2Client }
 import com.yetu.oauth2provider.registry.TestRegistry
-import DefaultTestVariables._
 import com.yetu.oauth2provider.utils.Config
 import com.yetu.oauth2provider.utils.Config._
 import com.yetu.oauth2resource.utils.RoutesHelper
-import play.api.test.Helpers._
 
 trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with RoutesHelper with AuthRoutesHelper {
 
@@ -22,9 +20,10 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     clientId: String = integrationTestClientId,
     coreYetuClient: Boolean = false,
     deleteSaveTestUser: Boolean = true,
-    clientRedirectUrls: List[String] = List("http://dummyRedirectUrl")) = {
+    clientRedirectUrls: List[String] = List("http://dummyRedirectUrl"),
+    grantPermissions: Boolean = true) = {
+
     val client = OAuth2Client(clientId, integrationTestSecret,
-      scopes = Some(scopes),
       redirectURIs = clientRedirectUrls,
       grantTypes = Config.OAuth2.Defaults.defaultGrantTypes,
       clientName = "Integration Test client",
@@ -32,12 +31,12 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
 
     //Persist User
     val userPassParameters = Map(
-      "username" -> Seq(testUser.identityId.userId),
+      "username" -> Seq(testUser.email.get),
       "password" -> Seq(testUserPassword)
     )
     if (deleteSaveTestUser) {
       personService.deleteUser(testUser.userId)
-      personService.addNewUser(testUser)
+      personService.addUser(testUser)
     }
 
     //Persist client
@@ -45,9 +44,12 @@ trait AccessTokenRetriever extends DefaultTestVariables with TestRegistry with R
     clientService.saveClient(client)
 
     //Persist permissions
-    val clientPermission = ClientPermission(clientId, Some(scopes))
+    val clientPermission = ClientScopes(clientId, Some(scopes))
     permissionService.deletePermission(testUser.userId, clientPermission.clientId)
-    permissionService.savePermission(testUser.userId, clientPermission)
+
+    if (grantPermissions) {
+      permissionService.savePermission(testUser.userId, clientPermission)
+    }
 
     (client, userPassParameters)
   }

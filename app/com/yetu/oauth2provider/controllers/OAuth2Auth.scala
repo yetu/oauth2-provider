@@ -2,16 +2,20 @@ package com.yetu.oauth2provider
 package controllers
 
 import com.yetu.oauth2provider.models.Permission.permissionsForm
-import com.yetu.oauth2provider.models.{ Permission, Permissions }
+import com.yetu.oauth2provider.models.Permissions
 import com.yetu.oauth2provider.oauth2.handlers
-import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientPermission, OAuth2Client, YetuUser }
+import com.yetu.oauth2provider.oauth2.models.{ AuthorizedClient, ClientScopes, OAuth2Client, YetuUser }
 import com.yetu.oauth2provider.oauth2.services.{ AuthorizeErrorHandler, AuthorizeService }
 import com.yetu.oauth2provider.services.data.interface.{ IClientService, IPermissionService }
 import com.yetu.oauth2provider.utils.Config
 import play.api.mvc._
 import securesocial.core.RuntimeEnvironment
 
+import scala.concurrent.{ Await, Future }
+import scala.language.postfixOps
 import scalaoauth2.provider._
+
+import scala.concurrent.duration._
 
 /**
  * Handles the following requests:
@@ -63,7 +67,7 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
       val queryString: Map[String, Seq[String]] = request.queryString ++ Map("grant_type" -> Seq(Config.GRANT_TYPE_TOKEN))
       val modifiedRequest = Request(request.copy(headers = headers, queryString = queryString), request.body)
 
-      errorHandler.validateParametersAsync(request.user) {
+      errorHandler.validateParameters(request.user) {
         (authClient: AuthorizedClient) =>
           issueAccessTokenImplicitFlow(authorizationHandler, authClient)(modifiedRequest)
       }(modifiedRequest)
@@ -76,9 +80,8 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
    * validateParameters rejects all invalid parameter combinations and gives us access to an AuthorizedClient object
    *
    */
-  def authorizeUser() = SecuredAction {
+  def authorizeUser() = SecuredAction.async {
     implicit request =>
-
       errorHandler.validateParameters(request.user) {
         (authClient: AuthorizedClient) =>
 
@@ -86,27 +89,37 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
           val authorizeRequest = authClient.request
 
           if (client.coreYetuClient) {
-            authorizeService.handlePermittedApps(client, authorizeRequest, request.user)
+            authorizeService.handlePermittedClient(client, authorizeRequest, request.user)
           } else {
-            authorizeService.handleClientPermissions(request, env, client, authorizeRequest, request.user)
+            authorizeService.handleNonCoreClient(request, env, client, authorizeRequest, request.user)
           }
       }
 
   }
 
-  def permissionsPost = SecuredAction {
+  def permissionsPost = SecuredAction.async {
     implicit request =>
 
       val formData: Permissions = permissionsForm.bindFromRequest.get
 
-      val clientOption = clientService.findClient(formData.client_id)
-      clientOption match {
-        case None => BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
-        case Some(client) => {
-          val clientPermission = ClientPermission(client.clientId, client.scopes)
-          permissionService.savePermission(request.user.email.get, clientPermission)
-          authorizeService.handlePermittedApp(client, formData.redirect_uri, formData.state, None, request.user, clientPermission.scopes)
-        }
+      clientService.findClient(formData.client_id).flatMap {
+        case Some(client) =>
+
+          val clientPermission = ClientScopes(client.clientId, Some(formData.scopes.split(' ').toList))
+          permissionService.savePermission(request.user.userId, clientPermission).flatMap(_ => {
+
+            authorizeService.handlePermittedClient(
+              client,
+              formData.redirect_uri,
+              formData.state,
+              None,
+              request.user,
+              clientPermission.scopes)
+          })
+
+        case None => Future.successful(
+          BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
+        )
       }
   }
 

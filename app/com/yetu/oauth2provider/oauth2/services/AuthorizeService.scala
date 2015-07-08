@@ -19,6 +19,8 @@ import scala.concurrent.Future
 import scalaoauth2.provider
 import scalaoauth2.provider.{ AuthInfo, _ }
 
+import scala.concurrent.ExecutionContext.Implicits.global
+
 class AuthorizeErrorHandler(clientService: IClientService,
     personService: IPersonService,
     scopeService: ScopeService,
@@ -35,7 +37,7 @@ class AuthorizeErrorHandler(clientService: IClientService,
     AuthorizeRequest(authorization.headers, authorization.params)
   }
 
-  def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Either[OAuthError, AuthorizedClient] = try {
+  def handleAuthorizeRequest[A](request: AuthorizeRequest, user: YetuUser): Future[Either[OAuthError, AuthorizedClient]] = try {
 
     if (request.responseType != ResponseTypes.CODE && request.responseType != ResponseTypes.TOKEN) {
       throw new InvalidGrant(s"invalid response type.")
@@ -44,55 +46,39 @@ class AuthorizeErrorHandler(clientService: IClientService,
       throw new InvalidState(s"invalid state parameter. State length is not correct.")
     }
 
-    val client = clientService
+    //TODO: validate scopes on the request, need to create the scopes service that query for all at permission API
+
+    clientService
       .findClient(request.clientId)
-      .getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
+      .map(c => try {
 
-    val validScopes: List[String] = client.scopes.getOrElse(List.empty)
+        val client = c.getOrElse(throw new InvalidClient(s"client_id '${request.clientId}' does not exist"))
+        val validRedirectUrls = client.redirectURIs
+        val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
 
-    if (!client.coreYetuClient) {
-      scopeService.getScopeFromPermission(
-        permissionService.findPermission(user.identityId.userId, client.clientId))
-    }
+        if (!validRedirectUrls.contains(redirectUrl)) {
 
-    request.scope.foreach { scope =>
-      scope.split(' ').toList.foreach { requestScope =>
-        if (!validScopes.contains(requestScope)) {
-          throw new InvalidScope(s"invalid scope: $requestScope")
+          logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! " +
+            s"[$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
+
+          if (Config.redirectURICheckingEnabled) {
+            throw new RedirectUriMismatch(s"invalid redirect url.")
+          }
         }
-      }
-    }
 
-    val validRedirectUrls = client.redirectURIs
-    val redirectUrl = URLDecoder.decode(request.redirectUri, "UTF-8")
+        val authorizedClient = AuthorizedClient(client, request, redirectUrl)
+        Right(authorizedClient)
 
-    if (!validRedirectUrls.contains(redirectUrl)) {
-
-      logger.warn(s"clientID:[${client.clientId}] request redirect url is NOT VALID! " +
-        s"[$redirectUrl]. Only allowed ones are : $validRedirectUrls}")
-
-      if (Config.redirectURICheckingEnabled) {
-        throw new RedirectUriMismatch(s"invalid redirect url.")
-      }
-    }
-
-    val authorizedClient = AuthorizedClient(client, request, redirectUrl)
-    Right(authorizedClient)
+      } catch {
+        case e: OAuthError => Left(e)
+      })
 
   } catch {
-    case e: OAuthError => Left(e)
+    case e: OAuthError => Future.successful(Left(e))
   }
 
-  def validateParameters[A](user: YetuUser)(callback: AuthorizedClient => Result)(implicit request: play.api.mvc.Request[A]): Result = {
-    handleAuthorizeRequest(request, user) match {
-      case Left(e) if e.statusCode == 400 => BadRequest.withHeaders(responseOAuthErrorHeader(e))
-      case Left(e) if e.statusCode == 401 => Unauthorized.withHeaders(responseOAuthErrorHeader(e))
-      case Right(client)                  => callback(client)
-    }
-  }
-
-  def validateParametersAsync[A](user: YetuUser)(callback: AuthorizedClient => Future[Result])(implicit request: play.api.mvc.Request[A]): Future[Result] = {
-    handleAuthorizeRequest(request, user) match {
+  def validateParameters[A](user: YetuUser)(callback: AuthorizedClient => Future[Result])(implicit request: play.api.mvc.Request[A]): Future[Result] = {
+    handleAuthorizeRequest(request, user).flatMap {
       case Left(e) if e.statusCode == 400 => Future.successful(BadRequest.withHeaders(responseOAuthErrorHeader(e)))
       case Left(e) if e.statusCode == 401 => Future.successful(Unauthorized.withHeaders(responseOAuthErrorHeader(e)))
       case Right(client)                  => callback(client)
@@ -105,35 +91,10 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     scopeService: ScopeService,
     permissionService: IPermissionService) extends Controller {
 
-  def handlePermittedApp(client: OAuth2Client,
-    redirectUri: String,
-    state: String,
-    scopeFromRequest: Option[String],
-    user: YetuUser,
-    userDefinedScopes: Option[List[String]]) = {
-
-    val auth_code = BearerTokenGenerator.generateToken(Config.OAuth2.authTokenLength)
-    val queryString: Map[String, Seq[String]] = Map(
-      ResponseTypes.CODE -> Seq(auth_code),
-      AuthorizeParameters.STATE -> Seq(state)
-    )
-
-    val scope = if (userDefinedScopes.isDefined) userDefinedScopes.map(_.mkString(" ")) else scopeFromRequest
-
-    authAccessService.saveAuthCode(
-      auth_code,
-      new AuthInfo[YetuUser](user, Some(client.clientId), scope, Some(redirectUri)))
-
-    Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
-  }
-
   def getAdditionalSessionStateCookie(userId: String): Cookie = {
-    val fullUser: Option[YetuUser] = personService.findYetuUser(userId)
-    val userUUID = fullUser.map(_.uid).getOrElse("unknownUser")
-
     Cookie(
       SessionStatusCookie.cookieName,
-      userUUID,
+      userId,
       if (CookieAuthenticator.makeTransient)
         CookieAuthenticator.Transient
       else
@@ -145,37 +106,62 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
     )
   }
 
-  def handlePermittedApps(client: OAuth2Client,
+  def handlePermittedClient(client: OAuth2Client,
+    redirectUri: String,
+    state: String,
+    scopeFromRequest: Option[String],
+    user: YetuUser,
+    userDefinedScopes: Option[List[String]]): Future[Result] = {
+
+    val auth_code = BearerTokenGenerator.generateToken(Config.OAuth2.authTokenLength)
+    val queryString: Map[String, Seq[String]] = Map(
+      ResponseTypes.CODE -> Seq(auth_code),
+      AuthorizeParameters.STATE -> Seq(state)
+    )
+
+    val scope = if (userDefinedScopes.isDefined) {
+      userDefinedScopes.map(_.mkString(" "))
+    } else scopeFromRequest
+
+    val authInfo = new AuthInfo[YetuUser](user, Some(client.clientId), scope, Some(redirectUri))
+
+    authAccessService.saveAuthCode(auth_code, authInfo).map(_ =>
+      Redirect(redirectUri, queryString).withCookies(getAdditionalSessionStateCookie(user.userId))
+    )
+  }
+
+  def handlePermittedClient(client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
     user: YetuUser,
-    userDefinedScopes: Option[List[String]] = None): Result = {
+    userDefinedScopes: Option[List[String]] = None): Future[Result] = {
 
-    handlePermittedApp(
+    handlePermittedClient(
       client,
       authorizeRequest.redirectUri,
       authorizeRequest.state,
-      authorizeRequest.scope,
+      authorizeRequest.scopes,
       user,
       userDefinedScopes)
   }
 
-  def handleClientPermissions(request: RequestHeader,
+  def handleNonCoreClient(request: RequestHeader,
     env: RuntimeEnvironment[YetuUser],
     client: OAuth2Client,
     authorizeRequest: AuthorizeRequest,
-    user: YetuUser): Result = {
+    user: YetuUser): Future[Result] = {
 
-    val clientPermission: Option[ClientPermission] = permissionService.findPermission(user.identityId.userId, client.clientId)
-    clientPermission match {
+    permissionService.findPermission(user.userId, client.clientId).flatMap {
       case None =>
 
-        Ok(com.yetu.oauth2provider.views.html.permissions(
+        val renderPermissions = Ok(com.yetu.oauth2provider.views.html.permissions(
           Permission.permissionsForm,
           client.clientName,
           client.clientId,
-          client.scopes.getOrElse(List.empty[String]),
+          authorizeRequest.scopes.getOrElse(""),
           authorizeRequest.redirectUri,
           Some(authorizeRequest.state))(request, env))
+
+        Future.successful(renderPermissions)
 
       case Some(permission) =>
         /*
@@ -184,7 +170,7 @@ class AuthorizeService(authAccessService: IAuthCodeAccessTokenService,
          * in the client.scopes means that the application is trying to ask for more permissions then
          * the one that is allowed to it.. this is the incremental permission process
          */
-        handlePermittedApps(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
+        handlePermittedClient(client, authorizeRequest, user, userDefinedScopes = permission.scopes)
     }
   }
 
