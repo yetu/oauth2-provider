@@ -55,15 +55,7 @@ class MemoryPersonService(mailTokenService: IMailTokenService) extends IPersonSe
   }
 
   def find(providerId: String, userId: String) = {
-    findUser(userId).map {
-
-      case Some(user) =>
-        if (user.providerId.equals(providerId)) {
-          Some(user)
-        } else None
-
-      case _ => None
-    }
+    findUser(userId).map(_.filter(_.providerId == providerId))
   }
 
   def findByEmailAndProvider(email: String, providerId: String): Future[Option[BasicProfile]] = {
