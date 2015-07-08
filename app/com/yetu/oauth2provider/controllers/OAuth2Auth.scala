@@ -106,17 +106,16 @@ class OAuth2Auth(authorizationHandler: handlers.AuthorizationHandler,
         case Some(client) =>
 
           val clientPermission = ClientScopes(client.clientId, Some(formData.scopes.split(' ').toList))
-          val savePermission = permissionService.savePermission(request.user.userId, clientPermission)
+          permissionService.savePermission(request.user.userId, clientPermission).flatMap(_ => {
 
-          Await.result(savePermission, 2 seconds)
-
-          authorizeService.handlePermittedClient(
-            client,
-            formData.redirect_uri,
-            formData.state,
-            None,
-            request.user,
-            clientPermission.scopes)
+            authorizeService.handlePermittedClient(
+              client,
+              formData.redirect_uri,
+              formData.state,
+              None,
+              request.user,
+              clientPermission.scopes)
+          })
 
         case None => Future.successful(
           BadRequest(s"There is a problem with clientId=[${formData.client_id}]. It does not exist in our system")
