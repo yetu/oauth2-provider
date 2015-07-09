@@ -2,6 +2,8 @@ package com.yetu.oauth2provider.oauth2.handlers
 
 import java.util.Date
 
+import com.yetu.oauth2provider.controllers.authentication.providers.EmailPasswordProvider
+
 import scalaoauth2.provider.AuthInfo
 import com.yetu.oauth2provider.oauth2.models.YetuUser
 import com.yetu.oauth2provider.services.data.interface.{ IAuthCodeAccessTokenService, IClientService, IPersonService }
@@ -81,8 +83,8 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
     authAccessService.findAuthInfoByAccessToken(accessToken.token)
   }
 
-  def findUser(username: String, password: String): Future[Option[YetuUser]] = {
-    personService.findUser(username).map {
+  def findUser(email: String, password: String): Future[Option[YetuUser]] = {
+    personService.findByEmailAndProvider(email, EmailPasswordProvider.EmailPassword).map {
       case Some(user) =>
 
         val itMatches = user.passwordInfo
@@ -91,7 +93,7 @@ class AuthorizationHandler(authAccessService: IAuthCodeAccessTokenService,
           .getOrElse(false)
 
         if (itMatches) {
-          Some(user)
+          Some(user.asInstanceOf[YetuUser])
         } else None
 
       case _ => None
