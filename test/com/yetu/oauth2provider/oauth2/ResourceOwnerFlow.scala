@@ -23,7 +23,7 @@ trait ResourceOwnerFlow extends AccessTokenRetriever {
 
     prepareClientAndUser()
     val params = ResourceOwnerPasswordBody(
-      username = testUser.userId,
+      username = testUser.email.get,
       password = testUserPassword).postParams
 
     val response = postRequest(accessTokenUrl, params)

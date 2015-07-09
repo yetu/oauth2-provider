@@ -13,7 +13,7 @@ class IntegrationResourceOwnerFlowSpec extends IntegrationBaseSpec with Resource
       prepareClientAndUser()
 
       val params = ResourceOwnerPasswordBody(
-        username = testUser.userId,
+        username = testUser.email.get,
         password = testUserPassword).postParams
 
       val response = postRequest(accessTokenUrl, params)
@@ -26,7 +26,7 @@ class IntegrationResourceOwnerFlowSpec extends IntegrationBaseSpec with Resource
       prepareClientAndUser()
 
       val params = ResourceOwnerPasswordBody(
-        username = testUser.userId,
+        username = testUser.email.get,
         password = "invalidPassword").postParams
 
       val response = postRequest(accessTokenUrl, params)
